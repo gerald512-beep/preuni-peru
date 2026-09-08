@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>PreUni Perú — Visor de preguntas</title>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f5f6f8; color: #1a1a2e; }
+
+  /* ── Header ── */
+  header {
+    background: #1a1a2e;
+    color: white;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  header h1 { font-size: 18px; font-weight: 600; }
+  header .subtitle { font-size: 13px; opacity: .6; }
+  #stats { margin-left: auto; font-size: 13px; opacity: .7; }
+
+  /* ── Controls ── */
+  #controls {
+    background: white;
+    border-bottom: 1px solid #e2e4e9;
+    padding: 12px 24px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  #controls label { font-size: 13px; color: #555; }
+  select, input[type=text] {
+    padding: 6px 10px;
+    border: 1px solid #d0d4dc;
+    border-radius: 6px;
+    font-size: 13px;
+    background: white;
+  }
+  #search { width: 220px; }
+  .toggle-btn {
+    margin-left: auto;
+    padding: 6px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .toggle-btn.active { background: #1a1a2e; color: white; border-color: #1a1a2e; }
+
+  /* ── List ── */
+  #list { max-width: 860px; margin: 24px auto; padding: 0 16px; }
+  .q-count { font-size: 13px; color: #888; margin-bottom: 16px; }
+
+  /* ── Card ── */
+  .card {
+    background: white;
+    border: 1px solid #e2e4e9;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow .15s;
+  }
+  .card:hover { box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .q-num {
+    width: 32px; height: 32px;
+    background: #1a1a2e;
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .tema-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    background: #eef2ff;
+    color: #4f46e5;
+  }
+  .fig-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    background: #fff7ed;
+    color: #ea580c;
+  }
+  .conv { margin-left: auto; font-size: 11px; color: #999; }
+
+  .card-body { padding: 16px 18px; }
+
+  .q-body {
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 16px;
+    color: #111;
+  }
+
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 7px;
+    border: 1px solid #e8eaed;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: background .1s;
+  }
+  .choice.correct {
+    background: #f0fdf4;
+    border-color: #86efac;
+  }
+  .choice.correct .choice-key {
+    background: #16a34a;
+    color: white;
+  }
+  .choice-key {
+    min-width: 22px; height: 22px;
+    background: #f3f4f6;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .reveal-row {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .reveal-btn {
+    padding: 5px 14px;
+    border: 1px solid #d0d4dc;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-size: 12px;
+    color: #555;
+  }
+  .reveal-btn:hover { background: #f5f6f8; }
+  .clave-label { font-size: 12px; color: #16a34a; font-weight: 600; display: none; }
+
+  /* ── No results ── */
+  #empty { text-align: center; padding: 60px; color: #aaa; display: none; }
+
+  /* ── Animations ── */
+  .card { animation: fadeIn .2s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>PreUni Perú — Banco de preguntas</h1>
+    <div class="subtitle">Extracción automática · solucionario2011.pdf</div>
+  </div>
+  <div id="stats">Cargando…</div>
+</header>
+
+<div id="controls">
+  <label>Tema</label>
+  <select id="filter-tema"><option value="">Todos</option></select>
+
+  <label>Figura</label>
+  <select id="filter-fig">
+    <option value="">Todos</option>
+    <option value="true">Con figura</option>
+    <option value="false">Sin figura</option>
+  </select>
+
+  <input type="text" id="search" placeholder="Buscar en enunciado…">
+
+  <button class="toggle-btn" id="toggle-answers">Mostrar respuestas</button>
+</div>
+
+<div id="list">
+  <div class="q-count" id="count-label"></div>
+  <div id="cards"></div>
+  <div id="empty">No se encontraron preguntas con ese filtro.</div>
+</div>
+
+<script>
+let questions = [];
+let showAnswers = false;
+const TEMA_COLORS = {
+  'Razonamiento Verbal':    ['#eef2ff','#4f46e5'],
+  'Razonamiento Matemático':['#fdf4ff','#9333ea'],
+  'Física':                 ['#fff7ed','#ea580c'],
+  'Química':                ['#fefce8','#ca8a04'],
+  'Geometría':              ['#f0fdf4','#16a34a'],
+  'Álgebra':                ['#f0fdf4','#15803d'],
+  'Aritmética':             ['#ecfdf5','#059669'],
+  'Trigonometría':          ['#f0fdfa','#0d9488'],
+  'Historia del Perú':      ['#fff1f2','#e11d48'],
+  'Geografía del Perú':     ['#fff1f2','#be123c'],
+  'Literatura':             ['#fdf2f8','#a21caf'],
+  'Filosofía':              ['#f8fafc','#475569'],
+};
+
+async function load() {
+  const r = await fetch('/pdfs/solucionario2011_questions.json');
+  questions = await r.json();
+
+  // Populate tema filter
+  const temas = [...new Set(questions.map(q => q.tema).filter(Boolean))].sort();
+  const sel = document.getElementById('filter-tema');
+  temas.forEach(t => {
+    const o = document.createElement('option');
+    o.value = t; o.textContent = t;
+    sel.appendChild(o);
+  });
+
+  document.getElementById('stats').textContent =
+    `${questions.length} preguntas · UNI 2011-1`;
+
+  render();
+}
+
+function filtered() {
+  const tema = document.getElementById('filter-tema').value;
+  const fig  = document.getElementById('filter-fig').value;
+  const q    = document.getElementById('search').value.trim().toLowerCase();
+  return questions.filter(x => {
+    if (tema && x.tema !== tema) return false;
+    if (fig === 'true'  && !x.has_figure) return false;
+    if (fig === 'false' &&  x.has_figure) return false;
+    if (q && !x.body.toLowerCase().includes(q) &&
+        !Object.values(x.choices).join(' ').toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function render() {
+  const list = filtered();
+  document.getElementById('count-label').textContent =
+    `${list.length} de ${questions.length} preguntas`;
+  document.getElementById('empty').style.display = list.length ? 'none' : 'block';
+
+  const container = document.getElementById('cards');
+  container.innerHTML = '';
+
+  list.forEach(q => {
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const [bg, fg] = TEMA_COLORS[q.tema] || ['#f3f4f6','#374151'];
+    const figBadge = q.has_figure
+      ? `<span class="fig-badge">📐 figura</span>` : '';
+
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="q-num">${q._num}</div>
+        <span class="tema-badge" style="background:${bg};color:${fg}">${q.tema || '–'}</span>
+        ${figBadge}
+        <span class="conv">${q.convocatoria || ''}</span>
+      </div>
+      <div class="card-body">
+        <div class="q-body">${q.body}</div>
+        <div class="choices">
+          ${Object.entries(q.choices).map(([k,v]) => `
+            <div class="choice ${showAnswers && q.clave === k ? 'correct' : ''}" data-key="${k}">
+              <div class="choice-key">${k}</div>
+              <div>${v || '–'}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="reveal-row">
+          <button class="reveal-btn" onclick="toggleReveal(this, '${q.clave}')">Ver respuesta</button>
+          <span class="clave-label">Respuesta: ${q.clave}</span>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  // Typeset MathJax after DOM update
+  if (window.MathJax?.typesetPromise) {
+    MathJax.typesetPromise([container]);
+  }
+}
+
+function toggleReveal(btn, clave) {
+  const row = btn.parentElement;
+  const card = btn.closest('.card');
+  const label = row.querySelector('.clave-label');
+  const isShowing = label.style.display === 'inline';
+
+  if (isShowing) {
+    label.style.display = 'none';
+    btn.textContent = 'Ver respuesta';
+    card.querySelectorAll('.choice').forEach(c => c.classList.remove('correct'));
+  } else {
+    label.style.display = 'inline';
+    btn.textContent = 'Ocultar respuesta';
+    card.querySelectorAll('.choice').forEach(c => {
+      c.classList.toggle('correct', c.dataset.key === clave);
+    });
+  }
+}
+
+document.getElementById('toggle-answers').addEventListener('click', function() {
+  showAnswers = !showAnswers;
+  this.classList.toggle('active', showAnswers);
+  this.textContent = showAnswers ? 'Ocultar respuestas' : 'Mostrar respuestas';
+  render();
+});
+
+['filter-tema','filter-fig'].forEach(id =>
+  document.getElementById(id).addEventListener('change', render)
+);
+
+let searchTimer;
+document.getElementById('search').addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(render, 200);
+});
+
+load();
+</script>
+</body>
+</html>

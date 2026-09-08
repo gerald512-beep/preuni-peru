@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PreUni — Nueva Pregunta (Prototipo)</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea'] },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; background: #f4f4f4; color: #1d1d1d; }
+
+header { background: #00529b; color: white; padding: 12px 24px; display: flex; align-items: center; gap: 12px; }
+header h1 { font-size: 16px; font-weight: 600; }
+.badge { background: #e8490f; color: white; font-size: 11px; padding: 2px 7px; border-radius: 3px; }
+.ai-status { margin-left: auto; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+.ai-dot { width: 8px; height: 8px; border-radius: 50%; background: #aaa; }
+.ai-dot.ready { background: #00a86b; }
+
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: 0; height: calc(100vh - 46px); }
+
+/* FORM */
+.form-panel { background: white; overflow-y: auto; padding: 20px 24px; border-right: 1px solid #ddd; }
+.form-panel h2 { font-size: 13px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 16px; }
+
+.field { margin-bottom: 14px; }
+.field label { display: block; font-weight: 500; margin-bottom: 4px; font-size: 13px; }
+.field label span { color: #999; font-weight: 400; font-size: 12px; margin-left: 4px; }
+textarea, input[type=text], input[type=password], select {
+  width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 7px 9px;
+  font-size: 13px; font-family: inherit; resize: vertical; transition: border-color .15s;
+}
+textarea:focus, input:focus, select:focus { outline: none; border-color: #00529b; }
+textarea { min-height: 70px; }
+textarea.short { min-height: 44px; }
+
+
+/* IMAGE CAPTURE */
+.dual-image-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 6px; }
+.dual-image-row .zone-wrap { display: flex; flex-direction: column; gap: 4px; }
+.zone-label { font-size: 11px; color: #888; font-weight: 500; text-align: center; }
+
+.image-zone {
+  border: 2px dashed #ccc; border-radius: 6px; padding: 12px;
+  text-align: center; cursor: pointer; transition: all .2s;
+  background: #fafafa; position: relative; min-height: 90px;
+  display: flex; align-items: center; justify-content: center;
+}
+.image-zone:hover, .image-zone.drag-over { border-color: #00529b; background: #f0f6fc; }
+.image-zone.has-image { border-color: #00a86b; background: #f0fff8; }
+.image-zone-text { color: #aaa; font-size: 12px; }
+.image-zone-text strong { display: block; font-size: 12px; color: #888; margin-bottom: 3px; }
+.image-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.img-preview { max-width: 100%; max-height: 120px; border-radius: 4px; display: none; }
+.img-preview.visible { display: block; margin: 0 auto; }
+.img-actions { display: flex; gap: 8px; margin-top: 8px; }
+
+/* CHOICE IMAGE ZONES */
+.choice-img-zone {
+  border: 1px dashed #ccc; border-radius: 4px; padding: 8px;
+  text-align: center; cursor: pointer; position: relative;
+  min-height: 40px; background: #fafafa; transition: all .2s;
+  display: none;
+}
+.choice-img-zone.active { display: block; }
+.choice-img-zone:hover { border-color: #00529b; background: #f0f6fc; }
+.choice-img-zone.has-img { border-color: #00a86b; background: #f0fff8; }
+.choice-img-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.choice-img-zone img { max-width: 100%; max-height: 110px; border-radius: 3px; display: none; }
+.choice-img-zone img.visible { display: block; margin: 0 auto; }
+.choice-img-zone .zone-hint { font-size: 11px; color: #aaa; }
+.choice-mode-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+.choice-mode-btn {
+  font-size: 11px; padding: 3px 10px; border-radius: 3px; cursor: pointer;
+  border: 1px solid #ddd; background: white; color: #555; transition: all .15s;
+}
+.choice-mode-btn.active { background: #6c35de; color: white; border-color: #6c35de; }
+
+.extract-btn {
+  flex: 1; padding: 9px; border: none; border-radius: 4px;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: all .2s;
+  background: #6c35de; color: white;
+}
+.extract-btn:hover:not(:disabled) { background: #5628b8; }
+.extract-btn:disabled { opacity: .4; cursor: not-allowed; }
+.extract-btn.loading { background: #9370db; }
+.clear-img-btn {
+  padding: 9px 14px; border: 1px solid #ddd; border-radius: 4px;
+  font-size: 13px; cursor: pointer; background: white; color: #666;
+}
+.clear-img-btn:hover { border-color: #999; }
+
+.extract-notice {
+  font-size: 11px; padding: 8px 10px; border-radius: 4px; margin-bottom: 10px;
+  display: none;
+}
+.extract-notice.success { background: #f0fff8; border: 1px solid #00a86b; color: #006b43; display: block; }
+.extract-notice.error { background: #fff5f5; border: 1px solid #e53e3e; color: #9b2c2c; display: block; }
+
+/* CHOICES */
+.choices-grid { display: grid; gap: 8px; }
+.choice-row { display: grid; grid-template-columns: 28px 1fr; gap: 6px; align-items: start; }
+.choice-label {
+  width: 28px; height: 28px; border-radius: 50%; border: 2px solid #ccc;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; color: #666; flex-shrink: 0; margin-top: 1px;
+  cursor: pointer; transition: all .15s;
+}
+.choice-label.selected { border-color: #00a86b; background: #00a86b; color: white; }
+
+.meta-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.clave-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.clave-btn {
+  flex: 1; padding: 8px; border: 2px solid #ddd; border-radius: 4px;
+  background: white; font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: all .15s; color: #555;
+}
+.clave-btn:hover { border-color: #00529b; color: #00529b; }
+.clave-btn.selected { border-color: #00a86b; background: #00a86b; color: white; }
+
+select[multiple] { height: 90px; }
+.submit-btn {
+  width: 100%; padding: 10px; background: #00529b; color: white;
+  border: none; border-radius: 4px; font-size: 14px; font-weight: 600;
+  cursor: pointer; margin-top: 4px; transition: background .15s;
+}
+.submit-btn:hover { background: #003f7a; }
+.hint { font-size: 11px; color: #aaa; margin-top: 4px; }
+.divider { border: none; border-top: 1px solid #eee; margin: 16px 0; }
+
+/* PREVIEW */
+.preview-panel { background: #fafafa; overflow-y: auto; padding: 20px 24px; }
+.preview-panel h2 { font-size: 13px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 16px; }
+.topic-preview { background: white; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
+.topic-header { padding: 14px 16px; border-bottom: 1px solid #eee; }
+.topic-title { font-size: 17px; font-weight: 700; color: #1d1d1d; margin-bottom: 8px; min-height: 24px; }
+.topic-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.cat-tag { font-size: 11px; padding: 2px 8px; border-radius: 3px; background: #0e76bd; color: white; font-weight: 600; }
+.tag { font-size: 11px; padding: 2px 8px; border-radius: 3px; background: #e8e8e8; color: #555; }
+.topic-body { padding: 16px; }
+.question-text { line-height: 1.7; margin-bottom: 16px; min-height: 24px; }
+.choices-preview { list-style: none; display: grid; gap: 8px; }
+.choice-item { display: flex; gap: 10px; align-items: baseline; padding: 8px 10px; border-radius: 4px; border: 1px solid #eee; line-height: 1.5; }
+.choice-item .letter { font-weight: 700; color: #555; flex-shrink: 0; }
+.choice-item.correct { border-color: #00a86b; background: #f0fff8; }
+.choice-item.correct .letter { color: #00a86b; }
+.topic-footer { padding: 10px 16px; border-top: 1px solid #eee; background: #fafafa; }
+.clave-display { font-size: 12px; color: #856404; background: #fff3cd; border: 1px solid #ffc107; border-radius: 3px; display: inline-block; padding: 3px 10px; }
+
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; height: auto; } }
+
+/* ── Figure cards in preview ── */
+.fig-card { position:relative; text-align:center; margin:12px 0 16px; }
+.fig-card img { max-width:100%; max-height:260px; border-radius:4px; border:1px solid #e0e0e0; display:block; margin:0 auto; }
+.fig-crop-btn { position:absolute; top:6px; right:6px; background:rgba(0,0,0,.55); color:#fff; border:none; border-radius:4px; padding:3px 9px; font-size:11px; cursor:pointer; }
+.fig-crop-btn:hover { background:rgba(0,0,0,.8); }
+
+/* ── Inline crop UI (appears inside vista previa fig-card) ── */
+.fig-crop-wrap { position:relative; display:inline-block; line-height:0; }
+.fig-crop-wrap canvas { display:block; border-radius:4px; border:1px solid #6f5acd; }
+.fig-crop-overlay { position:absolute; top:0; left:0; cursor:crosshair; }
+.fig-crop-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+.fig-crop-actions button { padding:5px 16px; border-radius:4px; border:none; cursor:pointer; font-size:12px; font-weight:500; }
+.fig-crop-actions .btn-confirm { background:#6f5acd; color:#fff; }
+.fig-crop-actions .btn-cancel  { background:#f0f0f0; color:#333; }
+.fig-crop-hint { font-size:11px; color:#888; margin-bottom:6px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>PreUni Peru — Nueva Pregunta</h1>
+  <span class="badge">ADMIN</span>
+  <div class="ai-status">
+    <div class="ai-dot ready" id="ai-dot"></div>
+    <span id="ai-status-text">MinerU listo</span>
+  </div>
+</header>
+
+<div class="layout">
+<div class="form-panel">
+
+  <!-- IMAGE CAPTURE -->
+  <div class="field">
+    <label>Capturar imagen de la pregunta <span>— hasta 2 imágenes si la pregunta está en dos columnas</span></label>
+    <div class="dual-image-row">
+      <div class="zone-wrap">
+        <div class="zone-label">Imagen 1</div>
+        <div class="image-zone" id="image-zone-1"
+          ondragover="handleDragOver(event,1)" ondragleave="handleDragLeave(1)" ondrop="handleDrop(event,1)">
+          <input type="file" accept="image/*" onchange="handleFileInput(event,1)">
+          <img class="img-preview" id="img-preview-1">
+          <div class="image-zone-text" id="image-zone-text-1">
+            <strong>Pegar / arrastrar</strong>
+            Ctrl+V · seleccionar
+          </div>
+        </div>
+        <button class="clear-img-btn" id="clear-btn-1" style="display:none;width:100%" onclick="clearImage(1)">Limpiar</button>
+      </div>
+      <div class="zone-wrap">
+        <div class="zone-label">Imagen 2 <em style="font-weight:400">(opcional)</em></div>
+        <div class="image-zone" id="image-zone-2"
+          ondragover="handleDragOver(event,2)" ondragleave="handleDragLeave(2)" ondrop="handleDrop(event,2)">
+          <input type="file" accept="image/*" onchange="handleFileInput(event,2)">
+          <img class="img-preview" id="img-preview-2">
+          <div class="image-zone-text" id="image-zone-text-2">
+            <strong>Pegar / arrastrar</strong>
+            columna siguiente
+          </div>
+        </div>
+        <button class="clear-img-btn" id="clear-btn-2" style="display:none;width:100%" onclick="clearImage(2)">Limpiar</button>
+      </div>
+    </div>
+    <div class="extract-notice" id="extract-notice"></div>
+    <div class="extract-notice" id="figure-notice" style="background:#fff8e1; border:1px solid #f0c040; color:#7a5c00; display:none;">
+      Figura detectada — se incluirá la imagen original en la pregunta. Recortar antes de publicar.
+    </div>
+    <div class="img-actions">
+      <button class="extract-btn" id="extract-btn" disabled onclick="extractFromImage()">Extraer con IA</button>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h2>Completa o edita manualmente</h2>
+
+  <!-- BODY -->
+  <div class="field">
+    <label>Enunciado <span>— acepta LaTeX con $ ... $ o $$ ... $$</span></label>
+    <textarea id="body" rows="4" placeholder="Ej: Si $x^2 - 5x + 6 = 0$, ¿cuál es la suma de sus raíces?"></textarea>
+    <div class="hint">Inline: $x^2$  &nbsp;·&nbsp;  Display: $$\frac{a}{b}$$</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CHOICES -->
+  <div class="field">
+    <div class="choice-mode-bar">
+      <label style="margin:0">Alternativas</label>
+      <div style="display:flex;gap:4px">
+        <button class="choice-mode-btn active" id="mode-btn-text" onclick="setChoiceMode('text')">Texto / LaTeX</button>
+        <button class="choice-mode-btn" id="mode-btn-image" onclick="setChoiceMode('image')">Imágenes</button>
+      </div>
+    </div>
+    <div class="choices-grid" id="choices-text-mode">
+      <div class="choice-row"><div class="choice-label" id="lbl-A">A</div><textarea class="short" id="choice-A" rows="2" placeholder="Alternativa A"></textarea></div>
+      <div class="choice-row"><div class="choice-label" id="lbl-B">B</div><textarea class="short" id="choice-B" rows="2" placeholder="Alternativa B"></textarea></div>
+      <div class="choice-row"><div class="choice-label" id="lbl-C">C</div><textarea class="short" id="choice-C" rows="2" placeholder="Alternativa C"></textarea></div>
+      <div class="choice-row"><div class="choice-label" id="lbl-D">D</div><textarea class="short" id="choice-D" rows="2" placeholder="Alternativa D"></textarea></div>
+      <div class="choice-row"><div class="choice-label" id="lbl-E">E</div><textarea class="short" id="choice-E" rows="2" placeholder="Alternativa E"></textarea></div>
+    </div>
+    <div class="choices-grid" id="choices-image-mode" style="display:none">
+      <div class="hint" style="margin-bottom:6px">Pega o selecciona la imagen de cada alternativa.</div>
+      <div class="choice-row"><div class="choice-label" id="lbl-img-A">A</div>
+        <div class="choice-img-zone active" id="choice-img-zone-A">
+          <input type="file" accept="image/*" onchange="handleChoiceImg(event,'A')">
+          <img id="choice-img-A"><div class="zone-hint">Clic o pegar imagen</div>
+        </div>
+      </div>
+      <div class="choice-row"><div class="choice-label" id="lbl-img-B">B</div>
+        <div class="choice-img-zone active" id="choice-img-zone-B">
+          <input type="file" accept="image/*" onchange="handleChoiceImg(event,'B')">
+          <img id="choice-img-B"><div class="zone-hint">Clic o pegar imagen</div>
+        </div>
+      </div>
+      <div class="choice-row"><div class="choice-label" id="lbl-img-C">C</div>
+        <div class="choice-img-zone active" id="choice-img-zone-C">
+          <input type="file" accept="image/*" onchange="handleChoiceImg(event,'C')">
+          <img id="choice-img-C"><div class="zone-hint">Clic o pegar imagen</div>
+        </div>
+      </div>
+      <div class="choice-row"><div class="choice-label" id="lbl-img-D">D</div>
+        <div class="choice-img-zone active" id="choice-img-zone-D">
+          <input type="file" accept="image/*" onchange="handleChoiceImg(event,'D')">
+          <img id="choice-img-D"><div class="zone-hint">Clic o pegar imagen</div>
+        </div>
+      </div>
+      <div class="choice-row"><div class="choice-label" id="lbl-img-E">E</div>
+        <div class="choice-img-zone active" id="choice-img-zone-E">
+          <input type="file" accept="image/*" onchange="handleChoiceImg(event,'E')">
+          <img id="choice-img-E"><div class="zone-hint">Clic o pegar imagen</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CLAVE -->
+  <div class="field">
+    <label>Clave</label>
+    <div class="clave-row">
+      <button class="clave-btn" data-clave="A">A</button>
+      <button class="clave-btn" data-clave="B">B</button>
+      <button class="clave-btn" data-clave="C">C</button>
+      <button class="clave-btn" data-clave="D">D</button>
+      <button class="clave-btn" data-clave="E">E</button>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- hidden taxonomy metadata -->
+  <input type="hidden" id="tipo" value="examen_oficial">
+  <input type="hidden" id="universidad_objetivo" value="">
+
+  <!-- ORIGEN + CONVOCATORIA (side by side) -->
+  <div class="meta-row">
+    <div class="field">
+      <label>Universidad</label>
+      <select id="university">
+        <option value="">— seleccionar —</option>
+        <option value="UNMSM">UNMSM</option>
+        <option value="UNI">UNI</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Convocatoria <span>— opcional</span></label>
+      <input type="text" id="convocatoria" placeholder="Ej: 2023-I Ordinario">
+    </div>
+    <div class="field" style="max-width:120px">
+      <label>N° de pregunta</label>
+      <input type="number" id="numero" min="1" placeholder="Ej: 15">
+    </div>
+  </div>
+
+  <!-- TEMA -->
+  <div class="field">
+    <label>Tema</label>
+    <select id="tema" disabled>
+      <option value="">— selecciona universidad primero —</option>
+    </select>
+  </div>
+
+  <!-- SUB-TEMA -->
+  <div class="field">
+    <label>Sub-tema <span>— Ctrl+click para seleccionar varios</span></label>
+    <select id="subtema" multiple style="height:110px"></select>
+    <div class="hint">Selecciona todas las técnicas que aplican, aunque sean de distintos temas.</div>
+  </div>
+
+  <button class="submit-btn" onclick="handleSubmit()">Publicar pregunta</button>
+</div>
+
+<!-- PREVIEW -->
+<div class="preview-panel">
+  <h2>Vista previa del tema en Discourse</h2>
+  <div class="topic-preview">
+    <div class="topic-header">
+      <div class="topic-title" id="prev-title">Tu pregunta aparecerá aquí</div>
+      <div class="topic-meta">
+        <span class="cat-tag" id="prev-cat">—</span>
+        <span class="tag" id="prev-convocatoria" style="display:none"></span>
+        <span id="prev-subtema"></span>
+      </div>
+    </div>
+    <div class="topic-body">
+      <div class="question-text" id="prev-body"><em style="color:#aaa">El enunciado con LaTeX renderizado aparecerá aquí...</em></div>
+      <div id="prev-figures"></div>
+      <ul class="choices-preview" id="prev-choices">
+        <li class="choice-item"><span class="letter">A</span><span class="choice-text"></span></li>
+        <li class="choice-item"><span class="letter">B</span><span class="choice-text"></span></li>
+        <li class="choice-item"><span class="letter">C</span><span class="choice-text"></span></li>
+        <li class="choice-item"><span class="letter">D</span><span class="choice-text"></span></li>
+        <li class="choice-item"><span class="letter">E</span><span class="choice-text"></span></li>
+      </ul>
+    </div>
+    <div class="topic-footer">
+      <span class="clave-display" id="prev-clave">Clave: no seleccionada</span>
+      <span style="font-size:11px;color:#aaa;margin-left:8px;">visible solo para admins</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+// ── FIGURE STORE ───────────────────────────────────────────
+let currentFigureImages = [];  // all figure data URLs from last extraction
+
+// Build figure card HTML for preview
+function figCardHtml(src, idx) {
+  return `<div class="fig-card" data-fig-idx="${idx}">
+    <img src="${src}" alt="Figura ${idx+1}">
+    <button class="fig-crop-btn" onclick="openCrop(${idx})">✂ Recortar</button>
+  </div>`;
+}
+
+// Convert body text to preview HTML: render [FIG:N] markers as inline figure cards
+function bodyToHtml(text) {
+  return text.replace(/\[FIG:(\d+)\]/g, (_, n) => {
+    const idx = parseInt(n, 10);
+    const src = currentFigureImages[idx];
+    if (!src) return '';
+    return `<div class="fig-card" data-fig-idx="${idx}">
+      <img src="${src}" alt="Figura ${idx+1}">
+      <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Recortar</button>
+    </div>`;
+  });
+}
+
+// ── IMAGE CAPTURE ──────────────────────────────────────────
+let capturedImage = null;   // slot 1
+let capturedImage2 = null;  // slot 2
+
+function handleDragOver(e, n) { e.preventDefault(); document.getElementById('image-zone-' + n).classList.add('drag-over'); }
+function handleDragLeave(n) { document.getElementById('image-zone-' + n).classList.remove('drag-over'); }
+function handleDrop(e, n) {
+  e.preventDefault(); handleDragLeave(n);
+  const file = e.dataTransfer.files[0];
+  if (file?.type.startsWith('image/')) loadImageFile(file, n);
+}
+function handleFileInput(e, n) {
+  const file = e.target.files[0];
+  if (file) loadImageFile(file, n);
+}
+
+function loadImageFile(file, n) {
+  const reader = new FileReader();
+  reader.onload = (e) => setImage(e.target.result, n);
+  reader.readAsDataURL(file);
+}
+
+function setImage(dataUrl, n) {
+  if (n === 1) capturedImage = dataUrl;
+  else capturedImage2 = dataUrl;
+  document.getElementById('img-preview-' + n).src = dataUrl;
+  document.getElementById('img-preview-' + n).classList.add('visible');
+  document.getElementById('image-zone-' + n).classList.add('has-image');
+  document.getElementById('image-zone-text-' + n).style.display = 'none';
+  document.getElementById('clear-btn-' + n).style.display = 'block';
+  document.getElementById('extract-notice').className = 'extract-notice';
+  refreshExtractBtn();
+}
+
+function clearImage(n) {
+  if (n === 1) capturedImage = null;
+  else capturedImage2 = null;
+  document.getElementById('img-preview-' + n).src = '';
+  document.getElementById('img-preview-' + n).classList.remove('visible');
+  document.getElementById('image-zone-' + n).classList.remove('has-image');
+  document.getElementById('image-zone-text-' + n).style.display = '';
+  document.getElementById('clear-btn-' + n).style.display = 'none';
+  document.getElementById('extract-notice').className = 'extract-notice';
+  if (n === 1) {
+    document.getElementById('figure-notice').style.display = 'none';
+    document.getElementById('prev-figures').innerHTML = '';
+    currentFigureImages = [];
+  }
+  refreshExtractBtn();
+}
+
+function refreshExtractBtn() {
+  document.getElementById('extract-btn').disabled = !capturedImage;
+}
+
+// Clipboard paste — slot 1 if empty, else slot 2
+document.addEventListener('paste', (e) => {
+  const items = e.clipboardData?.items;
+  if (!items) return;
+  for (const item of items) {
+    if (item.type.startsWith('image/')) {
+      loadImageFile(item.getAsFile(), capturedImage ? 2 : 1);
+      break;
+    }
+  }
+});
+
+// ── STITCH ─────────────────────────────────────────────────
+function loadImg(dataUrl) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.src = dataUrl;
+  });
+}
+
+async function getImageForExtraction() {
+  if (!capturedImage2) return capturedImage;
+  const [img1, img2] = await Promise.all([loadImg(capturedImage), loadImg(capturedImage2)]);
+  const canvas = document.createElement('canvas');
+  const GAP = 12;
+  canvas.width = Math.max(img1.naturalWidth, img2.naturalWidth);
+  canvas.height = img1.naturalHeight + GAP + img2.naturalHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img1, 0, 0);
+  ctx.drawImage(img2, 0, img1.naturalHeight + GAP);
+  return canvas.toDataURL('image/jpeg', 0.92);
+}
+
+// ── CHOICE IMAGE MODE ──────────────────────────────────────
+let choiceMode = 'text';
+let choiceImages = { A: null, B: null, C: null, D: null, E: null };
+
+function setChoiceMode(mode) {
+  choiceMode = mode;
+  document.getElementById('choices-text-mode').style.display = mode === 'text' ? '' : 'none';
+  document.getElementById('choices-image-mode').style.display = mode === 'image' ? '' : 'none';
+  document.getElementById('mode-btn-text').classList.toggle('active', mode === 'text');
+  document.getElementById('mode-btn-image').classList.toggle('active', mode === 'image');
+  updatePreview();
+}
+
+function handleChoiceImg(e, letter) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => setChoiceImage(letter, ev.target.result);
+  reader.readAsDataURL(file);
+}
+
+function setChoiceImage(letter, dataUrl) {
+  choiceImages[letter] = dataUrl;
+  const img = document.getElementById('choice-img-' + letter);
+  const zone = document.getElementById('choice-img-zone-' + letter);
+  img.src = dataUrl;
+  img.classList.add('visible');
+  img.previousElementSibling?.remove(); // remove zone-hint if image loaded
+  zone.classList.add('has-img');
+  updatePreview();
+}
+
+// ── EXTRACTION ─────────────────────────────────────────────
+async function extractFromImage() {
+  if (!capturedImage) return;
+  const btn = document.getElementById('extract-btn');
+  const notice = document.getElementById('extract-notice');
+  btn.textContent = 'Extrayendo…';
+  btn.classList.add('loading');
+  btn.disabled = true;
+  notice.className = 'extract-notice';
+
+  try {
+    const stitched = await getImageForExtraction();
+    const res = await fetch('/api/extract', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image: stitched })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: res.statusText }));
+      throw new Error(err.error || res.statusText);
+    }
+    const data = await res.json();
+    populateFromExtraction(data);
+    notice.textContent = '✓ Extracción completada. Revisa y corrige si es necesario antes de publicar.';
+    notice.className = 'extract-notice success';
+  } catch (err) {
+    notice.textContent = `Error: ${err.message}`;
+    notice.className = 'extract-notice error';
+  } finally {
+    btn.textContent = 'Extraer con IA';
+    btn.classList.remove('loading');
+    refreshExtractBtn();
+  }
+}
+
+function populateFromExtraction(data) {
+  if (data.numero) document.getElementById('numero').value = data.numero;
+  if (data.body) document.getElementById('body').value = data.body;
+
+  ['A','B','C','D','E'].forEach(l => {
+    document.getElementById('choice-' + l).value = data.choices?.[l] || '';
+  });
+
+  // CLAVE
+  document.querySelectorAll('.clave-btn').forEach(b => b.classList.remove('selected'));
+  if (data.clave) {
+    const claveBtn = document.querySelector(`.clave-btn[data-clave="${data.clave}"]`);
+    if (claveBtn) claveBtn.classList.add('selected');
+    selectedClave = data.clave;
+    updateChoiceHighlights();
+  }
+
+  // Convocatoria
+  if (data.convocatoria) document.getElementById('convocatoria').value = data.convocatoria;
+
+  // Universidad — triggers tema option population + universidad_objetivo sync
+  if (data.universidad) {
+    const uniEl = document.getElementById('university');
+    uniEl.value = data.universidad;
+    uniEl.dispatchEvent(new Event('change'));
+  }
+
+  // Tema — must come after universidad populates the options
+  if (data.tema) {
+    const temaEl = document.getElementById('tema');
+    temaEl.value = data.tema;
+    temaEl.dispatchEvent(new Event('change')); // unlocks subtema
+  }
+
+  // Subtemas
+  if (data.subtemas?.length) {
+    const subtemaEl = document.getElementById('subtema');
+    Array.from(subtemaEl.options).forEach(o => {
+      o.selected = data.subtemas.includes(o.value);
+    });
+  }
+
+  // Image choices
+  if (data.choices_are_images) {
+    setChoiceMode('image');
+    const notice = document.getElementById('extract-notice');
+    notice.textContent = '✓ Opciones son imágenes — pega la imagen de cada alternativa (A–E).';
+    notice.className = 'extract-notice success';
+  }
+
+  // Figure — store all MinerU-cropped images; render cards in preview
+  const figureNotice = document.getElementById('figure-notice');
+  if (data.has_figure) {
+    const imgs = (data.figure_images && data.figure_images.length > 0)
+      ? data.figure_images
+      : (capturedImage ? [capturedImage] : []);
+    currentFigureImages = imgs.slice(); // save for crop tool
+    figureNotice.style.display = 'block';
+  } else {
+    currentFigureImages = [];
+    figureNotice.style.display = 'none';
+  }
+
+  updatePreview();
+}
+
+// ── CLAVE ─────────────────────────────────────────────
+let selectedClave = null;
+
+document.querySelectorAll('.clave-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.clave-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedClave = btn.dataset.clave;
+    updateChoiceHighlights();
+    updatePreview();
+  });
+});
+
+['A','B','C','D','E'].forEach(letter => {
+  document.getElementById('lbl-' + letter).addEventListener('click', () => {
+    document.querySelectorAll('.clave-btn').forEach(b => b.classList.remove('selected'));
+    const btn = document.querySelector(`.clave-btn[data-clave="${letter}"]`);
+    if (btn) btn.classList.add('selected');
+    selectedClave = letter;
+    updateChoiceHighlights();
+    updatePreview();
+  });
+});
+
+function updateChoiceHighlights() {
+  ['A','B','C','D','E'].forEach(l => {
+    document.getElementById('lbl-' + l).classList.toggle('selected', l === selectedClave);
+  });
+}
+
+// ── TEMAS + SUB-TEMAS ──────────────────────────────────────
+const TEMAS = {
+  UNMSM: ['Aritmética','Álgebra','Geometría','Trigonometría','Razonamiento Matemático','Razonamiento Verbal','Literatura','Historia del Perú','Geografía del Perú'],
+  UNI:   ['Aritmética','Álgebra','Geometría','Trigonometría','Física','Química','Razonamiento Matemático'],
+};
+
+const SUB_TEMAS = {
+  'Aritmética':              ['divisibilidad','mcd-mcm','razones-proporciones','porcentajes','regla-de-tres','interes'],
+  'Álgebra':                 ['polinomios','ecuaciones','inecuaciones','sistemas-ecuaciones','progresiones','logaritmos'],
+  'Geometría':               ['angulos','triangulos','cuadrilateros','circunferencia','areas','poligonos'],
+  'Trigonometría':           ['razones-trigonometricas','identidades-trigonometricas','ecuaciones-trigonometricas','triangulo-oblicuangulo'],
+  'Razonamiento Matemático': ['series-numericas','sucesiones','analogias-numericas','conteo'],
+  'Razonamiento Verbal':     ['sinonimos-antonimos','analogias-verbales','comprension-lectora','oraciones-incompletas'],
+  'Literatura':              ['generaciones-literarias','movimientos-literarios','autores','obras'],
+  'Historia del Perú':       ['culturas-prehispanicas','conquista','virreinato','republica','historia-contemporanea'],
+  'Geografía del Perú':      ['geografia-fisica','regiones-naturales','demografia','economia-peruana'],
+  'Física':                  ['cinematica','dinamica','trabajo-energia','electricidad','ondas','optica'],
+  'Química':                 ['estequiometria','enlace-quimico','reacciones-quimicas','termodinamica'],
+};
+
+document.getElementById('university').addEventListener('change', function() {
+  const uni = this.value;
+  // mirror to universidad_objetivo since tipo is examen_oficial
+  document.getElementById('universidad_objetivo').value = uni;
+
+  const el = document.getElementById('tema');
+  el.innerHTML = '<option value="">— seleccionar tema —</option>';
+  if (uni && TEMAS[uni]) {
+    TEMAS[uni].forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m; opt.textContent = m;
+      el.appendChild(opt);
+    });
+    el.disabled = false;
+  } else {
+    el.disabled = true;
+  }
+  updatePreview();
+});
+
+function populateSubtema() {
+  const el = document.getElementById('subtema');
+  el.innerHTML = '';
+  Object.entries(SUB_TEMAS).forEach(([tema, subs]) => {
+    const group = document.createElement('optgroup');
+    group.label = tema;
+    subs.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s; opt.textContent = s;
+      group.appendChild(opt);
+    });
+    el.appendChild(group);
+  });
+  el.disabled = true;
+}
+
+document.getElementById('tema').addEventListener('change', function() {
+  const subtema = document.getElementById('subtema');
+  subtema.disabled = !this.value;
+  if (!this.value) {
+    Array.from(subtema.options).forEach(o => o.selected = false);
+  }
+  updatePreview();
+});
+
+// ── LIVE PREVIEW ───────────────────────────────────────────
+['body','choice-A','choice-B','choice-C','choice-D','choice-E','convocatoria'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updatePreview);
+});
+document.getElementById('subtema').addEventListener('change', updatePreview);
+
+let renderTimer = null;
+
+function updatePreview() {
+  const body = document.getElementById('body').value.trim();
+  const uni = document.getElementById('university').value;
+  const tema = document.getElementById('tema').value;
+  const cat = uni && tema ? `${uni} / ${tema}` : (uni || '—');
+  const convocatoria = document.getElementById('convocatoria').value.trim();
+  const subTemas = Array.from(document.getElementById('subtema').selectedOptions).map(o => o.value);
+
+  const titleText = body
+    .replace(/\[FIG:\d+\]/g, '')
+    .replace(/\$\$[\s\S]*?\$\$/g, ' ')
+    .replace(/\$[^$]+\$/g, ' ')
+    .replace(/\s+/g, ' ').trim()
+    .substring(0, 80) || 'Tu pregunta aparecerá aquí';
+  document.getElementById('prev-title').textContent = titleText + (body.length > 80 ? '…' : '');
+  document.getElementById('prev-cat').textContent = cat;
+
+  const convEl = document.getElementById('prev-convocatoria');
+  convEl.textContent = convocatoria; convEl.style.display = convocatoria ? 'inline' : 'none';
+
+  document.getElementById('prev-subtema').innerHTML = subTemas.map(t => `<span class="tag">${t}</span>`).join(' ');
+  // Render body: [FIG:N] markers become inline figure cards with crop buttons
+  const bodyHtml = bodyToHtml(body);
+  document.getElementById('prev-body').innerHTML = bodyHtml || '<em style="color:#aaa">El enunciado aparecerá aquí...</em>';
+
+  // Fallback: if no [FIG:N] in body but we have figures, show them below body
+  const hasFigMarkers = body.includes('[FIG:');
+  const prevFigs = document.getElementById('prev-figures');
+  if (!hasFigMarkers && currentFigureImages.length > 0) {
+    prevFigs.innerHTML = currentFigureImages.map((src, i) => figCardHtml(src, i)).join('');
+  } else {
+    prevFigs.innerHTML = '';
+  }
+
+  const choicesEl = document.getElementById('prev-choices');
+  ['A','B','C','D','E'].forEach((l, i) => {
+    const li = choicesEl.children[i];
+    li.classList.toggle('correct', l === selectedClave);
+    if (choiceMode === 'image') {
+      const img = choiceImages[l];
+      li.querySelector('.choice-text').innerHTML = img
+        ? `<img src="${img}" style="max-height:100px;border-radius:3px;">`
+        : `<em style="color:#ccc">Pegar imagen ${l}</em>`;
+    } else {
+      const text = document.getElementById('choice-' + l).value.trim();
+      li.querySelector('.choice-text').innerHTML = text || `<em style="color:#ccc">Alternativa ${l}</em>`;
+    }
+  });
+
+  document.getElementById('prev-clave').textContent = selectedClave ? `Clave: ${selectedClave}` : 'Clave: no seleccionada';
+
+  clearTimeout(renderTimer);
+  renderTimer = setTimeout(() => {
+    if (window.MathJax?.typesetPromise) {
+      MathJax.typesetPromise([document.getElementById('prev-body'), document.getElementById('prev-choices')]);
+    }
+  }, 400);
+}
+
+// ── SUBMIT ─────────────────────────────────────────────────
+function handleSubmit() {
+  const body = document.getElementById('body').value.trim();
+  if (!body) { alert('El enunciado no puede estar vacío.'); return; }
+  if (!selectedClave) { alert('Debes seleccionar la clave.'); return; }
+  if (['A','B','C','D','E'].some(l => !document.getElementById('choice-' + l).value.trim())) {
+    alert('Todas las alternativas deben estar completas.'); return;
+  }
+  const uni = document.getElementById('university').value;
+  const tema = document.getElementById('tema').value;
+  const convocatoria = document.getElementById('convocatoria').value.trim();
+  const numero = document.getElementById('numero').value.trim();
+  alert(`[PROTOTIPO] Se crearía el tema:\n\nN°: ${numero || '—'}\nEnunciado: ${body.substring(0,60)}…\nClave: ${selectedClave}\nCategoría: ${uni} / ${tema}\nConvocatoria: ${convocatoria || '—'}\n\nEn producción: POST /posts al API de Discourse.`);
+}
+
+// ── INIT ───────────────────────────────────────────────────
+async function checkServerStatus() {
+  try {
+    const res = await fetch('/api/status');
+    if (!res.ok) throw new Error();
+    const { ready } = await res.json();
+    document.getElementById('ai-dot').classList.toggle('ready', ready);
+    document.getElementById('ai-status-text').textContent = ready ? 'MinerU listo' : 'Servidor no disponible';
+  } catch {
+    document.getElementById('ai-status-text').textContent = 'Servidor no disponible';
+  }
+}
+
+populateSubtema();
+updatePreview();
+checkServerStatus();
+
+// ── CROP TOOL ──────────────────────────────────────────────
+
+// ── INLINE CROP STATE ──────────────────────────────────────
+let activeCropIdx = -1, activeCropImg = null, activeCropRect = null;
+let activeCropStart = null, activeCropDragging = false;
+
+function openCrop(idx) {
+  if (activeCropIdx >= 0) restoreFigCard(activeCropIdx); // cancel any active crop
+  activeCropIdx = idx;
+  activeCropImg = new Image();
+  activeCropImg.onload = () => {
+    const figCard = document.querySelector(`.fig-card[data-fig-idx="${idx}"]`);
+    if (!figCard) return;
+    const maxW = figCard.clientWidth - 4;
+    const maxH = 260;
+    const scale = Math.min(1, maxW / activeCropImg.naturalWidth, maxH / activeCropImg.naturalHeight);
+    const cw = Math.round(activeCropImg.naturalWidth  * scale);
+    const ch = Math.round(activeCropImg.naturalHeight * scale);
+    figCard.innerHTML = `
+      <div class="fig-crop-hint">Arrastra para seleccionar el área a recortar</div>
+      <div class="fig-crop-wrap">
+        <canvas id="icrop-c-${idx}" width="${cw}" height="${ch}"></canvas>
+        <canvas id="icrop-o-${idx}" width="${cw}" height="${ch}" class="fig-crop-overlay"
+          style="width:${cw}px;height:${ch}px;"></canvas>
+      </div>
+      <div class="fig-crop-actions">
+        <button class="btn-cancel"  onclick="cancelInlineCrop()">Cancelar</button>
+        <button class="btn-confirm" onclick="confirmInlineCrop()">Confirmar recorte</button>
+      </div>`;
+    const c = document.getElementById(`icrop-c-${idx}`);
+    const o = document.getElementById(`icrop-o-${idx}`);
+    c.getContext('2d').drawImage(activeCropImg, 0, 0, cw, ch);
+    activeCropRect = null;
+    o.addEventListener('mousedown',  e => startDrag(e, o));
+    o.addEventListener('mousemove',  e => moveDrag(e, o));
+    o.addEventListener('mouseup',    ()  => { activeCropDragging = false; });
+    o.addEventListener('mouseleave', ()  => { activeCropDragging = false; });
+  };
+  activeCropImg.src = currentFigureImages[idx];
+}
+
+function startDrag(e, o) {
+  const r = o.getBoundingClientRect();
+  activeCropStart = { x: e.clientX - r.left, y: e.clientY - r.top };
+  activeCropDragging = true; activeCropRect = null;
+}
+function moveDrag(e, o) {
+  if (!activeCropDragging) return;
+  const r = o.getBoundingClientRect();
+  const cx = Math.max(0, Math.min(e.clientX - r.left, o.width));
+  const cy = Math.max(0, Math.min(e.clientY - r.top,  o.height));
+  activeCropRect = {
+    x: Math.min(cx, activeCropStart.x), y: Math.min(cy, activeCropStart.y),
+    w: Math.abs(cx - activeCropStart.x), h: Math.abs(cy - activeCropStart.y)
+  };
+  const ctx = o.getContext('2d');
+  ctx.clearRect(0, 0, o.width, o.height);
+  if (activeCropRect.w > 2 && activeCropRect.h > 2) {
+    const { x, y, w, h } = activeCropRect;
+    ctx.fillStyle = 'rgba(0,0,0,0.4)';
+    ctx.fillRect(0, 0, o.width, o.height);
+    ctx.clearRect(x, y, w, h);
+    ctx.strokeStyle = '#6f5acd'; ctx.lineWidth = 2;
+    ctx.strokeRect(x, y, w, h);
+  }
+}
+
+function cancelInlineCrop() { restoreFigCard(activeCropIdx); activeCropIdx = -1; }
+
+function confirmInlineCrop() {
+  const idx = activeCropIdx;
+  if (!activeCropRect || activeCropRect.w < 5 || activeCropRect.h < 5) {
+    cancelInlineCrop(); return;
+  }
+  const c = document.getElementById(`icrop-c-${idx}`);
+  const sx = activeCropImg.naturalWidth  / c.width;
+  const sy = activeCropImg.naturalHeight / c.height;
+  const out = document.createElement('canvas');
+  out.width  = Math.round(activeCropRect.w * sx);
+  out.height = Math.round(activeCropRect.h * sy);
+  out.getContext('2d').drawImage(activeCropImg,
+    Math.round(activeCropRect.x * sx), Math.round(activeCropRect.y * sy),
+    out.width, out.height, 0, 0, out.width, out.height);
+  currentFigureImages[idx] = out.toDataURL('image/jpeg', 0.92);
+  activeCropIdx = -1;
+  restoreFigCard(idx);
+}
+
+function restoreFigCard(idx) {
+  const figCard = document.querySelector(`.fig-card[data-fig-idx="${idx}"]`);
+  if (figCard) figCard.innerHTML =
+    `<img src="${currentFigureImages[idx]}" alt="Figura ${idx+1}">
+     <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Recortar</button>`;
+}
+</script>
+
+</body>
+</html>

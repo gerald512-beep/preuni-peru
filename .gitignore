@@ -1,0 +1,26 @@
+# Secrets
+.env
+*.env.local
+
+# Dependencies
+node_modules/
+
+# Python
+venvs/
+__pycache__/
+
+# Large / local-only data
+pdfs/
+snapshots/
+discourse-local/
+tools/
+
+# Browser automation artifacts
+.playwright-mcp/
+
+# Logs
+*.txt
+
+# Debug artifacts
+debug_case4.js
+Cases/case4_debug_*
