@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PreUni — Plugin 1 Prototipo</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; background: #f0f2f5; color: #1d1d1d; }
+
+/* ── HEADER ── */
+header {
+  background: #00529b; color: white; padding: 10px 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+header h1 { font-size: 15px; font-weight: 600; }
+.session-toggle { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 12px; }
+.session-toggle span { opacity: .8; }
+.sess-btn {
+  padding: 3px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,.4);
+  background: transparent; color: white; cursor: pointer; font-size: 11px; font-weight: 500;
+  transition: all .15s;
+}
+.sess-btn.active { background: white; color: #00529b; border-color: white; }
+
+/* ── PAGE ── */
+.page { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+
+/* Breadcrumb */
+.breadcrumb { font-size: 12px; color: #999; margin-bottom: 10px; }
+.breadcrumb a { color: #00529b; text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* Topic title */
+.topic-title { font-size: 19px; font-weight: 700; line-height: 1.35; margin-bottom: 12px; }
+
+/* Labels row */
+.labels-row { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
+.lbl {
+  font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 3px;
+}
+.lbl-facil   { background: #d4edda; color: #155724; border: 1px solid #a8d5b5; }
+.lbl-media   { background: #fff3cd; color: #856404; border: 1px solid #ffd97d; }
+.lbl-dificil { background: #f8d7da; color: #721c24; border: 1px solid #f5a8ad; }
+.lbl-topic   { background: #e8f0fe; color: #1a56db; border: 1px solid #c3d4fc; }
+.lbl-source  { background: #e8e8e8; color: #555;    border: 1px solid #ccc; }
+.lbl-num     { background: #f0f0f0; color: #666;    border: 1px solid #ddd; }
+
+/* ── PLUGIN PILL ── */
+.pill {
+  background: #eaf0f9;
+  border: 1px solid #cdd9ec;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  padding: 8px 14px;
+  gap: 0;
+  min-height: 56px;
+  margin-bottom: 8px;
+  user-select: none;
+}
+
+/* Play/status button */
+.pill-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0; transition: background .15s, transform .1s;
+}
+.pill-btn:active { transform: scale(.93); }
+.pill-btn.play    { background: #00529b; color: white; }
+.pill-btn.running { background: #6c757d; color: white; cursor: default; }
+.pill-btn.correct { background: #00a86b; color: white; cursor: default; }
+.pill-btn.wrong   { background: #e53e3e; color: white; cursor: default; }
+
+/* Timer */
+.pill-time {
+  font-size: 17px; font-weight: 700; color: #333;
+  min-width: 52px; font-variant-numeric: tabular-nums; margin-left: 9px;
+}
+
+/* Separator */
+.sep { width: 1px; background: #b8cce4; height: 30px; margin: 0 14px; flex-shrink: 0; }
+
+/* Center zone */
+.pill-center { flex: 1; display: flex; align-items: center; justify-content: center; min-width: 0; }
+
+/* Idle text */
+.pill-idle { font-size: 13px; color: #8a9ab5; }
+
+/* Choice buttons */
+.choices-wrap { display: flex; gap: 7px; }
+.c-btn {
+  width: 38px; height: 38px; border-radius: 8px; border: 2px solid #b0c4de;
+  background: white; font-size: 13px; font-weight: 700; color: #3a4a60;
+  cursor: pointer; transition: all .15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.c-btn:hover { border-color: #00529b; color: #00529b; background: #f0f6fc; transform: translateY(-1px); }
+
+/* Distribution */
+.dist-wrap { display: flex; gap: 5px; align-items: stretch; }
+.dist-item {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1px; padding: 5px 9px; border-radius: 7px;
+  border: 2px solid transparent; background: white; min-width: 46px;
+}
+.dist-letter { font-size: 10px; font-weight: 700; color: #888; }
+.dist-pct    { font-size: 12px; font-weight: 600; color: #333; }
+
+/* Correct answer */
+.dist-item.is-correct { background: #d4edda; }
+.dist-item.is-correct .dist-letter,
+.dist-item.is-correct .dist-pct { color: #155724; font-weight: 800; }
+
+/* Wrong selection */
+.dist-item.is-wrong-pick { border: 2px solid #1a1a1a; background: white; }
+.dist-item.is-wrong-pick .dist-letter,
+.dist-item.is-wrong-pick .dist-pct { color: #e53e3e; font-weight: 700; }
+
+/* Correct + selected (you got it right) */
+.dist-item.is-correct.is-selected { border: 2px solid #1a1a1a; }
+
+/* Log icon button */
+.pill-log {
+  width: 38px; height: 38px; border-radius: 50%; background: #00529b; color: white;
+  border: none; cursor: pointer; font-size: 15px; flex-shrink: 0; margin-left: 14px;
+  display: flex; align-items: center; justify-content: center; transition: opacity .15s;
+}
+.pill-log:hover { opacity: .8; }
+
+
+/* ── POST CARD ── */
+.post-card { background: white; border-radius: 8px; border: 1px solid #ddd; overflow: hidden; }
+.post-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid #f0f0f0; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: #00529b; color: white; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.post-author { font-weight: 600; font-size: 13px; }
+.post-date { font-size: 11px; color: #aaa; margin-top: 1px; }
+
+.post-body { padding: 18px 16px; line-height: 1.8; }
+.post-body p { margin-bottom: 14px; font-size: 15px; }
+.choices-list { list-style: none; display: grid; gap: 7px; }
+.choices-list li { padding: 7px 12px; border-radius: 5px; border: 1px solid #eee; font-size: 14px; color: #333; }
+
+/* Mostrar clave */
+.spoiler-wrap { border-top: 1px solid #f0f0f0; padding: 12px 16px; }
+.spoiler-btn {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  padding: 8px 14px; border-radius: 6px; border: 1px solid #ddd;
+  background: #fafafa; cursor: pointer; font-size: 13px; color: #555;
+  transition: all .15s; text-align: left;
+}
+.spoiler-btn:hover { border-color: #aaa; background: #f0f0f0; }
+.spoiler-arrow { font-size: 12px; }
+.spoiler-content {
+  display: none; margin-top: 12px; padding: 14px 16px;
+  background: #f9fff9; border-radius: 6px; border: 1px solid #a8d5b5;
+  font-size: 14px; line-height: 1.8;
+}
+.spoiler-content.open { display: block; }
+.spoiler-clave { font-weight: 800; color: #155724; font-size: 15px; margin-bottom: 8px; }
+
+/* ── LOGIN MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-overlay.hidden { display: none; }
+.modal {
+  background: white; border-radius: 12px; padding: 32px 28px;
+  max-width: 360px; width: 90%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,.2);
+}
+.modal h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.modal p { font-size: 13px; color: #666; margin-bottom: 24px; line-height: 1.6; }
+.modal-btns { display: flex; gap: 10px; }
+.modal-btns button { flex: 1; padding: 10px; border-radius: 7px; border: none; cursor: pointer; font-size: 13px; font-weight: 600; transition: opacity .15s; }
+.modal-btns button:hover { opacity: .85; }
+.btn-login    { background: #00529b; color: white; }
+.btn-cancel   { background: #eee; color: #555; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  background: #222; color: white; padding: 9px 22px; border-radius: 24px;
+  font-size: 12px; opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 300;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <h1>PreUni Perú</h1>
+  <div class="session-toggle">
+    <span>Sesión:</span>
+    <button class="sess-btn" id="btn-off" onclick="setSession(false)">No logueado</button>
+    <button class="sess-btn active" id="btn-on" onclick="setSession(true)">Logueado</button>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="#">UNMSM</a> › <a href="#">Aritmética</a>
+  </div>
+
+  <!-- Title -->
+  <h2 class="topic-title">
+    Halla el valor de $a^2 + b^2$ dado que $a + b = 10$ y $ab = 21$
+  </h2>
+
+  <!-- Labels -->
+  <div class="labels-row">
+    <span class="lbl lbl-media">Media</span>
+    <span class="lbl lbl-topic">Aritmética</span>
+    <span class="lbl lbl-source">UNMSM 2023-I</span>
+    <span class="lbl lbl-num">N° 14</span>
+  </div>
+
+  <!-- ── PILL ── -->
+  <div class="pill" id="pill">
+
+    <!-- Left: play button + timer -->
+    <button class="pill-btn play" id="pill-btn" onclick="handlePlay()">▶</button>
+    <span class="pill-time" id="pill-time">00:00</span>
+
+    <div class="sep"></div>
+
+    <!-- Center: idle / choices / distribution -->
+    <div class="pill-center" id="pill-center">
+      <span class="pill-idle">¿Listo?</span>
+    </div>
+
+    <div class="sep" id="sep-right" style="display:none"></div>
+
+    <!-- Right: error log -->
+    <button class="pill-log" onclick="handleLog()" title="Registro de errores">📋</button>
+
+  </div>
+
+
+  <!-- ── POST ── -->
+  <div class="post-card">
+    <div class="post-header">
+      <div class="avatar">G</div>
+      <div>
+        <div class="post-author">gerald</div>
+        <div class="post-date">Admin · 14 ene 2026</div>
+      </div>
+    </div>
+
+    <div class="post-body">
+      <p>Si $a + b = 10$ y $ab = 21$, halla el valor de $a^2 + b^2$.</p>
+      <ul class="choices-list">
+        <li>(A) &nbsp; 48</li>
+        <li>(B) &nbsp; 54</li>
+        <li>(C) &nbsp; 58</li>
+        <li>(D) &nbsp; 62</li>
+        <li>(E) &nbsp; 100</li>
+      </ul>
+    </div>
+
+    <!-- Mostrar clave -->
+    <div class="spoiler-wrap">
+      <button class="spoiler-btn" onclick="toggleSpoiler()">
+        <span class="spoiler-arrow" id="spoiler-arrow">▾</span>
+        Mostrar clave
+      </button>
+      <div class="spoiler-content" id="spoiler-content">
+        <div class="spoiler-clave">C</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay hidden" id="modal">
+  <div class="modal">
+    <h3>Inicia sesión para responder</h3>
+    <p>Necesitas una cuenta para responder preguntas y llevar tu registro de errores.</p>
+    <div class="modal-btns">
+      <button class="btn-login" onclick="simulateLogin()">Iniciar sesión</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ────────────────────────────────────────────
+const CORRECT     = 'C';
+const DIST        = { A: 8, B: 19, C: 52, D: 15, E: 6 };
+
+// ── STATE ───────────────────────────────────────────
+let isLoggedIn   = true;
+let gameState    = 'idle';   // idle | running | answered
+let elapsed      = 0;
+let timerRef     = null;
+let picked       = null;
+
+// ── SESSION TOGGLE ──────────────────────────────────
+function setSession(val) {
+  isLoggedIn = val;
+  document.getElementById('btn-on').classList.toggle('active', val);
+  document.getElementById('btn-off').classList.toggle('active', !val);
+}
+
+// ── TIMER ───────────────────────────────────────────
+function startTimer() {
+  elapsed = 0;
+  tickTimer();
+  timerRef = setInterval(tickTimer, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerRef);
+  timerRef = null;
+}
+
+function tickTimer() {
+  elapsed++;
+  const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+  const s = String(elapsed % 60).padStart(2, '0');
+  document.getElementById('pill-time').textContent = m + ':' + s;
+}
+
+// ── PLAY BUTTON ─────────────────────────────────────
+function handlePlay() {
+  if (gameState === 'running' || gameState === 'answered') return;
+
+  if (!isLoggedIn) {
+    document.getElementById('modal').classList.remove('hidden');
+    return;
+  }
+
+  gameState = 'running';
+  startTimer();
+
+  const btn = document.getElementById('pill-btn');
+  btn.className = 'pill-btn running';
+  btn.textContent = '⏸';
+
+  document.getElementById('sep-right').style.display = '';
+  document.getElementById('pill-center').innerHTML = buildChoices();
+}
+
+// ── CHOICE BUTTONS ──────────────────────────────────
+function buildChoices() {
+  const btns = ['A','B','C','D','E'].map(l =>
+    `<button class="c-btn" onclick="submitAnswer('${l}')">${l}</button>`
+  ).join('');
+  return `<div class="choices-wrap">${btns}</div>`;
+}
+
+// ── SUBMIT ANSWER ───────────────────────────────────
+function submitAnswer(letter) {
+  if (gameState !== 'running') return;
+  gameState = 'answered';
+  picked = letter;
+  stopTimer();
+
+  const isRight = letter === CORRECT;
+
+  const btn = document.getElementById('pill-btn');
+  btn.className = 'pill-btn ' + (isRight ? 'correct' : 'wrong');
+  btn.textContent = isRight ? '✓' : '✗';
+
+  document.getElementById('pill-center').innerHTML = buildDist();
+
+  if (window.MathJax?.typesetPromise) MathJax.typesetPromise();
+}
+
+// ── DISTRIBUTION ────────────────────────────────────
+function buildDist() {
+  const items = Object.entries(DIST).map(([l, pct]) => {
+    let cls = 'dist-item';
+    const isCorrect  = l === CORRECT;
+    const isSelected = l === picked;
+
+    if (isCorrect)               cls += ' is-correct';
+    if (isSelected && !isCorrect) cls += ' is-wrong-pick';
+    if (isCorrect && isSelected)  cls += ' is-selected';
+
+    const check = isCorrect ? ' ✓' : '';
+    return `<div class="${cls}">
+      <span class="dist-letter">${l}</span>
+      <span class="dist-pct">${pct}%${check}</span>
+    </div>`;
+  }).join('');
+  return `<div class="dist-wrap">${items}</div>`;
+}
+
+// ── SPOILER ─────────────────────────────────────────
+function toggleSpoiler() {
+  const content = document.getElementById('spoiler-content');
+  const arrow   = document.getElementById('spoiler-arrow');
+  const open    = content.classList.toggle('open');
+  arrow.textContent = open ? '▴' : '▾';
+  if (open && window.MathJax?.typesetPromise) MathJax.typesetPromise([content]);
+}
+
+// ── MODAL ───────────────────────────────────────────
+function simulateLogin() {
+  setSession(true);
+  closeModal();
+  showToast('Sesión iniciada — ahora puedes responder');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.add('hidden');
+}
+
+// ── ERROR LOG ────────────────────────────────────────
+function handleLog() {
+  showToast('Registro de errores — página separada (próximamente)');
+}
+
+// ── TOAST ───────────────────────────────────────────
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── INIT ────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.MathJax?.typesetPromise) MathJax.typesetPromise();
+});
+</script>
+</body>
+</html>
