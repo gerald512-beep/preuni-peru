@@ -828,18 +828,77 @@ function updatePreview() {
 }
 
 // ── SUBMIT ─────────────────────────────────────────────────
-function handleSubmit() {
+async function compressSourceImage(dataUrl, maxSide = 1600, quality = 0.72) {
+  if (!dataUrl) return null;
+  const img = await loadImg(dataUrl);
+  const scale = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));
+  const w = Math.round(img.naturalWidth * scale);
+  const h = Math.round(img.naturalHeight * scale);
+  const canvas = document.createElement('canvas');
+  canvas.width = w; canvas.height = h;
+  canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+  return canvas.toDataURL('image/jpeg', quality);
+}
+
+async function handleSubmit() {
   const body = document.getElementById('body').value.trim();
   if (!body) { alert('El enunciado no puede estar vacío.'); return; }
   if (!selectedClave) { alert('Debes seleccionar la clave.'); return; }
-  if (['A','B','C','D','E'].some(l => !document.getElementById('choice-' + l).value.trim())) {
-    alert('Todas las alternativas deben estar completas.'); return;
-  }
-  const uni = document.getElementById('university').value;
-  const tema = document.getElementById('tema').value;
+
+  const choices = {};
+  ['A','B','C','D','E'].forEach(l => {
+    choices[l] = document.getElementById('choice-' + l).value.trim();
+  });
+  const incomplete = ['A','B','C','D','E'].some(l => !choices[l] && !choiceImages[l]);
+  if (incomplete) { alert('Todas las alternativas deben tener texto o imagen.'); return; }
+
+  const uni          = document.getElementById('university').value;
+  const tema         = document.getElementById('tema').value;
   const convocatoria = document.getElementById('convocatoria').value.trim();
-  const numero = document.getElementById('numero').value.trim();
-  alert(`[PROTOTIPO] Se crearía el tema:\n\nN°: ${numero || '—'}\nEnunciado: ${body.substring(0,60)}…\nClave: ${selectedClave}\nCategoría: ${uni} / ${tema}\nConvocatoria: ${convocatoria || '—'}\n\nEn producción: POST /posts al API de Discourse.`);
+  const numero       = document.getElementById('numero').value.trim();
+
+  if (!uni || !tema) { alert('Selecciona universidad y tema.'); return; }
+
+  const btn = document.querySelector('.submit-btn');
+  btn.textContent = 'Publicando…';
+  btn.disabled = true;
+
+  try {
+    const sourceImage = capturedImage ? await compressSourceImage(
+      capturedImage2 ? await getImageForExtraction() : capturedImage
+    ) : null;
+
+    const payload = {
+      universidad: uni, tema, convocatoria, numero,
+      body, choices,
+      choice_images: { ...choiceImages },
+      figure_images: currentFigureImages.slice(),
+      source_image: sourceImage,
+      clave: selectedClave,
+    };
+
+    const res = await fetch('/api/publish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || res.statusText);
+
+    const notice = document.getElementById('extract-notice');
+    notice.innerHTML = `✓ Pregunta publicada — <a href="${data.topic_url}" target="_blank">ver en Discourse</a>`;
+    notice.className = 'extract-notice success';
+    notice.style.display = 'block';
+
+  } catch (err) {
+    const notice = document.getElementById('extract-notice');
+    notice.textContent = `Error al publicar: ${err.message}`;
+    notice.className = 'extract-notice error';
+    notice.style.display = 'block';
+  } finally {
+    btn.textContent = 'Publicar pregunta';
+    btn.disabled = false;
+  }
 }
 
 // ── INIT ───────────────────────────────────────────────────

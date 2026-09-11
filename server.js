@@ -14,6 +14,22 @@ app.use(express.static(__dirname));
 const MINERU  = 'https://mineru.net';
 const API_KEY = process.env.MINERU_API_KEY;
 
+const DISCOURSE_URL      = process.env.DISCOURSE_URL || 'http://localhost:8080';
+const DISCOURSE_API_KEY  = process.env.DISCOURSE_API_KEY;
+const DISCOURSE_USERNAME = process.env.DISCOURSE_API_USERNAME || 'gerald';
+
+const CATEGORY_MAP = {
+  UNMSM: {
+    'Aritmética': 7, 'Álgebra': 8, 'Geometría': 9, 'Trigonometría': 10,
+    'Razonamiento Matemático': 11, 'Razonamiento Verbal': 12,
+    'Literatura': 13, 'Historia del Perú': 14, 'Geografía del Perú': 15,
+  },
+  UNI: {
+    'Aritmética': 16, 'Álgebra': 17, 'Geometría': 18, 'Trigonometría': 19,
+    'Física': 20, 'Química': 21, 'Razonamiento Matemático': 22,
+  },
+};
+
 // ── Image preprocessing (Python / PIL) ──────────────────────────────────────
 function pyProcess(buf, pyCode) {
   const tmpIn  = path.join(os.tmpdir(), `preuni_in_${Date.now()}.jpg`);
@@ -403,6 +419,132 @@ app.post('/api/extract', async (req, res) => {
     res.json(await extractAll(buffer));
   } catch (err) {
     console.error('Extract error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── DISCOURSE PUBLISH ──────────────────────────────────────────────────────
+async function discourseUpload(dataUrl, filename) {
+  const m = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
+  if (!m) throw new Error('Invalid image data for upload');
+  const [, mime, b64] = m;
+  const buf = Buffer.from(b64, 'base64');
+  const form = new FormData();
+  form.append('files[]', new Blob([buf], { type: mime }), filename);
+  form.append('type', 'composer');
+  form.append('synchronous', 'true');
+  const res = await fetch(`${DISCOURSE_URL}/uploads.json`, {
+    method: 'POST',
+    headers: { 'Api-Key': DISCOURSE_API_KEY, 'Api-Username': DISCOURSE_USERNAME },
+    body: form,
+  });
+  if (!res.ok) throw new Error(`Upload failed: ${res.status} ${await res.text()}`);
+  const data = await res.json();
+  return { shortUrl: data.short_url, url: data.url };
+}
+
+function buildTitle(body, numero) {
+  const clean = body
+    .replace(/\$\$[\s\S]*?\$\$/g, '')
+    .replace(/\$([^$]+)\$/g, '$1')
+    .replace(/\[FIG:\d+\]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const prefix = numero ? `N°${numero} — ` : '';
+  const maxLen = 80 - prefix.length;
+  return prefix + (clean.length > maxLen ? clean.slice(0, maxLen) + '…' : clean);
+}
+
+function buildRaw(body, choices, choiceUrls) {
+  let raw = body.trim() + '\n\n';
+  ['A','B','C','D','E'].forEach(l => {
+    raw += choiceUrls[l]
+      ? `**(${l})** ![alternativa ${l}](${choiceUrls[l]})\n`
+      : `**(${l})** ${choices[l]}\n`;
+  });
+  return raw;
+}
+
+app.post('/api/publish', async (req, res) => {
+  try {
+    const { universidad, tema, convocatoria, numero, body, choices,
+            choice_images, figure_images, source_image, clave } = req.body;
+
+    if (!universidad || !tema || !body || !clave)
+      return res.status(400).json({ error: 'Faltan campos requeridos.' });
+
+    const categoryId = CATEGORY_MAP[universidad]?.[tema];
+    if (!categoryId)
+      return res.status(400).json({ error: `Categoría no encontrada: ${universidad} / ${tema}` });
+
+    // Upload figures, replace [FIG:N] markers
+    let resolvedBody = body;
+    for (let i = 0; i < (figure_images?.length || 0); i++) {
+      if (!figure_images[i]) continue;
+      const { shortUrl } = await discourseUpload(figure_images[i], `figura_${i + 1}.jpg`);
+      resolvedBody = resolvedBody.replace(`[FIG:${i}]`, `\n![figura ${i + 1}](${shortUrl})\n`);
+    }
+    resolvedBody = resolvedBody.replace(/\[FIG:\d+\]/g, '');
+
+    // Upload choice images
+    const choiceUrls = {};
+    for (const [l, dataUrl] of Object.entries(choice_images || {})) {
+      if (!dataUrl) continue;
+      const { shortUrl } = await discourseUpload(dataUrl, `alternativa_${l}.jpg`);
+      choiceUrls[l] = shortUrl;
+    }
+
+    // Upload source image (archival)
+    if (source_image) {
+      const { url } = await discourseUpload(source_image, `fuente_${Date.now()}.jpg`);
+      resolvedBody += `\n<!-- preuni:source:${url} -->`;
+    }
+
+    const title = buildTitle(resolvedBody, numero);
+    const raw   = buildRaw(resolvedBody, choices, choiceUrls);
+
+    const postRes = await fetch(`${DISCOURSE_URL}/posts.json`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Api-Key': DISCOURSE_API_KEY,
+        'Api-Username': DISCOURSE_USERNAME,
+      },
+      body: JSON.stringify({ title, raw, category: categoryId }),
+    });
+
+    if (!postRes.ok) {
+      const err = await postRes.json().catch(() => ({}));
+      throw new Error(err.errors?.join(', ') || `Discourse error: ${postRes.status}`);
+    }
+
+    const post = await postRes.json();
+    const topicId = post.topic_id;
+
+    // Store MCQ metadata as topic custom fields (read later by Plugin 1)
+    await fetch(`${DISCOURSE_URL}/t/${topicId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Api-Key': DISCOURSE_API_KEY,
+        'Api-Username': DISCOURSE_USERNAME,
+      },
+      body: JSON.stringify({
+        custom_fields: {
+          preuni_clave:        clave,
+          preuni_convocatoria: convocatoria || '',
+          preuni_numero:       numero       || '',
+          preuni_universidad:  universidad,
+          preuni_tema:         tema,
+        },
+      }),
+    });
+
+    const topicUrl = `${DISCOURSE_URL}/t/${post.topic_slug}/${topicId}`;
+    res.json({ topic_url: topicUrl, topic_id: topicId });
+
+  } catch (err) {
+    console.error('Publish error:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
