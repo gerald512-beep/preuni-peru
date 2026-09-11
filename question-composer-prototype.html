@@ -173,6 +173,29 @@ select[multiple] { height: 90px; }
 .fig-crop-actions .btn-confirm { background:#6f5acd; color:#fff; }
 .fig-crop-actions .btn-cancel  { background:#f0f0f0; color:#333; }
 .fig-crop-hint { font-size:11px; color:#888; margin-bottom:6px; }
+
+/* ── Eliminar button on figure cards ── */
+.fig-del-btn { position:absolute; top:6px; left:6px; background:rgba(180,0,0,.65); color:#fff; border:none; border-radius:4px; padding:3px 9px; font-size:11px; cursor:pointer; }
+.fig-del-btn:hover { background:rgba(180,0,0,.9); }
+
+/* ── Manual crop button + overlay ── */
+.preview-panel-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.preview-panel-header h2 { margin-bottom:0; }
+.btn-manual-crop { font-size:12px; padding:4px 12px; background:#00529b; color:#fff; border:none; border-radius:4px; cursor:pointer; }
+.btn-manual-crop:hover { background:#003f7a; }
+.manual-crop-overlay { position:fixed; inset:0; background:rgba(0,0,0,.78); z-index:1000; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+.manual-crop-overlay.hidden { display:none; }
+.manual-crop-header { display:flex; align-items:center; gap:16px; }
+.manual-crop-img-sel { display:flex; gap:6px; }
+.manual-crop-img-sel button { padding:3px 12px; border-radius:4px; border:none; cursor:pointer; font-size:12px; background:#555; color:#fff; }
+.manual-crop-img-sel button.active { background:#6f5acd; }
+.manual-crop-wrap { position:relative; display:inline-block; line-height:0; }
+.manual-crop-wrap canvas { display:block; border:2px solid #6f5acd; border-radius:4px; }
+.manual-crop-overlay-canvas { position:absolute; top:0; left:0; cursor:crosshair; }
+.manual-crop-actions { display:flex; gap:8px; }
+.manual-crop-actions button { padding:6px 20px; border-radius:4px; border:none; cursor:pointer; font-size:13px; font-weight:500; }
+.manual-crop-actions .btn-confirm { background:#6f5acd; color:#fff; }
+.manual-crop-actions .btn-cancel  { background:#f0f0f0; color:#333; }
 </style>
 </head>
 <body>
@@ -365,6 +388,7 @@ select[multiple] { height: 90px; }
     <div class="topic-body">
       <div class="question-text" id="prev-body"><em style="color:#aaa">El enunciado con LaTeX renderizado aparecerá aquí...</em></div>
       <div id="prev-figures"></div>
+      <button class="btn-manual-crop" onclick="openManualCrop()" style="margin-bottom:10px;">&#9986; Recortar e insertar manualmente</button>
       <ul class="choices-preview" id="prev-choices">
         <li class="choice-item"><span class="letter">A</span><span class="choice-text"></span></li>
         <li class="choice-item"><span class="letter">B</span><span class="choice-text"></span></li>
@@ -389,7 +413,8 @@ let currentFigureImages = [];  // all figure data URLs from last extraction
 function figCardHtml(src, idx) {
   return `<div class="fig-card" data-fig-idx="${idx}">
     <img src="${src}" alt="Figura ${idx+1}">
-    <button class="fig-crop-btn" onclick="openCrop(${idx})">✂ Recortar</button>
+    <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Recortar</button>
+    <button class="fig-del-btn"  onclick="deleteFig(${idx})">&#10005; Eliminar</button>
   </div>`;
 }
 
@@ -402,6 +427,7 @@ function bodyToHtml(text) {
     return `<div class="fig-card" data-fig-idx="${idx}">
       <img src="${src}" alt="Figura ${idx+1}">
       <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Recortar</button>
+      <button class="fig-del-btn"  onclick="deleteFig(${idx})">&#10005; Eliminar</button>
     </div>`;
   });
 }
@@ -824,6 +850,96 @@ populateSubtema();
 updatePreview();
 checkServerStatus();
 
+// ── MANUAL CROP ─────────────────────────────────────────────
+let mcropImg = null, mcropRect = null, mcropDragging = false, mcropStart = null, mcropScale = 1, mcropActiveNum = 1;
+
+function openManualCrop() {
+  if (!capturedImage) { alert('Carga una imagen primero.'); return; }
+  mcropActiveNum = 1;
+  document.getElementById('mcrop-sel-1').classList.add('active');
+  document.getElementById('mcrop-sel-2').classList.remove('active');
+  document.getElementById('mcrop-sel-2').style.display = capturedImage2 ? '' : 'none';
+  document.getElementById('manual-crop-overlay').classList.remove('hidden');
+  loadManualCropImage(capturedImage);
+}
+
+function switchManualCropImg(n) {
+  const src = n === 1 ? capturedImage : capturedImage2;
+  if (!src) return;
+  mcropActiveNum = n;
+  document.getElementById('mcrop-sel-1').classList.toggle('active', n === 1);
+  document.getElementById('mcrop-sel-2').classList.toggle('active', n === 2);
+  loadManualCropImage(src);
+}
+
+function loadManualCropImage(src) {
+  mcropImg = new Image();
+  mcropImg.onload = () => {
+    const maxW = Math.round(window.innerWidth  * 0.82);
+    const maxH = Math.round(window.innerHeight * 0.65);
+    mcropScale = Math.min(1, maxW / mcropImg.naturalWidth, maxH / mcropImg.naturalHeight);
+    const cw = Math.round(mcropImg.naturalWidth  * mcropScale);
+    const ch = Math.round(mcropImg.naturalHeight * mcropScale);
+    const c = document.getElementById('mcrop-canvas');
+    const o = document.getElementById('mcrop-overlay');
+    c.width = cw; c.height = ch;
+    o.width = cw; o.height = ch;
+    o.style.width = cw + 'px'; o.style.height = ch + 'px';
+    c.getContext('2d').drawImage(mcropImg, 0, 0, cw, ch);
+    o.getContext('2d').clearRect(0, 0, cw, ch);
+    mcropRect = null;
+    o.onmousedown = e => {
+      const r = o.getBoundingClientRect();
+      mcropStart = { x: e.clientX - r.left, y: e.clientY - r.top };
+      mcropDragging = true; mcropRect = null;
+    };
+    o.onmousemove = e => {
+      if (!mcropDragging) return;
+      const r  = o.getBoundingClientRect();
+      const cx = Math.max(0, Math.min(e.clientX - r.left, cw));
+      const cy = Math.max(0, Math.min(e.clientY - r.top,  ch));
+      mcropRect = { x: Math.min(cx, mcropStart.x), y: Math.min(cy, mcropStart.y),
+                    w: Math.abs(cx - mcropStart.x),  h: Math.abs(cy - mcropStart.y) };
+      const ctx = o.getContext('2d');
+      ctx.clearRect(0, 0, cw, ch);
+      if (mcropRect.w > 2 && mcropRect.h > 2) {
+        const { x, y, w, h } = mcropRect;
+        ctx.fillStyle = 'rgba(0,0,0,0.4)'; ctx.fillRect(0, 0, cw, ch);
+        ctx.clearRect(x, y, w, h);
+        ctx.strokeStyle = '#6f5acd'; ctx.lineWidth = 2; ctx.strokeRect(x, y, w, h);
+      }
+    };
+    o.onmouseup = o.onmouseleave = () => { mcropDragging = false; };
+  };
+  mcropImg.src = src;
+}
+
+function confirmManualCrop() {
+  if (!mcropRect || mcropRect.w < 5 || mcropRect.h < 5) { cancelManualCrop(); return; }
+  const sx = mcropImg.naturalWidth  / Math.round(mcropImg.naturalWidth  * mcropScale);
+  const sy = mcropImg.naturalHeight / Math.round(mcropImg.naturalHeight * mcropScale);
+  const out = document.createElement('canvas');
+  out.width  = Math.round(mcropRect.w * sx);
+  out.height = Math.round(mcropRect.h * sy);
+  out.getContext('2d').drawImage(mcropImg,
+    Math.round(mcropRect.x * sx), Math.round(mcropRect.y * sy),
+    out.width, out.height, 0, 0, out.width, out.height);
+  const newIdx = currentFigureImages.length;
+  currentFigureImages.push(out.toDataURL('image/jpeg', 0.92));
+  // Insert [FIG:N] at cursor position in body textarea
+  const bodyEl = document.getElementById('body');
+  const pos = bodyEl.selectionStart ?? bodyEl.value.length;
+  const marker = `[FIG:${newIdx}]`;
+  bodyEl.value = bodyEl.value.slice(0, pos) + marker + bodyEl.value.slice(pos);
+  cancelManualCrop();
+  updatePreview();
+}
+
+function cancelManualCrop() {
+  document.getElementById('manual-crop-overlay').classList.add('hidden');
+  mcropImg = null; mcropRect = null;
+}
+
 // ── CROP TOOL ──────────────────────────────────────────────
 
 // ── INLINE CROP STATE ──────────────────────────────────────
@@ -916,9 +1032,44 @@ function restoreFigCard(idx) {
   const figCard = document.querySelector(`.fig-card[data-fig-idx="${idx}"]`);
   if (figCard) figCard.innerHTML =
     `<img src="${currentFigureImages[idx]}" alt="Figura ${idx+1}">
-     <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Recortar</button>`;
+     <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Recortar</button>
+     <button class="fig-del-btn"  onclick="deleteFig(${idx})">&#10005; Eliminar</button>`;
+}
+
+// ── DELETE FIGURE ───────────────────────────────────────────
+function deleteFig(idx) {
+  if (activeCropIdx === idx) { activeCropIdx = -1; }
+  const bodyEl = document.getElementById('body');
+  let text = bodyEl.value;
+  text = text.replace(new RegExp(`\\[FIG:${idx}\\]`, 'g'), '');
+  for (let i = idx + 1; i < currentFigureImages.length; i++) {
+    text = text.replace(new RegExp(`\\[FIG:${i}\\]`, 'g'), `[FIG:${i - 1}]`);
+  }
+  bodyEl.value = text;
+  currentFigureImages.splice(idx, 1);
+  updatePreview();
 }
 </script>
+
+<!-- MANUAL CROP OVERLAY -->
+<div id="manual-crop-overlay" class="manual-crop-overlay hidden">
+  <div class="manual-crop-header">
+    <span style="color:#fff;font-size:13px;font-weight:600;">Seleccionar área a insertar</span>
+    <div class="manual-crop-img-sel">
+      <button id="mcrop-sel-1" class="active" onclick="switchManualCropImg(1)">Imagen 1</button>
+      <button id="mcrop-sel-2" onclick="switchManualCropImg(2)">Imagen 2</button>
+    </div>
+  </div>
+  <div style="color:#bbb;font-size:12px;">Arrastra para seleccionar · el recorte se insertará en el enunciado</div>
+  <div class="manual-crop-wrap">
+    <canvas id="mcrop-canvas"></canvas>
+    <canvas id="mcrop-overlay" class="manual-crop-overlay-canvas"></canvas>
+  </div>
+  <div class="manual-crop-actions">
+    <button class="btn-cancel" onclick="cancelManualCrop()">Cancelar</button>
+    <button class="btn-confirm" onclick="confirmManualCrop()">Insertar recorte</button>
+  </div>
+</div>
 
 </body>
 </html>
