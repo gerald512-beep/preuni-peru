@@ -61,29 +61,24 @@ textarea.short { min-height: 44px; }
 .img-preview.visible { display: block; margin: 0 auto; }
 .img-actions { display: flex; gap: 8px; margin-top: 8px; }
 
-/* CHOICE IMAGE ZONES */
-.choice-img-zone {
-  border: 1px dashed #ccc; border-radius: 4px; padding: 8px;
-  text-align: center; cursor: pointer; position: relative;
-  min-height: 40px; background: #fafafa; transition: all .2s;
-  display: none;
+/* CHOICES — per-choice text + optional image */
+.choices-hint { margin-bottom: 8px; }
+.choice-input-wrap { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.choice-img-preview-row { display: flex; align-items: center; gap: 6px; padding: 3px 0; }
+.choice-img-thumb-preview { max-height: 60px; border-radius: 3px; border: 1px solid #dde; }
+.btn-choice-clear-img {
+  font-size: 11px; padding: 2px 7px; background: #fff0f0; border: 1px solid #f99;
+  color: #c00; border-radius: 4px; cursor: pointer;
 }
-.choice-img-zone.active { display: block; }
-.choice-img-zone:hover { border-color: #00529b; background: #f0f6fc; }
-.choice-img-zone.has-img { border-color: #00a86b; background: #f0fff8; }
-.choice-img-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-.choice-img-zone img { max-width: 100%; max-height: 110px; border-radius: 3px; display: none; }
-.choice-img-zone img.visible { display: block; margin: 0 auto; }
-.choice-img-zone .zone-hint { font-size: 11px; color: #aaa; }
-.choice-mode-bar {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 8px;
+.btn-choice-clear-img:hover { background: #ffe0e0; }
+.choice-input-row { display: flex; align-items: flex-start; gap: 6px; }
+.choice-input-row textarea { flex: 1; }
+.btn-choice-crop {
+  font-size: 11px; padding: 3px 8px; background: #f0f4ff; border: 1px solid #b0c4f0;
+  color: #345; border-radius: 4px; cursor: pointer; white-space: nowrap; flex-shrink: 0;
 }
-.choice-mode-btn {
-  font-size: 11px; padding: 3px 10px; border-radius: 3px; cursor: pointer;
-  border: 1px solid #ddd; background: white; color: #555; transition: all .15s;
-}
-.choice-mode-btn.active { background: #6c35de; color: white; border-color: #6c35de; }
+.btn-choice-crop:hover { background: #e0e8ff; }
+.btn-choice-crop:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .extract-btn {
   flex: 1; padding: 9px; border: none; border-radius: 4px;
@@ -266,50 +261,72 @@ select[multiple] { height: 90px; }
 
   <!-- CHOICES -->
   <div class="field">
-    <div class="choice-mode-bar">
-      <label style="margin:0">Alternativas</label>
-      <div style="display:flex;gap:4px">
-        <button class="choice-mode-btn active" id="mode-btn-text" onclick="setChoiceMode('text')">Texto / LaTeX</button>
-        <button class="choice-mode-btn" id="mode-btn-image" onclick="setChoiceMode('image')">Imágenes</button>
-      </div>
-    </div>
+    <label>Alternativas</label>
+    <div class="hint choices-hint">Escribe texto o LaTeX en cada alternativa. Para adjuntar una imagen, usa <strong>&#9986; Insertar imagen</strong> — la imagen reemplazará el texto en la vista previa.</div>
     <div class="choices-grid" id="choices-text-mode">
-      <div class="choice-row"><div class="choice-label" id="lbl-A">A</div><textarea class="short" id="choice-A" rows="2" placeholder="Alternativa A"></textarea></div>
-      <div class="choice-row"><div class="choice-label" id="lbl-B">B</div><textarea class="short" id="choice-B" rows="2" placeholder="Alternativa B"></textarea></div>
-      <div class="choice-row"><div class="choice-label" id="lbl-C">C</div><textarea class="short" id="choice-C" rows="2" placeholder="Alternativa C"></textarea></div>
-      <div class="choice-row"><div class="choice-label" id="lbl-D">D</div><textarea class="short" id="choice-D" rows="2" placeholder="Alternativa D"></textarea></div>
-      <div class="choice-row"><div class="choice-label" id="lbl-E">E</div><textarea class="short" id="choice-E" rows="2" placeholder="Alternativa E"></textarea></div>
-    </div>
-    <div class="choices-grid" id="choices-image-mode" style="display:none">
-      <div class="hint" style="margin-bottom:6px">Pega o selecciona la imagen de cada alternativa.</div>
-      <div class="choice-row"><div class="choice-label" id="lbl-img-A">A</div>
-        <div class="choice-img-zone active" id="choice-img-zone-A">
-          <input type="file" accept="image/*" onchange="handleChoiceImg(event,'A')">
-          <img id="choice-img-A"><div class="zone-hint">Clic o pegar imagen</div>
+      <div class="choice-row">
+        <div class="choice-label" id="lbl-A">A</div>
+        <div class="choice-input-wrap">
+          <div class="choice-input-row">
+            <textarea class="short" id="choice-A" rows="1" placeholder="Alternativa A — texto o LaTeX"></textarea>
+            <button class="btn-choice-crop" onclick="openManualCrop('A')" disabled>&#9986; Insertar imagen</button>
+          </div>
+          <div class="choice-img-preview-row" id="cip-A" style="display:none">
+            <img class="choice-img-thumb-preview" id="cipimg-A">
+            <button class="btn-choice-clear-img" onclick="clearChoiceImage('A')">&#10005; Quitar imagen</button>
+          </div>
         </div>
       </div>
-      <div class="choice-row"><div class="choice-label" id="lbl-img-B">B</div>
-        <div class="choice-img-zone active" id="choice-img-zone-B">
-          <input type="file" accept="image/*" onchange="handleChoiceImg(event,'B')">
-          <img id="choice-img-B"><div class="zone-hint">Clic o pegar imagen</div>
+      <div class="choice-row">
+        <div class="choice-label" id="lbl-B">B</div>
+        <div class="choice-input-wrap">
+          <div class="choice-input-row">
+            <textarea class="short" id="choice-B" rows="1" placeholder="Alternativa B — texto o LaTeX"></textarea>
+            <button class="btn-choice-crop" onclick="openManualCrop('B')" disabled>&#9986; Insertar imagen</button>
+          </div>
+          <div class="choice-img-preview-row" id="cip-B" style="display:none">
+            <img class="choice-img-thumb-preview" id="cipimg-B">
+            <button class="btn-choice-clear-img" onclick="clearChoiceImage('B')">&#10005; Quitar imagen</button>
+          </div>
         </div>
       </div>
-      <div class="choice-row"><div class="choice-label" id="lbl-img-C">C</div>
-        <div class="choice-img-zone active" id="choice-img-zone-C">
-          <input type="file" accept="image/*" onchange="handleChoiceImg(event,'C')">
-          <img id="choice-img-C"><div class="zone-hint">Clic o pegar imagen</div>
+      <div class="choice-row">
+        <div class="choice-label" id="lbl-C">C</div>
+        <div class="choice-input-wrap">
+          <div class="choice-input-row">
+            <textarea class="short" id="choice-C" rows="1" placeholder="Alternativa C — texto o LaTeX"></textarea>
+            <button class="btn-choice-crop" onclick="openManualCrop('C')" disabled>&#9986; Insertar imagen</button>
+          </div>
+          <div class="choice-img-preview-row" id="cip-C" style="display:none">
+            <img class="choice-img-thumb-preview" id="cipimg-C">
+            <button class="btn-choice-clear-img" onclick="clearChoiceImage('C')">&#10005; Quitar imagen</button>
+          </div>
         </div>
       </div>
-      <div class="choice-row"><div class="choice-label" id="lbl-img-D">D</div>
-        <div class="choice-img-zone active" id="choice-img-zone-D">
-          <input type="file" accept="image/*" onchange="handleChoiceImg(event,'D')">
-          <img id="choice-img-D"><div class="zone-hint">Clic o pegar imagen</div>
+      <div class="choice-row">
+        <div class="choice-label" id="lbl-D">D</div>
+        <div class="choice-input-wrap">
+          <div class="choice-input-row">
+            <textarea class="short" id="choice-D" rows="1" placeholder="Alternativa D — texto o LaTeX"></textarea>
+            <button class="btn-choice-crop" onclick="openManualCrop('D')" disabled>&#9986; Insertar imagen</button>
+          </div>
+          <div class="choice-img-preview-row" id="cip-D" style="display:none">
+            <img class="choice-img-thumb-preview" id="cipimg-D">
+            <button class="btn-choice-clear-img" onclick="clearChoiceImage('D')">&#10005; Quitar imagen</button>
+          </div>
         </div>
       </div>
-      <div class="choice-row"><div class="choice-label" id="lbl-img-E">E</div>
-        <div class="choice-img-zone active" id="choice-img-zone-E">
-          <input type="file" accept="image/*" onchange="handleChoiceImg(event,'E')">
-          <img id="choice-img-E"><div class="zone-hint">Clic o pegar imagen</div>
+      <div class="choice-row">
+        <div class="choice-label" id="lbl-E">E</div>
+        <div class="choice-input-wrap">
+          <div class="choice-input-row">
+            <textarea class="short" id="choice-E" rows="1" placeholder="Alternativa E — texto o LaTeX"></textarea>
+            <button class="btn-choice-crop" onclick="openManualCrop('E')" disabled>&#9986; Insertar imagen</button>
+          </div>
+          <div class="choice-img-preview-row" id="cip-E" style="display:none">
+            <img class="choice-img-thumb-preview" id="cipimg-E">
+            <button class="btn-choice-clear-img" onclick="clearChoiceImage('E')">&#10005; Quitar imagen</button>
+          </div>
         </div>
       </div>
     </div>
@@ -484,7 +501,9 @@ function clearImage(n) {
 }
 
 function refreshExtractBtn() {
-  document.getElementById('extract-btn').disabled = !capturedImage;
+  const hasImg = !!capturedImage;
+  document.getElementById('extract-btn').disabled = !hasImg;
+  document.querySelectorAll('.btn-choice-crop').forEach(b => b.disabled = !hasImg);
 }
 
 // Clipboard paste — slot 1 if empty, else slot 2
@@ -524,17 +543,7 @@ async function getImageForExtraction() {
 }
 
 // ── CHOICE IMAGE MODE ──────────────────────────────────────
-let choiceMode = 'text';
 let choiceImages = { A: null, B: null, C: null, D: null, E: null };
-
-function setChoiceMode(mode) {
-  choiceMode = mode;
-  document.getElementById('choices-text-mode').style.display = mode === 'text' ? '' : 'none';
-  document.getElementById('choices-image-mode').style.display = mode === 'image' ? '' : 'none';
-  document.getElementById('mode-btn-text').classList.toggle('active', mode === 'text');
-  document.getElementById('mode-btn-image').classList.toggle('active', mode === 'image');
-  updatePreview();
-}
 
 function handleChoiceImg(e, letter) {
   const file = e.target.files[0];
@@ -546,12 +555,15 @@ function handleChoiceImg(e, letter) {
 
 function setChoiceImage(letter, dataUrl) {
   choiceImages[letter] = dataUrl;
-  const img = document.getElementById('choice-img-' + letter);
-  const zone = document.getElementById('choice-img-zone-' + letter);
-  img.src = dataUrl;
-  img.classList.add('visible');
-  img.previousElementSibling?.remove(); // remove zone-hint if image loaded
-  zone.classList.add('has-img');
+  document.getElementById('cipimg-' + letter).src = dataUrl;
+  document.getElementById('cip-' + letter).style.display = '';
+  updatePreview();
+}
+
+function clearChoiceImage(letter) {
+  choiceImages[letter] = null;
+  document.getElementById('cip-' + letter).style.display = 'none';
+  document.getElementById('cipimg-' + letter).src = '';
   updatePreview();
 }
 
@@ -634,9 +646,8 @@ function populateFromExtraction(data) {
 
   // Image choices
   if (data.choices_are_images) {
-    setChoiceMode('image');
     const notice = document.getElementById('extract-notice');
-    notice.textContent = '✓ Opciones son imágenes — pega la imagen de cada alternativa (A–E).';
+    notice.textContent = '✓ Opciones son imágenes — usa ✂ Adjuntar imagen en cada alternativa (A–E).';
     notice.className = 'extract-notice success';
   }
 
@@ -797,11 +808,9 @@ function updatePreview() {
   ['A','B','C','D','E'].forEach((l, i) => {
     const li = choicesEl.children[i];
     li.classList.toggle('correct', l === selectedClave);
-    if (choiceMode === 'image') {
-      const img = choiceImages[l];
-      li.querySelector('.choice-text').innerHTML = img
-        ? `<img src="${img}" style="max-height:100px;border-radius:3px;">`
-        : `<em style="color:#ccc">Pegar imagen ${l}</em>`;
+    const img = choiceImages[l];
+    if (img) {
+      li.querySelector('.choice-text').innerHTML = `<img src="${img}" style="max-height:100px;border-radius:3px;">`;
     } else {
       const text = document.getElementById('choice-' + l).value.trim();
       li.querySelector('.choice-text').innerHTML = text || `<em style="color:#ccc">Alternativa ${l}</em>`;
@@ -852,9 +861,13 @@ checkServerStatus();
 
 // ── MANUAL CROP ─────────────────────────────────────────────
 let mcropImg = null, mcropRect = null, mcropDragging = false, mcropStart = null, mcropScale = 1, mcropActiveNum = 1;
+let mcropTargetChoice = null;  // null = insert into body; 'A'-'E' = set that choice image
 
-function openManualCrop() {
+function openManualCrop(letter) {
   if (!capturedImage) { alert('Carga una imagen primero.'); return; }
+  mcropTargetChoice = letter || null;
+  const title = document.getElementById('mcrop-title');
+  if (title) title.textContent = mcropTargetChoice ? `Seleccionar imagen — Alternativa ${mcropTargetChoice}` : 'Seleccionar área a insertar';
   mcropActiveNum = 1;
   document.getElementById('mcrop-sel-1').classList.add('active');
   document.getElementById('mcrop-sel-2').classList.remove('active');
@@ -924,20 +937,24 @@ function confirmManualCrop() {
   out.getContext('2d').drawImage(mcropImg,
     Math.round(mcropRect.x * sx), Math.round(mcropRect.y * sy),
     out.width, out.height, 0, 0, out.width, out.height);
-  const newIdx = currentFigureImages.length;
-  currentFigureImages.push(out.toDataURL('image/jpeg', 0.92));
-  // Insert [FIG:N] at cursor position in body textarea
-  const bodyEl = document.getElementById('body');
-  const pos = bodyEl.selectionStart ?? bodyEl.value.length;
-  const marker = `[FIG:${newIdx}]`;
-  bodyEl.value = bodyEl.value.slice(0, pos) + marker + bodyEl.value.slice(pos);
+  const dataUrl = out.toDataURL('image/jpeg', 0.92);
+
+  if (mcropTargetChoice) {
+    setChoiceImage(mcropTargetChoice, dataUrl);
+  } else {
+    const newIdx = currentFigureImages.length;
+    currentFigureImages.push(dataUrl);
+    const bodyEl = document.getElementById('body');
+    const pos = bodyEl.selectionStart ?? bodyEl.value.length;
+    bodyEl.value = bodyEl.value.slice(0, pos) + `[FIG:${newIdx}]` + bodyEl.value.slice(pos);
+    updatePreview();
+  }
   cancelManualCrop();
-  updatePreview();
 }
 
 function cancelManualCrop() {
   document.getElementById('manual-crop-overlay').classList.add('hidden');
-  mcropImg = null; mcropRect = null;
+  mcropImg = null; mcropRect = null; mcropTargetChoice = null;
 }
 
 // ── CROP TOOL ──────────────────────────────────────────────
@@ -1054,7 +1071,7 @@ function deleteFig(idx) {
 <!-- MANUAL CROP OVERLAY -->
 <div id="manual-crop-overlay" class="manual-crop-overlay hidden">
   <div class="manual-crop-header">
-    <span style="color:#fff;font-size:13px;font-weight:600;">Seleccionar área a insertar</span>
+    <span id="mcrop-title" style="color:#fff;font-size:13px;font-weight:600;">Seleccionar área a insertar</span>
     <div class="manual-crop-img-sel">
       <button id="mcrop-sel-1" class="active" onclick="switchManualCropImg(1)">Imagen 1</button>
       <button id="mcrop-sel-2" onclick="switchManualCropImg(2)">Imagen 2</button>
