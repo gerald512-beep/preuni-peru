@@ -468,7 +468,8 @@ function buildRaw(body, choices, choiceUrls) {
 app.post('/api/publish', async (req, res) => {
   try {
     const { universidad, tema, convocatoria, numero, body, choices,
-            choice_images, figure_images, source_image, clave } = req.body;
+            choice_images, figure_images, source_image, clave,
+            tipo_origen } = req.body;
 
     if (!universidad || !tema || !body || !clave)
       return res.status(400).json({ error: 'Faltan campos requeridos.' });
@@ -532,10 +533,11 @@ app.post('/api/publish', async (req, res) => {
       body: JSON.stringify({
         custom_fields: {
           preuni_clave:        clave,
-          preuni_convocatoria: convocatoria || '',
-          preuni_numero:       numero       || '',
+          preuni_convocatoria: convocatoria  || '',
+          preuni_numero:       numero        || '',
           preuni_universidad:  universidad,
           preuni_tema:         tema,
+          preuni_tipo_origen:  tipo_origen   || 'Universidad',
         },
       }),
     });
