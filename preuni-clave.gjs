@@ -11,6 +11,7 @@ export default class PreuniClave extends Component {
   get post() { return this.args.outletArgs?.post; }
   get clave() { return this.post?.topic?.preuni_fields?.clave; }
   get esPreuni() { return this.post?.post_number === 1 && !!this.clave; }
+  get esSolucion() { return this.post?.preuni_post_type === "solucion" && this.post?.post_number > 1; }
 
   @action
   toggleClave() {
@@ -37,6 +38,9 @@ export default class PreuniClave extends Component {
           </a>
         {{/if}}
       </div>
+    {{/if}}
+    {{#if this.esSolucion}}
+      <span class="preuni-solucion-badge">✓ Solución</span>
     {{/if}}
   </template>
 }
