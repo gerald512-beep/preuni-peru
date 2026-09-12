@@ -1,9 +1,11 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { service } from "@ember/service";
 import { on } from "@ember/modifier";
 
 export default class PreuniClave extends Component {
+  @service currentUser;
   @tracked mostrarClave = false;
 
   get post() { return this.args.outletArgs?.post; }
@@ -18,14 +20,21 @@ export default class PreuniClave extends Component {
   <template>
     {{#if this.esPreuni}}
       <div class="preuni-spoiler-wrap">
-        <button type="button" class="preuni-spoiler-btn" {{on "click" this.toggleClave}}>
-          <span>{{if this.mostrarClave "▴" "▾"}}</span>
-          Mostrar clave
-        </button>
-        {{#if this.mostrarClave}}
-          <div class="preuni-spoiler-content">
-            <div class="preuni-spoiler-clave">{{this.clave}}</div>
-          </div>
+        {{#if this.currentUser}}
+          <button type="button" class="preuni-spoiler-btn" {{on "click" this.toggleClave}}>
+            <span>{{if this.mostrarClave "▴" "▾"}}</span>
+            Mostrar clave
+          </button>
+          {{#if this.mostrarClave}}
+            <div class="preuni-spoiler-content">
+              <div class="preuni-spoiler-clave">{{this.clave}}</div>
+            </div>
+          {{/if}}
+        {{else}}
+          <a href="/login" class="preuni-spoiler-btn" style="text-decoration:none;color:inherit;justify-content:flex-start;gap:8px">
+            <span>🔒</span>
+            Inicia sesión para ver la clave
+          </a>
         {{/if}}
       </div>
     {{/if}}

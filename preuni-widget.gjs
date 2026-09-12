@@ -1,8 +1,10 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { service } from "@ember/service";
 import { on } from "@ember/modifier";
 import { fn } from "@ember/helper";
+import { schedule } from "@ember/runloop";
 import { ajax } from "discourse/lib/ajax";
 import { eq, not } from "discourse/truth-helpers";
 
@@ -75,9 +77,27 @@ const PREUNI_CSS = `
   margin-top:6px;padding:6px 12px;border-radius:6px;
   background:#fff5f5;border:1px solid #f5a8ad;color:#721c24;font-size:13px
 }
+.preuni-meta-row{
+  margin:0 0 6px var(--topic-avatar-width,45px);
+  max-width:calc(var(--topic-body-width) + 2 * var(--topic-body-width-padding));
+  display:flex;gap:6px;flex-wrap:wrap;align-items:center
+}
+.preuni-meta-tag{
+  font-size:11px;font-weight:600;color:#5a6a82;
+  background:#edf2f8;border:1px solid #c8d6e8;
+  border-radius:4px;padding:2px 8px;white-space:nowrap
+}
+.preuni-meta-num{color:#00529b;background:#e8f0fc;border-color:#b8ccf0;font-weight:700}
+.preuni-login-prompt{
+  font-size:13px;color:#00529b;text-decoration:none;font-weight:600;
+  display:flex;align-items:center;gap:5px
+}
+.preuni-login-prompt:hover{text-decoration:underline}
 `;
 
 export default class PreuniWidget extends Component {
+  @service currentUser;
+
   @tracked estado = "idle";    // idle | corriendo | respondido
   @tracked segundos = 0;
   @tracked seleccion = null;
@@ -85,9 +105,11 @@ export default class PreuniWidget extends Component {
   @tracked clave = null;
   @tracked distribucion = null;
   @tracked error = null;
+  @tracked loginGate = false;
 
   _timer = null;
   _inicio = null;
+  _topicId = null;  // plain field — not tracked, used to detect SPA navigation
   letras = ["A", "B", "C", "D", "E"];
 
   constructor(owner, args) {
@@ -98,13 +120,40 @@ export default class PreuniWidget extends Component {
       s.textContent = PREUNI_CSS;
       document.head.appendChild(s);
     }
-    this._cargarPrevio();
   }
 
-  async _cargarPrevio() {
-    if (!this.esPreuni) return;
+  get fields() { return this.args.topic?.preuni_fields; }
+
+  // Detects SPA topic changes and resets state — schedule keeps mutation out of render
+  get esPreuni() {
+    const id = this.args.topic?.id;
+    if (id && id !== this._topicId) {
+      this._topicId = id;
+      schedule("afterRender", this, () => {
+        this._resetState();
+        this._cargarPrevio(id);
+      });
+    }
+    return !!this.fields?.clave;
+  }
+
+  _resetState() {
+    clearInterval(this._timer);
+    this.estado = "idle";
+    this.segundos = 0;
+    this.seleccion = null;
+    this.correcto = null;
+    this.clave = null;
+    this.distribucion = null;
+    this.error = null;
+    this.loginGate = false;
+  }
+
+  async _cargarPrevio(topicId) {
+    if (!this.fields?.clave) return;
     try {
-      const data = await ajax(`/preuni/distribucion/${this.args.topic.id}`);
+      const data = await ajax(`/preuni/distribucion/${topicId}`);
+      if (this._topicId !== topicId) return;  // navigated away before response
       if (data.mi_respuesta) {
         this.clave = this.fields.clave;
         this.seleccion = data.mi_respuesta;
@@ -116,9 +165,6 @@ export default class PreuniWidget extends Component {
       // not logged in or no previous answer — stay idle
     }
   }
-
-  get fields() { return this.args.topic?.preuni_fields; }
-  get esPreuni() { return !!this.fields?.clave; }
 
   get timerDisplay() {
     const m = String(Math.floor(this.segundos / 60)).padStart(2, "0");
@@ -168,6 +214,11 @@ export default class PreuniWidget extends Component {
   async responder(letra) {
     if (this.estado !== "corriendo" || this.seleccion) return;
     clearInterval(this._timer);
+    if (!this.currentUser) {
+      this.seleccion = letra;
+      this.loginGate = true;
+      return;
+    }
     this.seleccion = letra;
     try {
       const data = await ajax("/preuni/responder", {
@@ -237,6 +288,11 @@ export default class PreuniWidget extends Component {
           <div class="preuni-center">
             {{#if (eq this.estado "idle")}}
               <span class="preuni-idle-text">¿Listo?</span>
+
+            {{else if this.loginGate}}
+              <a href="/login" class="preuni-login-prompt">
+                🔒 Seleccionaste {{this.seleccion}} — inicia sesión para ver si acertaste
+              </a>
 
             {{else if (eq this.estado "corriendo")}}
               <div class="preuni-choices">

@@ -27,6 +27,8 @@ const CATEGORY_MAP = {
   UNI: {
     'Aritmética': 16, 'Álgebra': 17, 'Geometría': 18, 'Trigonometría': 19,
     'Física': 20, 'Química': 21, 'Razonamiento Matemático': 22,
+    'Razonamiento Verbal': 23, 'Historia del Perú': 24,
+    'Geografía del Perú': 25, 'Literatura': 26, 'Filosofía': 27,
   },
 };
 
@@ -443,16 +445,15 @@ async function discourseUpload(dataUrl, filename) {
   return { shortUrl: data.short_url, url: data.url };
 }
 
-function buildTitle(body, numero) {
+function buildTitle(body) {
   const clean = body
     .replace(/\$\$[\s\S]*?\$\$/g, '')
-    .replace(/\$([^$]+)\$/g, '$1')
+    .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '$1/$2')
+    .replace(/\$([^$]+)\$/g, (_, m) => m.replace(/\\_/g, '_').replace(/\{|\}/g, ''))
     .replace(/\[FIG:\d+\]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
-  const prefix = numero ? `N°${numero} — ` : '';
-  const maxLen = 80 - prefix.length;
-  return prefix + (clean.length > maxLen ? clean.slice(0, maxLen) + '…' : clean);
+  return clean.length > 80 ? clean.slice(0, 80) + '…' : clean;
 }
 
 function buildRaw(body, choices, choiceUrls) {
@@ -501,7 +502,7 @@ app.post('/api/publish', async (req, res) => {
       resolvedBody += `\n<!-- preuni:source:${url} -->`;
     }
 
-    const title = buildTitle(resolvedBody, numero);
+    const title = buildTitle(resolvedBody);
     const raw   = buildRaw(resolvedBody, choices, choiceUrls);
 
     const postRes = await fetch(`${DISCOURSE_URL}/posts.json`, {
@@ -511,7 +512,7 @@ app.post('/api/publish', async (req, res) => {
         'Api-Key': DISCOURSE_API_KEY,
         'Api-Username': DISCOURSE_USERNAME,
       },
-      body: JSON.stringify({ title, raw, category: categoryId }),
+      body: JSON.stringify({ title, raw, category: categoryId, tags: numero ? [`N°${numero}`] : [] }),
     });
 
     if (!postRes.ok) {
