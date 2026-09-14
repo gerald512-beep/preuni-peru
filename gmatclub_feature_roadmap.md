@@ -9,8 +9,8 @@
 ## Current Status — as of 2026-09-13
 
 **Phase 0:** ✓ COMPLETE (2026-08-22)  
-**MVP progress:** 6 of 8 features complete. 2 remaining (Cachimbo badge, Kudos).  
-**Question pool:** 52 of 65 target questions published (13 pending figure extraction from PDF).  
+**MVP progress:** 8 of 8 features complete. MVP is functionally done. Pending: production server provisioning (preuni.pe).  
+**Question pool:** 52 questions published (UNI 2011-1). UNI 2019-2 solucionario MinerU-processed, bulk pipeline pending.  
 **Platform:** Discourse running locally at `localhost:8080` (WSL2/Docker). Production server + domain not yet provisioned.
 
 | MVP Feature | Status | Completed |
@@ -21,8 +21,10 @@
 | Difficulty badge (crowd-sourced, ≥50 attempts) | ✓ Complete | 2026-09-13 |
 | Difficulty filter on topic listing | ✓ Complete | 2026-09-13 |
 | User registration + login | ✓ Complete | — (Discourse native) |
-| Cachimbo credibility badge on solution posts | Pending | — |
-| Kudos / upvotes on solutions | Pending | — |
+| Role credibility badges on solution posts | ✓ Complete | 2026-09-13 |
+| Kudos / upvotes on solutions | ✓ Complete | 2026-09-13 (native likes) |
+
+**User role naming (final):** Postulante (default TL0) · Universitario (group id=40, badge id=111) · Egresado (group id=41, badge id=112) · Moderador (group id=42, badge id=113)
 
 ---
 
@@ -115,9 +117,9 @@ Nine functional clusters organize the 44 inventoried features by what they accom
 |---|---|---|---|
 | 15 | Reply / Discussion thread | MVP | Four typed post types: solucion, pregunta, objecion, comentario |
 | 13 | Kudos (upvotes) on posts | MVP | Kudos drive visibility and inform moderator pinning — not auto-sort |
-| 16 | Expert Reply badge | MVP | Peruvian equivalent: cachimbo badge derived from `academic_status`, not a paid role |
+| 16 | Expert Reply badge | MVP ✓ | Peruvian equivalent: Universitario/Egresado/Moderador badges on solution posts. Amber/blue/purple chips rendered by `preuni-clave.gjs`. |
 | 14 | Save / Bookmark | Phase 2 | Requires stable login and a pool large enough for "review later" to be meaningful |
-| 17 | "Request Expert Reply" button | Reject | Requires a paid expert pool; the cachimbo badge is the no-cost replacement |
+| 17 | "Request Expert Reply" button | Reject | Requires a paid expert pool; the role badges are the no-cost replacement |
 
 ---
 
@@ -255,8 +257,8 @@ Configured via `rails runner` (pattern: `BUNDLE_WITHOUT=development:test RAILS_E
 
 - **Categories (16 total):** UNMSM (9 subcategories: Aritmética, Álgebra, Geometría, Trigonometría, RM, RV, Literatura, Historia, Física/Química), UNI (7 subcategories: IDs 16–27; R.Verbal=23, Historia Perú=24, Geografía Perú=25, Literatura=26, Filosofía=27 added 2026-09-12).
 - **Tags:** 20 tags covering topic, difficulty, and university taxonomy. Question numbers stored as `N°X` native tags (applied via Rails runner — API normalizes to `nX`).
-- **User groups:** cachimbo, egresado, moderador (Aspirante = default TL0).
-- **Cachimbo badge:** id=111, gold, `allow_title=true`. Admin-granted.
+- **User groups:** universitario (id=40), egresado (id=41), moderador (id=42). Postulante = default TL0, no group needed. *(Previously named cachimbo/aspirante — renamed 2026-09-13)*
+- **Badges:** Universitario (id=111, gold, allow_title=true), Egresado (id=112, gold, allow_title=true), Moderador (id=113, gold, allow_title=true). Admin-granted. *(Previously single Cachimbo badge)*
 - **Custom user fields:** "Universidad objetivo" (dropdown: UNMSM/UNI/PUCP/Otra), "Especialidad objetivo" (text).
 
 ---
@@ -326,10 +328,19 @@ The gate is login-only, never payment-gated. Payoff is immediate — the student
 
 ---
 
-**5. Cachimbo credibility badge** — PENDING (next task)
-*Tier: MVP | Effort: 1 day | Schema delta: None — Cachimbo Discourse badge (id=111) already created in Phase 0*
+**5. Role credibility badges on solution posts** ✓ COMPLETE (2026-09-13)
+*Tier: MVP | Effort: 1 day | Schema delta: None — badges and groups created in Phase 0, renamed 2026-09-13*
 
-The badge infrastructure exists: Discourse badge `id=111`, gold, `allow_title=true`, plus a `cachimbo` user group. What's missing: rendering the badge visually on Solución posts by cachimbo users. Implementation: in `preuni-clave.gjs`, check `post.user.badges` for badge id=111 and render a "Cachimbo UNMSM '26" label alongside the "✓ Solución" badge.
+**Implemented:** Three role badges render on Solución posts next to "✓ Solución":
+- **Universitario ✓** (amber) — user is in `universitario` group
+- **Egresado ✓** (blue) — user is in `egresado` group
+- **Moderador ✓** (purple) — user is in `moderador` group
+
+Serializer fields `preuni_is_universitario`, `preuni_is_egresado`, `preuni_is_moderador` added to post serializer in `plugin.rb`. CSS in `preuni-post-type.js`. Rendered in `preuni-clave.gjs` via `esUniversitario`, `esEgresado`, `esModerador` getters.
+
+**Server-side guard added:** `on(:post_created)` only saves `preuni_post_type` when `post.post_number > 1` — root posts (preguntas) silently ignore solucion/comentario type assignment.
+
+**Naming history:** Originally "cachimbo badge". Renamed to avoid the term appearing in URLs (`/g/cachimbo`) and badge titles visible to users. Final names: Postulante (default), Universitario, Egresado, Moderador.
 
 ---
 
@@ -342,10 +353,10 @@ The badge infrastructure exists: Discourse badge `id=111`, gold, `allow_title=tr
 
 ---
 
-**7. Kudos (upvotes) on solutions** — PENDING (verify native Discourse likes)
-*Tier: MVP | Effort: 0–2 days | Schema delta: May use Discourse native post_actions (likes) instead of custom votos table*
+**7. Kudos (upvotes) on solutions** ✓ COMPLETE (2026-09-13)
+*Tier: MVP | Effort: 0 days | Schema delta: None — native Discourse likes confirmed sufficient*
 
-Discourse's native "like" button (heart icon) is already present on all posts. This may be sufficient for MVP kudos — it shows a count and requires login. Assessment needed: (1) confirm likes are enabled in Discourse settings, (2) confirm the count is visible on Solución posts, (3) decide if a custom `votos` table adds enough value (e.g., restricting kudos to solucion-type posts only). If native likes suffice, this is 0 days of effort.
+**Verified:** `PostActionType` for "like" exists, `max_likes_per_day: 50`. Native ♥ heart button appears on all posts for other users (Discourse hides the button on your own posts — this is expected behavior, not a bug). Like via Rails: `PostActionCreator.like(user, post)` — note `PostAction.act` no longer exists in current Discourse version. No custom `votos` table needed.
 
 ---
 
@@ -491,8 +502,8 @@ A student can target UNMSM, UNI, PUCP, and UP simultaneously (`user_university_t
 **4. Especialidad filtering**  
 UNMSM's exam has a general section and an especialidad section that varies by faculty (Medicina tests biology and chemistry; Ingeniería tests physics and advanced math; Letras tests literature and history). GMATClub's taxonomy is flat — there is no concept of "this question is relevant to me only if I'm applying to Ingeniería." PreUni needs an `especialidad` dimension on questions (linked via a junction table) and a user profile field for the student's target especialidad, so that the default question listing automatically filters to relevant questions. This prevents an Ingeniería aspirante from wasting time on biology questions meant for Medicina applicants.
 
-**5. Cachimbo credibility badge (see also Section 3 MVP)**  
-Already described as an MVP feature, but restated here because it represents a structural gap in GMATClub's model. GMATClub's credibility hierarchy is: Admin > Math Expert (paid) > Tutor (paid) > Quiz Member > Registered User. The Peruvian equivalent should be: Admin > Egresado (graduated from target university) > Cachimbo (recently admitted) > Estudiante (current student) > Aspirante (applicant). The `academic_status` enum in the users table already encodes this hierarchy. Displaying it prominently on solution posts creates a trust gradient that GMATClub cannot replicate without a paid expert marketplace. This is a zero-cost-to-maintain competitive advantage that compounds as more cachimbos join the platform.
+**5. Role credibility badges (see also Section 3 MVP #5)** ✓ COMPLETE (2026-09-13)
+Already described as an MVP feature. GMATClub's credibility hierarchy is: Admin > Math Expert (paid) > Tutor (paid) > Quiz Member > Registered User. PreUni's equivalent (zero-cost): Admin > Egresado > Universitario > Postulante. Badges appear on Solución posts only. Naming was changed from "Cachimbo/Aspirante" to "Universitario/Postulante" to avoid the term appearing in Discourse group URLs (`/g/universitario`) and badge titles visible to users. This is a zero-cost-to-maintain competitive advantage that compounds as more universitarios join the platform.
 
 **6. Absence of official solucionarios — community as the answer key**  
 On GMATClub, every GMAT question has an official answer in the GMAT Official Guide or GMAT Focus materials. The community discusses the "best approach" but the OA is always authoritative and final. UNMSM does not publish official answer keys for past exams. When there is a disputed question (which happens regularly — several questions per exam cycle have ambiguous or contested answers), there is no official resolution. PreUni's discussion thread structure (especially the `objecion` post type) is designed for exactly this: a student posts a solucion, another posts an objecion challenging it, the community votes via kudos, and the highest-kudos solution becomes the de facto answer. This framing — "we are building the solucionario the university refuses to publish" — is a founding narrative that GMATClub never needed because their source material is already authoritative. PreUni should lean into it explicitly in onboarding copy.
@@ -533,7 +544,7 @@ CREATE TABLE IF NOT EXISTS preuni_respuestas (
 |---|---|---|
 | `ALTER TABLE intentos ADD COLUMN respuesta_seleccionada` | New table `preuni_respuestas` | Discourse has no `intentos` table; plugin owns its own table |
 | `CREATE TABLE etiquetas` + `pregunta_etiquetas` | Discourse native tags | Native tags appear in topic header automatically; no custom tag table needed at MVP |
-| `CREATE TABLE votos` | Not yet built; may use Discourse native post likes | Discourse likes are already present; evaluating if custom table adds value |
+| `CREATE TABLE votos` | **Not needed** — native Discourse likes confirmed (2026-09-13) | `PostActionType 'like'` exists, `max_likes_per_day=50`. Use `PostActionCreator.like(user, post)` — `PostAction.act` deprecated in current version. |
 | `CREATE TABLE marcadores` | Not yet built | Phase 2 item; deferred |
 | `preguntas` table | No standalone preguntas table | The Discourse topic IS the question record; metadata via custom fields |
 | `community_posts.post_type` enum | `preuni_post_type` post custom field | Discourse posts can't add columns; custom fields are the extension point |
@@ -748,7 +759,7 @@ Maps each of the 44 inventoried features against what Discourse provides out of 
 
 **Bottom line for the developer:** 12 features are free from Discourse. The 5 plugin installs take hours, not days. The real build effort is the 15 custom plugins — of which the **question widget** (F4, F5, F8, F10, F11) is one coherent plugin, not five separate builds. The 12 Future Review features are not blocked; they are deliberately deferred until user data or community size justifies the adaptation.
 
-**Status as of 2026-09-13:** F4, F5, F8, F10, F11 are complete (single `preuni-question-widget` plugin). F15 (typed posts) is complete with 3 types. F16 (cachimbo badge) infrastructure is ready; visual rendering pending.
+**Status as of 2026-09-13:** F4, F5, F8, F10, F11 complete (single `preuni-question-widget` plugin). F13 (Kudos/likes) confirmed via native Discourse — no code needed. F15 (typed posts) complete with 3 types. F16 (role badges) complete — Universitario/Egresado/Moderador badges render on Solución posts. All 8 MVP features done.
 
 ---
 
@@ -854,6 +865,36 @@ Start: `Start-Process -FilePath "node" -ArgumentList "c:\Dev\GmatClubScrap\serve
 Open: `http://localhost:3000/question-composer-prototype.html`
 
 Seeded 52/65 from CONCURSO NACIONAL ESCOLAR (UNI 2011-1 solucionario, pages 249–264). 13 remaining need figure image extraction from PDF (not yet implemented in batch_extract.py).
+
+---
+
+### Role badges (Universitario / Egresado / Moderador)
+
+Three serializer fields added to `plugin.rb` inside `after_initialize`:
+
+```ruby
+add_to_serializer(:post, :preuni_is_universitario) { object.user&.groups&.where(name: 'universitario')&.any? || false }
+add_to_serializer(:post, :preuni_is_egresado)      { object.user&.groups&.where(name: 'egresado')&.any?      || false }
+add_to_serializer(:post, :preuni_is_moderador)     { object.user&.groups&.where(name: 'moderador')&.any?     || false }
+```
+
+CSS classes: `.preuni-universitario-badge` (amber), `.preuni-egresado-badge` (blue), `.preuni-moderador-badge` (purple) — defined in `preuni-post-type.js`.
+
+GJS getters in `preuni-clave.gjs`: `esUniversitario`, `esEgresado`, `esModerador` — all check the corresponding `preuni_is_*` field.
+
+**Naming constraint:** Group name must stay lowercase (`universitario`) because Discourse slugifies it for URLs. Badge display name is title-case (`Universitario`). Never reuse the term `cachimbo` — it was removed from all groups, badges, code, and URLs on 2026-09-13.
+
+---
+
+### Native likes — correct API (current Discourse version)
+
+`PostAction.act` no longer exists. Use:
+
+```ruby
+PostActionCreator.like(user, post)  # returns a result object with .success?
+```
+
+The heart button is hidden on your own posts (Discourse design — not a bug). To verify likes work, use a second user account or call `PostActionCreator.like` via Rails runner with a different user.
 
 ---
 
