@@ -17,6 +17,21 @@ const CSS = `
   padding:2px 10px;border-radius:4px;font-size:11px;font-weight:700;
   background:#d4edda;color:#155724;border:1px solid #c3e6cb;margin-top:2px
 }
+.preuni-universitario-badge{
+  display:inline-flex;align-items:center;
+  padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;
+  background:#fff3cd;color:#856404;border:1px solid #ffc107;margin-left:6px
+}
+.preuni-egresado-badge{
+  display:inline-flex;align-items:center;
+  padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;
+  background:#cce5ff;color:#004085;border:1px solid #b8daff;margin-left:6px
+}
+.preuni-moderador-badge{
+  display:inline-flex;align-items:center;
+  padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;
+  background:#e2d9f3;color:#4a235a;border:1px solid #c9b8e8;margin-left:6px
+}
 `;
 
 export default {

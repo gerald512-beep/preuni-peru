@@ -12,6 +12,9 @@ export default class PreuniClave extends Component {
   get clave() { return this.post?.topic?.preuni_fields?.clave; }
   get esPreuni() { return this.post?.post_number === 1 && !!this.clave; }
   get esSolucion() { return this.post?.preuni_post_type === "solucion" && this.post?.post_number > 1; }
+  get esUniversitario() { return this.post?.preuni_is_universitario === true; }
+  get esEgresado()     { return this.post?.preuni_is_egresado     === true; }
+  get esModerador()    { return this.post?.preuni_is_moderador    === true; }
 
   @action
   toggleClave() {
@@ -41,6 +44,15 @@ export default class PreuniClave extends Component {
     {{/if}}
     {{#if this.esSolucion}}
       <span class="preuni-solucion-badge">✓ Solución</span>
+      {{#if this.esUniversitario}}
+        <span class="preuni-universitario-badge">Universitario ✓</span>
+      {{/if}}
+      {{#if this.esEgresado}}
+        <span class="preuni-egresado-badge">Egresado ✓</span>
+      {{/if}}
+      {{#if this.esModerador}}
+        <span class="preuni-moderador-badge">Moderador ✓</span>
+      {{/if}}
     {{/if}}
   </template>
 }

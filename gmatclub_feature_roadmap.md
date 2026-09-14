@@ -6,6 +6,26 @@
 
 ---
 
+## Current Status — as of 2026-09-13
+
+**Phase 0:** ✓ COMPLETE (2026-08-22)  
+**MVP progress:** 6 of 8 features complete. 2 remaining (Cachimbo badge, Kudos).  
+**Question pool:** 52 of 65 target questions published (13 pending figure extraction from PDF).  
+**Platform:** Discourse running locally at `localhost:8080` (WSL2/Docker). Production server + domain not yet provisioned.
+
+| MVP Feature | Status | Completed |
+|---|---|---|
+| Per-question discussion thread with typed posts | ✓ Complete | 2026-09-12 |
+| OA gate (login required) | ✓ Complete | 2026-09-12 |
+| Answer distribution chart | ✓ Complete | 2026-09-12 |
+| Difficulty badge (crowd-sourced, ≥50 attempts) | ✓ Complete | 2026-09-13 |
+| Difficulty filter on topic listing | ✓ Complete | 2026-09-13 |
+| User registration + login | ✓ Complete | — (Discourse native) |
+| Cachimbo credibility badge on solution posts | Pending | — |
+| Kudos / upvotes on solutions | Pending | — |
+
+---
+
 ## Section 1 — Feature Inventory
 
 | # | Feature Name | Description | Gated | Data Dependency | Intended User Behavior |
@@ -181,87 +201,86 @@ Nine functional clusters organize the 44 inventoried features by what they accom
 
 ## Section 3 — Prioritized Roadmap
 
-### Phase 0 — Pre-build (complete before writing any plugin code)
+### Phase 0 — Pre-build ✓ COMPLETE (2026-08-22)
 
-Everything here is infrastructure, configuration, or content. None of it is custom code. Phase 0 is done when Discourse is live, the prerequisite plugins are installed, and 50 tagged questions exist in the system.
+Everything here is infrastructure, configuration, or content. None of it is custom code.
 
 ---
 
-**1. Provision server**
+**1. Provision server** ✓ COMPLETE
 *Owner: developer | Effort: 1 day*
 
-Discourse requires Docker on Linux. Minimum specs: 2 GB RAM, 2 CPU cores, 40 GB SSD. Recommended providers at early stage: Hetzner CX21 (~€5/mo) or DigitalOcean Basic Droplet ($24/mo). SSL is handled automatically by Discourse's Let's Encrypt integration — no separate setup needed.
+Running locally via WSL2/Docker (`localhost:8080`). Custom Docker image built (`local_discourse/app:latest`) with patched `/sbin/boot` (SIGTERM trap), `/etc/runit/2` (setsid for runsvdir), and `/etc/service/unicorn/run` (Redis wait loop). Production server (Hetzner CX21 / DigitalOcean) still to be provisioned — see MVP #7.
 
 ---
 
-**2. Register domain and configure DNS**
+**2. Register domain and configure DNS** — DEFERRED to MVP #7
 *Owner: Gerald | Effort: 1 hour*
 
-Register `preuni.pe` (or equivalent). Point the A record to the server IP. Discourse's setup script handles SSL from there. No CDN needed at MVP scale.
+`preuni.pe` not yet registered. Blocked on production server provisioning.
 
 ---
 
-**3. Install Discourse via Docker**
+**3. Install Discourse via Docker** ✓ COMPLETE
 *Owner: developer | Effort: half day*
 
-Run the official `./discourse-setup` script. Required configuration at install time: admin email, domain, SMTP credentials (for registration emails and reply notifications). Set the default site language to Spanish (`es`). Do not customize anything else at this stage — get a clean baseline install first.
+Discourse running at `localhost:8080`. Default site language set to Spanish (`es`). Admin: `gerald` / `PreUniPeru2024!!`.
 
 ---
 
-**4. Configure SMTP**
+**4. Configure SMTP** ✓ COMPLETE
 *Owner: developer | Effort: 1 hour*
 
-Transactional email is required for user registration (confirmation link) and reply notifications. Use a free tier from Mailgun (10,000 emails/mo free) or Brevo (300/day free). SMTP credentials go into Discourse's `app.yml` before the first rebuild.
+SMTP configured in `app.yml`. Transactional email working for registration and reply notifications.
 
 ---
 
-**5. Install prerequisite plugins**
+**5. Install prerequisite plugins** ✓ COMPLETE
 *Owner: developer | Effort: 1 day*
 
-Three plugins must be installed before any question content is added:
-
-| Plugin | Purpose | When needed |
+| Plugin | Purpose | Status |
 |---|---|---|
-| `discourse-math` | MathJax rendering — without this, LaTeX in questions displays as raw text | Before first question is posted |
-| `discourse-question-answer` | Q&A mode on threads — accepted-answer hierarchy, vote-sorted solutions | Before first discussion thread |
-| `discourse-automation` | Scheduled recurring posts — needed for Question of the Day in Phase 2; install now to avoid future downtime | Can wait, but install during Phase 0 to avoid a rebuild later |
+| `discourse-math` | MathJax rendering | ✓ Active |
+| `discourse-question-answer` | Q&A mode on threads | ✓ Active |
+| `discourse-automation` | Scheduled recurring posts | ✓ Active |
 
-Plugin installs require editing `app.yml` and rebuilding the container. Each rebuild takes ~10 minutes. Do all three in one rebuild.
+All three installed in one rebuild. Rebuild takes ~10 minutes; always edit `app.yml` and do a single `./launcher rebuild app`.
 
 ---
 
-**6. Configure Discourse structure**
+**6. Configure Discourse structure** ✓ COMPLETE (2026-08-22)
 *Owner: Gerald (decisions) + developer (execution) | Effort: 1 day*
 
-- **Categories**: one per subject area scoped by university. Example: `UNMSM / Aritmética`, `UNMSM / Geometría`, `UNI / Álgebra`. Flat structure — no sub-subcategories.
-- **Tags**: create the Peruvian topic taxonomy as Discourse tags (Aritmética, Álgebra, Geometría, Trigonometría, Razonamiento Matemático, Razonamiento Verbal, Literatura, Historia del Perú, etc.). Tags are shared across categories.
-- **User groups**: create four groups — Aspirante (default), Cachimbo, Egresado, Moderador. Admin assigns Cachimbo and Egresado manually at launch.
-- **Cachimbo badge**: create a custom badge with university + admission year. Admin-granted, visible on solution posts.
-- **Custom user fields**: add two fields to registration: "Universidad objetivo" (dropdown: UNMSM / UNI / PUCP / Otra) and "Especialidad objetivo" (text or dropdown). These appear on the public profile.
-- **Trust levels**: set minimum trust level to post = TL0 (everyone can post) but require email confirmation before posting.
+Configured via `rails runner` (pattern: `BUNDLE_WITHOUT=development:test RAILS_ENV=production su discourse -c "bundle exec rails runner /tmp/script.rb"`):
+
+- **Categories (16 total):** UNMSM (9 subcategories: Aritmética, Álgebra, Geometría, Trigonometría, RM, RV, Literatura, Historia, Física/Química), UNI (7 subcategories: IDs 16–27; R.Verbal=23, Historia Perú=24, Geografía Perú=25, Literatura=26, Filosofía=27 added 2026-09-12).
+- **Tags:** 20 tags covering topic, difficulty, and university taxonomy. Question numbers stored as `N°X` native tags (applied via Rails runner — API normalizes to `nX`).
+- **User groups:** cachimbo, egresado, moderador (Aspirante = default TL0).
+- **Cachimbo badge:** id=111, gold, `allow_title=true`. Admin-granted.
+- **Custom user fields:** "Universidad objetivo" (dropdown: UNMSM/UNI/PUCP/Otra), "Especialidad objetivo" (text).
 
 ---
 
-**7. Finalize Plugin 1 data model with developer**
+**7. Finalize Plugin 1 data model** ✓ COMPLETE
 *Owner: Gerald + developer | Effort: half day*
 
-Align on how the question widget links to Discourse. Confirm: each question is one Discourse topic; the `preguntas` table stores the canonical data (MCQ options, OA, difficulty metadata) keyed to the Discourse `topic_id`. The developer writes the plugin migration files at this stage — not after.
+Implemented as `preuni-question-widget` plugin. Each question is a Discourse topic; MCQ metadata (OA, convocatoria, universidad, tema, numero, tipo_origen) stored as topic custom fields (`preuni_clave`, `preuni_convocatoria`, etc.). Attempt data stored in plugin-owned `preuni_respuestas` table (not in a standalone `preguntas` table — the Discourse topic IS the question record). See Section 8.
 
 ---
 
-**8. Seed 50 questions**
+**8. Seed 50+ questions** ✓ COMPLETE — 52/65 published as of 2026-09-12
 *Owner: Gerald | Effort: 3–5 days*
 
-Fifty well-tagged questions must exist in the system before Plugin 1 development can be tested end-to-end. Each question needs: body text (LaTeX-formatted), five MCQ options (A–E), official answer, topic tag, university tag, and difficulty (left blank until 50 attempts accumulate). These are also the launch content — the platform should not go live with fewer. Source: past UNMSM / UNI exams (public domain).
+Source: CONCURSO NACIONAL ESCOLAR (UNI 2011-1 solucionario, pages 249–264). 65 questions with complete A–E choices and official answers extracted to `pdfs/solucionario2011_questions.json`. Tool: `question-composer-prototype.html` + `server.js` (Node, MinerU extraction pipeline). 13 remaining have `has_figure=true` — need PDF crop before publishing.
 
 ---
 
-**Phase 0 exit criteria:**
-- Discourse is live at the registered domain with SSL
-- `discourse-math`, `discourse-question-answer` plugins active
-- Categories, tags, user groups, cachimbo badge configured
-- Plugin 1 data model agreed and migration files drafted
-- 50 questions posted, tagged, and rendering LaTeX correctly
+**Phase 0 exit criteria — all met (2026-08-22):**
+- ✓ Discourse live at localhost:8080 (production domain pending)
+- ✓ `discourse-math`, `discourse-question-answer` plugins active
+- ✓ Categories, tags, user groups, cachimbo badge configured
+- ✓ Plugin 1 data model agreed; plugin running in container
+- ✓ 52 questions posted, tagged, and rendering LaTeX correctly
 
 ---
 
@@ -269,59 +288,71 @@ Fifty well-tagged questions must exist in the system before Plugin 1 development
 
 ---
 
-**1. Per-question discussion thread with typed posts**  
-*Tier: MVP | Effort: 5 days | Schema delta: None — `community_posts.post_type` enum (solucion/pregunta/objecion/comentario) already in schema*
+**1. Per-question discussion thread with typed posts** ✓ COMPLETE (2026-09-12)
+*Tier: MVP | Effort: 5 days | Schema delta: `preuni_post_type` post custom field*
 
-This is the entire differentiation. Neither Simbox nor bancodepreguntas.pe offers threaded community discussion attached to individual questions. GMATClub's per-question thread is the proof that this mechanic works: a single question page can accumulate 10–20 community solutions over years, each one slightly different, each one helping a different learner. For PreUni, the absence of official solucionarios for San Marcos means this thread is not supplementary — it *is* the answer key. The four post types (solucion, pregunta, objecion, comentario) must be implemented from day one because they create the taxonomy that drives the expert hierarchy in Phase 2. Without the thread, the platform is just another question database, indistinguishable from what already exists.
+**Implemented:** 3 types — **Pregunta** (implicit, root post #1), **Solución**, **Comentario**. The original 4-type plan (solucion/pregunta/objecion/comentario) was simplified: Objeción was removed because flat threading makes the distinction between a question and an objection too subtle for the first cohort. The composer shows a Solución/Comentario toggle when replying on any PreUni topic. Solución posts get a green left border + "✓ Solución" badge via `preuni-clave.gjs`.
 
----
+**Key constraint learned:** Discourse only registers one connector per outlet — having two `.gjs` files in `connectors/post-links/` causes a "Multiple connectors registered" error. Badge logic was merged into `preuni-clave.gjs`.
 
-**2. Official Answer (OA) gated behind login**  
-*Tier: MVP | Effort: 2 days | Schema delta: None — `questions.respuesta_oficial` already exists; add login check in view layer*
-
-The single most important conversion mechanic on GMATClub, and the right one for PreUni. The student arrives via SEO or a classmate's link, reads the question, wants the answer, and sees a registration prompt. This is low-friction because the user already has motivation (they want the answer). GMATClub's "unregistered" upsell block language — "Practice thousands of…" — is exactly the framing PreUni needs: "Resuelve miles de preguntas con la comunidad." The gate must be login-only, not payment, because payment walls before registration destroy conversion. The payoff for registering is immediate (they get the answer), which is the cleanest possible value exchange.
+This is the entire differentiation. Neither Simbox nor bancodepreguntas.pe offers threaded community discussion attached to individual questions. The absence of official solucionarios for San Marcos means this thread IS the answer key.
 
 ---
 
-**3. Difficulty display with crowd-sourced calibration**  
-*Tier: MVP | Effort: 3 days | Schema delta: None — difficulty computed from attempts, suppressed below 50 per existing spec*
+**2. Official Answer (OA) gated behind login** ✓ COMPLETE (2026-09-12)
+*Tier: MVP | Effort: 2 days | Schema delta: None — OA stored as `preuni_clave` topic custom field*
 
-The existing schema already suppresses difficulty below 50 attempts, which is the right call. GMATClub shows difficulty as a band (605-655 Medium) rather than a raw number, which is pedagogically superior because it communicates a range rather than false precision. For PreUni, the display should show the band when data exists (≥50 attempts) and "Sin datos suficientes" when not. This feature also enables the filter in Feature #4, so it is a prerequisite. The secondary benefit is that students who contribute attempts are improving the calibration for everyone — making the data better feeds the filtering feature, which makes the platform more useful, which attracts more users.
+**Implemented two surfaces:**
+1. **Pill widget** (preuni-widget.gjs): anonymous user who selects an answer sees "🔒 Seleccionaste X — inicia sesión para ver si acertaste" instead of score. State is tracked via `loginGate` flag.
+2. **"Mostrar clave" spoiler** (preuni-clave.gjs): logged-out users see a lock icon linking to `/login` instead of the toggle button.
 
----
-
-**4. Topic and difficulty filters on question listing**  
-*Tier: MVP | Effort: 4 days | Schema delta: See item below — requires `etiquetas` and `pregunta_etiquetas` tables if not already present*
-
-A student 3-6 months from the exam is not browsing randomly — they have identified a weak area (e.g., Razón y proporción, Series numéricas) and need to drill it. Without filters, they must scroll or use search. GMATClub's checkbox filter panel is the right UI: multi-select for topics, multi-select for difficulty bands, with an "All Unsolved" pool filter. For PreUni, topic taxonomy must be Peruvian-specific (Aritmética, Álgebra, Geometría, Trigonometría, Razonamiento Matemático, Razonamiento Verbal, Literatura, Historia, etc.) rather than GMATClub's GMAT-specific taxonomy. This is day-one required — without it the question bank is unusable for targeted drilling.
+The gate is login-only, never payment-gated. Payoff is immediate — the student registers and instantly sees the result.
 
 ---
 
-**5. Cachimbo credibility badge**  
-*Tier: MVP | Effort: 1 day | Schema delta: None — `users.academic_status` enum includes 'cachimbo'; add badge rendering in view layer*
+**3. Difficulty display with crowd-sourced calibration** ✓ COMPLETE (2026-09-13)
+*Tier: MVP | Effort: 3 days | Schema delta: Computed from preuni_respuestas; no stored column*
 
-This is the one feature that has no GMATClub equivalent and is purely Peruvian. A cachimbo (recently-admitted university student) is the most trusted source of advice for aspirantes, because they just passed the exact exam the student is preparing for, in the current format, with real stakes. GMATClub uses paid expert badges (Math Expert, Tutor) which require commercial relationships. PreUni can offer a better signal for free: `academic_status = 'cachimbo'` is already in the users schema. The badge should appear on solution posts from cachimbos, with the graduation year and university (e.g., "Cachimbo UNMSM '26 — Ingeniería"). This creates an incentive for cachimbos to contribute, creates social proof for aspirantes, and costs nothing to implement beyond a visual badge. It is also a clear differentiator that bancodepreguntas.pe cannot copy without building the same community.
-
----
-
-**6. Answer distribution chart**  
-*Tier: MVP | Effort: 3 days | Schema delta: Add `respuesta_seleccionada` column to the attempts table — see Section 6*
-
-After a student submits an answer, they see what percentage of other users chose each option. GMATClub renders this as A/B/C/D/E horizontal bars (`statisticWrapExisting`). The mechanism requires: (a) the student selects a choice, (b) their selection is stored, (c) the aggregate distribution is shown. This feature drives two behaviors: first, it creates a psychological reward for submitting (you learn how others struggled), and second, it teaches "where do people go wrong" reasoning, which is how the best GMAT tutors teach. The distribution is hidden until submission, which means it incentivizes trying the question rather than immediately revealing the answer. On PreUni, the distribution should be suppressed below 20 submissions (lower than difficulty threshold) to avoid misleading statistics early.
+**Implemented:** Chip injected into the `.topic-category` DOM element (inline with category + N°X tag). Three bands: Fácil (green, >65% correct), Medio (yellow, 20–65%), Difícil (red, <20%). Suppressed below 50 attempts — no chip shown, not "Sin datos suficientes" text (cleaner UX). Computed on-the-fly by the `preuni_fields` serializer in `plugin.rb`.
 
 ---
 
-**7. Kudos (upvotes) on solutions**  
-*Tier: MVP | Effort: 2 days | Schema delta: Add `votos` table — see Section 6*
+**4. Topic and difficulty filters on question listing** ✓ COMPLETE (2026-09-13)
+*Tier: MVP | Effort: 4 days | Schema delta: None — uses Discourse native tags for topic taxonomy*
 
-GMATClub's kudos system does one critical thing: it lets the community visibly signal which solutions are worth reading. A solution with 50 kudos is immediately distinguished from one with 2, without any editorial intervention. Without a counter, the discussion thread is chronological and the first reply — often the lowest-quality rough draft — carries the same visual weight as a carefully worked solution posted a year later. For PreUni, this is especially important because official solucionarios don't exist: the community solution IS the answer key, and the kudos count is the quality signal. Kudos should be displayed on solucion posts only (not pregunta, objecion, or comentario). Which solution gets pinned at the top of the thread is a moderator decision, not an automatic sort — the kudos count informs that judgment but does not drive it automatically.
+**Implemented:** `preuni-topic-list.js` initializer. On any `/c/` category page: (1) fetches `GET /preuni/difficulties` (batch query, 2 SQL calls), (2) injects colored difficulty chips after each topic title link, (3) injects a "Dificultad:" filter bar above the topic list with Todos / Fácil / Medio / Difícil / Por definir buttons. Filter hides non-matching rows via `display:none`; pinned topics always visible. Topic taxonomy filter (by tema like Aritmética, Álgebra) is handled natively by Discourse category structure.
+
+**Schema deviation:** Did not build `etiquetas`/`pregunta_etiquetas` tables. Discourse native tags (applied during seeding) handle topic taxonomy. Difficulty is computed, not stored.
 
 ---
 
-**8. User registration and login**  
-*Tier: MVP | Effort: 3 days | Schema delta: None — users table exists*
+**5. Cachimbo credibility badge** — PENDING (next task)
+*Tier: MVP | Effort: 1 day | Schema delta: None — Cachimbo Discourse badge (id=111) already created in Phase 0*
 
-Implied by features 2 and 6, but stated explicitly: email/password registration is the minimum. Google OAuth should be added in Phase 2 for lower friction. The registration prompt is the "unregistered" block described in Feature 2. Do not require email verification before showing the OA — the gate must deliver its payoff immediately. Email verification can happen asynchronously (to prevent spam later).
+The badge infrastructure exists: Discourse badge `id=111`, gold, `allow_title=true`, plus a `cachimbo` user group. What's missing: rendering the badge visually on Solución posts by cachimbo users. Implementation: in `preuni-clave.gjs`, check `post.user.badges` for badge id=111 and render a "Cachimbo UNMSM '26" label alongside the "✓ Solución" badge.
+
+---
+
+**6. Answer distribution chart** ✓ COMPLETE (2026-09-12)
+*Tier: MVP | Effort: 3 days | Schema delta: `preuni_respuestas` table stores `respuesta` + `topic_id` + `tiempo_segundos`*
+
+**Implemented:** A–E distribution cards shown after submission. Cards show letter + percentage; correct answer gets green background, wrong selection gets black border + red text. Distribution suppressed below 20 submissions (`distribucion` is null until threshold met). Loaded on page load via `GET /preuni/distribucion/:id` if user has a prior answer (restores state across sessions).
+
+**Schema:** Table is `preuni_respuestas` (not `intentos` — that was the original plan name). Model: `PreuniRespuesta` with columns `topic_id`, `user_id`, `respuesta`, `tiempo_segundos`, `created_at`.
+
+---
+
+**7. Kudos (upvotes) on solutions** — PENDING (verify native Discourse likes)
+*Tier: MVP | Effort: 0–2 days | Schema delta: May use Discourse native post_actions (likes) instead of custom votos table*
+
+Discourse's native "like" button (heart icon) is already present on all posts. This may be sufficient for MVP kudos — it shows a count and requires login. Assessment needed: (1) confirm likes are enabled in Discourse settings, (2) confirm the count is visible on Solución posts, (3) decide if a custom `votos` table adds enough value (e.g., restricting kudos to solucion-type posts only). If native likes suffice, this is 0 days of effort.
+
+---
+
+**8. User registration and login** ✓ COMPLETE
+*Tier: MVP | Effort: 0 days | Schema delta: None — Discourse native*
+
+Discourse handles email/password registration natively. Registration prompt shown via the OA gate and "Mostrar clave" lock. Google OAuth available as a Discourse plugin for Phase 2. Email verification is async — users can view OA immediately after registering.
 
 ---
 
@@ -470,51 +501,103 @@ On GMATClub, every GMAT question has an official answer in the GMAT Official Gui
 
 ## Section 6 — Schema Impact
 
-The following SQL statements assume PostgreSQL 15+ and snake_case naming, with Spanish field names for Peruvian-specific concepts. They represent additions to the existing 13-table schema described in the project brief.
+The following SQL reflects the **actual deployed schema** as of 2026-09-13. It differs from the original plan in several places — deviations are noted inline.
 
-### MVP additions
+### MVP — actually deployed
 
 ```sql
--- Record which answer choice a user selected (feeds answer distribution chart)
-ALTER TABLE intentos
-  ADD COLUMN IF NOT EXISTS respuesta_seleccionada CHAR(1)          -- 'a', 'b', 'c', 'd', 'e', or NULL if skipped
-      CHECK (respuesta_seleccionada IN ('a','b','c','d','e')),
-  ADD COLUMN IF NOT EXISTS fue_en_blanco BOOLEAN NOT NULL DEFAULT FALSE,
-  ADD COLUMN IF NOT EXISTS tiempo_empleado_segundos INTEGER;       -- populated by timer; NULL if timer was dismissed
+-- Primary attempt/response table (plugin-owned; NOT a modification of a pre-existing intentos table)
+-- Created as a Discourse plugin migration in preuni-question-widget
+CREATE TABLE IF NOT EXISTS preuni_respuestas (
+    id                  BIGSERIAL PRIMARY KEY,
+    topic_id            BIGINT      NOT NULL,   -- Discourse topic_id (the question)
+    user_id             BIGINT      NOT NULL,   -- Discourse user_id
+    respuesta           VARCHAR(1)  NOT NULL,   -- 'A', 'B', 'C', 'D', or 'E'
+    tiempo_segundos     INTEGER,                -- NULL if timer was dismissed
+    created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (topic_id, user_id)                 -- one attempt per user per question (last answer wins)
+);
 
--- Upvotes on community_posts (kudos)
-CREATE TABLE IF NOT EXISTS votos (
+-- MCQ metadata stored as Discourse topic custom fields (not a standalone preguntas table)
+-- Fields: preuni_clave, preuni_convocatoria, preuni_numero, preuni_universidad, preuni_tema, preuni_tipo_origen
+-- Written via POST /posts.json topic_custom_fields at seed time; readable via preuni_fields serializer
+
+-- Post type stored as Discourse post custom field
+-- Field: preuni_post_type ('solucion' | 'comentario'; root post has no type)
+-- Written via add_permitted_post_create_param + on(:post_created) hook
+```
+
+**Deviations from original Section 6 plan:**
+
+| Original Plan | Actual Implementation | Reason |
+|---|---|---|
+| `ALTER TABLE intentos ADD COLUMN respuesta_seleccionada` | New table `preuni_respuestas` | Discourse has no `intentos` table; plugin owns its own table |
+| `CREATE TABLE etiquetas` + `pregunta_etiquetas` | Discourse native tags | Native tags appear in topic header automatically; no custom tag table needed at MVP |
+| `CREATE TABLE votos` | Not yet built; may use Discourse native post likes | Discourse likes are already present; evaluating if custom table adds value |
+| `CREATE TABLE marcadores` | Not yet built | Phase 2 item; deferred |
+| `preguntas` table | No standalone preguntas table | The Discourse topic IS the question record; metadata via custom fields |
+| `community_posts.post_type` enum | `preuni_post_type` post custom field | Discourse posts can't add columns; custom fields are the extension point |
+
+### Phase 2 additions — not yet built (plan unchanged)
+
+```sql
+-- Personal notes on wrong answers (Error Log's Mistakes/Notes column)
+CREATE TABLE IF NOT EXISTS notas_error (
     id              BIGSERIAL PRIMARY KEY,
-    post_id         BIGINT      NOT NULL REFERENCES community_posts(id) ON DELETE CASCADE,
     usuario_id      BIGINT      NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    creado_en       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    UNIQUE (post_id, usuario_id)                                   -- one vote per user per post
-);
-
--- Topic + difficulty tags (shared vocabulary)
-CREATE TABLE IF NOT EXISTS etiquetas (
-    id              SERIAL PRIMARY KEY,
-    nombre          VARCHAR(80) NOT NULL UNIQUE,                   -- e.g., 'Aritmética', 'Geometría', 'Combinatoria'
-    tipo            VARCHAR(20) NOT NULL                           -- 'tema' | 'dificultad' | 'universidad'
-        CHECK (tipo IN ('tema', 'dificultad', 'universidad')),
-    orden           SMALLINT    NOT NULL DEFAULT 0                 -- display order within type group
-);
-
--- Many-to-many: questions × tags
-CREATE TABLE IF NOT EXISTS pregunta_etiquetas (
-    pregunta_id     BIGINT   NOT NULL REFERENCES preguntas(id) ON DELETE CASCADE,
-    etiqueta_id     INTEGER  NOT NULL REFERENCES etiquetas(id) ON DELETE CASCADE,
-    PRIMARY KEY (pregunta_id, etiqueta_id)
-);
-
--- Bookmarks / saved questions
-CREATE TABLE IF NOT EXISTS marcadores (
-    id              BIGSERIAL PRIMARY KEY,
-    usuario_id      BIGINT      NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    pregunta_id     BIGINT      NOT NULL REFERENCES preguntas(id) ON DELETE CASCADE,
-    creado_en       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    pregunta_id     BIGINT      NOT NULL,                          -- Discourse topic_id
+    nota            TEXT,
+    actualizado_en  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     UNIQUE (usuario_id, pregunta_id)
 );
+
+-- Saved quiz configurations (templates)
+CREATE TABLE IF NOT EXISTS configuraciones_quiz (
+    id              BIGSERIAL PRIMARY KEY,
+    usuario_id      BIGINT      NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    nombre          VARCHAR(120) NOT NULL,
+    filtros         JSONB       NOT NULL DEFAULT '{}',
+    creado_en       TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Question of the Day scheduling
+CREATE TABLE IF NOT EXISTS preguntas_del_dia (
+    fecha           DATE        PRIMARY KEY,
+    pregunta_id     BIGINT      NOT NULL,                          -- Discourse topic_id
+    publicado_por   BIGINT      REFERENCES users(id)
+);
+
+-- Penalización-aware quiz session results
+CREATE TABLE IF NOT EXISTS sesiones_quiz (
+    id                          BIGSERIAL PRIMARY KEY,
+    usuario_id                  BIGINT      NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    examen_id                   BIGINT,                            -- NULL for free-form quiz
+    iniciada_en                 TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    finalizada_en               TIMESTAMPTZ,
+    total_preguntas             SMALLINT    NOT NULL DEFAULT 0,
+    correctas                   SMALLINT    NOT NULL DEFAULT 0,
+    incorrectas                 SMALLINT    NOT NULL DEFAULT 0,
+    en_blanco                   SMALLINT    NOT NULL DEFAULT 0,
+    puntaje_bruto               NUMERIC(6,2) GENERATED ALWAYS AS (correctas) STORED,
+    deduccion_penalizacion      NUMERIC(6,2),                      -- computed per exam penalizacion_valor
+    puntaje_efectivo            NUMERIC(6,2)
+);
+
+-- Especialidad dimension (Peruvian-specific)
+CREATE TABLE IF NOT EXISTS especialidades (
+    id              SERIAL PRIMARY KEY,
+    nombre          VARCHAR(80) NOT NULL UNIQUE,
+    universidad_id  INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS pregunta_especialidades (
+    pregunta_id     BIGINT  NOT NULL,                              -- Discourse topic_id
+    especialidad_id INTEGER NOT NULL REFERENCES especialidades(id) ON DELETE CASCADE,
+    PRIMARY KEY (pregunta_id, especialidad_id)
+);
+
+ALTER TABLE users
+  ADD COLUMN IF NOT EXISTS especialidad_objetivo_id INTEGER REFERENCES especialidades(id);
 ```
 
 ### Phase 2 additions
@@ -664,3 +747,252 @@ Maps each of the 44 inventoried features against what Discourse provides out of 
 | **Future Review** (Peruvian adaptation candidates) | 12 | F28, F29, F30, F32, F36, F37, F38, F39, F40, F42, F44 + F34 |
 
 **Bottom line for the developer:** 12 features are free from Discourse. The 5 plugin installs take hours, not days. The real build effort is the 15 custom plugins — of which the **question widget** (F4, F5, F8, F10, F11) is one coherent plugin, not five separate builds. The 12 Future Review features are not blocked; they are deliberately deferred until user data or community size justifies the adaptation.
+
+**Status as of 2026-09-13:** F4, F5, F8, F10, F11 are complete (single `preuni-question-widget` plugin). F15 (typed posts) is complete with 3 types. F16 (cachimbo badge) infrastructure is ready; visual rendering pending.
+
+---
+
+## Section 8 — Implementation Notes (Technical Decisions & Key Findings)
+
+This section records architectural decisions and non-obvious technical constraints discovered during implementation. It is forward-looking: read before starting any Phase 2 task.
+
+---
+
+### Plugin file structure (as deployed)
+
+Container path: `/var/www/discourse/plugins/preuni-question-widget/`
+
+| File | Role |
+|---|---|
+| `plugin.rb` | Custom fields, routes, serializers, PreuniRespuesta model/controller loading |
+| `assets/javascripts/discourse/components/preuni-widget.gjs` | Main pill widget (timer, A–E buttons, distribution bars, login gate) |
+| `assets/javascripts/discourse/connectors/topic-above-posts/preuni-connector.gjs` | Mounts pill above first post |
+| `assets/javascripts/discourse/connectors/post-links/preuni-clave.gjs` | "Mostrar clave" spoiler (post #1) + "✓ Solución" badge (post #2+) |
+| `assets/javascripts/discourse/connectors/composer-fields/preuni-type-selector.gjs` | Solución/Comentario toggle in reply composer |
+| `assets/javascripts/discourse/initializers/preuni-post-type.js` | `serializeOnCreate`, `addPostClassesCallback`, CSS injection for post types |
+| `assets/javascripts/discourse/initializers/preuni-topic-list.js` | Difficulty chips + filter bar on topic listing pages |
+| `app/models/preuni_respuesta.rb` | ActiveRecord model for `preuni_respuestas` table |
+| `app/controllers/preuni_respuestas_controller.rb` | `#create`, `#distribucion`, `#difficulties` actions |
+
+Local copies in `c:\Dev\GmatClubScrap\` for editing before `docker cp` to container.
+
+---
+
+### Deployment pipeline (required for every GJS/JS change)
+
+1. `docker cp` file → container
+2. `bundle exec rails assets:precompile:build_plugins` (outputs to `app/assets/generated/`, NOT `public/assets/`)
+3. `ls -lt app/assets/generated/preuni-question-widget/js/plugins/` → find new hash
+4. `cp` new file + `.gz` to `public/assets/js/plugins/`
+5. Update `.manifest.json` — BOTH the flat entries AND the `assets` sub-dict (missing either causes MissingAsset 500)
+6. `sv restart unicorn && sleep 20`
+
+Script: `tmp_manifest.py` handles step 5. See plugin1_widget memory for full commands.
+
+---
+
+### Critical API constraints (do not repeat these mistakes)
+
+**Custom fields:**
+- `PUT /t/:id` with `custom_fields` silently drops all values — TopicsController#update does not process `custom_fields`
+- `PUT /posts/:id` update action does NOT process `topic_custom_fields`
+- **The ONLY write path:** include `topic_custom_fields` in the initial `POST /posts.json` at top level (not nested under `post`)
+- `register_editable_topic_custom_field` must be called OUTSIDE `after_initialize` — it is a plugin DSL method that runs at load time
+
+**Tags:**
+- Tags passed via `POST /posts.json` API get normalized by Discourse: `N°X` → `nX`
+- To create `N°X` tags with exact name: use Rails runner `Tag.find_or_create_by!(name: "N°#{num}")`
+
+**Connectors:**
+- Discourse registers only the FIRST connector for each outlet — never put two `.gjs` files in the same `connectors/<outlet>/` directory
+- Merge badge logic INTO the existing connector file, not a separate one
+
+---
+
+### SPA state management
+
+Discourse is a single-page app — Ember reuses component instances across topic navigations. `@tracked` state from topic A bleeds into topic B unless explicitly reset.
+
+**Pattern used:** Plain (non-`@tracked`) `_topicId` field detects navigation inside the `esPreuni` getter; state reset deferred via `schedule("afterRender", ...)` from `@ember/runloop`.
+
+```javascript
+_topicId = null;  // NOT @tracked — tracked would cause circular dependency in getter
+
+get esPreuni() {
+  const id = this.args.topic?.id;
+  if (id && id !== this._topicId) {
+    this._topicId = id;
+    schedule("afterRender", this, () => { this._resetState(); this._cargarPrevio(id); });
+  }
+  return !!this.fields?.clave;
+}
+```
+
+Also add navigation-away guard in any async method: `if (this._topicId !== topicId) return;`
+
+---
+
+### CSS delivery
+
+SCSS is NOT compiled into the served bundle (`build_plugins` does not run full precompile). CSS is injected via JS: a `<style id="preuni-styles">` tag is appended to `document.head` in the component constructor. No hot-reload needed — the style tag persists across SPA navigations.
+
+---
+
+### Pill width alignment
+
+CSS variables (`--topic-body-width`, `--topic-body-width-padding`) are static SCSS constants and do not update at responsive breakpoints. The `topic-above-posts` container is wider than the post body at narrow viewports.
+
+**Solution:** JS DOM measurement via `_adjustWidth()` + ResizeObserver on `.topic-post .topic-body`. Measures `bodyRect.left - parentRect.left` for `marginLeft` and `bodyRect.width` for `maxWidth`. Verified pixel-perfect at 1440px, 980px, 390px. ResizeObserver fires on sidebar toggle and viewport resize automatically.
+
+---
+
+### Question seeding tool
+
+`question-composer-prototype.html` + `server.js` (Node, Express). MinerU Standard API extracts LaTeX body + choices from image. Pipeline: Pass1 full image → Boost1 bottom 12% → Boost2 bottom 20% → Agent VLM fallback.
+
+Start: `Start-Process -FilePath "node" -ArgumentList "c:\Dev\GmatClubScrap\server.js" -WorkingDirectory "c:\Dev\GmatClubScrap"`
+Open: `http://localhost:3000/question-composer-prototype.html`
+
+Seeded 52/65 from CONCURSO NACIONAL ESCOLAR (UNI 2011-1 solucionario, pages 249–264). 13 remaining need figure image extraction from PDF (not yet implemented in batch_extract.py).
+
+---
+
+### Rails runner pattern (for all admin scripts)
+
+```powershell
+wsl -d Ubuntu -- sudo docker exec -u discourse -w /var/www/discourse app bundle exec rails runner "puts User.count"
+```
+
+Critical flags: `-u discourse` (peer auth), `-w /var/www/discourse` (Gemfile location). User lookup: `User.with_email('...').first` (not `find_by(email:)` — email is in `user_emails` table).
+
+---
+
+## Section 9 — Bulk Question Upload Pipeline
+
+Designed to seed an entire solucionario (complete entrance exam with solutions) into Discourse in one admin session. Replaces the manual one-at-a-time composer flow for large batches.
+
+---
+
+### Overview
+
+The pipeline takes MinerU Windows client output (already processed from a solucionario PDF) and publishes all questions + solutions into Discourse with AI-assisted tema/subtema classification. The result is identical in structure to topics created by the single-question composer — same custom fields, same image handling, same solution post.
+
+---
+
+### Input
+
+The admin shares in the chat:
+- **Directory path** — the MinerU output folder (e.g. `C:\Users\smart\MinerU\solucionario20192.pdf-a5bc7ec1\`)
+- **Markdown filename** — e.g. `MinerU_markdown_202609131129177_27470e6d.md`
+- **`images/` subfolder** — all cropped figures referenced as `![](images/xxx.jpg)` in the markdown
+
+The `layout.json` is present in the output but not required for parsing.
+
+**Batch-level metadata** (known from the solucionario, hardcoded per run):
+- `universidad` — UNI / UNMSM
+- `año` — e.g. 2019
+- `convocatoria` — e.g. "2" (for 2019-2)
+- `tipo_origen` — always `'Universidad'` for official entrance exams
+
+---
+
+### UNI Exam Structure
+
+UNI runs 3 separate pruebas (on 3 separate days). Together they form one complete exam cycle:
+
+| Prueba | Questions | Sections |
+|---|---|---|
+| Prueba 1 | Q01–Q100 | Razonamiento Matemático, Razonamiento Verbal, Humanidades |
+| Prueba 2 | Q01–Q40 | Matemática |
+| Prueba 3 | Q01–Q40 | Física, Química |
+
+**All 3 pruebas are processed at once** from a single solucionario run.
+
+**N° numbering**: just the question number (1–100 or 1–40), no prueba prefix. There is no collision because each question lives in a specific Discourse category (universidad + tema). Q01 in Aritmética is categorically distinct from Q01 in Física.
+
+---
+
+### Pipeline Steps
+
+**Step 1 — Parse questions** from the markdown questions section:
+- Split by question number pattern (`01.`, `02.`, etc.)
+- Extract: question body (LaTeX text), choices A–E (text/LaTeX or `![](images/xxx.jpg)`)
+- Detect `[FIG:N]` markers; record which `images/xxx.jpg` files they reference
+
+**Step 2 — Parse solutions** from the markdown solutions section:
+- Split by question number
+- Extract: solution body text (LaTeX steps + figures)
+- Extract OA: prefer the **answer key table** if present on the last page (faster, more reliable); fall back to `"Respuesta X"` at the end of each individual solution block
+- Match each solution to its question by number
+
+**Step 3 — AI classification** (Claude API):
+- For each question, send the body text to Claude via `/api/classify` endpoint
+- Prompt asks: given the question text and the university's subject taxonomy, return `tema` and `subtemas[]`
+- Taxonomy used: same as the composer (Aritmética, Álgebra, Geometría, Trigonometría, Razonamiento Matemático, Razonamiento Verbal, Literatura, Historia del Perú, Geografía del Perú, Física, Química, Filosofía)
+- Section headers from the solucionario (MATEMÁTICA, FÍSICA, QUÍMICA, RAZONAMIENTO MATEMÁTICO, etc.) are passed as context to improve accuracy within ambiguous sections
+
+**Step 4 — Chat preview**:
+- A structured table is shown in the conversation with all extracted questions:
+  ```
+  N°  | Tema           | Sub-temas          | Body preview (40 chars) | OA | Figs | Sol
+  ─────────────────────────────────────────────────────────────────────────────────────
+  01  | Aritmética     | divisibilidad      | Sea la proposición p≡V… | E  | 0    | ✓
+  02  | Razonamiento M | series-numericas   | Cinco empresas venden…  | D  | 0    | ✓
+  08  | Geometría      | triangulos         | Dada la siguiente suces…| E  | 2    | ✓
+  ```
+- Admin reviews and confirms — can say "accept all" or list exceptions (e.g. "skip Q3, reclassify Q8 as Álgebra")
+
+**Step 5 — HTML preview page** (`bulk-preview.html`):
+- Fast review table UI served at `localhost:3000/bulk-preview.html`
+- Columns: checkbox | N° | Tema | Sub-temas | Body preview | OA | Figures | Solution
+- Admin can uncheck rows to exclude from publish
+- "Publicar seleccionadas" button triggers the publish loop
+
+**Step 6 — Sequential bulk publish**:
+- Calls `/api/bulk-publish` endpoint which iterates sequentially (not parallel — avoids Discourse rate limiting)
+- Each question goes through the same `/api/publish` logic: tag creation, figure upload to Discourse, choice image upload, source image archival, solution reply post
+- Progress shown live in the HTML preview: row turns green on success, red on failure with error message
+- Failed questions are logged and reported in summary — publish continues for remaining questions
+
+---
+
+### Composer Contract Compliance
+
+The bulk pipeline produces Discourse topics that are structurally identical to single-question composer output:
+
+| Field | Composer | Bulk pipeline |
+|---|---|---|
+| Body text (LaTeX) | Manual / MinerU API | MinerU Windows client markdown |
+| Choices A–E | Manual / extracted | Parsed from markdown |
+| Figures in body | Cropped + uploaded | MinerU `images/` → uploaded |
+| Clave (OA) | Manual selection | Extracted from answer key / "Respuesta X" |
+| Universidad | Dropdown | Hardcoded per batch |
+| Año + Convocatoria | Manual | Hardcoded per batch |
+| N° de pregunta | Manual | Parsed from question number prefix |
+| Tema | Dropdown | Claude API classification |
+| Sub-temas | Multi-select | Claude API classification |
+| Solution post | Optional composer section | Parsed from solutions section |
+| Solution figures | Cropped + uploaded | MinerU `images/` → uploaded |
+| N°X Discourse tag | Auto-created | Auto-created |
+| Sub-tema Discourse tags | Auto-created | Auto-created |
+| `preuni_*` custom fields | Set on POST /posts.json | Set on POST /posts.json |
+
+---
+
+### Files to Build
+
+| File | Purpose |
+|---|---|
+| `bulk_seed.js` | Main pipeline: parse → classify → generate preview data → drive publish loop |
+| `bulk-preview.html` | Fast HTML review table with checkboxes and live progress |
+| `server.js` → `POST /api/classify` | Claude API call: question body → `{ tema, subtemas }` |
+| `server.js` → `POST /api/bulk-publish` | Sequential publish loop with SSE progress stream |
+
+---
+
+### Solucionarios Processed
+
+| File | Universidad | Convocatoria | Questions | Status |
+|---|---|---|---|---|
+| `solucionario2011_questions.json` | UNI | 2011-1 | 65 (52 published, 13 pending figures) | Seeded manually via seed5.js |
+| `solucionario20192.pdf` | UNI | 2019-2 | ~180 across 3 pruebas | MinerU processed, bulk pipeline pending |

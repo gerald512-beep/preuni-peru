@@ -153,6 +153,31 @@ select[multiple] { height: 90px; }
 
 @media (max-width: 900px) { .layout { grid-template-columns: 1fr; height: auto; } }
 
+/* ── VALIDATION PANEL ── */
+.validation-panel { display:none; margin-bottom:12px; border-radius:6px; overflow:hidden; border:1px solid #e0c0a0; }
+.validation-panel.visible { display:block; }
+.validation-header { padding:9px 14px; background:#fff3e0; font-weight:600; font-size:13px; color:#7a4a00; border-bottom:1px solid #e0c0a0; }
+.val-section { padding:10px 14px; }
+.val-section + .val-section { border-top:1px solid #f0e8e0; }
+.val-errors { background:#fff5f5; }
+.val-warnings { background:#fffbf0; }
+.val-section-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; }
+.val-errors .val-section-title { color:#c00; }
+.val-warnings .val-section-title { color:#856404; }
+.val-item { display:flex; align-items:baseline; gap:6px; font-size:12px; padding:3px 0; color:#333; cursor:pointer; line-height:1.4; }
+.val-item:hover .val-item-text { text-decoration:underline; }
+.val-item a { color:#00529b; }
+.submit-btn.warn { background:#856404; }
+.submit-btn.warn:hover { background:#6b5003; }
+
+/* ── SOLUTION SECTION ── */
+.toggle-sol-wrap { display:flex; align-items:center; gap:8px; cursor:pointer; }
+.toggle-sol-wrap label { cursor:pointer; font-weight:500; font-size:13px; }
+.toggle-sol-wrap input[type=checkbox] { width:15px; height:15px; cursor:pointer; accent-color:#00529b; }
+.sol-section { display:none; margin-top:14px; border:1px solid #d0e4f4; border-radius:6px; padding:16px; background:#f7fafd; }
+.sol-section.visible { display:block; }
+.sol-section h2 { margin-bottom:12px; }
+
 /* ── Figure cards in preview ── */
 .fig-card { position:relative; text-align:center; margin:12px 0 16px; }
 .fig-card img { max-width:100%; max-height:260px; border-radius:4px; border:1px solid #e0e0e0; display:block; margin:0 auto; }
@@ -239,11 +264,8 @@ select[multiple] { height: 90px; }
       </div>
     </div>
     <div class="extract-notice" id="extract-notice"></div>
-    <div class="extract-notice" id="figure-notice" style="background:#fff8e1; border:1px solid #f0c040; color:#7a5c00; display:none;">
-      Figura detectada — se incluirá la imagen original en la pregunta. Recortar antes de publicar.
-    </div>
     <div class="img-actions">
-      <button class="extract-btn" id="extract-btn" disabled onclick="extractFromImage()">Extraer con IA</button>
+      <button class="extract-btn" id="extract-btn" disabled onclick="extractFromImage()">Cargar pregunta</button>
     </div>
   </div>
 
@@ -353,7 +375,7 @@ select[multiple] { height: 90px; }
   <input type="hidden" id="universidad_objetivo" value="">
 
   <!-- ORIGEN + CONVOCATORIA (side by side) -->
-  <div class="meta-row">
+  <div class="meta-row" style="grid-template-columns:1fr 80px 1fr 70px">
     <div class="field">
       <label>Universidad</label>
       <select id="university">
@@ -363,12 +385,16 @@ select[multiple] { height: 90px; }
       </select>
     </div>
     <div class="field">
-      <label>Convocatoria <span>— opcional</span></label>
-      <input type="text" id="convocatoria" placeholder="Ej: 2023-I Ordinario">
+      <label>Año</label>
+      <input type="number" id="anio" min="1960" max="2099" placeholder="2024">
     </div>
-    <div class="field" style="max-width:120px">
-      <label>N° de pregunta</label>
-      <input type="number" id="numero" min="1" placeholder="Ej: 15">
+    <div class="field">
+      <label>Modalidad <span>— opcional</span></label>
+      <input type="text" id="convocatoria" placeholder="Ej: I Ordinario">
+    </div>
+    <div class="field">
+      <label>N°</label>
+      <input type="number" id="numero" min="1" placeholder="15">
     </div>
   </div>
 
@@ -387,7 +413,75 @@ select[multiple] { height: 90px; }
     <div class="hint">Selecciona todas las técnicas que aplican, aunque sean de distintos temas.</div>
   </div>
 
-  <button class="submit-btn" onclick="handleSubmit()">Publicar pregunta</button>
+  <hr class="divider">
+
+  <!-- AGREGAR SOLUCIÓN -->
+  <div class="toggle-sol-wrap">
+    <input type="checkbox" id="chk-solucion" onchange="toggleSolSection()">
+    <label for="chk-solucion">Agregar solución</label>
+  </div>
+
+  <div class="sol-section" id="sol-section">
+    <h2>Solución</h2>
+    <div class="field">
+      <label>Capturar imagen de la solución <span>— hasta 2 imágenes si la solución está en dos páginas</span></label>
+      <div class="dual-image-row">
+        <div class="zone-wrap">
+          <div class="zone-label">Imagen 1</div>
+          <div class="image-zone" id="sol-image-zone-1"
+            onclick="activePasteTarget='solution'"
+            ondragover="handleSolDragOver(event,1)" ondragleave="handleSolDragLeave(1)" ondrop="handleSolDrop(event,1)">
+            <input type="file" accept="image/*" onchange="handleSolFileInput(event,1)">
+            <img class="img-preview" id="sol-img-preview-1">
+            <div class="image-zone-text" id="sol-image-zone-text-1">
+              <strong>Pegar / arrastrar</strong>
+              Ctrl+V · seleccionar
+            </div>
+          </div>
+          <button class="clear-img-btn" id="sol-clear-btn-1" style="display:none;width:100%" onclick="clearSolImage(1)">Limpiar</button>
+        </div>
+        <div class="zone-wrap">
+          <div class="zone-label">Imagen 2 <em style="font-weight:400">(opcional)</em></div>
+          <div class="image-zone" id="sol-image-zone-2"
+            onclick="activePasteTarget='solution'"
+            ondragover="handleSolDragOver(event,2)" ondragleave="handleSolDragLeave(2)" ondrop="handleSolDrop(event,2)">
+            <input type="file" accept="image/*" onchange="handleSolFileInput(event,2)">
+            <img class="img-preview" id="sol-img-preview-2">
+            <div class="image-zone-text" id="sol-image-zone-text-2">
+              <strong>Pegar / arrastrar</strong>
+              columna siguiente
+            </div>
+          </div>
+          <button class="clear-img-btn" id="sol-clear-btn-2" style="display:none;width:100%" onclick="clearSolImage(2)">Limpiar</button>
+        </div>
+      </div>
+      <div class="extract-notice" id="sol-extract-notice"></div>
+      <div class="img-actions">
+        <button class="extract-btn" id="sol-extract-btn" disabled onclick="extractSolution()">Cargar solución</button>
+      </div>
+    </div>
+    <hr class="divider" style="margin:10px 0">
+    <h2>Completa o edita manualmente</h2>
+    <div class="field">
+      <label>Texto de la solución <span>— acepta LaTeX con $ ... $ o $$ ... $$</span></label>
+      <textarea id="sol-body" rows="6" placeholder="La solución extraída aparecerá aquí. Edita si es necesario."></textarea>
+    </div>
+  </div>
+
+  <!-- VALIDATION PANEL -->
+  <div id="validation-panel" class="validation-panel">
+    <div class="validation-header">⚠ Revisa antes de publicar</div>
+    <div id="val-errors-wrap" class="val-section val-errors" style="display:none">
+      <div class="val-section-title">🔴 Errores — necesitas resolverlos</div>
+      <div id="val-errors-list"></div>
+    </div>
+    <div id="val-warnings-wrap" class="val-section val-warnings" style="display:none">
+      <div class="val-section-title">🟡 Advertencias — puedes publicar igualmente</div>
+      <div id="val-warnings-list"></div>
+    </div>
+  </div>
+
+  <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">Publicar pregunta</button>
 </div>
 
 <!-- PREVIEW -->
@@ -417,6 +511,20 @@ select[multiple] { height: 90px; }
     <div class="topic-footer">
       <span class="clave-display" id="prev-clave">Clave: no seleccionada</span>
       <span style="font-size:11px;color:#aaa;margin-left:8px;">visible solo para admins</span>
+    </div>
+  </div>
+
+  <!-- SOLUTION POST PREVIEW -->
+  <div id="prev-sol-wrap" style="display:none;margin-top:10px;">
+    <div class="topic-preview">
+      <div class="topic-header" style="padding:10px 16px;display:flex;align-items:center;gap:8px;">
+        <span style="font-size:11px;font-weight:700;padding:2px 9px;border-radius:3px;background:#d4edda;color:#155724;border:1px solid #c3e6cb;">✓ Solución</span>
+        <span style="font-size:11px;color:#aaa;">post #2 · preuni_post_type = solucion</span>
+      </div>
+      <div class="topic-body" style="border-left:3px solid #28a745;margin-left:0;padding-left:16px;">
+        <div class="question-text" id="prev-sol-body"><em style="color:#aaa">La solución aparecerá aquí...</em></div>
+        <button class="btn-manual-crop" onclick="openManualSolCrop()" style="margin-top:10px;">&#9986; Recortar e insertar en solución</button>
+      </div>
     </div>
   </div>
 </div>
@@ -452,15 +560,18 @@ function bodyToHtml(text) {
 // ── IMAGE CAPTURE ──────────────────────────────────────────
 let capturedImage = null;   // slot 1
 let capturedImage2 = null;  // slot 2
+let activePasteTarget = 'question'; // 'question' | 'solution'
 
-function handleDragOver(e, n) { e.preventDefault(); document.getElementById('image-zone-' + n).classList.add('drag-over'); }
+function handleDragOver(e, n) { e.preventDefault(); activePasteTarget = 'question'; document.getElementById('image-zone-' + n).classList.add('drag-over'); }
 function handleDragLeave(n) { document.getElementById('image-zone-' + n).classList.remove('drag-over'); }
 function handleDrop(e, n) {
   e.preventDefault(); handleDragLeave(n);
+  activePasteTarget = 'question';
   const file = e.dataTransfer.files[0];
   if (file?.type.startsWith('image/')) loadImageFile(file, n);
 }
 function handleFileInput(e, n) {
+  activePasteTarget = 'question';
   const file = e.target.files[0];
   if (file) loadImageFile(file, n);
 }
@@ -493,7 +604,6 @@ function clearImage(n) {
   document.getElementById('clear-btn-' + n).style.display = 'none';
   document.getElementById('extract-notice').className = 'extract-notice';
   if (n === 1) {
-    document.getElementById('figure-notice').style.display = 'none';
     document.getElementById('prev-figures').innerHTML = '';
     currentFigureImages = [];
   }
@@ -506,13 +616,18 @@ function refreshExtractBtn() {
   document.querySelectorAll('.btn-choice-crop').forEach(b => b.disabled = !hasImg);
 }
 
-// Clipboard paste — slot 1 if empty, else slot 2
+// Clipboard paste — routes to question or solution capture based on last active zone
 document.addEventListener('paste', (e) => {
   const items = e.clipboardData?.items;
   if (!items) return;
   for (const item of items) {
     if (item.type.startsWith('image/')) {
-      loadImageFile(item.getAsFile(), capturedImage ? 2 : 1);
+      const solVisible = document.getElementById('chk-solucion')?.checked;
+      if (activePasteTarget === 'solution' && solVisible) {
+        loadSolImageFile(item.getAsFile(), capturedSolImage ? 2 : 1);
+      } else {
+        loadImageFile(item.getAsFile(), capturedImage ? 2 : 1);
+      }
       break;
     }
   }
@@ -567,6 +682,111 @@ function clearChoiceImage(letter) {
   updatePreview();
 }
 
+// ── SOLUTION SECTION ───────────────────────────────────────
+let capturedSolImage      = null;
+let capturedSolImage2     = null;
+let currentSolFigureImages = [];
+
+function toggleSolSection() {
+  const show = document.getElementById('chk-solucion').checked;
+  document.getElementById('sol-section').classList.toggle('visible', show);
+  document.getElementById('prev-sol-wrap').style.display = show ? '' : 'none';
+  activePasteTarget = show ? 'solution' : 'question';
+  if (!show) { capturedSolImage = null; capturedSolImage2 = null; currentSolFigureImages = []; }
+  updatePreview();
+}
+
+function handleSolDragOver(e, n) { e.preventDefault(); activePasteTarget = 'solution'; document.getElementById('sol-image-zone-' + n).classList.add('drag-over'); }
+function handleSolDragLeave(n)   { document.getElementById('sol-image-zone-' + n).classList.remove('drag-over'); }
+function handleSolDrop(e, n)     { e.preventDefault(); handleSolDragLeave(n); activePasteTarget = 'solution'; const f = e.dataTransfer.files[0]; if (f?.type.startsWith('image/')) loadSolImageFile(f, n); }
+function handleSolFileInput(e, n){ activePasteTarget = 'solution'; const f = e.target.files[0]; if (f) loadSolImageFile(f, n); }
+
+function loadSolImageFile(file, n) {
+  const reader = new FileReader();
+  reader.onload = (e) => setSolImage(e.target.result, n);
+  reader.readAsDataURL(file);
+}
+
+function setSolImage(dataUrl, n) {
+  if (n === 1) capturedSolImage = dataUrl;
+  else capturedSolImage2 = dataUrl;
+  document.getElementById('sol-img-preview-' + n).src = dataUrl;
+  document.getElementById('sol-img-preview-' + n).classList.add('visible');
+  document.getElementById('sol-image-zone-' + n).classList.add('has-image');
+  document.getElementById('sol-image-zone-text-' + n).style.display = 'none';
+  document.getElementById('sol-clear-btn-' + n).style.display = 'block';
+  document.getElementById('sol-extract-notice').className = 'extract-notice';
+  refreshSolBtn();
+}
+
+function clearSolImage(n) {
+  if (n === 1) capturedSolImage = null;
+  else capturedSolImage2 = null;
+  document.getElementById('sol-img-preview-' + n).src = '';
+  document.getElementById('sol-img-preview-' + n).classList.remove('visible');
+  document.getElementById('sol-image-zone-' + n).classList.remove('has-image');
+  document.getElementById('sol-image-zone-text-' + n).style.display = '';
+  document.getElementById('sol-clear-btn-' + n).style.display = 'none';
+  document.getElementById('sol-extract-notice').className = 'extract-notice';
+  refreshSolBtn();
+}
+
+function refreshSolBtn() {
+  document.getElementById('sol-extract-btn').disabled = !capturedSolImage;
+}
+
+async function getSolImageForExtraction() {
+  if (!capturedSolImage2) return capturedSolImage;
+  const [img1, img2] = await Promise.all([loadImg(capturedSolImage), loadImg(capturedSolImage2)]);
+  const canvas = document.createElement('canvas');
+  const GAP = 12;
+  canvas.width  = Math.max(img1.naturalWidth, img2.naturalWidth);
+  canvas.height = img1.naturalHeight + GAP + img2.naturalHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img1, 0, 0);
+  ctx.drawImage(img2, 0, img1.naturalHeight + GAP);
+  return canvas.toDataURL('image/jpeg', 0.92);
+}
+
+async function extractSolution() {
+  if (!capturedSolImage) return;
+  const btn    = document.getElementById('sol-extract-btn');
+  const notice = document.getElementById('sol-extract-notice');
+  btn.textContent = 'Extrayendo…';
+  btn.classList.add('loading');
+  btn.disabled = true;
+  notice.className = 'extract-notice';
+  try {
+    const stitched = await getSolImageForExtraction();
+    const res = await fetch('/api/extract', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image: stitched, mode: 'solution' })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: res.statusText }));
+      throw new Error(err.error || res.statusText);
+    }
+    const data = await res.json();
+    if (data.body) {
+      document.getElementById('sol-body').value = data.body;
+      currentSolFigureImages = data.figure_images || [];
+      updatePreview();
+    }
+    notice.textContent = '✓ Solución extraída. Revisa y corrige si es necesario.';
+    notice.className = 'extract-notice success';
+  } catch (err) {
+    notice.textContent = `Error: ${err.message}`;
+    notice.className = 'extract-notice error';
+  } finally {
+    btn.textContent = 'Cargar solución';
+    btn.classList.remove('loading');
+    refreshSolBtn();
+  }
+}
+
 // ── EXTRACTION ─────────────────────────────────────────────
 async function extractFromImage() {
   if (!capturedImage) return;
@@ -596,7 +816,7 @@ async function extractFromImage() {
     notice.textContent = `Error: ${err.message}`;
     notice.className = 'extract-notice error';
   } finally {
-    btn.textContent = 'Extraer con IA';
+    btn.textContent = 'Cargar pregunta';
     btn.classList.remove('loading');
     refreshExtractBtn();
   }
@@ -652,16 +872,13 @@ function populateFromExtraction(data) {
   }
 
   // Figure — store all MinerU-cropped images; render cards in preview
-  const figureNotice = document.getElementById('figure-notice');
   if (data.has_figure) {
     const imgs = (data.figure_images && data.figure_images.length > 0)
       ? data.figure_images
       : (capturedImage ? [capturedImage] : []);
-    currentFigureImages = imgs.slice(); // save for crop tool
-    figureNotice.style.display = 'block';
+    currentFigureImages = imgs.slice();
   } else {
     currentFigureImages = [];
-    figureNotice.style.display = 'none';
   }
 
   updatePreview();
@@ -700,7 +917,7 @@ function updateChoiceHighlights() {
 // ── TEMAS + SUB-TEMAS ──────────────────────────────────────
 const TEMAS = {
   UNMSM: ['Aritmética','Álgebra','Geometría','Trigonometría','Razonamiento Matemático','Razonamiento Verbal','Literatura','Historia del Perú','Geografía del Perú'],
-  UNI:   ['Aritmética','Álgebra','Geometría','Trigonometría','Física','Química','Razonamiento Matemático'],
+  UNI:   ['Aritmética','Álgebra','Geometría','Trigonometría','Física','Química','Razonamiento Matemático','Razonamiento Verbal','Historia del Perú','Geografía del Perú','Literatura','Filosofía'],
 };
 
 const SUB_TEMAS = {
@@ -763,8 +980,8 @@ document.getElementById('tema').addEventListener('change', function() {
 });
 
 // ── LIVE PREVIEW ───────────────────────────────────────────
-['body','choice-A','choice-B','choice-C','choice-D','choice-E','convocatoria'].forEach(id => {
-  document.getElementById(id).addEventListener('input', updatePreview);
+['body','choice-A','choice-B','choice-C','choice-D','choice-E','convocatoria','anio','sol-body'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => { resetValidation(); updatePreview(); });
 });
 document.getElementById('subtema').addEventListener('change', updatePreview);
 
@@ -775,7 +992,9 @@ function updatePreview() {
   const uni = document.getElementById('university').value;
   const tema = document.getElementById('tema').value;
   const cat = uni && tema ? `${uni} / ${tema}` : (uni || '—');
+  const anio = document.getElementById('anio').value.trim();
   const convocatoria = document.getElementById('convocatoria').value.trim();
+  const convStr = [anio, convocatoria].filter(Boolean).join('-');
   const subTemas = Array.from(document.getElementById('subtema').selectedOptions).map(o => o.value);
 
   const titleText = body
@@ -788,7 +1007,7 @@ function updatePreview() {
   document.getElementById('prev-cat').textContent = cat;
 
   const convEl = document.getElementById('prev-convocatoria');
-  convEl.textContent = convocatoria; convEl.style.display = convocatoria ? 'inline' : 'none';
+  convEl.textContent = convStr; convEl.style.display = convStr ? 'inline' : 'none';
 
   document.getElementById('prev-subtema').innerHTML = subTemas.map(t => `<span class="tag">${t}</span>`).join(' ');
   // Render body: [FIG:N] markers become inline figure cards with crop buttons
@@ -819,12 +1038,154 @@ function updatePreview() {
 
   document.getElementById('prev-clave').textContent = selectedClave ? `Clave: ${selectedClave}` : 'Clave: no seleccionada';
 
+  // Solution preview
+  const solBodyEl = document.getElementById('sol-body');
+  const prevSolEl = document.getElementById('prev-sol-body');
+  const solText   = solBodyEl?.value.trim() || '';
+  if (solText) {
+    const solHtml = solText
+      .replace(/\[FIG:(\d+)\]/g, (_, n) => {
+        const idx = parseInt(n, 10);
+        const src = currentSolFigureImages[idx];
+        return src ? solFigCardHtml(src, idx) : '';
+      })
+      .replace(/\n/g, '<br>');
+    prevSolEl.innerHTML = solHtml;
+  } else {
+    prevSolEl.innerHTML = '<em style="color:#aaa">La solución aparecerá aquí...</em>';
+  }
+
   clearTimeout(renderTimer);
   renderTimer = setTimeout(() => {
     if (window.MathJax?.typesetPromise) {
-      MathJax.typesetPromise([document.getElementById('prev-body'), document.getElementById('prev-choices')]);
+      const nodes = [document.getElementById('prev-body'), document.getElementById('prev-choices'), document.getElementById('prev-sol-body')];
+      MathJax.typesetPromise(nodes.filter(Boolean));
     }
   }, 400);
+}
+
+// ── VALIDATION ─────────────────────────────────────────────
+let warningsPending = false;
+
+function resetValidation() {
+  warningsPending = false;
+  document.getElementById('validation-panel').classList.remove('visible');
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Publicar pregunta';
+  btn.className = 'submit-btn';
+  btn.disabled = false;
+}
+
+function hasUnclosedLatex(text) {
+  const noDisplay = text.replace(/\$\$[\s\S]*?\$\$/g, '');
+  return (noDisplay.match(/\$/g) || []).length % 2 !== 0;
+}
+
+function getMissingFigs(text, figArr) {
+  const missing = [];
+  for (const m of text.matchAll(/\[FIG:(\d+)\]/g)) {
+    if (!figArr[parseInt(m[1])]) missing.push(m[1]);
+  }
+  return missing;
+}
+
+function scrollToField(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  el.focus?.();
+}
+
+function buildValItem(text, onclick) {
+  return `<div class="val-item" onclick="${onclick}"><span>•</span><span class="val-item-text">${text}</span></div>`;
+}
+
+function showValidationPanel(errors, warnings) {
+  const panel    = document.getElementById('validation-panel');
+  const errWrap  = document.getElementById('val-errors-wrap');
+  const warnWrap = document.getElementById('val-warnings-wrap');
+  document.getElementById('val-errors-list').innerHTML   = errors.map(e => buildValItem(e.text, `scrollToField('${e.field}')`)).join('');
+  document.getElementById('val-warnings-list').innerHTML = warnings.map(w => buildValItem(w.text, w.onclick || '')).join('');
+  errWrap.style.display  = errors.length   ? '' : 'none';
+  warnWrap.style.display = warnings.length ? '' : 'none';
+  panel.classList.add('visible');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+async function runValidation() {
+  const errors = [], warnings = [];
+  const body        = document.getElementById('body').value.trim();
+  const uni         = document.getElementById('university').value;
+  const anio        = document.getElementById('anio').value.trim();
+  const numero      = document.getElementById('numero').value.trim();
+  const convocatoria= document.getElementById('convocatoria').value.trim();
+  const subTemas    = Array.from(document.getElementById('subtema').selectedOptions).map(o => o.value);
+  const hasSolucion = document.getElementById('chk-solucion').checked;
+  const solBody     = document.getElementById('sol-body').value.trim();
+
+  // ── Errors ──
+  if (!body)
+    errors.push({ text: 'Enunciado: no puede estar vacío', field: 'body' });
+
+  if (!selectedClave)
+    errors.push({ text: 'Clave: no seleccionada', field: 'choice-A' });
+
+  const emptyChoices = ['A','B','C','D','E'].filter(l => !document.getElementById('choice-'+l).value.trim() && !choiceImages[l]);
+  if (emptyChoices.length)
+    errors.push({ text: `Alternativas sin contenido: ${emptyChoices.join(', ')}`, field: 'choice-'+emptyChoices[0] });
+
+  if (!uni)
+    errors.push({ text: 'Universidad: obligatoria', field: 'university' });
+
+  if (!anio)
+    errors.push({ text: 'Año: obligatorio', field: 'anio' });
+
+  if (!subTemas.length)
+    errors.push({ text: 'Sub-tema: selecciona al menos uno', field: 'subtema' });
+
+  if (body) {
+    const mf = getMissingFigs(body, currentFigureImages);
+    if (mf.length) errors.push({ text: `Enunciado: [FIG:${mf[0]}] sin imagen asignada`, field: 'body' });
+  }
+
+  if (hasSolucion && !solBody && !currentSolFigureImages.length)
+    errors.push({ text: 'Solución: checkbox marcado pero sin texto ni imagen', field: 'sol-body' });
+
+  if (hasSolucion && solBody) {
+    const mf = getMissingFigs(solBody, currentSolFigureImages);
+    if (mf.length) errors.push({ text: `Solución: [FIG:${mf[0]}] sin imagen asignada`, field: 'sol-body' });
+  }
+
+  // ── Warnings ──
+  if (!numero)
+    warnings.push({ text: 'N° de pregunta no ingresado — la pregunta no tendrá etiqueta N°X', onclick: "scrollToField('numero')" });
+
+  if (body && hasUnclosedLatex(body))
+    warnings.push({ text: 'LaTeX posiblemente incompleto: $ sin cerrar en el Enunciado', onclick: "scrollToField('body')" });
+
+  ['A','B','C','D','E'].forEach(l => {
+    const t = document.getElementById('choice-'+l).value;
+    if (t && hasUnclosedLatex(t))
+      warnings.push({ text: `LaTeX posiblemente incompleto en Alternativa ${l}`, onclick: `scrollToField('choice-${l}')` });
+  });
+
+  // Duplicate check
+  if (uni && (numero || body)) {
+    try {
+      const titlePreview = body.replace(/\[FIG:\d+\]/g,'').replace(/\$\$[\s\S]*?\$\$/g,'').replace(/\$[^$]+\$/g,'').replace(/\s+/g,' ').trim().substring(0, 60);
+      const dup = await fetch('/api/check-duplicate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titulo: titlePreview, universidad: uni, anio, convocatoria, numero }),
+      }).then(r => r.json());
+      if (dup.duplicate) {
+        const link = dup.topic_url ? ` — <a href="${dup.topic_url}" target="_blank">ver en Discourse</a>` : '';
+        warnings.push({ text: `Posible duplicado encontrado en Discourse${link}`, onclick: '' });
+      }
+    } catch {}
+  }
+
+  return { errors, warnings };
 }
 
 // ── SUBMIT ─────────────────────────────────────────────────
@@ -841,27 +1202,58 @@ async function compressSourceImage(dataUrl, maxSide = 1600, quality = 0.72) {
 }
 
 async function handleSubmit() {
-  const body = document.getElementById('body').value.trim();
-  if (!body) { alert('El enunciado no puede estar vacío.'); return; }
-  if (!selectedClave) { alert('Debes seleccionar la clave.'); return; }
+  const btn = document.getElementById('submit-btn');
 
-  const choices = {};
-  ['A','B','C','D','E'].forEach(l => {
-    choices[l] = document.getElementById('choice-' + l).value.trim();
-  });
-  const incomplete = ['A','B','C','D','E'].some(l => !choices[l] && !choiceImages[l]);
-  if (incomplete) { alert('Todas las alternativas deben tener texto o imagen.'); return; }
+  // Second click after warnings were shown → publish directly
+  if (warningsPending) {
+    warningsPending = false;
+    await doPublish();
+    return;
+  }
 
-  const uni          = document.getElementById('university').value;
-  const tema         = document.getElementById('tema').value;
-  const convocatoria = document.getElementById('convocatoria').value.trim();
-  const numero       = document.getElementById('numero').value.trim();
+  btn.textContent = 'Verificando…';
+  btn.disabled = true;
 
-  if (!uni || !tema) { alert('Selecciona universidad y tema.'); return; }
+  const { errors, warnings } = await runValidation();
 
-  const btn = document.querySelector('.submit-btn');
+  if (errors.length > 0) {
+    showValidationPanel(errors, warnings);
+    btn.textContent = 'Publicar pregunta';
+    btn.className = 'submit-btn';
+    btn.disabled = false;
+    return;
+  }
+
+  if (warnings.length > 0) {
+    showValidationPanel([], warnings);
+    btn.textContent = '⚠ Publicar de todas formas';
+    btn.className = 'submit-btn warn';
+    btn.disabled = false;
+    warningsPending = true;
+    return;
+  }
+
+  // No issues → publish directly
+  await doPublish();
+}
+
+async function doPublish() {
+  const btn = document.getElementById('submit-btn');
   btn.textContent = 'Publicando…';
   btn.disabled = true;
+
+  const body         = document.getElementById('body').value.trim();
+  const uni          = document.getElementById('university').value;
+  const tema         = document.getElementById('tema').value;
+  const anio         = document.getElementById('anio').value.trim();
+  const convocatoria = document.getElementById('convocatoria').value.trim();
+  const numero       = document.getElementById('numero').value.trim();
+  const subtemas     = Array.from(document.getElementById('subtema').selectedOptions).map(o => o.value);
+  const hasSolucion  = document.getElementById('chk-solucion').checked;
+  const solBody      = document.getElementById('sol-body').value.trim();
+
+  const choices = {};
+  ['A','B','C','D','E'].forEach(l => { choices[l] = document.getElementById('choice-'+l).value.trim(); });
 
   try {
     const sourceImage = capturedImage ? await compressSourceImage(
@@ -869,19 +1261,19 @@ async function handleSubmit() {
     ) : null;
 
     const payload = {
-      universidad: uni, tema, convocatoria, numero,
+      universidad: uni, tema, anio, convocatoria, numero,
       body, choices,
       choice_images: { ...choiceImages },
       figure_images: currentFigureImages.slice(),
       source_image: sourceImage,
       clave: selectedClave,
+      subtemas,
+      solucion: hasSolucion && (solBody || currentSolFigureImages.length)
+        ? { body: solBody, figure_images: currentSolFigureImages.slice() }
+        : null,
     };
 
-    const res = await fetch('/api/publish', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+    const res  = await fetch('/api/publish', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || res.statusText);
 
@@ -889,6 +1281,7 @@ async function handleSubmit() {
     notice.innerHTML = `✓ Pregunta publicada — <a href="${data.topic_url}" target="_blank">ver en Discourse</a>`;
     notice.className = 'extract-notice success';
     notice.style.display = 'block';
+    document.getElementById('validation-panel').classList.remove('visible');
 
   } catch (err) {
     const notice = document.getElementById('extract-notice');
@@ -897,6 +1290,7 @@ async function handleSubmit() {
     notice.style.display = 'block';
   } finally {
     btn.textContent = 'Publicar pregunta';
+    btn.className = 'submit-btn';
     btn.disabled = false;
   }
 }
@@ -936,7 +1330,9 @@ function openManualCrop(letter) {
 }
 
 function switchManualCropImg(n) {
-  const src = n === 1 ? capturedImage : capturedImage2;
+  const src = mcropTargetChoice === 'sol-fig'
+    ? (n === 1 ? capturedSolImage : capturedSolImage2)
+    : (n === 1 ? capturedImage    : capturedImage2);
   if (!src) return;
   mcropActiveNum = n;
   document.getElementById('mcrop-sel-1').classList.toggle('active', n === 1);
@@ -960,12 +1356,13 @@ function loadManualCropImage(src) {
     c.getContext('2d').drawImage(mcropImg, 0, 0, cw, ch);
     o.getContext('2d').clearRect(0, 0, cw, ch);
     mcropRect = null;
-    o.onmousedown = e => {
+    o.onpointerdown = e => {
+      o.setPointerCapture(e.pointerId);
       const r = o.getBoundingClientRect();
       mcropStart = { x: e.clientX - r.left, y: e.clientY - r.top };
       mcropDragging = true; mcropRect = null;
     };
-    o.onmousemove = e => {
+    o.onpointermove = e => {
       if (!mcropDragging) return;
       const r  = o.getBoundingClientRect();
       const cx = Math.max(0, Math.min(e.clientX - r.left, cw));
@@ -981,7 +1378,7 @@ function loadManualCropImage(src) {
         ctx.strokeStyle = '#6f5acd'; ctx.lineWidth = 2; ctx.strokeRect(x, y, w, h);
       }
     };
-    o.onmouseup = o.onmouseleave = () => { mcropDragging = false; };
+    o.onpointerup = () => { mcropDragging = false; };
   };
   mcropImg.src = src;
 }
@@ -998,7 +1395,14 @@ function confirmManualCrop() {
     out.width, out.height, 0, 0, out.width, out.height);
   const dataUrl = out.toDataURL('image/jpeg', 0.92);
 
-  if (mcropTargetChoice) {
+  if (mcropTargetChoice === 'sol-fig') {
+    const newIdx = currentSolFigureImages.length;
+    currentSolFigureImages.push(dataUrl);
+    const solEl = document.getElementById('sol-body');
+    const pos = solEl.selectionStart ?? solEl.value.length;
+    solEl.value = solEl.value.slice(0, pos) + `[FIG:${newIdx}]` + solEl.value.slice(pos);
+    updatePreview();
+  } else if (mcropTargetChoice) {
     setChoiceImage(mcropTargetChoice, dataUrl);
   } else {
     const newIdx = currentFigureImages.length;
@@ -1014,6 +1418,121 @@ function confirmManualCrop() {
 function cancelManualCrop() {
   document.getElementById('manual-crop-overlay').classList.add('hidden');
   mcropImg = null; mcropRect = null; mcropTargetChoice = null;
+}
+
+// ── SOLUTION FIGURE CARDS ──────────────────────────────────
+function solFigCardHtml(src, idx) {
+  return `<div class="fig-card" data-sol-fig-idx="${idx}">
+    <img src="${src}" alt="Figura sol ${idx+1}">
+    <button class="fig-crop-btn" onclick="openSolCrop(${idx})">&#9986; Recortar</button>
+    <button class="fig-del-btn"  onclick="deleteSolFig(${idx})">&#10005; Eliminar</button>
+  </div>`;
+}
+
+function deleteSolFig(idx) {
+  if (activeSolCropIdx === idx) activeSolCropIdx = -1;
+  const el = document.getElementById('sol-body');
+  let text = el.value;
+  text = text.replace(new RegExp(`\\[FIG:${idx}\\]`, 'g'), '');
+  for (let i = idx + 1; i < currentSolFigureImages.length; i++) {
+    text = text.replace(new RegExp(`\\[FIG:${i}\\]`, 'g'), `[FIG:${i - 1}]`);
+  }
+  el.value = text;
+  currentSolFigureImages.splice(idx, 1);
+  updatePreview();
+}
+
+// ── SOLUTION INLINE CROP ────────────────────────────────────
+let activeSolCropIdx = -1, activeSolCropImg = null, activeSolCropRect = null;
+let activeSolCropStart = null, activeSolCropDragging = false;
+
+function openSolCrop(idx) {
+  if (activeSolCropIdx >= 0) restoreSolFigCard(activeSolCropIdx);
+  activeSolCropIdx = idx;
+  activeSolCropImg = new Image();
+  activeSolCropImg.onload = () => {
+    const figCard = document.querySelector(`.fig-card[data-sol-fig-idx="${idx}"]`);
+    if (!figCard) return;
+    const maxW = figCard.clientWidth - 4, maxH = 260;
+    const scale = Math.min(1, maxW / activeSolCropImg.naturalWidth, maxH / activeSolCropImg.naturalHeight);
+    const cw = Math.round(activeSolCropImg.naturalWidth * scale);
+    const ch = Math.round(activeSolCropImg.naturalHeight * scale);
+    figCard.innerHTML = `
+      <div class="fig-crop-hint">Arrastra para seleccionar el área a recortar</div>
+      <div class="fig-crop-wrap">
+        <canvas id="solcrop-c-${idx}" width="${cw}" height="${ch}"></canvas>
+        <canvas id="solcrop-o-${idx}" width="${cw}" height="${ch}" class="fig-crop-overlay" style="width:${cw}px;height:${ch}px;"></canvas>
+      </div>
+      <div class="fig-crop-actions">
+        <button class="btn-cancel"  onclick="cancelSolInlineCrop()">Cancelar</button>
+        <button class="btn-confirm" onclick="confirmSolInlineCrop()">Confirmar recorte</button>
+      </div>`;
+    const c = document.getElementById(`solcrop-c-${idx}`);
+    const o = document.getElementById(`solcrop-o-${idx}`);
+    c.getContext('2d').drawImage(activeSolCropImg, 0, 0, cw, ch);
+    activeSolCropRect = null;
+    o.addEventListener('pointerdown', e => {
+      o.setPointerCapture(e.pointerId);
+      const r = o.getBoundingClientRect();
+      activeSolCropStart = { x: e.clientX - r.left, y: e.clientY - r.top };
+      activeSolCropDragging = true; activeSolCropRect = null;
+    });
+    o.addEventListener('pointermove', e => {
+      if (!activeSolCropDragging) return;
+      const r = o.getBoundingClientRect();
+      const cx = Math.max(0, Math.min(e.clientX - r.left, cw));
+      const cy = Math.max(0, Math.min(e.clientY - r.top,  ch));
+      activeSolCropRect = { x: Math.min(cx, activeSolCropStart.x), y: Math.min(cy, activeSolCropStart.y), w: Math.abs(cx - activeSolCropStart.x), h: Math.abs(cy - activeSolCropStart.y) };
+      const ctx = o.getContext('2d'); ctx.clearRect(0, 0, cw, ch);
+      if (activeSolCropRect.w > 2 && activeSolCropRect.h > 2) {
+        const { x, y, w, h } = activeSolCropRect;
+        ctx.fillStyle = 'rgba(0,0,0,0.4)'; ctx.fillRect(0, 0, cw, ch);
+        ctx.clearRect(x, y, w, h);
+        ctx.strokeStyle = '#6f5acd'; ctx.lineWidth = 2; ctx.strokeRect(x, y, w, h);
+      }
+    });
+    o.addEventListener('pointerup', () => { activeSolCropDragging = false; });
+  };
+  activeSolCropImg.src = currentSolFigureImages[idx];
+}
+
+function cancelSolInlineCrop() { restoreSolFigCard(activeSolCropIdx); activeSolCropIdx = -1; }
+
+function confirmSolInlineCrop() {
+  const idx = activeSolCropIdx;
+  if (!activeSolCropRect || activeSolCropRect.w < 5 || activeSolCropRect.h < 5) { cancelSolInlineCrop(); return; }
+  const c = document.getElementById(`solcrop-c-${idx}`);
+  const sx = activeSolCropImg.naturalWidth  / c.width;
+  const sy = activeSolCropImg.naturalHeight / c.height;
+  const out = document.createElement('canvas');
+  out.width  = Math.round(activeSolCropRect.w * sx);
+  out.height = Math.round(activeSolCropRect.h * sy);
+  out.getContext('2d').drawImage(activeSolCropImg, Math.round(activeSolCropRect.x * sx), Math.round(activeSolCropRect.y * sy), out.width, out.height, 0, 0, out.width, out.height);
+  currentSolFigureImages[idx] = out.toDataURL('image/jpeg', 0.92);
+  activeSolCropIdx = -1;
+  restoreSolFigCard(idx);
+}
+
+function restoreSolFigCard(idx) {
+  const figCard = document.querySelector(`.fig-card[data-sol-fig-idx="${idx}"]`);
+  if (figCard) figCard.innerHTML =
+    `<img src="${currentSolFigureImages[idx]}" alt="Figura sol ${idx+1}">
+     <button class="fig-crop-btn" onclick="openSolCrop(${idx})">&#9986; Recortar</button>
+     <button class="fig-del-btn"  onclick="deleteSolFig(${idx})">&#10005; Eliminar</button>`;
+}
+
+// Open manual crop for solution figures
+function openManualSolCrop() {
+  if (!capturedSolImage) { alert('Carga una imagen de solución primero.'); return; }
+  mcropTargetChoice = 'sol-fig';
+  const title = document.getElementById('mcrop-title');
+  if (title) title.textContent = 'Insertar figura en solución';
+  mcropActiveNum = 1;
+  document.getElementById('mcrop-sel-1').classList.add('active');
+  document.getElementById('mcrop-sel-2').classList.remove('active');
+  document.getElementById('mcrop-sel-2').style.display = capturedSolImage2 ? '' : 'none';
+  document.getElementById('manual-crop-overlay').classList.remove('hidden');
+  loadManualCropImage(capturedSolImage);
 }
 
 // ── CROP TOOL ──────────────────────────────────────────────
@@ -1049,10 +1568,9 @@ function openCrop(idx) {
     const o = document.getElementById(`icrop-o-${idx}`);
     c.getContext('2d').drawImage(activeCropImg, 0, 0, cw, ch);
     activeCropRect = null;
-    o.addEventListener('mousedown',  e => startDrag(e, o));
-    o.addEventListener('mousemove',  e => moveDrag(e, o));
-    o.addEventListener('mouseup',    ()  => { activeCropDragging = false; });
-    o.addEventListener('mouseleave', ()  => { activeCropDragging = false; });
+    o.addEventListener('pointerdown', e => { o.setPointerCapture(e.pointerId); startDrag(e, o); });
+    o.addEventListener('pointermove', e => moveDrag(e, o));
+    o.addEventListener('pointerup',   () => { activeCropDragging = false; });
   };
   activeCropImg.src = currentFigureImages[idx];
 }

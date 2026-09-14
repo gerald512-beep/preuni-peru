@@ -426,6 +426,21 @@ app.post('/api/extract', async (req, res) => {
 });
 
 // ── DISCOURSE PUBLISH ──────────────────────────────────────────────────────
+// Ensure a tag exists with exact name before posting (prevents Discourse normalization N°X → nX)
+async function ensureTag(tagName) {
+  try {
+    await fetch(`${DISCOURSE_URL}/admin/tags`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Api-Key': DISCOURSE_API_KEY,
+        'Api-Username': DISCOURSE_USERNAME,
+      },
+      body: JSON.stringify({ tag: { name: tagName } }),
+    });
+  } catch {}  // 422 = already exists — ignore
+}
+
 async function discourseUpload(dataUrl, filename) {
   const m = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
   if (!m) throw new Error('Invalid image data for upload');
@@ -468,9 +483,9 @@ function buildRaw(body, choices, choiceUrls) {
 
 app.post('/api/publish', async (req, res) => {
   try {
-    const { universidad, tema, convocatoria, numero, body, choices,
+    const { universidad, tema, anio, convocatoria, numero, body, choices,
             choice_images, figure_images, source_image, clave,
-            tipo_origen } = req.body;
+            tipo_origen, subtemas, solucion } = req.body;
 
     if (!universidad || !tema || !body || !clave)
       return res.status(400).json({ error: 'Faltan campos requeridos.' });
@@ -478,6 +493,21 @@ app.post('/api/publish', async (req, res) => {
     const categoryId = CATEGORY_MAP[universidad]?.[tema];
     if (!categoryId)
       return res.status(400).json({ error: `Categoría no encontrada: ${universidad} / ${tema}` });
+
+    // Ensure N°X tag + subtema tags exist and collect all tags
+    const tags = [];
+    if (numero) {
+      const tagName = `N°${numero}`;
+      await ensureTag(tagName);
+      tags.push(tagName);
+    }
+    for (const sub of (subtemas || [])) {
+      await ensureTag(sub);
+      tags.push(sub);
+    }
+
+    // Build structured convocatoria: "2024-I Ordinario" or just "2024"
+    const convStr = [anio, convocatoria].filter(Boolean).join('-');
 
     // Upload figures, replace [FIG:N] markers
     let resolvedBody = body;
@@ -505,6 +535,7 @@ app.post('/api/publish', async (req, res) => {
     const title = buildTitle(resolvedBody);
     const raw   = buildRaw(resolvedBody, choices, choiceUrls);
 
+    // Custom fields go in the POST body — PUT /t/:id silently drops them
     const postRes = await fetch(`${DISCOURSE_URL}/posts.json`, {
       method: 'POST',
       headers: {
@@ -512,7 +543,17 @@ app.post('/api/publish', async (req, res) => {
         'Api-Key': DISCOURSE_API_KEY,
         'Api-Username': DISCOURSE_USERNAME,
       },
-      body: JSON.stringify({ title, raw, category: categoryId, tags: numero ? [`N°${numero}`] : [] }),
+      body: JSON.stringify({
+        title, raw, category: categoryId, tags,
+        topic_custom_fields: {
+          preuni_clave:        clave,
+          preuni_convocatoria: convStr,
+          preuni_numero:       String(numero || ''),
+          preuni_universidad:  universidad,
+          preuni_tema:         tema,
+          preuni_tipo_origen:  tipo_origen || 'Universidad',
+        },
+      }),
     });
 
     if (!postRes.ok) {
@@ -521,34 +562,84 @@ app.post('/api/publish', async (req, res) => {
     }
 
     const post = await postRes.json();
-    const topicId = post.topic_id;
-
-    // Store MCQ metadata as topic custom fields (read later by Plugin 1)
-    await fetch(`${DISCOURSE_URL}/t/${topicId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Api-Key': DISCOURSE_API_KEY,
-        'Api-Username': DISCOURSE_USERNAME,
-      },
-      body: JSON.stringify({
-        custom_fields: {
-          preuni_clave:        clave,
-          preuni_convocatoria: convocatoria  || '',
-          preuni_numero:       numero        || '',
-          preuni_universidad:  universidad,
-          preuni_tema:         tema,
-          preuni_tipo_origen:  tipo_origen   || 'Universidad',
-        },
-      }),
-    });
-
+    const topicId  = post.topic_id;
     const topicUrl = `${DISCOURSE_URL}/t/${post.topic_slug}/${topicId}`;
+
+    // Create solution reply if provided
+    if (solucion?.body || solucion?.figure_images?.length) {
+      let solRaw = solucion.body || '';
+      for (let i = 0; i < (solucion.figure_images?.length || 0); i++) {
+        if (!solucion.figure_images[i]) continue;
+        const { shortUrl } = await discourseUpload(solucion.figure_images[i], `sol_figura_${i + 1}.jpg`);
+        solRaw = solRaw.replace(`[FIG:${i}]`, `\n![figura sol ${i + 1}](${shortUrl})\n`);
+      }
+      solRaw = solRaw.replace(/\[FIG:\d+\]/g, '');
+
+      await fetch(`${DISCOURSE_URL}/posts.json`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Api-Key': DISCOURSE_API_KEY,
+          'Api-Username': DISCOURSE_USERNAME,
+        },
+        body: JSON.stringify({
+          topic_id: topicId,
+          raw: solRaw,
+          preuni_post_type: 'solucion',
+        }),
+      });
+    }
+
     res.json({ topic_url: topicUrl, topic_id: topicId });
 
   } catch (err) {
     console.error('Publish error:', err.message);
     res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/check-duplicate', async (req, res) => {
+  try {
+    const { titulo, universidad, anio, convocatoria, numero } = req.body;
+    const headers = { 'Api-Key': DISCOURSE_API_KEY, 'Api-Username': DISCOURSE_USERNAME };
+    const uniCatIds = new Set(Object.values(CATEGORY_MAP[universidad] || {}));
+    let match = null;
+
+    // Strategy 1: search by N°X tag within universidad categories
+    if (numero && uniCatIds.size) {
+      const tagRes = await fetch(
+        `${DISCOURSE_URL}/tag/${encodeURIComponent('N°' + numero)}/l/latest.json`,
+        { headers }
+      );
+      if (tagRes.ok) {
+        const tagData = await tagRes.json();
+        match = (tagData.topic_list?.topics || []).find(t => {
+          if (!uniCatIds.has(t.category_id)) return false;
+          if (!anio) return true;
+          return t.title?.includes(anio) || t.title?.includes(String(anio).slice(-2));
+        });
+      }
+    }
+
+    // Strategy 2: title search as fallback
+    if (!match && titulo) {
+      const q = titulo.substring(0, 50);
+      const searchRes = await fetch(
+        `${DISCOURSE_URL}/search.json?q=${encodeURIComponent(q)}`,
+        { headers }
+      );
+      if (searchRes.ok) {
+        const sd = await searchRes.json();
+        match = (sd.topics || []).find(t => uniCatIds.has(t.category_id));
+      }
+    }
+
+    res.json({
+      duplicate: !!match,
+      topic_url: match ? `${DISCOURSE_URL}/t/${match.slug}/${match.id}` : null,
+    });
+  } catch {
+    res.json({ duplicate: false });
   }
 });
 

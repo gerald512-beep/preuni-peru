@@ -9,7 +9,7 @@ import { ajax } from "discourse/lib/ajax";
 import { eq, not } from "discourse/truth-helpers";
 
 const PREUNI_CSS = `
-.preuni-widget{margin:0 0 1.2rem var(--topic-avatar-width,45px);max-width:calc(var(--topic-body-width) + 2 * var(--topic-body-width-padding))}
+.preuni-widget{margin:0 0 1.2rem 0}
 .preuni-pill{
   background:#eaf0f9;border:1px solid #cdd9ec;border-radius:50px;
   display:flex;align-items:center;padding:8px 14px;gap:0;
@@ -110,6 +110,8 @@ export default class PreuniWidget extends Component {
   _timer = null;
   _inicio = null;
   _topicId = null;  // plain field — not tracked, used to detect SPA navigation
+  _resizeObs = null;
+  _destroyed = false;
   letras = ["A", "B", "C", "D", "E"];
 
   constructor(owner, args) {
@@ -132,9 +134,52 @@ export default class PreuniWidget extends Component {
       schedule("afterRender", this, () => {
         this._resetState();
         this._cargarPrevio(id);
+        if (this._resizeObs) { this._resizeObs.disconnect(); this._resizeObs = null; }
+        this._adjustWidth();
+        this._injectDificultadChip();
       });
     }
     return !!this.fields?.clave;
+  }
+
+  _injectDificultadChip() {
+    document.getElementById('preuni-dificultad-chip')?.remove();
+    const dif      = this.fields?.dificultad;
+    const intentos = this.fields?.total_intentos;
+    if (!dif || !intentos) return;
+    const tagContainer = document.querySelector('.topic-category');
+    if (!tagContainer) return;
+    const MAP = {
+      facil:   { bg: '#d4edda', color: '#155724', border: '#c3e6cb', label: 'Fácil'   },
+      medio:   { bg: '#fff3cd', color: '#856404', border: '#ffeeba', label: 'Medio'   },
+      dificil: { bg: '#f8d7da', color: '#721c24', border: '#f5c6cb', label: 'Difícil' },
+    };
+    const c = MAP[dif];
+    if (!c) return;
+    const chip = document.createElement('span');
+    chip.id = 'preuni-dificultad-chip';
+    chip.style.cssText = `display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600;background:${c.bg};color:${c.color};border:1px solid ${c.border};vertical-align:middle;margin-left:6px`;
+    chip.textContent = `${c.label} · ${intentos} intentos`;
+    tagContainer.appendChild(chip);
+  }
+
+  // Measure actual post body rect and apply to pill — works at any viewport/breakpoint
+  _adjustWidth(attempt = 0) {
+    if (this._destroyed) return;
+    const body = document.querySelector('.topic-post .topic-body');
+    const widget = document.querySelector('.preuni-widget');
+    if (!body || !widget || !widget.parentElement) {
+      if (attempt < 5) setTimeout(() => this._adjustWidth(attempt + 1), 100);
+      return;
+    }
+    const parentRect = widget.parentElement.getBoundingClientRect();
+    const bodyRect = body.getBoundingClientRect();
+    widget.style.marginLeft = Math.max(0, bodyRect.left - parentRect.left) + 'px';
+    widget.style.maxWidth = bodyRect.width + 'px';
+    if (!this._resizeObs) {
+      this._resizeObs = new ResizeObserver(() => this._adjustWidth());
+      this._resizeObs.observe(body);
+    }
   }
 
   _resetState() {
@@ -260,7 +305,10 @@ export default class PreuniWidget extends Component {
   }
 
   willDestroy() {
+    this._destroyed = true;
     clearInterval(this._timer);
+    if (this._resizeObs) { this._resizeObs.disconnect(); this._resizeObs = null; }
+    document.getElementById('preuni-dificultad-chip')?.remove();
     super.willDestroy(...arguments);
   }
 
@@ -287,7 +335,7 @@ export default class PreuniWidget extends Component {
           {{! Center zone }}
           <div class="preuni-center">
             {{#if (eq this.estado "idle")}}
-              <span class="preuni-idle-text">¿Listo?</span>
+              <span class="preuni-idle-text">¿Listo? Inicia el cronómetro</span>
 
             {{else if this.loginGate}}
               <a href="/login" class="preuni-login-prompt">

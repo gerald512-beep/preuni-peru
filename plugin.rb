@@ -26,14 +26,31 @@ after_initialize do
 
   add_to_serializer(:topic_view, :preuni_fields) do
     t = object.topic
-    t.custom_fields.slice(*PREUNI_FIELDS.map { |f| f }).transform_keys { |k| k.sub('preuni_', '').to_sym }
+    base = t.custom_fields.slice(*PREUNI_FIELDS).transform_keys { |k| k.sub('preuni_', '').to_sym }
+
+    if base[:clave].present?
+      counts = PreuniRespuesta.where(topic_id: t.id).group(:respuesta).count
+      total  = counts.values.sum
+      if total >= 50
+        n_correct = counts[base[:clave]] || 0
+        pct = (n_correct.to_f / total * 100).round(1)
+        base[:total_intentos] = total
+        base[:pct_correcto]   = pct
+        base[:dificultad]     = pct > 65 ? "facil" : (pct < 20 ? "dificil" : "medio")
+      end
+    end
+
+    base
   end
 
   on(:post_created) do |post, opts, user|
     tipo = opts[:preuni_post_type]
     if tipo.present? && %w[solucion comentario].include?(tipo)
-      post.custom_fields["preuni_post_type"] = tipo
-      post.save_custom_fields(true)
+      # Guard: solucion/comentario cannot be root posts (post_number == 1)
+      if post.post_number > 1
+        post.custom_fields["preuni_post_type"] = tipo
+        post.save_custom_fields(true)
+      end
     end
   end
 
@@ -41,11 +58,65 @@ after_initialize do
     object.custom_fields["preuni_post_type"]
   end
 
+  add_to_serializer(:post, :preuni_is_universitario) do
+    object.user&.groups&.where(name: 'universitario')&.any? || false
+  end
+
+  add_to_serializer(:post, :preuni_is_egresado) do
+    object.user&.groups&.where(name: 'egresado')&.any? || false
+  end
+
+  add_to_serializer(:post, :preuni_is_moderador) do
+    object.user&.groups&.where(name: 'moderador')&.any? || false
+  end
+
   load File.expand_path('../app/models/preuni_respuesta.rb', __FILE__)
   load File.expand_path('../app/controllers/preuni_respuestas_controller.rb', __FILE__)
+
+  PreuniRespuestasController.class_eval do
+    def difficulties
+      topic_ids = TopicCustomField
+        .where(name: 'preuni_clave')
+        .where.not(value: [nil, ''])
+        .joins("INNER JOIN topics ON topics.id = topic_custom_fields.topic_id AND topics.deleted_at IS NULL")
+        .pluck(:topic_id)
+
+      if topic_ids.empty?
+        return render json: { difficulties: {} }
+      end
+
+      counts = PreuniRespuesta.where(topic_id: topic_ids).group(:topic_id, :respuesta).count
+      claves = TopicCustomField.where(topic_id: topic_ids, name: 'preuni_clave').pluck(:topic_id, :value).to_h
+
+      result = {}
+      topic_ids.each do |tid|
+        clave = claves[tid]
+        next unless clave.present?
+
+        total = 0
+        correct = 0
+        counts.each do |(t, resp), cnt|
+          next unless t == tid
+          total += cnt
+          correct += cnt if resp == clave
+        end
+
+        if total >= 50
+          pct = (correct.to_f / total * 100).round(1)
+          dif = pct > 65 ? "facil" : (pct < 20 ? "dificil" : "medio")
+          result[tid] = { dificultad: dif, total_intentos: total }
+        else
+          result[tid] = { dificultad: "por_definir", total_intentos: total }
+        end
+      end
+
+      render json: { difficulties: result }
+    end
+  end
 
   Discourse::Application.routes.append do
     post '/preuni/responder'        => 'preuni_respuestas#create'
     get  '/preuni/distribucion/:id' => 'preuni_respuestas#distribucion'
+    get  '/preuni/difficulties'     => 'preuni_respuestas#difficulties'
   end
 end
