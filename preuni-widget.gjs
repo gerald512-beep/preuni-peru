@@ -3,7 +3,7 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import { on } from "@ember/modifier";
-import { fn } from "@ember/helper";
+import { fn, concat } from "@ember/helper";
 import { schedule } from "@ember/runloop";
 import { ajax } from "discourse/lib/ajax";
 import { eq, not } from "discourse/truth-helpers";
@@ -124,16 +124,45 @@ export default class PreuniWidget extends Component {
     }
   }
 
-  get fields() { return this.args.topic?.preuni_fields; }
+  // Two mount modes: @topic (root question, one instance reused across SPA
+  // topic navigation — needs the manual identity/reset dance below) or @post
+  // (an additional linked question inside a reading-passage cluster; Ember
+  // naturally creates/destroys one instance per rendered post, so none of
+  // that SPA-navigation bookkeeping is needed).
+  get postMode() { return !!this.args.post; }
 
-  // Detects SPA topic changes and resets state — schedule keeps mutation out of render
+  get fields() {
+    if (this.postMode) {
+      return { clave: this.args.post?.preuni_clave, numero: this.args.post?.preuni_numero };
+    }
+    return this.args.topic?.preuni_fields;
+  }
+
+  // The id every server call keys off. Root question: the topic's first post.
+  get postId() {
+    if (this.postMode) return this.args.post?.id;
+    return this.args.topic?.postStream?.firstPostId ?? null;
+  }
+
   get esPreuni() {
+    if (this.postMode) {
+      if (!this._postModeInit) {
+        this._postModeInit = true;
+        schedule("afterRender", this, () => {
+          this._cargarPrevio(this.postId);
+          this._adjustWidth();
+        });
+      }
+      return !!this.fields?.clave;
+    }
+
+    // Detects SPA topic changes and resets state — schedule keeps mutation out of render
     const id = this.args.topic?.id;
     if (id && id !== this._topicId) {
       this._topicId = id;
       schedule("afterRender", this, () => {
         this._resetState();
-        this._cargarPrevio(id);
+        this._cargarPrevio(this.postId);
         if (this._resizeObs) { this._resizeObs.disconnect(); this._resizeObs = null; }
         this._adjustWidth();
         this._injectDificultadChip();
@@ -163,11 +192,17 @@ export default class PreuniWidget extends Component {
     tagContainer.appendChild(chip);
   }
 
-  // Measure actual post body rect and apply to pill — works at any viewport/breakpoint
+  // Measure actual post body rect and apply to pill — works at any viewport/breakpoint.
+  // In post-mode there can be several widget instances on one page (one per
+  // linked question), so we must scope to THIS instance's own containing
+  // post, not just grab the first ".topic-post" on the page.
   _adjustWidth(attempt = 0) {
     if (this._destroyed) return;
-    const body = document.querySelector('.topic-post .topic-body');
-    const widget = document.querySelector('.preuni-widget');
+    const widget = this.postMode
+      ? document.getElementById(`preuni-widget-${this.postId}`)
+      : document.querySelector('.preuni-widget');
+    const postEl = widget?.closest('.topic-post');
+    const body = postEl?.querySelector('.topic-body') ?? (this.postMode ? null : document.querySelector('.topic-post .topic-body'));
     if (!body || !widget || !widget.parentElement) {
       if (attempt < 5) setTimeout(() => this._adjustWidth(attempt + 1), 100);
       return;
@@ -194,11 +229,11 @@ export default class PreuniWidget extends Component {
     this.loginGate = false;
   }
 
-  async _cargarPrevio(topicId) {
-    if (!this.fields?.clave) return;
+  async _cargarPrevio(postId) {
+    if (!this.fields?.clave || !postId) return;
     try {
-      const data = await ajax(`/preuni/distribucion/${topicId}`);
-      if (this._topicId !== topicId) return;  // navigated away before response
+      const data = await ajax(`/preuni/distribucion/${postId}`);
+      if (!this.postMode && this._topicId !== this.args.topic?.id) return;  // navigated away before response
       if (data.mi_respuesta) {
         this.clave = this.fields.clave;
         this.seleccion = data.mi_respuesta;
@@ -269,7 +304,7 @@ export default class PreuniWidget extends Component {
       const data = await ajax("/preuni/responder", {
         type: "POST",
         data: {
-          topic_id: this.args.topic.id,
+          post_id: this.postId,
           respuesta: letra,
           tiempo_segundos: this.segundos,
         },
@@ -282,7 +317,7 @@ export default class PreuniWidget extends Component {
       const msg = e.jqXHR?.responseJSON?.error || "";
       if (msg === "Ya respondiste esta pregunta") {
         try {
-          const dist = await ajax(`/preuni/distribucion/${this.args.topic.id}`);
+          const dist = await ajax(`/preuni/distribucion/${this.postId}`);
           this.clave = this.fields.clave;
           this.seleccion = dist.mi_respuesta || letra;
           this.correcto = this.seleccion === this.clave;
@@ -314,7 +349,7 @@ export default class PreuniWidget extends Component {
 
   <template>
     {{#if this.esPreuni}}
-      <div class="preuni-widget">
+      <div class="preuni-widget" id={{if this.postMode (concat "preuni-widget-" this.postId)}}>
 
         {{! ── PILL ── }}
         <div class="preuni-pill">

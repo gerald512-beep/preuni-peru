@@ -545,16 +545,18 @@ function figCardHtml(src, idx) {
 
 // Convert body text to preview HTML: render [FIG:N] markers as inline figure cards
 function bodyToHtml(text) {
-  return text.replace(/\[FIG:(\d+)\]/g, (_, n) => {
-    const idx = parseInt(n, 10);
-    const src = currentFigureImages[idx];
-    if (!src) return '';
-    return `<div class="fig-card" data-fig-idx="${idx}">
-      <img src="${src}" alt="Figura ${idx+1}">
-      <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Recortar</button>
-      <button class="fig-del-btn"  onclick="deleteFig(${idx})">&#10005; Eliminar</button>
-    </div>`;
-  });
+  return text
+    .replace(/\n/g, '<br>')
+    .replace(/\[FIG:(\d+)\]/g, (_, n) => {
+      const idx = parseInt(n, 10);
+      const src = currentFigureImages[idx];
+      if (!src) return '';
+      return `<div class="fig-card" data-fig-idx="${idx}">
+        <img src="${src}" alt="Figura ${idx+1}">
+        <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Recortar</button>
+        <button class="fig-del-btn"  onclick="deleteFig(${idx})">&#10005; Eliminar</button>
+      </div>`;
+    });
 }
 
 // ── IMAGE CAPTURE ──────────────────────────────────────────
@@ -822,6 +824,135 @@ async function extractFromImage() {
   }
 }
 
+// ── BULK EDIT MODE (fix flagged questions from the review page) ────────────
+let bulkEditId = null;
+
+function populateFromBulkRecord(data) {
+  document.getElementById('numero').value = data.numero || '';
+  document.getElementById('body').value = data.body || '';
+  document.getElementById('anio').value = data.anio || '';
+  document.getElementById('convocatoria').value = data.convocatoria || '';
+
+  ['A','B','C','D','E'].forEach(l => {
+    document.getElementById('choice-' + l).value = data.choices?.[l] || '';
+    clearChoiceImage(l); // reset any stale image from a previous bulk_id load
+    if (data.choiceImages?.[l]) setChoiceImage(l, data.choiceImages[l]);
+  });
+
+  document.querySelectorAll('.clave-btn').forEach(b => b.classList.remove('selected'));
+  if (data.clave) {
+    document.querySelector(`.clave-btn[data-clave="${data.clave}"]`)?.classList.add('selected');
+    selectedClave = data.clave;
+    updateChoiceHighlights();
+  }
+
+  if (data.universidad) {
+    const uniEl = document.getElementById('university');
+    uniEl.value = data.universidad;
+    uniEl.dispatchEvent(new Event('change'));
+  }
+  if (data.tema) {
+    const temaEl = document.getElementById('tema');
+    temaEl.value = data.tema;
+    temaEl.dispatchEvent(new Event('change'));
+  }
+  if (data.subtemas?.length) {
+    const subtemaEl = document.getElementById('subtema');
+    Array.from(subtemaEl.options).forEach(o => { o.selected = data.subtemas.includes(o.value); });
+  }
+
+  // Figures already resolved to data URLs by bulk_seed.js — use directly
+  currentFigureImages = (data.figureImages || []).slice();
+
+  // Pre-fill the solution section if this record already has one (re-opening
+  // a partially-fixed question should show prior work, not start blank)
+  if (data.solutionBody || data.solutionFigureImages?.length) {
+    document.getElementById('chk-solucion').checked = true;
+    document.getElementById('sol-body').value = data.solutionBody || '';
+    currentSolFigureImages = (data.solutionFigureImages || []).slice();
+    toggleSolSection();
+  }
+
+  updatePreview();
+}
+
+async function initBulkEditMode(id) {
+  bulkEditId = id;
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Guardar cambios';
+
+  try {
+    const data = await fetch(`/api/bulk-question/${encodeURIComponent(id)}`).then(r => {
+      if (!r.ok) throw new Error('No se encontró la pregunta en bulk_review.json');
+      return r.json();
+    });
+    populateFromBulkRecord(data);
+
+    const notice = document.getElementById('extract-notice');
+    notice.innerHTML = `✏️ Editando ${id} desde el lote de revisión.` +
+      (data.needsReview?.length ? `<br>Motivo de revisión: <strong>${data.needsReview.join(', ')}</strong>` : '');
+    notice.className = 'extract-notice';
+    notice.style.cssText = 'display:block;background:#fff8e1;border:1px solid #f0c040;color:#7a5c00';
+  } catch (err) {
+    const notice = document.getElementById('extract-notice');
+    notice.textContent = `Error: ${err.message}`;
+    notice.className = 'extract-notice error';
+    notice.style.display = 'block';
+  }
+}
+
+async function doBulkSave() {
+  const btn = document.getElementById('submit-btn');
+  const body = document.getElementById('body').value.trim();
+  if (!body) { alert('El enunciado no puede estar vacío.'); return; }
+
+  const choices = {};
+  ['A','B','C','D','E'].forEach(l => { choices[l] = document.getElementById('choice-' + l).value.trim(); });
+
+  const hasSolucion = document.getElementById('chk-solucion').checked;
+  const solBody = document.getElementById('sol-body').value.trim();
+
+  btn.textContent = 'Guardando…';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`/api/bulk-question/${encodeURIComponent(bulkEditId)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        body, choices,
+        choiceImages: { ...choiceImages },
+        figureImages: currentFigureImages.slice(),
+        clave: selectedClave,
+        tema: document.getElementById('tema').value || null,
+        subtemas: Array.from(document.getElementById('subtema').selectedOptions).map(o => o.value),
+        solutionBody: hasSolucion ? solBody : undefined,
+        solutionFigureImages: hasSolucion ? currentSolFigureImages.slice() : undefined,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || res.statusText);
+
+    const notice = document.getElementById('extract-notice');
+    notice.innerHTML = data.needsReview.length
+      ? `⚠ Guardado — aún faltan: <strong>${data.needsReview.join(', ')}</strong>`
+      : `✓ Guardado — ${bulkEditId} ya no está marcado para revisión.`;
+    notice.className = data.needsReview.length ? '' : 'extract-notice success';
+    notice.style.cssText = data.needsReview.length
+      ? 'display:block;background:#fff8e1;border:1px solid #f0c040;color:#7a5c00'
+      : '';
+    notice.style.display = 'block';
+  } catch (err) {
+    const notice = document.getElementById('extract-notice');
+    notice.textContent = `Error al guardar: ${err.message}`;
+    notice.className = 'extract-notice error';
+    notice.style.display = 'block';
+  } finally {
+    btn.textContent = 'Guardar cambios';
+    btn.disabled = false;
+  }
+}
+
 function populateFromExtraction(data) {
   if (data.numero) document.getElementById('numero').value = data.numero;
   if (data.body) document.getElementById('body').value = data.body;
@@ -917,7 +1048,7 @@ function updateChoiceHighlights() {
 // ── TEMAS + SUB-TEMAS ──────────────────────────────────────
 const TEMAS = {
   UNMSM: ['Aritmética','Álgebra','Geometría','Trigonometría','Razonamiento Matemático','Razonamiento Verbal','Literatura','Historia del Perú','Geografía del Perú'],
-  UNI:   ['Aritmética','Álgebra','Geometría','Trigonometría','Física','Química','Razonamiento Matemático','Razonamiento Verbal','Historia del Perú','Geografía del Perú','Literatura','Filosofía'],
+  UNI:   ['Aritmética','Álgebra','Geometría','Trigonometría','Física','Química','Razonamiento Matemático','Razonamiento Verbal','Historia del Perú','Geografía del Perú','Literatura','Filosofía','Comunicación y Lengua','Economía','Inglés','Lógica','Psicología','Actualidad','Cálculo Diferencial','Cálculo Integral','Álgebra Lineal','Geometría Analítica','Probabilidad y Estadística'],
 };
 
 const SUB_TEMAS = {
@@ -1204,6 +1335,9 @@ async function compressSourceImage(dataUrl, maxSide = 1600, quality = 0.72) {
 async function handleSubmit() {
   const btn = document.getElementById('submit-btn');
 
+  // Bulk-edit mode: save the fix back into bulk_review.json, don't touch Discourse
+  if (bulkEditId) { await doBulkSave(); return; }
+
   // Second click after warnings were shown → publish directly
   if (warningsPending) {
     warningsPending = false;
@@ -1311,6 +1445,9 @@ async function checkServerStatus() {
 populateSubtema();
 updatePreview();
 checkServerStatus();
+
+const _bulkId = new URLSearchParams(location.search).get('bulk_id');
+if (_bulkId) initBulkEditMode(_bulkId);
 
 // ── MANUAL CROP ─────────────────────────────────────────────
 let mcropImg = null, mcropRect = null, mcropDragging = false, mcropStart = null, mcropScale = 1, mcropActiveNum = 1;

@@ -18,19 +18,39 @@ const DISCOURSE_URL      = process.env.DISCOURSE_URL || 'http://localhost:8080';
 const DISCOURSE_API_KEY  = process.env.DISCOURSE_API_KEY;
 const DISCOURSE_USERNAME = process.env.DISCOURSE_API_USERNAME || 'gerald';
 
-const CATEGORY_MAP = {
-  UNMSM: {
-    'Aritmética': 7, 'Álgebra': 8, 'Geometría': 9, 'Trigonometría': 10,
-    'Razonamiento Matemático': 11, 'Razonamiento Verbal': 12,
-    'Literatura': 13, 'Historia del Perú': 14, 'Geografía del Perú': 15,
-  },
-  UNI: {
-    'Aritmética': 16, 'Álgebra': 17, 'Geometría': 18, 'Trigonometría': 19,
-    'Física': 20, 'Química': 21, 'Razonamiento Matemático': 22,
-    'Razonamiento Verbal': 23, 'Historia del Perú': 24,
-    'Geografía del Perú': 25, 'Literatura': 26, 'Filosofía': 27,
-  },
-};
+// Categories are looked up by name (universidad = parent category, tema = subcategory)
+// via the Discourse API instead of hardcoded IDs — IDs differ between local and
+// production instances, and this map had already drifted out of sync by hand once.
+let categoryCache = null; // { universidad: { tema: id } }
+
+async function loadCategoryMap() {
+  const res = await fetch(`${DISCOURSE_URL}/site.json`, {
+    headers: { 'Api-Key': DISCOURSE_API_KEY, 'Api-Username': DISCOURSE_USERNAME },
+  });
+  if (!res.ok) throw new Error(`Failed to load categories: ${res.status}`);
+  const { categories } = await res.json();
+  const byId = new Map(categories.map(c => [c.id, c]));
+  const map = {};
+  for (const c of categories) {
+    if (!c.parent_category_id) continue;
+    const parent = byId.get(c.parent_category_id);
+    if (!parent) continue;
+    (map[parent.name] ??= {})[c.name] = c.id;
+  }
+  return map;
+}
+
+async function getCategoryId(universidad, tema) {
+  if (!categoryCache) categoryCache = await loadCategoryMap();
+  let id = categoryCache[universidad]?.[tema];
+  if (id === undefined) categoryCache = await loadCategoryMap(); // refresh once, in case it was just added
+  return categoryCache[universidad]?.[tema];
+}
+
+async function getCategoryIdsForUniversidad(universidad) {
+  if (!categoryCache) categoryCache = await loadCategoryMap();
+  return new Set(Object.values(categoryCache[universidad] || {}));
+}
 
 // ── Image preprocessing (Python / PIL) ──────────────────────────────────────
 function pyProcess(buf, pyCode) {
@@ -50,6 +70,8 @@ function upscaleImage(buf, minSide = 1200) {
   return pyProcess(buf, `
 from PIL import Image
 img = Image.open(r"__IN__")
+if img.mode != 'RGB':
+    img = img.convert('RGB')
 w, h = img.size
 if min(w, h) < ${minSide}:
     scale = ${minSide} / min(w, h)
@@ -283,119 +305,13 @@ function parseResult({ markdown, figures, contentList }) {
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
-function findFirstChoice(text) {
-  // Allow zero spaces after ) — MinerU sometimes outputs "A)-4" without space
-  const m = /(?:^|\n)\s*([A-E])\)/m.exec(text);
-  if (!m) return -1;
-  return m.index + (m[0].startsWith('\n') ? 1 : 0);
-}
+const { findFirstChoice, parseChoices, escRe } = require('./parse-helpers');
 
 function extractFigureUrls(text) {
   const urls = [], re = /!\[.*?\]\((data:image\/[^)]+)\)/g;
   let m; while ((m = re.exec(text)) !== null) urls.push(m[1]);
   return urls;
 }
-
-// Standard two-column exam layout: A+D / B+E / C
-const NEXT_AFTER_TWOCOL = { A: 'B', B: 'C', C: null };
-
-function parseChoices(raw) {
-  const choices = { A: '', B: '', C: '', D: '', E: '' };
-  if (!raw.trim()) return choices;
-
-  let current = null;
-  let nextExpected = null;  // next unlabeled slot after a two-column row
-
-  for (const line of raw.split('\n')) {
-    const stripped = line.trim();
-    if (!stripped) { current = null; continue; }
-
-    // Display math delimiter line ($$) or inline display math ($$...$$)
-    if (stripped === '$$') continue;
-    if (/^\$\$/.test(stripped)) {
-      // Inline display math with content: $$content$$
-      const inner = stripped.replace(/^\$\$|\$\$$/g, '').trim();
-      if (inner && nextExpected && !choices[nextExpected]) {
-        choices[nextExpected] = '$' + inner + '$';
-        current = nextExpected;
-        nextExpected = NEXT_AFTER_TWOCOL[nextExpected] ?? null;
-      }
-      continue;
-    }
-
-    // Try two-column: find all "X) " occurrences on this line
-    const twoCol = splitTwoColumnLine(stripped);
-    if (twoCol) {
-      const leftKey = Object.keys(twoCol)[0];
-      for (const [k, v] of Object.entries(twoCol)) { choices[k] = v; current = k; }
-      nextExpected = NEXT_AFTER_TWOCOL[leftKey] ?? null;
-      continue;
-    }
-
-    // Single choice — allow zero or more spaces after ) ("A) -4" or "A)-4")
-    const single = stripped.match(/^\*{0,2}([A-E])\)\*{0,2}\s*(.*)/);
-    if (single) {
-      current = single[1];
-      choices[current] = single[2].trim();
-      nextExpected = null;
-      continue;
-    }
-
-    // Unlabeled content: assign to nextExpected (e.g. B after A+D row) or append to current
-    if (nextExpected && !choices[nextExpected]) {
-      const val = stripped.startsWith('\\') ? '$' + stripped + '$' : stripped;
-      choices[nextExpected] = val;
-      current = nextExpected;
-      nextExpected = NEXT_AFTER_TWOCOL[nextExpected] ?? null;
-    } else if (current) {
-      choices[current] += (choices[current] ? ' ' : '') + stripped;
-    }
-  }
-
-  for (const k of Object.keys(choices)) {
-    choices[k] = normalizeChoiceText(choices[k].trim());
-  }
-  return choices;
-}
-
-// Split "A) text1 D) text2" or "A)-4 D)-1" into {A: text1, D: text2}
-function splitTwoColumnLine(line) {
-  const positions = [];
-  const re = /\b([A-E])\)\s*/g;
-  let m;
-  while ((m = re.exec(line)) !== null) positions.push({ letter: m[1], start: m.index, end: m.index + m[0].length });
-  if (positions.length < 2) return null;
-
-  const result = {};
-  for (let i = 0; i < positions.length; i++) {
-    const from = positions[i].end;
-    const to   = i + 1 < positions.length ? positions[i + 1].start : line.length;
-    result[positions[i].letter] = line.slice(from, to).trim();
-  }
-  return result;
-}
-
-// Normalize: fix Roman numeral pipes/digits ($| < || < |||$ or $1 < 11 < 111$ → I < II < III)
-// MinerU sometimes OCRs Roman numeral I as pipe (|) and sometimes as digit (1)
-function normalizeChoiceText(text) {
-  // Match LaTeX containing only |, 1, <, >, spaces, commas
-  if (/^\$[\s|1<>,]+\$$/.test(text)) {
-    return text
-      .replace(/^\$|\$$/g, '')           // strip $ delimiters
-      // pipe-based: ||| → III, || → II, | → I (longest first)
-      .replace(/\|\s*\|\s*\|/g, 'III')
-      .replace(/\|\s*\|/g, 'II')
-      .replace(/\|/g, 'I')
-      // digit-based: 1 1 1 → III, 1 1 → II, lone 1 → I
-      .replace(/1\s*1\s*1/g, 'III')
-      .replace(/1\s*1/g, 'II')
-      .replace(/(?<![A-Z])1(?![A-Z0-9])/g, 'I')  // lone 1 not adjacent to I/digit
-      .trim();
-  }
-  return text;
-}
-
-function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
 // ── Routes ───────────────────────────────────────────────────────────────────
 app.get('/api/status', (_req, res) =>
@@ -460,15 +376,25 @@ async function discourseUpload(dataUrl, filename) {
   return { shortUrl: data.short_url, url: data.url };
 }
 
-function buildTitle(body) {
+function buildTitle(body, fallback) {
+  // Drop math spans entirely rather than unwrapping them — raw LaTeX commands
+  // left in a title (\boxed, \equiv, \left…) trip Discourse's title-quality
+  // check ("most words contain the same letters over and over"), since
+  // stripped-down math tends to collapse into repeated single letters (p, q, x).
   const clean = body
-    .replace(/\$\$[\s\S]*?\$\$/g, '')
-    .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '$1/$2')
-    .replace(/\$([^$]+)\$/g, (_, m) => m.replace(/\\_/g, '_').replace(/\{|\}/g, ''))
+    .replace(/\$\$[\s\S]*?\$\$/g, ' ')
+    .replace(/\$[^$]*\$/g, ' ')
     .replace(/\[FIG:\d+\]/g, '')
+    .replace(/\\[a-zA-Z]+/g, ' ')
+    .replace(/[{}^_]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
-  return clean.length > 80 ? clean.slice(0, 80) + '…' : clean;
+  const title = clean.length > 80 ? clean.slice(0, 80) + '…' : clean;
+  // Short bare-instruction phrases ("Halle el valor de", "Calcule...") still trip
+  // Discourse's title-entropy check even with zero LaTeX residue -- their word
+  // count is too low for the check to read as "real" text. 15 chars wasn't a high
+  // enough bar; raised after ptraslado-CÁLCULO_INTEGRAL-35 got rejected at 18 chars.
+  return title.length >= 30 ? title : (fallback || title || 'Pregunta');
 }
 
 function buildRaw(body, choices, choiceUrls) {
@@ -490,7 +416,7 @@ app.post('/api/publish', async (req, res) => {
     if (!universidad || !tema || !body || !clave)
       return res.status(400).json({ error: 'Faltan campos requeridos.' });
 
-    const categoryId = CATEGORY_MAP[universidad]?.[tema];
+    const categoryId = await getCategoryId(universidad, tema);
     if (!categoryId)
       return res.status(400).json({ error: `Categoría no encontrada: ${universidad} / ${tema}` });
 
@@ -532,7 +458,8 @@ app.post('/api/publish', async (req, res) => {
       resolvedBody += `\n<!-- preuni:source:${url} -->`;
     }
 
-    const title = buildTitle(resolvedBody);
+    const fallbackTitle = [tema, numero ? `N°${numero}` : null].filter(Boolean).join(' — ') || 'Pregunta';
+    const title = buildTitle(resolvedBody, fallbackTitle);
     const raw   = buildRaw(resolvedBody, choices, choiceUrls);
 
     // Custom fields go in the POST body — PUT /t/:id silently drops them
@@ -565,7 +492,11 @@ app.post('/api/publish', async (req, res) => {
     const topicId  = post.topic_id;
     const topicUrl = `${DISCOURSE_URL}/t/${post.topic_slug}/${topicId}`;
 
-    // Create solution reply if provided
+    // Create solution reply if provided. The main topic is already live at this
+    // point, so a failure here must NOT be swallowed silently (it was -- this
+    // fetch's result went unchecked, which let several solution replies vanish
+    // without any error surfacing, only caught later by an out-of-band audit).
+    let solutionError = null;
     if (solucion?.body || solucion?.figure_images?.length) {
       let solRaw = solucion.body || '';
       for (let i = 0; i < (solucion.figure_images?.length || 0); i++) {
@@ -575,7 +506,7 @@ app.post('/api/publish', async (req, res) => {
       }
       solRaw = solRaw.replace(/\[FIG:\d+\]/g, '');
 
-      await fetch(`${DISCOURSE_URL}/posts.json`, {
+      const solRes = await fetch(`${DISCOURSE_URL}/posts.json`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -588,9 +519,14 @@ app.post('/api/publish', async (req, res) => {
           preuni_post_type: 'solucion',
         }),
       });
+      if (!solRes.ok) {
+        const err = await solRes.json().catch(() => ({}));
+        solutionError = err.errors?.join(', ') || `Discourse error: ${solRes.status}`;
+        console.error(`Solution reply failed for topic ${topicId}:`, solutionError);
+      }
     }
 
-    res.json({ topic_url: topicUrl, topic_id: topicId });
+    res.json({ topic_url: topicUrl, topic_id: topicId, solution_error: solutionError });
 
   } catch (err) {
     console.error('Publish error:', err.message);
@@ -602,7 +538,7 @@ app.post('/api/check-duplicate', async (req, res) => {
   try {
     const { titulo, universidad, anio, convocatoria, numero } = req.body;
     const headers = { 'Api-Key': DISCOURSE_API_KEY, 'Api-Username': DISCOURSE_USERNAME };
-    const uniCatIds = new Set(Object.values(CATEGORY_MAP[universidad] || {}));
+    const uniCatIds = await getCategoryIdsForUniversidad(universidad);
     let match = null;
 
     // Strategy 1: search by N°X tag within universidad categories
@@ -640,6 +576,98 @@ app.post('/api/check-duplicate', async (req, res) => {
     });
   } catch {
     res.json({ duplicate: false });
+  }
+});
+
+// ── Bulk pipeline: composer edit mode for flagged questions ────────────────
+const BULK_REVIEW_PATH = path.join(__dirname, 'bulk_review.json');
+
+function readBulkReview() {
+  return JSON.parse(fs.readFileSync(BULK_REVIEW_PATH, 'utf8'));
+}
+
+app.get('/api/bulk-data', (req, res) => {
+  try {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.json(readBulkReview());
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/bulk-question/:id', (req, res) => {
+  try {
+    const data = readBulkReview();
+    const q = data.find(r => r.id === req.params.id);
+    if (!q) return res.status(404).json({ error: 'No encontrado en bulk_review.json' });
+    res.json(q);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/bulk-question/:id', (req, res) => {
+  try {
+    const data = readBulkReview();
+    const idx = data.findIndex(r => r.id === req.params.id);
+    if (idx === -1) return res.status(404).json({ error: 'No encontrado en bulk_review.json' });
+
+    const { body, choices, choiceImages, figureImages, clave, tema, subtemas, solutionBody, solutionFigureImages } = req.body;
+    if (body !== undefined) data[idx].body = body;
+    if (choices !== undefined) data[idx].choices = choices;
+    // Merge per-letter, never replace wholesale — the composer's choiceImages
+    // state defaults every letter to null, so a save that only touched A/B
+    // must not blank out an already-saved C/D/E.
+    if (choiceImages !== undefined) {
+      data[idx].choiceImages = data[idx].choiceImages || {};
+      for (const l of ['A','B','C','D','E']) {
+        if (choiceImages[l]) data[idx].choiceImages[l] = choiceImages[l];
+      }
+    }
+    if (figureImages !== undefined) data[idx].figureImages = figureImages;
+    if (clave !== undefined) data[idx].clave = clave;
+    if (tema !== undefined) data[idx].tema = tema;
+    if (subtemas !== undefined) data[idx].subtemas = subtemas;
+    if (solutionBody !== undefined) data[idx].solutionBody = solutionBody;
+    if (solutionFigureImages !== undefined) data[idx].solutionFigureImages = solutionFigureImages;
+
+    // A manual fix clears any review flags the admin just addressed —
+    // re-validate the basics so a half-fixed row doesn't silently pass.
+    // A choice counts as present if it has text OR an assigned image.
+    const missingChoices = ['A','B','C','D','E'].filter(l => !data[idx].choices[l]?.trim() && !data[idx].choiceImages?.[l]);
+    const stillBroken = [];
+    if (missingChoices.length) stillBroken.push(`missing_choices:${missingChoices.join(',')}`);
+    if (!data[idx].clave) stillBroken.push('oa_unmatched');
+    if (data[idx].oaMethod !== 'table' && !data[idx].solutionBody?.trim()) stillBroken.push('worked_solution_not_found');
+    data[idx].needsReview = stillBroken;
+    data[idx].manuallyFixed = true;
+
+    fs.writeFileSync(BULK_REVIEW_PATH, JSON.stringify(data, null, 2));
+    res.json({ ok: true, needsReview: data[idx].needsReview });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Records publish result against a bulk_review.json row after the client has
+// already called /api/publish. Kept separate from the PUT handler above so
+// stamping publish status never flips manuallyFixed / needsReview.
+app.post('/api/bulk-question/:id/publish', (req, res) => {
+  try {
+    const data = readBulkReview();
+    const idx = data.findIndex(r => r.id === req.params.id);
+    if (idx === -1) return res.status(404).json({ error: 'No encontrado en bulk_review.json' });
+
+    const { topicId, topicUrl } = req.body;
+    data[idx].published = true;
+    data[idx].topicId = topicId;
+    data[idx].topicUrl = topicUrl;
+    data[idx].publishedAt = new Date().toISOString();
+
+    fs.writeFileSync(BULK_REVIEW_PATH, JSON.stringify(data, null, 2));
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

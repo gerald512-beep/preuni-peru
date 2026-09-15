@@ -3,6 +3,7 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import { on } from "@ember/modifier";
+import PreuniWidget from "../../components/preuni-widget";
 
 export default class PreuniClave extends Component {
   @service currentUser;
@@ -12,6 +13,7 @@ export default class PreuniClave extends Component {
   get clave() { return this.post?.topic?.preuni_fields?.clave; }
   get esPreuni() { return this.post?.post_number === 1 && !!this.clave; }
   get esSolucion() { return this.post?.preuni_post_type === "solucion" && this.post?.post_number > 1; }
+  get esPreguntaAdicional() { return this.post?.preuni_post_type === "pregunta_adicional" && this.post?.post_number > 1; }
   get esUniversitario() { return this.post?.preuni_is_universitario === true; }
   get esEgresado()     { return this.post?.preuni_is_egresado     === true; }
   get esModerador()    { return this.post?.preuni_is_moderador    === true; }
@@ -53,6 +55,9 @@ export default class PreuniClave extends Component {
       {{#if this.esModerador}}
         <span class="preuni-moderador-badge">Moderador ✓</span>
       {{/if}}
+    {{/if}}
+    {{#if this.esPreguntaAdicional}}
+      <PreuniWidget @post={{this.post}} />
     {{/if}}
   </template>
 }

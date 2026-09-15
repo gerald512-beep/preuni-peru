@@ -908,6 +908,24 @@ Critical flags: `-u discourse` (peer auth), `-w /var/www/discourse` (Gemfile loc
 
 ---
 
+### Local Discourse randomly unreachable (ECONNRESET / 502 / "fetch failed") — SOLVED 2026-09-14
+
+**Symptom:** Requests to `localhost:8080` intermittently fail with `ECONNRESET`, `502`, or Node's generic `fetch failed`, recovering for a few seconds then failing again, on a roughly 15–90s cycle. `docker ps` shows the `app` container's uptime repeatedly resetting to near-zero. Container logs show `Spurious SIGTERM to PID1 ignored` on a matching cadence — **that trap is a red herring**; it's correctly ignoring the signal and is NOT the cause of the outages. `docker events --filter container=app` looks clean (no die/start for the container itself), which makes it look like nothing is restarting — misleading.
+
+**Root cause:** `wsl.conf` has `systemd=true`, so the Ubuntu distro runs a full systemd init. WSL tears down an individual distro **instance** (a real `systemctl poweroff` — confirmed via `journalctl`: `systemd-logind: The system will power off now!`) whenever no WSL session stays attached to it for a short idle window. Every short-lived `wsl -d Ubuntu -- <cmd>` invocation (the pattern used everywhere in this project for Rails-runner / docker commands) detaches the instant it returns. Any gap between commands longer than the idle window lets the distro reboot from scratch, which restarts `docker.service`, tears down and recreates the container's network sandbox, and crashes Unicorn mid-boot — from the host side this just looks like Discourse randomly dying.
+
+**Dead end — do not retry this:** `vmIdleTimeout` in `.wslconfig` (governs the shared lightweight VM, not per-distro instances) does **not** fix this. Confirmed by testing: setting `vmIdleTimeout = -1` and doing a full `wsl --shutdown` + restart did not stop the flapping.
+
+**Actual fix:** keep one persistent WSL session attached to the Ubuntu distro for the entire working session, so it never looks idle:
+```powershell
+wsl -d Ubuntu -- bash -c "while true; do sleep 3600; done"
+```
+Start this (in the background) before any multi-step Discourse work — bulk publishing, plugin deploys, repeated Rails-runner checks. Verified: without it, connectivity fails within ~100s of idle; with it attached, 100s+ idle windows stay stable and `journalctl -u docker` shows zero `Stopping docker.service` events.
+
+**If Discourse flakes again:** check `wsl -d Ubuntu -- ps aux | grep 'sleep 3600'` first — the keep-alive session may have died or was never started this session.
+
+---
+
 ## Section 9 — Bulk Question Upload Pipeline
 
 Designed to seed an entire solucionario (complete entrance exam with solutions) into Discourse in one admin session. Replaces the manual one-at-a-time composer flow for large batches.

@@ -1,7 +1,7 @@
 import json
 MANIFEST = '/var/www/discourse/public/assets/.manifest.json'
-OLD = 'preuni-question-widget_main.CeVEBh-3uo88g1f.digested.js'
-NEW = 'preuni-question-widget_main.5B3utX-m1360ka2.digested.js'
+OLD = 'preuni-question-widget_main.5B3utX-m1360ka2.digested.js'
+NEW = 'preuni-question-widget_main.BQ9csS-rtt6999w.digested.js'
 with open(MANIFEST) as f: m = json.load(f)
 m['assets']['discourse/plugins/preuni-question-widget'] = 'js/plugins/' + NEW
 m['js/plugins/' + NEW] = {'digested_path': 'js/plugins/' + NEW, 'integrity': None}

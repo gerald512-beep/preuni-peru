@@ -24,6 +24,16 @@ after_initialize do
   register_post_custom_field_type("preuni_post_type", :string)
   add_permitted_post_create_param(:preuni_post_type)
 
+  # A "pregunta_adicional" is a reply that is itself a full question (with its
+  # own clave/numero) -- used for reading-passage clusters where the root post
+  # holds the shared text + question 1, and each further linked question is a
+  # reply rather than a separate topic. Same storage shape as the topic-level
+  # PREUNI_FIELDS, just scoped to the post instead.
+  register_post_custom_field_type("preuni_clave", :string)
+  register_post_custom_field_type("preuni_numero", :string)
+  add_permitted_post_create_param(:preuni_clave)
+  add_permitted_post_create_param(:preuni_numero)
+
   add_to_serializer(:topic_view, :preuni_fields) do
     t = object.topic
     base = t.custom_fields.slice(*PREUNI_FIELDS).transform_keys { |k| k.sub('preuni_', '').to_sym }
@@ -45,10 +55,15 @@ after_initialize do
 
   on(:post_created) do |post, opts, user|
     tipo = opts[:preuni_post_type]
-    if tipo.present? && %w[solucion comentario].include?(tipo)
-      # Guard: solucion/comentario cannot be root posts (post_number == 1)
+    if tipo.present? && %w[solucion comentario pregunta_adicional].include?(tipo)
+      # Guard: none of these can be root posts (post_number == 1) -- a root
+      # post is always the plain "pregunta" type, implicit, no tipo needed.
       if post.post_number > 1
         post.custom_fields["preuni_post_type"] = tipo
+        if tipo == "pregunta_adicional"
+          post.custom_fields["preuni_clave"] = opts[:preuni_clave] if opts[:preuni_clave].present?
+          post.custom_fields["preuni_numero"] = opts[:preuni_numero] if opts[:preuni_numero].present?
+        end
         post.save_custom_fields(true)
       end
     end
@@ -56,6 +71,14 @@ after_initialize do
 
   add_to_serializer(:post, :preuni_post_type) do
     object.custom_fields["preuni_post_type"]
+  end
+
+  add_to_serializer(:post, :preuni_clave) do
+    object.custom_fields["preuni_clave"]
+  end
+
+  add_to_serializer(:post, :preuni_numero) do
+    object.custom_fields["preuni_numero"]
   end
 
   add_to_serializer(:post, :preuni_is_universitario) do
