@@ -1,0 +1,40 @@
+#!/bin/bash
+shutdown() {
+  echo Shutting Down
+  /etc/runit/3
+  ls /etc/service | xargs sv force-stop
+  [ -n "$RUNSVDIR" ] && kill -KILL $RUNSVDIR 2>/dev/null
+  sleep 0.1
+  ORPHANS=$(ps -eo pid | grep -v PID | tr -d ' ' | grep -v '^1$')
+  for pid in $ORPHANS; do
+    (timeout 5 /bin/bash -c "kill $pid && wait $pid" 2>/dev/null || kill -9 $pid 2>/dev/null) &
+  done
+  wait
+  exit
+}
+
+handle_spurious() {
+  echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) Spurious SIGTERM to PID1 ignored"
+}
+
+/etc/runit/1 || exit $?
+
+start_runsvdir() {
+  setsid /usr/bin/runsvdir -P /etc/service &
+  RUNSVDIR=$!
+  echo "Started runsvdir, PID is $RUNSVDIR"
+}
+
+trap handle_spurious SIGTERM SIGHUP
+
+start_runsvdir
+
+while true; do
+  wait $RUNSVDIR 2>/dev/null
+  if kill -0 $RUNSVDIR 2>/dev/null; then
+    continue
+  fi
+  echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) runsvdir died, restarting in 1s..."
+  sleep 1
+  start_runsvdir
+done

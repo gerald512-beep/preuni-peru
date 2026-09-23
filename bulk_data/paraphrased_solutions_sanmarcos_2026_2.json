@@ -1,0 +1,322 @@
+{
+ "11": {
+  "answer": "B",
+  "text": "La frase \"mantiene el pulso\" es una expresión idiomática de enfrentamiento: significa no ceder terreno frente a un rival que presiona. En el texto, ese rival es Estados Unidos (con apoyo de Israel), y quien resiste sin replegarse es Irán. Por eso la expresión connota resistencia frente al ataque enemigo, no una simple comparación de fuerzas ni una decisión bélica ya tomada."
+ },
+ "12": {
+  "answer": "E",
+  "text": "Enunciado I: el texto dice que Irán atacó puertos, refinerías y yacimientos \"de sus vecinos\", es decir, de países de la región; no se menciona a Estados Unidos ni a Europa como blancos. Falso.\nEnunciado II: la lectura señala que una escalada de Irán empujaría a los países del Consejo de Cooperación del Golfo a sumarse a la ofensiva, es decir, a la ofensiva CONTRA Irán, no a favor suyo. Falso.\nEnunciado III: el texto atribuye el deterioro de la industria energética iraní tanto a las sanciones occidentales (factor externo) como a la falta de inversión (factor interno). Verdadero.\nSecuencia: FFV."
+ },
+ "13": {
+  "answer": "C",
+  "text": "El estrecho de Ormuz es el único paso marítimo por el que sale gran parte del petróleo del golfo Pérsico hacia el resto del mundo, por lo que cualquier amenaza sobre él genera alarma internacional. Los ataques de Irán, lejos de aislar a los países vecinos, los empujan a coordinarse entre sí para proteger ese corredor energético y frenar la influencia de actores externos —sobre todo estadounidenses y europeos— en la zona. Esa lectura coincide con la alternativa que habla de un refuerzo de alianzas comerciales entre los países del estrecho."
+ },
+ "14": {
+  "answer": "E",
+  "text": "El texto A defiende que los universales (como la sabiduría o la virtud) existen realmente y permiten explicar el mundo; el texto B lo niega y sostiene que solo existen los particulares, mientras que las categorías generales son una construcción del lenguaje y del pensamiento. El contraste central, entonces, no es sobre si se puede conocer o no, sino sobre qué existe: la mirada universal del realismo frente a la mirada particularista del nominalismo."
+ },
+ "15": {
+  "answer": "B",
+  "text": "El texto B vincula el nominalismo con la epistemología —el estudio de la diferencia entre creencia justificada (conocimiento) y opinión—, pero eso no equivale a decir que la ciencia se reduzca a mera opinión. Que las categorías sean convenciones del lenguaje no anula la posibilidad de un conocimiento válido construido desde lo particular; por eso la afirmación de que las ciencias quedan en el terreno de las opiniones es la que no encaja con el texto."
+ },
+ "16": {
+  "answer": "C",
+  "text": "En el texto A, la abstracción se apoya siempre en lo particular: es el objeto particular el que ejemplifica al universal (la sabiduría existe porque hay personas sabias, por ejemplo). A partir de ahí se construye una jerarquía: de lo particular se pasa, por generalización, a lo universal, y esa generalización es justamente lo que le da sentido a la estructura sujeto-predicado con la que describimos el mundo. Por eso la abstracción se ordena por encima de lo particular, tomando la generalización como su vía de sentido."
+ },
+ "17": {
+  "answer": "C",
+  "text": "Para el nominalismo (texto B), los universales no son reales: son simples nombres o construcciones del lenguaje humano. Entonces, quien sostenga que las abstracciones son \"meras ficciones\" está, sin saberlo quizá, repitiendo la tesis central del nominalismo: que solo lo particular es real y que lo general es una invención mental. Esa persona se estaría adhiriendo, en el fondo, a una postura nominalista."
+ },
+ "18": {
+  "answer": "D",
+  "text": "En el texto, \"impair\" se usa para describir cómo la falta de sueño afecta negativamente la atención, la toma de decisiones y el tiempo de reacción. De las opciones, \"damage\" es la que mejor recoge ese sentido de deterioro o perjuicio de una función; las demás palabras (mejorar, suprimir, realzar, excitar) no transmiten esa idea de daño."
+ },
+ "19": {
+  "answer": "B",
+  "text": "El texto no se limita a dar consejos para dormir mejor ni se detiene en cifras económicas: explica, sobre todo, qué le ocurre al cuerpo y a la mente durante el sueño —consolidación de memoria, reparación de tejidos, regulación hormonal, defensa inmunológica— y qué pasa emocionalmente cuando falta —irritabilidad, peor manejo del estrés—. Por eso el tema central son los beneficios biológicos y psicológicos de dormir bien."
+ },
+ "20": {
+  "answer": "E",
+  "text": "El propio primer párrafo dice que la mayoría de los adultos desearía dormir más para sentirse mejor de salud y más enfocados, lo cual muestra que sí son conscientes del valor del sueño; de hecho, lo desean y no lo logran. Afirmar que la mayoría no es consciente de la importancia del sueño contradice directamente esa idea, así que es la opción incompatible con el texto."
+ },
+ "21": {
+  "answer": "A",
+  "text": "Cuando se cortan piezas de un tablero con una sierra que hace cortes rectos de lado a lado, conviene recordar que, tras cada corte, las piezas resultantes se pueden apilar y cortar juntas en el siguiente pase (siempre que el corte sea recto y atraviese todas las capas). Con esa estrategia, el número máximo de piezas que se puede lograr con c cortes es 2^c: con 2 cortes se alcanzan como mucho 4 piezas, insuficientes para separar las cinco letras (U, N, M, S, M); con 3 cortes se podrían alcanzar hasta 8 piezas en el mejor de los casos, pero la disposición concreta de las letras en el tablero de Fernando no permite aislarlas todas en solo 3 pases, porque no queda ningún bloque que las contenga de forma independiente tan pronto. Siguiendo una secuencia válida de cortes —separar primero el bloque que agrupa las letras del resto del tablero, subdividir ese bloque y, por último, apilar las piezas ya independientes para cortarlas juntas—, el mínimo real para esta figura es 4 cortes rectos."
+ },
+ "22": {
+  "answer": "C",
+  "text": "Sea α el ángulo que recorre la manecilla horaria contado desde las 4 en punto y θ el ángulo indicado entre las manecillas según la figura. Como la manecilla horaria avanza doce veces más lento que la minutera, se cumple 12α = 330° + θ (330° porque a las 4:00 la horaria ya está a 11×30° de la posición de las 12). Sustituyendo θ = α − 11°: 12α = 330° + α − 11°, de donde 11α = 319° y α = 29°. Como cada grado de avance de la manecilla horaria corresponde a 2 minutos transcurridos, la hora marcada es 4 h con 2×29 = 58 minutos, es decir, 4h 58 min."
+ },
+ "23": {
+  "answer": "E",
+  "text": "Un dado común tiene sus seis caras numeradas de 1 a 6, con caras opuestas que siempre suman 7, así que la suma total de las seis caras de un dado es 21. Para cada uno de los cuatro dados de la figura basta identificar qué caras quedan visibles para Manuel y restar esa suma de 21 para obtener la suma de las caras no visibles. Siguiendo ese procedimiento dado por dado se obtiene 9, 10, 12 y 10 respectivamente, y la suma máxima total de puntos no visibles es 9 + 10 + 12 + 10 = 41."
+ },
+ "24": {
+  "answer": "A",
+  "text": "Con una balanza de dos platillos y pesas de 2 kg y 5 kg se pueden lograr más combinaciones que las pesas por sí solas, porque una pesa puede colocarse en el mismo platillo que la harina (para restar) o en el platillo opuesto (para sumar). Combinando las dos pesas de esa manera es posible obtener, en una sola pesada, cantidades como 7 kg (2+5) o 3 kg (5−2). Encadenando pesadas —por ejemplo, separar primero 7 kg y luego apartar 1,5 kg de esos 7 usando otra combinación de las pesas— se llega a 8,5 kg en un total de 3 pesadas, que es el mínimo posible."
+ },
+ "25": {
+  "answer": "A",
+  "text": "Se prueba, por turno, que cada uno de los cinco sea quien miente, y se revisa si el resultado encaja con la regla de que solo uno tiene gato y los demás perro. Al suponer que quien miente es Baruc, las demás afirmaciones (Arnold sin gato, Matías con perro, Clark sin conejo, Daniel con perro) se sostienen sin contradicción; como Arnold, Matías y Daniel ya tienen perro confirmado por sus propias afirmaciones verdaderas, y Clark solo negó tener conejo —no perro ni gato—, el único que puede quedarse con el gato es Clark. Suponer que miente cualquiera de los otros cuatro genera contradicciones con la regla de que solo una persona falta a la verdad. Por lo tanto, Clark es quien tiene el gato."
+ },
+ "26": {
+  "answer": "B",
+  "text": "En cada figura de la secuencia se puede contar, por tamaño, cuántos cuadrados hay: todos los cuadrados de 1×1, 2×2, 3×3, etc. que caben dentro de la cuadrícula, más 1 cuadrado adicional que se repite en el patrón de esta secuencia en particular. Siguiendo el patrón de las primeras figuras, el total de cuadrados en la figura n es la suma de los cuadrados de 1 hasta n, más 1. Para la figura 7: 1²+2²+...+7² = (7×8×15)/6 = 140, y sumando 1 se obtiene 141."
+ },
+ "27": {
+  "answer": "E",
+  "text": "Dos frascos de 60 cápsulas dan 120 cápsulas en total. Como cada toma es de 3 cápsulas, el número de tomas necesarias es 120/3 = 40. Entre la primera y la última toma hay 40 − 1 = 39 intervalos de 8 horas cada uno (el intervalo se cuenta entre tomas consecutivas). El tiempo total es 39 × 8 = 312 horas, que equivalen a 312/24 = 13 días exactos."
+ },
+ "29": {
+  "answer": "D",
+  "text": "Para contar caminos que solo avanzan hacia abajo, a la derecha o en diagonal, conviene ir marcando en cada punto de la cuadrícula cuántas rutas distintas llegan hasta ahí desde A, sumando los caminos que llegan desde los puntos vecinos permitidos (el mismo principio del triángulo de Pascal aplicado sobre la malla), y dejando en cero los puntos M y N para que ninguna ruta pase por ellos. Arrastrando esa suma acumulada hasta el punto B se obtiene un total de 56 rutas distintas."
+ },
+ "30": {
+  "answer": "D",
+  "text": "Se numeran los once círculos del 1 al 11 y se busca la asignación que haga mínima la suma constante s de cada terna alineada. Como hay cinco ternas que en conjunto cubren la suma de todos los números más el doble de los valores que se repiten en dos ternas a la vez (los nodos compartidos, a y b), y 1+2+...+11 = 66, se cumple 5s = 66 + 2(a+b). Para que s sea mínimo conviene que a+b sea lo más chico posible dentro de lo que permite la figura, lo que lleva a s = 16 y a+b = 7. En el círculo sombreado, la ecuación de su propia terna se cierra con a+b+x = 16, es decir, 7+x = 16, de donde x = 9."
+ },
+ "32": {
+  "answer": "A",
+  "text": "Se busca un número que, dividido entre 8, deje residuo 3; entre 12, residuo 7; y entre 15, residuo 13. Probando valores que cumplan las tres condiciones a la vez, se encuentra que 43 funciona: 43 = 8(5)+3 = 12(3)+7 = 15(2)+13. Cualquier otro número que cumpla las tres condiciones simultáneamente debe diferir de 43 en un múltiplo común de 8, 12 y 15, es decir, en un múltiplo de su mínimo común múltiplo, que es 120. Entonces N = 120k + 43. Para que N quede entre 600 y 700, basta probar k = 5: N = 120(5) + 43 = 643. El producto de sus cifras es 6 × 4 × 3 = 72."
+ },
+ "33": {
+  "answer": "D",
+  "text": "Sonia busca cuadrados perfectos de cuatro cifras, es decir, valores N² tales que 1000 ≤ N² ≤ 9999. Sacando raíz cuadrada en los extremos, N debe estar entre 32 (pues 31²=961<1000 y 32²=1024≥1000) y 99 (pues 99²=9801≤9999 y 100²=10000 ya se pasa). Los valores de N que sirven son 32, 33, ..., 99, una lista de 99−32+1 = 68 números, así que Sonia tiene 68 claves posibles."
+ },
+ "34": {
+  "answer": "D",
+  "text": "Las claves posibles van de 1000 a 9999, un total de 9000 números. Los que terminan en 5 forman una progresión: 1005, 1015, 1025, ..., 9995, con una diferencia constante de 10 entre términos consecutivos. La cantidad de términos de esa lista es (9995−1005)/10 + 1 = 900. La probabilidad de que la clave termine en 5 es, entonces, 900/9000 = 0,1."
+ },
+ "35": {
+  "answer": "C",
+  "text": "AD es diámetro de la semicircunferencia y mide 1 m = 100 cm; AB = 60 cm es uno de los lados del rectángulo ABCD, y P es el punto donde BP = PC. Usando las relaciones entre el rectángulo ABCD y la semicircunferencia trazada sobre AD, se determinan la base y la altura del triángulo BPC a partir de la figura: base = 100 cm y altura = 10 cm. Aplicando el área de un triángulo, S = (100)(10)/2 = 500 cm²."
+ },
+ "36": {
+  "answer": "E",
+  "text": "Como los cinco amigos están sobre una circunferencia con centro en Ernesto (equidistante de Carlos, Abel, Beto y David), el cuadrilátero ABCD formado por los otros cuatro queda inscrito en esa circunferencia, y en todo cuadrilátero inscriptible los ángulos opuestos son suplementarios: suman 180°. Como m∡ADC = 132°, su ángulo opuesto, m∡ABC, debe cumplir 132° + x = 180°, de donde x = 48°."
+ },
+ "37": {
+  "answer": "C",
+  "text": "El terreno tiene forma de polígono equiángulo (todos sus ángulos interiores iguales), lo que permite completar las prolongaciones de sus lados con un triángulo equilátero auxiliar. Usando las longitudes dadas —AB=20, BC=30, DC=50 y ED=40— junto con las relaciones que impone la figura equiangular, se obtienen los dos lados restantes del hexágono (10 y 70 m). El perímetro total es la suma de los seis lados: 10+70+20+30+50+40 = 220 m."
+ },
+ "38": {
+  "answer": "E",
+  "text": "Se busca en qué momentos G(t) = 105: −5t² + 30t + 65 = 105. Pasando todo a un lado: −5t² + 30t − 40 = 0, y dividiendo entre −5 para simplificar: t² − 6t + 8 = 0. Esta cuadrática se factoriza como (t−4)(t−2) = 0, de donde t = 4 y t = 2 son los dos momentos en que la glucosa llega a 105 mg/dL. La suma de esos tiempos es 4+2 = 6 (lo mismo se obtiene con la fórmula de suma de raíces, −b/a = 6, sin necesidad de factorizar)."
+ },
+ "39": {
+  "answer": "B",
+  "text": "Sea A la cantidad de combos A vendidos y B la de combos B. El total de combos vendidos da A+B=80. Además, B fue 10 unidades menos que el doble de A: B=2A−10. Sustituyendo en la primera ecuación: A + (2A−10) = 80, es decir 3A = 90, de donde A=30, y entonces B = 2(30)−10 = 50. La diferencia entre lo vendido de B y de A es 50−30 = 20 combos más de tipo B."
+ },
+ "40": {
+  "answer": "E",
+  "text": "El ingreso total fue S/1266, repartido entre el ingreso de los combos A (IA) y de los B (IB): IA+IB=1266. Como el ingreso de B superó al de A en S/534: IB = IA+534. Sustituyendo, IA + (IA+534) = 1266, o sea 2IA=732, así que IA=366 e IB=366+534=900. Como se vendieron 50 combos B y cada uno cuesta lo mismo, el precio de un combo B es 900/50 = S/18. Y como el combo B contiene exactamente un pan con chicharrón, una bebida caliente y un postre, ese precio de S/18 es directamente la suma de precios de los tres productos que pide la pregunta."
+ },
+ "41": {
+  "answer": "C",
+  "text": "El dato 8·cscθ = 17·cosπ se simplifica usando que cosπ = −1, así que cscθ = −17/8. En la figura, csc θ se expresa como el cociente entre el radio (68 m) y la coordenada vertical y del punto que define el ángulo, es decir 68/y = −17/8, de donde y = −32. El área del triángulo auxiliar AOC, con base y altura dadas por el radio (68) y ese valor de y (32 en valor absoluto), es (68×32)/2 = 1088 m², y la región pedida en el problema equivale al doble de esa área por la simetría de la figura, es decir, 2×1088 = 2176 m²."
+ },
+ "42": {
+  "answer": "B",
+  "text": "El dato 2secθ·cscθ = cotθ+5 se transforma escribiendo secante y cosecante como 1/cosθ y 1/senθ: 2/(senθ·cosθ) = cotθ+5, y como sen(2θ)=2senθcosθ, el lado izquierdo se reescribe como 4/sen2θ = cotθ+5. Usando identidades del ángulo doble (entre ellas 2cos²θ=1+cos2θ) se llega a 4 = 1+cos2θ+5sen2θ, es decir 3 = cos2θ+5sen2θ. Multiplicando ambos lados por 2: 6 = 2cos2θ+10sen2θ, que es exactamente la expresión de n dada en el problema. Entonces n=6 horas: el paciente se aplica el preparado cada 6 horas. En 6 días (144 horas), el número de aplicaciones es 144/6 = 24."
+ },
+ "43": {
+  "answer": "A",
+  "text": "La comunicación se clasifica, entre otros criterios, según quién emite el mensaje (humano o no humano), si usa palabras (verbal o no verbal) y por qué canal se percibe. El epígrafe de un artículo (d) es un texto escrito hecho por personas: comunicación humana verbal escrita (I). El balido de una oveja percibido por otra (c) no involucra personas: comunicación no humana auditiva (II). Una carcajada (b) es un sonido humano que no usa palabras: comunicación humana no verbal auditiva (III). Las murmuraciones entre amigos (a) usan la lengua hablada: comunicación humana verbal oral (IV). La relación correcta es Id, IIc, IIIb, IVa."
+ },
+ "44": {
+  "answer": "A",
+  "text": "Las palabras compuestas que se fusionan en una sola unidad léxica siguen las reglas generales de tildación como si fueran palabras simples. Veintitrés es aguda terminada en s, así que lleva tilde. En rehuía, cortaúñas y retahíla hay una vocal abierta seguida de una vocal cerrada tónica (hiato acentual), y la norma exige que esa vocal cerrada lleve tilde siempre, sin importar la terminación de la palabra. Por eso el conjunto correctamente tildado es veintitrés, rehuía, cortaúñas y retahíla."
+ },
+ "45": {
+  "answer": "B",
+  "text": "Doroteo habla un español propio de su región, marcado por el contacto con el quechua; eso es una variedad dialectal del español, no una lengua distinta, así que el enunciado I es correcto. Que su español tenga rasgos regionales no le impide comunicarse en Lima —el contacto entre lenguas genera variación, no incomunicación—, así que el enunciado II es incorrecto. Y el hecho de que responda con una expresión propia de su comunidad muestra justamente que no domina la variedad estándar limeña, así que el enunciado III también es incorrecto. Solo el enunciado I es correcto."
+ },
+ "46": {
+  "answer": "E",
+  "text": "La primera coma es hiperbática: separa un complemento que se adelantó al inicio de la oración, alterando el orden habitual sujeto-verbo-complemento para destacar la acción del lavado. Las comas que siguen en \"carne molida, huevo duro picado y pasas\" son enumerativas y separan los elementos de una serie. El punto y coma marca la frontera entre dos partes del proceso —el relleno y el horneado— que están relacionadas, pero funcionan como unidades independientes. Y la coma después de \"luego\" aísla ese conector temporal del resto de la oración. Juntando todo eso, la puntuación correcta es: \"Lavado varias veces, el rocoto se rellena con carne molida, huevo duro picado y pasas; luego, se cubre con un buen trozo de queso fresco antes de ser puesto al horno\"."
+ },
+ "47": {
+  "answer": "C",
+  "text": "Hay homonimia cuando dos palabras se escriben o suenan igual, pero tienen significados y orígenes distintos. En I, \"globo\" se usa dos veces con sentidos relacionados por extensión (el aerostático y el terráqueo): es polisemia, no homonimia. En II, \"cancha\" (el snack) y \"cancha\" (el campo deportivo) son palabras distintas que coinciden en la forma: sí hay homonimia. En III, \"donas\" (del verbo donar) y \"donas\" (el postre) también son palabras distintas que coinciden en la forma: sí hay homonimia. En IV, \"madre\" mantiene en ambos casos la idea de origen o procedencia: es polisemia, no homonimia. Los casos de homonimia son II y III."
+ },
+ "48": {
+  "answer": "D",
+  "text": "En I, la preposición \"del\" en \"Andrés del Prado\" va en minúscula porque está precedida por el nombre de pila; eso es correcto (V). En II, glucosa, dióxido y carbono son sustantivos comunes y van en minúscula, así que también es correcto (V). En III, \"Fotosíntesis\" y \"Ciclo\" son términos comunes de la disciplina y deberían escribirse en minúscula, así que la oración que los presenta con mayúscula inicial está mal (F). En IV, cuando se nombra la asignatura como materia oficial (\"Bioquímica Vegetal\") corresponde mayúscula, y eso es lo que ocurre en el texto: correcto (V). La secuencia es VVFV."
+ },
+ "49": {
+  "answer": "E",
+  "text": "En \"antiincendios\", la secuencia \"ii\" es un hiato entre dos vocales cerradas iguales, así que ambas se separan en sílabas distintas: an-ti-in-cen-dios, que son cinco sílabas, no cuatro; el enunciado I es falso. En \"boquihendido\", la secuencia \"ihe\" (vocal cerrada átona + vocal abierta) forma un diptongo que no debe separarse, ni siquiera por la h intermedia: el silabeo correcto agrupa esas letras en una sola sílaba, bo-quihen-di-do, con cuatro sílabas; como el enunciado II propone separarlas en cinco (bo-qui-hen-di-do), también es falso. En \"barahúnda\", la secuencia \"ahú\" (vocal abierta + vocal cerrada tónica) es un hiato acentual y esas vocales sí se separan en sílabas distintas: ba-ra-hún-da; la segunda sílaba es \"-ra-\", no \"-rahún-\" como afirma el enunciado III, así que también es falso. Los tres enunciados son falsos: FFF."
+ },
+ "50": {
+  "answer": "D",
+  "text": "En el fragmento, Grete (la hermana) le pide al padre que deje de pensar en la criatura como si fuera Gregorio y propone que \"se vaya\"; incluso dice que, si de verdad fuera Gregorio, él mismo habría entendido que no puede seguir conviviendo con la familia. Ese giro es el quiebre: quien más lo defendía al principio de la novela ahora lo excluye de la familia y deja de reconocerlo como su hermano. Eso encaja con la idea de que Gregorio ha perdido el apoyo de Grete y ha sido excluido de la familia, más que con una supuesta indiferencia de toda la familia desde el inicio o con un sentimiento de asco explícito."
+ },
+ "51": {
+  "answer": "C",
+  "text": "Don Quijote, movido por su lectura de libros de caballerías, se lanza a defender ideales como la justicia y la protección de los débiles, aunque esos ideales ya no encajen en su época; en ese sentido, lucha por ideales caballerescos. El gallo Carmelo, en cambio, acepta un último combate a pesar de su debilidad, y pelea no por un ideal abstracto sino por mantener su prestigio como luchador y el honor de sus dueños. El contraste que mejor recoge esos dos tipos de honor es: don Quijote lucha por ideales caballerescos, mientras que Carmelo defiende su prestigio de luchador."
+ },
+ "52": {
+  "answer": "D",
+  "text": "El texto de Ricardo Palma no busca que la ficción reemplace lo histórico: usa un dato real (el año 1640, el convento de San Agustín) como base, sobre la cual construye una anécdota con tono desenfadado; enunciado I falso. Sí es una mirada personal y cargada de juicios de valor sobre el personaje (\"muy para nada\", \"terne\"); enunciado II verdadero. El propósito de Palma es más bien lúdico y nostálgico, no una denuncia de los problemas estructurales del país como sí hacían autores realistas posteriores; enunciado III falso. Y el relato está lleno de giros propios del habla popular limeña (\"terne\", \"de morro\", \"trancazos\"), lo que muestra un estilo marcado por la oralidad; enunciado IV verdadero. La secuencia es FVFV."
+ },
+ "53": {
+  "answer": "D",
+  "text": "En Cien años de soledad, lo sobrenatural convive con lo cotidiano dentro del realismo mágico (por ejemplo, un personaje que asciende al cielo mientras tiende la ropa). En Los ríos profundos, la fuente de esa mirada distinta de la realidad no es el mismo realismo mágico, sino la cosmovisión andina: para Ernesto, el protagonista, la naturaleza está viva y hasta un objeto como el zumbayllu tiene poder propio. Esa mezcla de lo real con lo simbólico y lo mítico del mundo andino es lo que sostiene la visión de Arguedas."
+ },
+ "54": {
+  "answer": "B",
+  "text": "Las reacciones descritas —enojo, impaciencia, poca tolerancia, agresividad— son intensas pero breves, y aparecen frente a una situación puntual (el tráfico). Ese patrón de reacción corta e intensa ante un estímulo específico es justamente lo que en psicología se llama emoción, a diferencia de un estado de ánimo (más difuso y duradero) o un sentimiento (más estable y consciente)."
+ },
+ "55": {
+  "answer": "D",
+  "text": "El condicionamiento clásico de Pavlov explica cómo un estímulo neutro puede terminar generando una respuesta de miedo cuando se asocia repetidamente con una experiencia negativa. En la acrofobia, la altura (estímulo antes neutro) se asocia con una experiencia desagradable o traumática, y termina generando miedo por sí sola. Ese mecanismo de asociación es el condicionamiento clásico."
+ },
+ "56": {
+  "answer": "B",
+  "text": "Los padres de Rodrigo imponen su decisión sobre la carrera que debe estudiar y no atienden lo que él expresa sobre sus propios intereses; ese patrón de exigencia alta combinada con poca escucha corresponde a un estilo de crianza autoritario. Ese tipo de crianza suele generar, más adelante, sufrimiento emocional y ansiedad en los hijos, por la brecha entre lo que se les exige y lo que realmente quieren."
+ },
+ "57": {
+  "answer": "D",
+  "text": "La respuesta de Luis (\"No, no estoy casado\") revela una creencia rígida y simplificada —que tener hijos exige estar casado—, lo cual es un estereotipo (componente cognitivo de la actitud); el enunciado I es verdadero. Que se moleste ante una pregunta neutra, como si detrás de ella hubiera una intención crítica, muestra una carga emocional negativa previa, es decir, una actitud prejuiciosa (componente afectivo); el enunciado II es verdadero. Pero no hay evidencia de que Antonia comparta esa misma creencia: ella solo hace una pregunta exploratoria, así que no se puede generalizar que ambos crean que todo hombre adulto debe ser padre; el enunciado III es falso. La secuencia es VVF."
+ },
+ "58": {
+  "answer": "C",
+  "text": "Cuando Nuria corre a contarle a su madre pese a las amenazas (I), está usando a su figura de apego como refugio seguro frente al peligro, un comportamiento típico del apego seguro: verdadero. El llanto y la búsqueda constante de la madre de David al quedarse en el colegio (II) es más propio de un apego ansioso-ambivalente, donde cuesta explorar el entorno sin el cuidador presente, no del apego seguro: falso. Y que Giuliana se anime a montar bicicleta pese al miedo (III) muestra que la seguridad afectiva que ya tiene le permite enfrentar un reto nuevo con valentía, un rasgo del apego seguro: verdadero. La secuencia es VFV."
+ },
+ "60": {
+  "answer": "B",
+  "text": "El caso describe una detención injusta que pone en riesgo la libertad de una persona. La garantía constitucional pensada específicamente para proteger la libertad individual frente a detenciones o amenazas arbitrarias es el hábeas corpus, reconocido en el artículo 200 de la Constitución como uno de los mecanismos de defensa de los derechos fundamentales. Por eso Luis Cisneros podría recurrir a esa garantía."
+ },
+ "61": {
+  "answer": "E",
+  "text": "La corrupción activa es la que ofrece o promete una ventaja a un funcionario; pero el caso descrito es distinto: aquí es el propio servidor público quien se apropia o usa, para sí o para otros, dinero o bienes que se le confiaron por razón de su cargo. Ese delito, específicamente, se tipifica como peculado."
+ },
+ "62": {
+  "answer": "B",
+  "text": "Falsificar diplomas, certificados y sellos oficiales no solo perjudica a quien los presenta: mina la confianza que toda la sociedad deposita en que esos documentos son auténticos y verdaderos. Esa confianza colectiva en la autenticidad de los documentos oficiales es lo que el derecho penal protege bajo el nombre de fe pública, y es justamente lo que este tipo de delito vulnera."
+ },
+ "63": {
+  "answer": "C",
+  "text": "Los derechos humanos de primera generación surgen de la Revolución Francesa de 1789 y son, sobre todo, derechos civiles y políticos: el derecho a la vida, a la libertad de opinión o expresión y a la propiedad están entre los más representativos de ese grupo, junto con el derecho a elegir y ser elegido mencionado en el enunciado."
+ },
+ "64": {
+  "answer": "B",
+  "text": "Las trepanaciones craneanas de la cultura Paracas se realizaban, sobre todo, para tratar heridas de guerra causadas por armas como mazas u hondas, frecuentes en los enfrentamientos de la época; el enunciado I es verdadero. La evidencia arqueológica muestra cicatrización ósea parcial en varios cráneos intervenidos, señal de que esas personas sobrevivieron a la operación; el enunciado II es verdadero. Pero no puede decirse que la regeneración del hueso fuera total, ni que se debiera únicamente a la calidad de los instrumentos de cuarzo y obsidiana: la tecnología lítica, aunque fina, no garantizaba una curación completa; el enunciado III es falso. La secuencia es VVF."
+ },
+ "66": {
+  "answer": "C",
+  "text": "Daniel Alcides Carrión, estudiante de medicina de San Marcos, se inoculó voluntariamente el frotis de una verruga para demostrar que la fiebre de la Oroya y la verruga peruana no eran dos enfermedades distintas, sino dos fases de una misma enfermedad —una fase aguda, febril, y otra crónica, con erupciones en la piel—. El microorganismo responsable resultó ser una bacteria, identificada después como Bartonella bacilliformis. Su experimento, que le costó la vida, confirmó que ambos cuadros eran manifestaciones de una misma enfermedad."
+ },
+ "67": {
+  "answer": "A",
+  "text": "El macartismo fue la persecución de sospechosos de comunismo dentro de Estados Unidos, impulsada por el senador Joseph McCarthy; la persecución de opositores bajo Stalin en la URSS es un fenómeno distinto, conocido como la Gran Purga. El enunciado I mezcla ambos procesos, así que es falso. El liderazgo de Martin Luther King en el movimiento por los derechos civiles (1954-1968), con métodos de no violencia y desobediencia civil, sí logró avances reales contra la segregación: el enunciado II es verdadero. El Movimiento de Países No Alineados, consolidado en la Conferencia de Belgrado de 1961, buscó sobre todo mantenerse al margen de la disputa entre Estados Unidos y la URSS —una \"tercera vía\"—, más que responder directamente a agresiones coloniales; el enunciado III es falso. Y la teología de la liberación sí representó un giro de sectores de la Iglesia católica latinoamericana hacia la justicia social y la lucha contra la pobreza como compromiso cristiano: el enunciado IV es verdadero. La secuencia es FVFV."
+ },
+ "68": {
+  "answer": "A",
+  "text": "Para Cicerón, la historia no era una ciencia descriptiva sino una fuente de ejemplos morales y políticos útiles para el presente. Que la historia sea \"maestra de vida\" significa que, conociendo los aciertos y los errores del pasado, gobernantes y ciudadanos pueden actuar con más prudencia y evitar repetir esos mismos errores; esa es la función práctica que Cicerón le atribuía al conocimiento histórico."
+ },
+ "69": {
+  "answer": "A",
+  "text": "Los desiertos cálidos reciben una insolación intensa y constante, lo que produce una evapotranspiración potencial muy superior a la poca lluvia que cae —por definición, un desierto tiene menos de 250 mm de precipitación anual—. Ante ese estrés hídrico, la vegetación desarrolla adaptaciones típicas de las plantas xerófitas: tejidos que almacenan agua, hojas reducidas o convertidas en espinas, cutículas cerosas y estomas hundidos, todo para minimizar la pérdida de humedad. Esas tres características —desierto cálido, escasez de precipitaciones, vegetación xerófita— completan el enunciado."
+ },
+ "70": {
+  "answer": "D",
+  "text": "La escala del mapa es la razón entre la distancia en el mapa y la distancia real: 2 cm representan 800 km = 80 000 000 cm, lo que da una escala de 1:40 000 000. Un denominador tan grande corresponde, en cartografía, a una escala pequeña (a mayor denominador, menor escala), típica de mapas de continentes o del mundo; el enunciado I es verdadero. Si 1 cm equivale a 400 km, un milímetro —la décima parte— equivale a 40 km, es decir, 40 000 m, no 400 m como dice el enunciado II, que es falso. Y aunque en general una escala grande (como 1:5000) sí ofrece mucho detalle, ese no es el caso de este mapa en particular, que ya se demostró que es de escala pequeña y por tanto no puede dar información precisa de ciudades; el enunciado III es falso en este contexto. La secuencia es VFF."
+ },
+ "71": {
+  "answer": "B",
+  "text": "El magma no solo asciende en las zonas de divergencia de placas: también existen los puntos calientes (hotspots), columnas de magma que suben desde el manto independientemente de los bordes de placa. El texto describe el desplazamiento del magma desde el interior de la Tierra hacia la superficie como el motor del vulcanismo, lo cual se relaciona directamente con esa actividad magmática asociada a los puntos calientes."
+ },
+ "72": {
+  "answer": "A",
+  "text": "El propio texto dice explícitamente que, en las zonas de convergencia, el magma llega a \"formar volcanes en la superficie continental\" —lo que ocurre, por ejemplo, cuando una placa oceánica se hunde bajo una continental, como en la cordillera de los Andes—; el enunciado I es verdadero. Cuando el magma que emerge en las zonas de divergencia se enfría y solidifica, se forman rocas ígneas nuevas (basalto), en el proceso que crea la corteza oceánica; el enunciado II es verdadero. Pero los volcanes continentales se asientan sobre la corteza y la litosfera continental, mientras que el magma que los alimenta suele originarse en el manto superior —no puede decirse, entonces, que la \"base\" de esos volcanes esté en la astenósfera superior—; el enunciado III es falso. La secuencia es VVF."
+ },
+ "74": {
+  "answer": "B",
+  "text": "Cuando un país necesita importar más petróleo del que exporta, las importaciones (M) superan a las exportaciones (X) dentro de la balanza de pagos, y esa subcuenta —la balanza comercial— pasa a ser deficitaria, con la consiguiente salida de divisas del país."
+ },
+ "75": {
+  "answer": "C",
+  "text": "El caso describe dos fenómenos ocurriendo al mismo tiempo: un aumento sostenido de precios (inflación) y una caída del producto bruto interno (recesión). Cuando ambos coinciden —precios que suben mientras la producción cae—, la economía atraviesa lo que se conoce como estanflación."
+ },
+ "76": {
+  "answer": "B",
+  "text": "La ruptura de la tubería reduce la cantidad de gas natural disponible para ser vendido, independientemente de cuánto quieran comprar los consumidores. En el modelo de oferta y demanda, una menor disponibilidad de un bien —sin que cambien las preferencias de los compradores— se representa como una contracción de la oferta, es decir, un desplazamiento de la curva de oferta hacia la izquierda."
+ },
+ "77": {
+  "answer": "B",
+  "text": "Para Aristóteles, la belleza no es una idea abstracta separada de las cosas, como sostenía Platón, sino una cualidad que reside en las cosas mismas cuando tienen orden, proporción y armonía. Por eso, para él, no existe \"la belleza\" como entidad independiente: existen las cosas bellas."
+ },
+ "78": {
+  "answer": "B",
+  "text": "Miró Quesada reflexionó sobre la identidad y la realidad del Perú dentro del pensamiento latinoamericano (I), fue uno de los grandes estudiosos de la racionalidad y de la estructura de la razón (II), e introdujo y difundió en el Perú el concepto de filosofía de la liberación, centrado en la realidad social y política de América Latina (III). Sus aportes más reconocidos están en la lógica y la filosofía de la ciencia, pero no desarrolló trabajos relevantes en fenomenología (IV es falso). Los temas correctos son I, II y III."
+ },
+ "79": {
+  "answer": "C",
+  "text": "Tanto un ser humano como una computadora pueden reconocer objetos y actuar de acuerdo con reglas o patrones —de hecho, el texto extiende la noción de ontología incluso a los programas informáticos—. Lo que distingue de fondo a un ser humano no es solo reconocer o clasificar cosas, sino poder reflexionar sobre uno mismo y cuestionar sus propias creencias y su propia existencia; esa capacidad de autoconciencia es la diferencia central."
+ },
+ "80": {
+  "answer": "A",
+  "text": "Aquí no se está evaluando la obra del artista, sino descalificándolo como persona por haber aceptado una condecoración; eso es atacar al sujeto en lugar de argumentar sobre lo que hizo o produjo, que es justamente la definición de la falacia ad hominem."
+ },
+ "82": {
+  "answer": "D",
+  "text": "Tomando momentos respecto al punto A del hombro (donde actúa la fuerza de la articulación, así que no genera momento), el peso del brazo (40 N, según la figura) y la fuerza del deltoides FM se equilibran según sus brazos de palanca: 40×28 = (FM/2)×14, de donde FM = 160 N. Descomponiendo esa fuerza según el ángulo de inserción del músculo se obtienen sus componentes horizontal y vertical. Por equilibrio de fuerzas horizontales, la componente horizontal de la fuerza de la articulación FA debe cancelar la componente horizontal de FM: FA_x = (FM√3)/2 = 80√3 N. Por equilibrio vertical, FA_y + 40 = FM/2 = 80 N, así que FA_y = 40 N. La magnitud de FA es la raíz de la suma de cuadrados de sus componentes: FA = √((80√3)² + 40²) = 40√13 N."
+ },
+ "83": {
+  "answer": "C",
+  "text": "La diferencia de temperatura entre los dos registros es 102°F − 98,6°F = 3,4°F. Para convertir un cambio de temperatura de Fahrenheit a Celsius se usa el factor 5/9 (distinto de la fórmula de conversión de un valor absoluto, que además resta 32): ΔT(°C) = (5/9)×3,4 ≈ 1,9°C."
+ },
+ "84": {
+  "answer": "B",
+  "text": "El volumen de la habitación es 10×6,28×4 = 251,2 m³, y el tiempo para renovarlo es 8 min 20 s = 500 s. El caudal de aire (volumen entre tiempo) también se puede expresar como el área de la sección del conducto por la rapidez del aire: 251,2/500 = π×(0,2)²×v. Despejando, v = 4 m/s."
+ },
+ "85": {
+  "answer": "B",
+  "text": "La potencia del hervidor se obtiene con P = V²/R = 220²/44 = 1100 W. El calor necesario para elevar 2 litros (2000 g) de agua de 10°C a 60°C (un salto de 50°C) es Q = Ce·m·ΔT = 1×2000×50 = 100 000 cal, que en julios equivalen a 100 000×4,18 = 418 000 J. Como Q = P×t, el tiempo es t = 418 000/1100 ≈ 380 s, es decir, 6 minutos con 20 segundos."
+ },
+ "86": {
+  "answer": "D",
+  "text": "El monóxido de carbono en realidad dificulta el transporte de oxígeno en la sangre (se une a la hemoglobina con más fuerza que el propio oxígeno, desplazándolo), así que la opción A es incorrecta. El crecimiento excesivo de algas por exceso de nutrientes (eutrofización) reduce, no aumenta, el oxígeno disuelto en el agua, así que B es incorrecta. La lluvia ácida hace que el pH del agua baje, no suba, porque aumenta la concentración de iones hidronio (pH = −log[H3O+]), así que C es incorrecta. Los pesticidas se acumulan en los organismos justamente porque son liposolubles, no hidrosolubles, así que E es incorrecta. Lo correcto es que, al usarse cada vez menos fluorocarbonos —que liberan radicales de cloro que destruyen el ozono— y reemplazarlos por hidrofluorocarbonos (que no contienen cloro), la capa de ozono se va recuperando gradualmente."
+ },
+ "88": {
+  "answer": "A",
+  "text": "La acrilamida tiene la estructura de una amida primaria, así que el enunciado I es verdadero. Cuando se fríen papas —que contienen almidón y el aminoácido asparagina— a altas temperaturas, se produce una reacción (conocida como reacción de Maillard) que genera propenamida, es decir, acrilamida; el enunciado II es verdadero. Y la asparagina, como todo aminoácido, es anfótera (puede comportarse como ácido o como base) y posee un carbono quiral en su estructura; el enunciado III también es verdadero. Los tres enunciados son verdaderos: VVV."
+ },
+ "89": {
+  "answer": "A",
+  "text": "El ácido ascórbico no tiene un anillo de lactama (amida cíclica con nitrógeno): su anillo contiene oxígeno unido a un carbonilo, lo que corresponde más bien a una lactona (éster cíclico); el enunciado I es falso. En la reacción, la vitamina C cede dos electrones, y donar electrones es precisamente oxidarse, lo que la convierte en agente reductor; el enunciado II es verdadero. Por la estequiometría de la ecuación, cada mol de ácido ascórbico que reacciona libera exactamente 2 moles de electrones; el enunciado III es verdadero. Y como esos electrones (junto con protones) son recibidos por el radical de vitamina E para regenerar la vitamina E activa, mientras la vitamina C se oxida, la vitamina E se reduce; el enunciado IV es verdadero. La secuencia es FVVV."
+ },
+ "91": {
+  "answer": "D",
+  "text": "La vitamina B3 (niacina) es precursora del NAD, coenzima clave en las reacciones redox de la respiración celular (I-b). La riboflavina (vitamina B2) es la base del FAD, que igual que el NAD transporta electrones en el ciclo de Krebs y la cadena respiratoria (II-a). El colesterol es precursor de la vitamina D, que se forma en la piel a partir de un derivado suyo por acción de la luz UV (III-d). Y el ácido pantoténico (vitamina B5) es un componente estructural de la coenzima A, esencial para el metabolismo de ácidos grasos y para que el piruvato entre al ciclo de Krebs como acetil-CoA (IV-c). La relación correcta es Ib, IIa, IIId, IVc."
+ },
+ "92": {
+  "answer": "C",
+  "text": "El reactante no es glicina —el aminoácido más simple—, sino fenilalanina, así que A es incorrecta. Un hidrocarburo aromático solo tiene carbono e hidrógeno, y el producto de esta reacción no cumple esa condición, así que B es incorrecta. La cadena alifática unida al anillo aromático del reactante tiene 3 carbonos, no 5, así que D es incorrecta. Según las reglas de prioridad de grupos funcionales, el grupo principal de la molécula es el carboxilato, no el hidroxilo, así que E también es incorrecta. Lo que sí ocurre en la reacción es que, en el anillo aromático, un hidrógeno es reemplazado por un grupo —OH, lo cual es, por definición, una reacción de sustitución."
+ },
+ "93": {
+  "answer": "E",
+  "text": "El dióxido de carbono es el estado más oxidado y estable del carbono: cuando los organismos degradan azúcares o lípidos para obtener energía (los oxidan), el esqueleto de carbono que queda, ya sin electrones que ceder, termina liberado como CO2. El oxígeno molecular, por su parte, es el aceptor final de electrones por excelencia en la respiración celular, gracias a su alta electronegatividad, que le permite \"atraer\" los electrones al final de la cadena respiratoria y liberar así grandes cantidades de energía. Como la muestra data de hace millones de años —no de miles de millones—, corresponde a una atmósfera ya aeróbica, donde el oxígeno domina ese papel. Las dos moléculas precursoras son CO2 y O2."
+ },
+ "94": {
+  "answer": "A",
+  "text": "El hisopado busca identificar la bacteria (una célula procariota) responsable de la faringitis mediante coloración Gram, lo cual corresponde al nivel celular de organización; y el objetivo final de ese estudio es diagnosticar y tratar al paciente, es decir, al individuo como organismo completo. El enfoque del especialista involucra, entonces, los niveles celular e individual."
+ },
+ "95": {
+  "answer": "C",
+  "text": "En la replicación del ADN, la enzima principal es la ADN polimerasa III, que añade nucleótidos al extremo 3' libre de la cadena en crecimiento usando la hebra original como molde, siempre en dirección 5' a 3'. Esa misma enzima es la responsable de sintetizar tanto la cadena continua como la discontinua; en esta última, lo hace formando fragmentos cortos conocidos como fragmentos de Okazaki. Eso es justamente lo que muestra la figura: la ADN polimerasa III formando un fragmento de Okazaki."
+ },
+ "96": {
+  "answer": "C",
+  "text": "El estómago de los rumiantes tiene cuatro compartimentos con funciones distintas, y siguiendo el recorrido del alimento: el rumen, el más grande, funciona como una cámara de fermentación anaeróbica donde microorganismos simbióticos degradan la celulosa de las paredes vegetales (degradación de celulosa). El retículo, ubicado más adelante, compacta el alimento en un bolo que se regurgita para masticarlo de nuevo (formación de contenido ruminal). El omaso, con sus pliegues en forma de hojas, absorbe agua, ácidos grasos volátiles y minerales (absorción de agua, sales y pequeñas moléculas orgánicas). Y el abomaso, el \"estómago verdadero\", secreta ácido clorhídrico y pepsinógeno para digerir las proteínas, incluidas las de los microorganismos que llegan del rumen (digestión de proteínas). La secuencia, siguiendo el recorrido del alimento, es: degradación de celulosa → formación de contenido ruminal → absorción de agua, sales y pequeñas moléculas orgánicas → digestión de proteínas."
+ },
+ "97": {
+  "answer": "D",
+  "text": "Un tejido cuyas células se adhieren fuertemente entre sí (uniones estrechas) y se organizan en capas sobre una membrana basal gruesa corresponde al tejido epitelial, que recubre las superficies externas e internas del cuerpo. Su función principal es actuar como barrera de protección frente a daños mecánicos y patógenos, además de participar en absorción y secreción en distintos órganos."
+ },
+ "98": {
+  "answer": "C",
+  "text": "Los relaves mineros descritos son material totalmente inorgánico, sin materia orgánica ni luz solar directa disponibles para las bacterias. Para sobrevivir en ese ambiente, los microorganismos que participan en la biolixiviación obtienen su energía oxidando compuestos inorgánicos (como azufre o hierro) como donadores de electrones, en lugar de usar materia orgánica o luz. Ese tipo de nutrición, exclusivo de organismos que usan una fuente inorgánica de energía y de electrones, se llama quimiolitótrofa."
+ }
+}

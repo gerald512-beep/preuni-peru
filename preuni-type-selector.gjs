@@ -10,6 +10,10 @@ export default class PreuniTypeSelector extends Component {
 
   constructor(owner, args) {
     super(owner, args);
+    // Editing an existing pregunta_adicional post: this selector only ever
+    // knows about solución/comentario, so defaulting/writing here would
+    // silently overwrite the post's real type on save. Leave it untouched.
+    if (this.esPreguntaAdicional) return;
     this._syncToModel("comentario");
   }
 
@@ -17,7 +21,15 @@ export default class PreuniTypeSelector extends Component {
     return this.args.outletArgs?.model;
   }
 
+  // True when editing a post that's already a linked question (reading-
+  // passage cluster) -- this toggle has nothing meaningful to offer there,
+  // those are authored via the composer's own "pregunta enlazada" mode.
+  get esPreguntaAdicional() {
+    return this.model?.post?.preuni_post_type === "pregunta_adicional";
+  }
+
   get esPreuni() {
+    if (this.esPreguntaAdicional) return false;
     const m = this.model;
     if (!m || m.creatingTopic) return false;
     return !!m.topic?.preuni_fields?.clave;

@@ -24,6 +24,11 @@ const DIF_MAP = {
   medio:       { bg: '#fff3cd', color: '#856404', border: '#ffeeba', label: 'Medio'       },
   dificil:     { bg: '#f8d7da', color: '#721c24', border: '#f5c6cb', label: 'Difícil'     },
   por_definir: { bg: '#e9ecef', color: '#6c757d', border: '#dee2e6', label: 'Por definir' },
+  // A reading-passage cluster topic has several independently-scored
+  // questions -- one facil/medio/dificil value would misrepresent the whole
+  // topic, so this gets its own badge instead. Not included in FILTER_BUTTONS
+  // since "difficulty" isn't a meaningful axis to filter these by.
+  lectura:     { bg: '#e4e8f2', color: '#2b3f6b', border: '#c8d2e8', label: 'Lectura'      },
 };
 
 const FILTER_BUTTONS = [
@@ -77,7 +82,7 @@ function addChipsToRows() {
     chip.className = 'preuni-list-chip';
     chip.dataset.dif = info.dificultad;
     chip.style.cssText = `display:inline-flex;align-items:center;padding:1px 7px;border-radius:4px;font-size:11px;font-weight:600;background:${c.bg};color:${c.color};border:1px solid ${c.border};margin-left:6px;vertical-align:middle;white-space:nowrap`;
-    chip.textContent = c.label;
+    chip.textContent = info.dificultad === 'lectura' ? `${c.label} · ${info.num_preguntas} preg.` : c.label;
 
     const title = row.querySelector('a.title');
     if (title) title.after(chip);
@@ -148,6 +153,26 @@ export default {
     }
 
     withPluginApi("1.0", (api) => {
+      // Discourse sends a partly-read topic's title link to its first UNREAD
+      // post. In a question topic that is the solution reply, so the link
+      // landed mid-thread on the answer. Question topics (they live in the
+      // university subcategories) always open at the top, on the question.
+      // Ordinary discussion threads keep the default resume behavior.
+      api.registerCustomLastUnreadUrlCallback((topic) =>
+        topic.category?.parentCategory ? topic.urlForPostNumber(1) : null
+      );
+
+      // Personal error log page (/errores); only signed-in students have one.
+      if (api.getCurrentUser()) {
+        api.addCommunitySectionLink({
+          name: "preuni-errores",
+          route: "preuni-errores",
+          title: "Tus respuestas incorrectas, notas y precisión",
+          text: "Registro de errores",
+          icon: "clipboard-list",
+        });
+      }
+
       api.onPageChange(async (url) => {
         activeFilter = 'todos';
         document.getElementById('preuni-filter-bar')?.remove();

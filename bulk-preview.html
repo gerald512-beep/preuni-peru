@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solucionario UNI 2019-2 — Revisión</title>
+<title>Revisión de preguntas — Bulk pipeline</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <script>
 window.MathJax = {
@@ -76,6 +76,8 @@ h1{font-size:clamp(26px,4vw,34px); font-weight:600; color:var(--ink)}
 
 .qlist{display:flex; flex-direction:column; gap:7px}
 .qrow{background:var(--paper-raise); border:1px solid var(--line); border-radius:9px; overflow:hidden; transition:border-color .12s}
+.qrow.linked{margin-left:28px; border-left:3px solid var(--accent-2)}
+.cluster-badge{font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:4px; background:var(--accent-2-soft); color:var(--accent-2); white-space:nowrap; margin-right:2px}
 .qrow.open{border-color:var(--accent)}
 .qhead{display:flex; align-items:center; gap:12px; padding:11px 14px; cursor:pointer; user-select:none}
 .qhead:hover{background:var(--line-soft)}
@@ -141,8 +143,11 @@ h1{font-size:clamp(26px,4vw,34px); font-weight:600; color:var(--ink)}
 <div class="wrap">
   <header>
     <div class="eyebrow">Bulk pipeline · Revisión de parsing</div>
-    <h1>Solucionario UNI 2019&#8209;2</h1>
-    <div class="subtitle"><span class="live-dot"></span>218 preguntas extraídas de Prueba 1 (Aptitud Académica y Humanidades), Prueba 2 (Matemática), Prueba 3 (Física y Química) y Traslado Externo. Datos en vivo — revisa antes de publicar en Discourse.</div>
+    <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+      <h1 id="pageTitle">Revisión de preguntas</h1>
+      <select id="batchSelect" style="font-size:13px;padding:4px 8px;border-radius:6px;border:1px solid var(--line);background:var(--paper-raise);color:var(--ink)"></select>
+    </div>
+    <div class="subtitle" id="pageSubtitle"><span class="live-dot"></span>Cargando…</div>
   </header>
 
   <div class="stats" id="stats"></div>
@@ -176,6 +181,7 @@ h1{font-size:clamp(26px,4vw,34px); font-weight:600; color:var(--ink)}
 let DATA = [];
 let activeFilter = 'all';
 let searchTerm = '';
+let currentBatch = new URLSearchParams(location.search).get('batch') || 'default';
 
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
@@ -246,12 +252,16 @@ function renderList(){
   document.getElementById('qlist').innerHTML = items.map((r) => {
     const preview = r.body.replace(/\$[^$]*\$/g, '').replace(/\s+/g,' ').trim().slice(0, 90);
     const status = getStatus(r);
+    const clusterSize = r.clusterId ? DATA.filter(x => x.clusterId === r.clusterId).length : 0;
+    const clusterBadge = r.clusterRole === 'root' ? `<span class="cluster-badge">📖 lectura · ${clusterSize} preg.</span>`
+      : r.clusterRole === 'linked' ? `<span class="cluster-badge">↳ enlazada</span>` : '';
     return `
-      <div class="qrow" data-idx="${DATA.indexOf(r)}">
+      <div class="qrow ${r.clusterRole === 'linked' ? 'linked' : ''}" data-idx="${DATA.indexOf(r)}">
         <div class="qhead" onclick="toggleRow(this.parentElement)">
           <span class="qstatus ${status === 'flagged' ? 'flag' : status === 'reviewed' ? 'reviewed' : ''}"></span>
           <span class="qid">${esc(r.id.split('-').slice(-2).join(' N°'))}</span>
           <span class="qtema">${esc(r.tema || '—')}</span>
+          ${clusterBadge}
           <span class="qpreview">${esc(preview)}</span>
           <span class="qclave ${!r.clave ? 'missing' : ''}">${r.clave || '?'}</span>
           ${r.published ? `<a class="qpub" href="${r.topicUrl}" target="_blank" onclick="event.stopPropagation()">📤 publicada</a>` : ''}
@@ -276,13 +286,14 @@ function toggleRow(row){
 }
 
 function renderDetail(r){
+  const editHref = `/question-composer-prototype.html?bulk_id=${encodeURIComponent(r.id)}&batch=${encodeURIComponent(currentBatch)}`;
   const flagsHtml = r.needsReview.length
     ? `<div class="qflags">
          ${r.needsReview.map(f => `<span class="flag-pill">${esc(f)}</span>`).join('')}
-         <a class="edit-link" href="/question-composer-prototype.html?bulk_id=${encodeURIComponent(r.id)}" target="_blank">✏️ Editar en el composer</a>
+         <a class="edit-link" href="${editHref}" target="_blank">✏️ Editar en el composer</a>
        </div>`
     : (r.manuallyFixed ? `<div class="qflags"><span class="flag-pill" style="background:var(--accent-2-soft);color:var(--accent-2)">revisada a mano</span>
-         <a class="edit-link" href="/question-composer-prototype.html?bulk_id=${encodeURIComponent(r.id)}" target="_blank">✏️ Editar en el composer</a></div>` : '');
+         <a class="edit-link" href="${editHref}" target="_blank">✏️ Editar en el composer</a></div>` : '');
 
   const choicesHtml = ['A','B','C','D','E'].map(l => {
     const isCorrect = r.clave === l;
@@ -344,7 +355,17 @@ let publishRunning = false;
 let stopRequested = false;
 
 function pendingToPublish(){
-  return DATA.filter(r => !r.published && r.needsReview.length === 0);
+  return DATA.filter(r => !r.published && !r.hold && r.needsReview.length === 0);
+}
+
+// Roots (and any standalone, non-cluster question) must publish before their
+// linked siblings, since a linked question needs the root's real topic_id to
+// attach as a reply. Everything else keeps its natural order.
+function orderedPendingQueue(){
+  const pending = pendingToPublish();
+  const roots = pending.filter(r => r.clusterRole !== 'linked');
+  const linked = pending.filter(r => r.clusterRole === 'linked');
+  return [...roots, ...linked];
 }
 
 function refreshPubCount(){
@@ -391,7 +412,7 @@ async function publishOne(r){
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || res.statusText);
 
-  await fetch(`/api/bulk-question/${encodeURIComponent(r.id)}/publish`, {
+  await fetch(`/api/bulk-question/${encodeURIComponent(r.id)}/publish?batch=${encodeURIComponent(currentBatch)}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ topicId: data.topic_id, topicUrl: data.topic_url }),
@@ -403,9 +424,50 @@ async function publishOne(r){
   return data.solution_error || null;
 }
 
+// A cluster's root question publishes as a normal topic via publishOne().
+// Everything else in the cluster (clusterRole === 'linked') has to attach as
+// a reply to that same topic instead -- this is the counterpart that calls
+// the linked-question endpoint rather than /api/publish.
+function findClusterRoot(r){
+  return DATA.find(x => x.clusterId === r.clusterId && x.clusterRole === 'root');
+}
+
+async function publishOneLinked(r, topicId){
+  const hasSolucion = (r.solutionBody && r.solutionBody.trim()) || (r.solutionFigureImages || []).length > 0;
+  const payload = {
+    topic_id: topicId,
+    body: r.body,
+    choices: r.choices,
+    choice_images: r.choiceImages || {},
+    figure_images: r.figureImages || [],
+    clave: r.clave,
+    numero: r.numero,
+    solucion: hasSolucion ? { body: r.solutionBody || '', figure_images: r.solutionFigureImages || [] } : null,
+  };
+
+  const res = await fetch('/api/publish-linked-question', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || res.statusText);
+
+  await fetch(`/api/bulk-question/${encodeURIComponent(r.id)}/publish?batch=${encodeURIComponent(currentBatch)}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ topicId, topicUrl: data.post_url }),
+  });
+
+  r.published = true;
+  r.topicId = topicId;
+  r.topicUrl = data.post_url;
+  return data.solution_error || null;
+}
+
 async function runBulkPublish(){
   if (publishRunning) return;
-  const queue = pendingToPublish();
+  const queue = orderedPendingQueue();
   if (!queue.length) { logPub('No hay preguntas pendientes de publicar.'); return; }
 
   publishRunning = true;
@@ -421,7 +483,16 @@ async function runBulkPublish(){
   for (const r of queue) {
     if (stopRequested) { logPub(`Detenido por el usuario en ${done}/${total}.`); break; }
     try {
-      const solutionError = await publishOne(r);
+      let solutionError;
+      if (r.clusterRole === 'linked') {
+        const root = findClusterRoot(r);
+        if (!root || !root.topicId) {
+          throw new Error(`Tema padre del cluster "${r.clusterId}" aún no publicado`);
+        }
+        solutionError = await publishOneLinked(r, root.topicId);
+      } else {
+        solutionError = await publishOne(r);
+      }
       done++;
       logPub(`✓ ${r.id} → ${r.topicUrl}`);
       if (solutionError) logPub(`  ⚠ ${r.id}: solución no se publicó (${solutionError})`, true);
@@ -450,21 +521,58 @@ function stopBulkPublish(){
   stopRequested = true;
 }
 
+function renderHeader(){
+  const uni = [...new Set(DATA.map(r => r.universidad).filter(Boolean))].join(' / ') || '—';
+  const anios = [...new Set(DATA.map(r => r.anio).filter(Boolean))].join(', ');
+  const convs = [...new Set(DATA.map(r => r.convocatoria).filter(Boolean))].join(', ');
+  const periodo = [anios, convs].filter(Boolean).join('-');
+
+  document.title = `${uni}${periodo ? ' ' + periodo : ''} — Revisión`;
+  document.getElementById('pageTitle').textContent = `Solucionario ${uni}${periodo ? ' ' + periodo : ''}`;
+
+  const materias = [...new Set(DATA.map(r => r.materiaHeader).filter(Boolean))];
+  document.getElementById('pageSubtitle').innerHTML =
+    `<span class="live-dot"></span>${DATA.length} preguntas extraídas de ${materias.join(', ') || 'sin materias detectadas'}. Datos en vivo — revisa antes de publicar en Discourse.`;
+}
+
+async function loadBatches(){
+  const sel = document.getElementById('batchSelect');
+  try {
+    const batches = await fetch('/api/bulk-batches').then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); });
+    if (!batches.find(b => b.id === currentBatch)) currentBatch = batches[0]?.id || 'default';
+    sel.innerHTML = batches.map(b =>
+      `<option value="${esc(b.id)}"${b.id === currentBatch ? ' selected' : ''}>${esc(b.label)} (${b.count})</option>`
+    ).join('');
+  } catch (err) {
+    sel.innerHTML = `<option>Error cargando lotes: ${esc(err.message)}</option>`;
+  }
+}
+
+function switchBatch(){
+  currentBatch = document.getElementById('batchSelect').value;
+  const url = new URL(location.href);
+  url.searchParams.set('batch', currentBatch);
+  history.replaceState(null, '', url);
+  loadData();
+}
+
 async function loadData(){
   try {
-    const data = await fetch('/api/bulk-data').then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); });
+    const data = await fetch(`/api/bulk-data?batch=${encodeURIComponent(currentBatch)}`).then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); });
     DATA = data;
   } catch (err) {
     document.getElementById('qlist').innerHTML = `<div class="empty-state">Error cargando datos: ${err.message}</div>`;
     return;
   }
+  renderHeader();
   renderStats();
   renderMaterias();
   renderList();
   refreshPubCount();
 }
 
-loadData();
+document.getElementById('batchSelect').addEventListener('change', switchBatch);
+loadBatches().then(loadData);
 </script>
 </body>
 </html>

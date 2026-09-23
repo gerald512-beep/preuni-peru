@@ -342,8 +342,24 @@ app.post('/api/extract', async (req, res) => {
 });
 
 // ── DISCOURSE PUBLISH ──────────────────────────────────────────────────────
-// Ensure a tag exists with exact name before posting (prevents Discourse normalization N°X → nX)
+// Ensure a tag exists with its exact name before posting (question-number and subtema tags)
 async function ensureTag(tagName) {
+  // POST /admin/tags silently sanitizes special characters ("N°35" -> "n35"),
+  // which left root topics with a different tag form than the rest of the
+  // site. The plugin's endpoint creates the exact name at the model layer;
+  // fall through to the HTTP call only if that route isn't available.
+  try {
+    const r = await fetch(`${DISCOURSE_URL}/preuni/ensure-tag`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Api-Key': DISCOURSE_API_KEY,
+        'Api-Username': DISCOURSE_USERNAME,
+      },
+      body: JSON.stringify({ name: tagName }),
+    });
+    if (r.ok) return;
+  } catch {}
   try {
     await fetch(`${DISCOURSE_URL}/admin/tags`, {
       method: 'POST',
@@ -357,6 +373,19 @@ async function ensureTag(tagName) {
   } catch {}  // 422 = already exists — ignore
 }
 
+// Discourse throttles rapid writes (HTTP 429, "Espera N segundos"). A bulk run
+// trips it after ~15 topics; wait the time it asks for and retry, so a topic
+// is never created and then left without its solution reply (or vice versa).
+async function fetchWithRateLimitRetry(url, opts, attempts = 8) {
+  for (let i = 0; ; i++) {
+    const res = await fetch(url, opts);
+    if (res.status !== 429 || i >= attempts - 1) return res;
+    let wait = 10;
+    try { wait = (await res.clone().json()).extras?.wait_seconds ?? wait; } catch {}
+    await new Promise(r => setTimeout(r, (Math.min(wait, 60) + 2) * 1000));
+  }
+}
+
 async function discourseUpload(dataUrl, filename) {
   const m = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
   if (!m) throw new Error('Invalid image data for upload');
@@ -366,7 +395,7 @@ async function discourseUpload(dataUrl, filename) {
   form.append('files[]', new Blob([buf], { type: mime }), filename);
   form.append('type', 'composer');
   form.append('synchronous', 'true');
-  const res = await fetch(`${DISCOURSE_URL}/uploads.json`, {
+  const res = await fetchWithRateLimitRetry(`${DISCOURSE_URL}/uploads.json`, {
     method: 'POST',
     headers: { 'Api-Key': DISCOURSE_API_KEY, 'Api-Username': DISCOURSE_USERNAME },
     body: form,
@@ -376,25 +405,63 @@ async function discourseUpload(dataUrl, filename) {
   return { shortUrl: data.short_url, url: data.url };
 }
 
-function buildTitle(body, fallback) {
-  // Drop math spans entirely rather than unwrapping them — raw LaTeX commands
-  // left in a title (\boxed, \equiv, \left…) trip Discourse's title-quality
-  // check ("most words contain the same letters over and over"), since
-  // stripped-down math tends to collapse into repeated single letters (p, q, x).
+function buildTitle(body) {
+  // Keep math CONTENT (digits, variables, operators) but drop math MARKUP
+  // ($ delimiters, \commands, braces). Earlier this fully deleted $...$
+  // spans to dodge Discourse's title-quality check ("most words contain the
+  // same letters over and over"), but for a prompt like "Halla x en la
+  // ecuación $2x+3=7$" the equation is the ONLY part that distinguishes it
+  // from every other "Halla x en la ecuación..." question -- deleting it
+  // made unrelated questions collapse onto the same title/URL. LaTeX
+  // \commands (\boxed, \equiv, \left…) are still stripped, since those are
+  // what collapsed into repeated single letters (p, q, x) and actually
+  // triggered the quality check; createTopicWithTitleFallback below still
+  // catches the rare case where the result still gets rejected.
   const clean = body
-    .replace(/\$\$[\s\S]*?\$\$/g, ' ')
-    .replace(/\$[^$]*\$/g, ' ')
+    // /api/publish appends "<!-- preuni:source:... -->" to the body before the
+    // title is built; on a short stem it used to leak into the title text.
+    .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/\[FIG:\d+\]/g, '')
+    .replace(/\$\$?/g, '')
     .replace(/\\[a-zA-Z]+/g, ' ')
-    .replace(/[{}^_]/g, '')
+    .replace(/[{}^_\\]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
-  const title = clean.length > 80 ? clean.slice(0, 80) + '…' : clean;
-  // Short bare-instruction phrases ("Halle el valor de", "Calcule...") still trip
-  // Discourse's title-entropy check even with zero LaTeX residue -- their word
-  // count is too low for the check to read as "real" text. 15 chars wasn't a high
-  // enough bar; raised after ptraslado-CÁLCULO_INTEGRAL-35 got rejected at 18 chars.
-  return title.length >= 30 ? title : (fallback || title || 'Pregunta');
+  return clean.length > 80 ? clean.slice(0, 80) + '…' : (clean || 'Pregunta');
+}
+
+// Discourse rejects some titles outright ("Título parece poco claro...") --
+// mostly bare math instructions ("Halle el valor de X") whose stripped text
+// reads as low-entropy even though it's perfectly fine to a human. Rather
+// than pre-judge by length (which throws away plenty of good short titles),
+// try the real title first and only fall back to a generic tema+numero title
+// if Discourse actually rejects it.
+async function createTopicWithTitleFallback(payload, primaryTitle, fallbackTitle) {
+  const headers = {
+    'Content-Type': 'application/json',
+    'Api-Key': DISCOURSE_API_KEY,
+    'Api-Username': DISCOURSE_USERNAME,
+  };
+  const post = async (title) => fetchWithRateLimitRetry(`${DISCOURSE_URL}/posts.json`, {
+    method: 'POST', headers, body: JSON.stringify({ ...payload, title }),
+  });
+
+  let res = await post(primaryTitle);
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    const msg = err.errors?.join(', ') || '';
+    const isTitleQualityError = /título parece poco claro|title seems unclear/i.test(msg);
+    if (isTitleQualityError && fallbackTitle !== primaryTitle) {
+      res = await post(fallbackTitle);
+    } else {
+      throw new Error(msg || `Discourse error: ${res.status}`);
+    }
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.errors?.join(', ') || `Discourse error: ${res.status}`);
+  }
+  return res.json();
 }
 
 function buildRaw(body, choices, choiceUrls) {
@@ -420,12 +487,14 @@ app.post('/api/publish', async (req, res) => {
     if (!categoryId)
       return res.status(400).json({ error: `Categoría no encontrada: ${universidad} / ${tema}` });
 
-    // Ensure N°X tag + subtema tags exist and collect all tags
+    // The question number is a bare-number tag ("35" -- not N°35 / n35) and is
+    // ALSO kept as the attribute preuni_numero (topic custom fields below),
+    // which is what the duplicate check reads. Subtema tags follow.
     const tags = [];
     if (numero) {
-      const tagName = `N°${numero}`;
-      await ensureTag(tagName);
-      tags.push(tagName);
+      const numTag = String(numero);
+      await ensureTag(numTag);
+      tags.push(numTag);
     }
     for (const sub of (subtemas || [])) {
       await ensureTag(sub);
@@ -458,20 +527,14 @@ app.post('/api/publish', async (req, res) => {
       resolvedBody += `\n<!-- preuni:source:${url} -->`;
     }
 
-    const fallbackTitle = [tema, numero ? `N°${numero}` : null].filter(Boolean).join(' — ') || 'Pregunta';
-    const title = buildTitle(resolvedBody, fallbackTitle);
-    const raw   = buildRaw(resolvedBody, choices, choiceUrls);
+    const fallbackTitle = [tema, numero ? String(numero) : null].filter(Boolean).join(' — ') || 'Pregunta';
+    const primaryTitle = buildTitle(resolvedBody);
+    const raw = buildRaw(resolvedBody, choices, choiceUrls);
 
     // Custom fields go in the POST body — PUT /t/:id silently drops them
-    const postRes = await fetch(`${DISCOURSE_URL}/posts.json`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Api-Key': DISCOURSE_API_KEY,
-        'Api-Username': DISCOURSE_USERNAME,
-      },
-      body: JSON.stringify({
-        title, raw, category: categoryId, tags,
+    const post = await createTopicWithTitleFallback(
+      {
+        raw, category: categoryId, tags,
         topic_custom_fields: {
           preuni_clave:        clave,
           preuni_convocatoria: convStr,
@@ -480,15 +543,10 @@ app.post('/api/publish', async (req, res) => {
           preuni_tema:         tema,
           preuni_tipo_origen:  tipo_origen || 'Universidad',
         },
-      }),
-    });
-
-    if (!postRes.ok) {
-      const err = await postRes.json().catch(() => ({}));
-      throw new Error(err.errors?.join(', ') || `Discourse error: ${postRes.status}`);
-    }
-
-    const post = await postRes.json();
+      },
+      primaryTitle,
+      fallbackTitle,
+    );
     const topicId  = post.topic_id;
     const topicUrl = `${DISCOURSE_URL}/t/${post.topic_slug}/${topicId}`;
 
@@ -506,7 +564,7 @@ app.post('/api/publish', async (req, res) => {
       }
       solRaw = solRaw.replace(/\[FIG:\d+\]/g, '');
 
-      const solRes = await fetch(`${DISCOURSE_URL}/posts.json`, {
+      const solRes = await fetchWithRateLimitRetry(`${DISCOURSE_URL}/posts.json`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -534,6 +592,137 @@ app.post('/api/publish', async (req, res) => {
   }
 });
 
+// Reading-passage clusters: the composer's "pregunta enlazada" mode looks up
+// the parent topic's universidad/tema before showing the form, and publishes
+// each linked question as a reply carrying its own clave/numero.
+app.get('/api/topic-info/:id', async (req, res) => {
+  try {
+    const headers = { 'Api-Key': DISCOURSE_API_KEY, 'Api-Username': DISCOURSE_USERNAME };
+    const topicRes = await fetch(`${DISCOURSE_URL}/t/${req.params.id}.json`, { headers });
+    if (!topicRes.ok) return res.status(404).json({ error: 'Tema no encontrado' });
+    const topic = await topicRes.json();
+    const fields = topic.preuni_fields;
+    if (!fields?.universidad) return res.status(400).json({ error: 'No es un tema de PreUni' });
+    res.json({ universidad: fields.universidad, tema: fields.tema, title: topic.title });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/publish-linked-question', async (req, res) => {
+  try {
+    const { topic_id, body, choices, choice_images, figure_images, clave, numero, solucion } = req.body;
+    if (!topic_id || !body || !clave)
+      return res.status(400).json({ error: 'Faltan campos requeridos.' });
+
+    let resolvedBody = body;
+    for (let i = 0; i < (figure_images?.length || 0); i++) {
+      if (!figure_images[i]) continue;
+      const { shortUrl } = await discourseUpload(figure_images[i], `figura_${i + 1}.jpg`);
+      resolvedBody = resolvedBody.replace(`[FIG:${i}]`, `\n![figura ${i + 1}](${shortUrl})\n`);
+    }
+    resolvedBody = resolvedBody.replace(/\[FIG:\d+\]/g, '');
+
+    const choiceUrls = {};
+    for (const [l, dataUrl] of Object.entries(choice_images || {})) {
+      if (!dataUrl) continue;
+      const { shortUrl } = await discourseUpload(dataUrl, `alternativa_${l}.jpg`);
+      choiceUrls[l] = shortUrl;
+    }
+
+    const raw = buildRaw(resolvedBody, choices, choiceUrls);
+
+    const postRes = await fetchWithRateLimitRetry(`${DISCOURSE_URL}/posts.json`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Api-Key': DISCOURSE_API_KEY,
+        'Api-Username': DISCOURSE_USERNAME,
+      },
+      body: JSON.stringify({
+        topic_id,
+        raw,
+        preuni_post_type: 'pregunta_adicional',
+        preuni_clave: clave,
+        preuni_numero: String(numero || ''),
+      }),
+    });
+
+    if (!postRes.ok) {
+      const err = await postRes.json().catch(() => ({}));
+      throw new Error(err.errors?.join(', ') || `Discourse error: ${postRes.status}`);
+    }
+
+    const post = await postRes.json();
+    const postUrl = `${DISCOURSE_URL}/t/${post.topic_slug || '-'}/${post.topic_id}/${post.post_number}`;
+
+    // Tags are topic-level in Discourse -- a linked question's own number tag
+    // has to be ADDED to the parent topic's existing tag list (a PUT replaces
+    // the whole list, so fetch-then-merge, not just send the one new tag).
+    if (numero) {
+      try {
+        const headers = { 'Api-Key': DISCOURSE_API_KEY, 'Api-Username': DISCOURSE_USERNAME };
+        const numTag = String(numero);
+        await ensureTag(numTag);
+
+        const topicRes = await fetch(`${DISCOURSE_URL}/t/${topic_id}.json`, { headers });
+        const topic = await topicRes.json();
+        // topic.tags can be an array of plain strings OR {id,name,slug}
+        // objects depending on context -- normalize before using.
+        const existingTags = (topic.tags || []).map(t => (typeof t === 'string' ? t : t.name));
+
+        if (!existingTags.includes(numTag)) {
+          await fetch(`${DISCOURSE_URL}/t/-/${topic_id}.json`, {
+            method: 'PUT',
+            headers: { ...headers, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tags: [...existingTags, numTag] }),
+          });
+        }
+      } catch (tagErr) {
+        console.error('Tag merge failed for linked question:', tagErr.message);
+      }
+    }
+
+    // Solution reply, same pattern as /api/publish -- posted as its own
+    // reply right after the question, never silently swallowed on failure.
+    let solutionError = null;
+    if (solucion?.body || solucion?.figure_images?.length) {
+      let solRaw = solucion.body || '';
+      for (let i = 0; i < (solucion.figure_images?.length || 0); i++) {
+        if (!solucion.figure_images[i]) continue;
+        const { shortUrl } = await discourseUpload(solucion.figure_images[i], `sol_figura_${i + 1}.jpg`);
+        solRaw = solRaw.replace(`[FIG:${i}]`, `\n![figura sol ${i + 1}](${shortUrl})\n`);
+      }
+      solRaw = solRaw.replace(/\[FIG:\d+\]/g, '');
+
+      const solRes = await fetchWithRateLimitRetry(`${DISCOURSE_URL}/posts.json`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Api-Key': DISCOURSE_API_KEY,
+          'Api-Username': DISCOURSE_USERNAME,
+        },
+        body: JSON.stringify({
+          topic_id,
+          raw: solRaw,
+          preuni_post_type: 'solucion',
+        }),
+      });
+      if (!solRes.ok) {
+        const err = await solRes.json().catch(() => ({}));
+        solutionError = err.errors?.join(', ') || `Discourse error: ${solRes.status}`;
+        console.error(`Solution reply failed for linked question in topic ${topic_id}:`, solutionError);
+      }
+    }
+
+    res.json({ post_id: post.id, post_url: postUrl, solution_error: solutionError });
+
+  } catch (err) {
+    console.error('Publish linked question error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.post('/api/check-duplicate', async (req, res) => {
   try {
     const { titulo, universidad, anio, convocatoria, numero } = req.body;
@@ -541,19 +730,18 @@ app.post('/api/check-duplicate', async (req, res) => {
     const uniCatIds = await getCategoryIdsForUniversidad(universidad);
     let match = null;
 
-    // Strategy 1: search by N°X tag within universidad categories
-    if (numero && uniCatIds.size) {
-      const tagRes = await fetch(
-        `${DISCOURSE_URL}/tag/${encodeURIComponent('N°' + numero)}/l/latest.json`,
-        { headers }
-      );
-      if (tagRes.ok) {
-        const tagData = await tagRes.json();
-        match = (tagData.topic_list?.topics || []).find(t => {
-          if (!uniCatIds.has(t.category_id)) return false;
-          if (!anio) return true;
-          return t.title?.includes(anio) || t.title?.includes(String(anio).slice(-2));
-        });
+    // Strategy 1: exact attribute lookup (universidad + convocatoria + número),
+    // via the plugin -- the number is no longer stored as a tag.
+    if (numero && universidad) {
+      const convStr = [anio, convocatoria].filter(Boolean).join('-');
+      const qs = new URLSearchParams({ numero: String(numero), universidad });
+      if (convStr) qs.set('convocatoria', convStr);
+      const findRes = await fetch(`${DISCOURSE_URL}/preuni/find?${qs}`, {
+        headers: { ...headers, Accept: 'application/json' },
+      });
+      if (findRes.ok) {
+        const found = await findRes.json();
+        match = (found.topics || [])[0] || null;
       }
     }
 
@@ -580,16 +768,62 @@ app.post('/api/check-duplicate', async (req, res) => {
 });
 
 // ── Bulk pipeline: composer edit mode for flagged questions ────────────────
-const BULK_REVIEW_PATH = path.join(__dirname, 'bulk_review.json');
+// Multiple exam batches can coexist: the "default" batch is bulk_review.json
+// at the repo root (or BULK_REVIEW_FILE, unchanged from before) -- every
+// existing bookmark/link with no ?batch= keeps working exactly as before.
+// Any other batch is a JSON file under bulk_data/, addressed by its filename
+// (no extension) as the batch id.
+const DEFAULT_BULK_PATH = process.env.BULK_REVIEW_FILE
+  ? path.resolve(process.env.BULK_REVIEW_FILE)
+  : path.join(__dirname, 'bulk_review.json');
+const BULK_DATA_DIR = path.join(__dirname, 'bulk_data');
 
-function readBulkReview() {
-  return JSON.parse(fs.readFileSync(BULK_REVIEW_PATH, 'utf8'));
+function resolveBatchPath(batchId) {
+  if (!batchId || batchId === 'default') return DEFAULT_BULK_PATH;
+  if (!/^[a-zA-Z0-9_-]+$/.test(batchId)) throw new Error('ID de lote inválido');
+  return path.join(BULK_DATA_DIR, batchId + '.json');
 }
+
+function readBulkReview(batchId) {
+  return JSON.parse(fs.readFileSync(resolveBatchPath(batchId), 'utf8'));
+}
+
+function writeBulkReview(batchId, data) {
+  fs.writeFileSync(resolveBatchPath(batchId), JSON.stringify(data, null, 2));
+}
+
+function describeBatch(id, filePath) {
+  const stat = fs.statSync(filePath);
+  let data = [];
+  try { data = JSON.parse(fs.readFileSync(filePath, 'utf8')); } catch {}
+  const uni = [...new Set(data.map(r => r.universidad).filter(Boolean))].join(' / ');
+  const anio = [...new Set(data.map(r => r.anio).filter(Boolean))].join(', ');
+  const conv = [...new Set(data.map(r => r.convocatoria).filter(Boolean))].join(', ');
+  const label = [uni, [anio, conv].filter(Boolean).join('-')].filter(Boolean).join(' ') || id;
+  return { id, label, count: data.length, mtime: stat.mtimeMs };
+}
+
+app.get('/api/bulk-batches', (req, res) => {
+  try {
+    const batches = [];
+    if (fs.existsSync(DEFAULT_BULK_PATH)) batches.push(describeBatch('default', DEFAULT_BULK_PATH));
+    if (fs.existsSync(BULK_DATA_DIR)) {
+      for (const f of fs.readdirSync(BULK_DATA_DIR)) {
+        if (!f.endsWith('.json')) continue;
+        batches.push(describeBatch(f.slice(0, -5), path.join(BULK_DATA_DIR, f)));
+      }
+    }
+    batches.sort((a, b) => b.mtime - a.mtime);
+    res.json(batches);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 app.get('/api/bulk-data', (req, res) => {
   try {
     res.set('Access-Control-Allow-Origin', '*');
-    res.json(readBulkReview());
+    res.json(readBulkReview(req.query.batch));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -597,9 +831,9 @@ app.get('/api/bulk-data', (req, res) => {
 
 app.get('/api/bulk-question/:id', (req, res) => {
   try {
-    const data = readBulkReview();
+    const data = readBulkReview(req.query.batch);
     const q = data.find(r => r.id === req.params.id);
-    if (!q) return res.status(404).json({ error: 'No encontrado en bulk_review.json' });
+    if (!q) return res.status(404).json({ error: 'No encontrado en el lote' });
     res.json(q);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -608,9 +842,9 @@ app.get('/api/bulk-question/:id', (req, res) => {
 
 app.put('/api/bulk-question/:id', (req, res) => {
   try {
-    const data = readBulkReview();
+    const data = readBulkReview(req.query.batch);
     const idx = data.findIndex(r => r.id === req.params.id);
-    if (idx === -1) return res.status(404).json({ error: 'No encontrado en bulk_review.json' });
+    if (idx === -1) return res.status(404).json({ error: 'No encontrado en el lote' });
 
     const { body, choices, choiceImages, figureImages, clave, tema, subtemas, solutionBody, solutionFigureImages } = req.body;
     if (body !== undefined) data[idx].body = body;
@@ -642,7 +876,7 @@ app.put('/api/bulk-question/:id', (req, res) => {
     data[idx].needsReview = stillBroken;
     data[idx].manuallyFixed = true;
 
-    fs.writeFileSync(BULK_REVIEW_PATH, JSON.stringify(data, null, 2));
+    writeBulkReview(req.query.batch, data);
     res.json({ ok: true, needsReview: data[idx].needsReview });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -654,7 +888,7 @@ app.put('/api/bulk-question/:id', (req, res) => {
 // stamping publish status never flips manuallyFixed / needsReview.
 app.post('/api/bulk-question/:id/publish', (req, res) => {
   try {
-    const data = readBulkReview();
+    const data = readBulkReview(req.query.batch);
     const idx = data.findIndex(r => r.id === req.params.id);
     if (idx === -1) return res.status(404).json({ error: 'No encontrado en bulk_review.json' });
 
@@ -664,7 +898,7 @@ app.post('/api/bulk-question/:id/publish', (req, res) => {
     data[idx].topicUrl = topicUrl;
     data[idx].publishedAt = new Date().toISOString();
 
-    fs.writeFileSync(BULK_REVIEW_PATH, JSON.stringify(data, null, 2));
+    writeBulkReview(req.query.batch, data);
     res.json({ ok: true });
   } catch (err) {
     res.status(500).json({ error: err.message });

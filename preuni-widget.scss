@@ -1,0 +1,146 @@
+.preuni-widget {
+  margin: 0 0 1.5rem;
+  font-family: inherit;
+}
+
+// ── Pill ──────────────────────────────────────────────────────────────────────
+.preuni-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+  width: fit-content;
+
+  &--idle      { background: var(--primary-low);   color: var(--primary-medium); }
+  &--corriendo { background: var(--tertiary-low);  color: var(--tertiary);       }
+  &--respondido { background: var(--primary-low);  color: var(--primary);        }
+}
+
+.preuni-start-btn {
+  background: var(--tertiary);
+  color: #fff;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  &:hover { opacity: 0.85; }
+}
+
+.preuni-timer       { font-weight: 600; }
+.preuni-timer-final { color: var(--primary-medium); font-size: 0.8rem; }
+.preuni-result      { font-weight: 700; }
+.preuni-result.correcto   { color: var(--success); }
+.preuni-result.incorrecto { color: var(--danger);  }
+
+// ── Botones A–E ───────────────────────────────────────────────────────────────
+.preuni-botones {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.preuni-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 2px solid var(--primary-medium);
+  background: transparent;
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover:not(:disabled) {
+    background: var(--tertiary-low);
+    border-color: var(--tertiary);
+  }
+
+  &.selected   { background: var(--tertiary-low); border-color: var(--tertiary); }
+  &.correcta   { background: var(--success);      border-color: var(--success);  color: #fff; }
+  &.incorrecta { background: var(--danger);       border-color: var(--danger);   color: #fff; }
+  &:disabled   { cursor: default; }
+}
+
+// ── Distribución ──────────────────────────────────────────────────────────────
+.preuni-distribucion {
+  margin-bottom: 0.75rem;
+}
+
+.preuni-barra-fila {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+
+  &.es-clave .preuni-barra-fill { background: var(--success); }
+}
+
+.preuni-barra-letra {
+  width: 1.2rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.preuni-barra-track {
+  flex: 1;
+  height: 8px;
+  background: var(--primary-low);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.preuni-barra-fill {
+  height: 100%;
+  background: var(--tertiary);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.preuni-barra-pct {
+  width: 3rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--primary-medium);
+}
+
+.preuni-total {
+  font-size: 0.75rem;
+  color: var(--primary-medium);
+  margin: 0.25rem 0 0;
+}
+
+// ── Mostrar clave ─────────────────────────────────────────────────────────────
+.preuni-clave-zone {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.preuni-clave-btn {
+  background: none;
+  border: 1px solid var(--primary-medium);
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: var(--primary-medium);
+  &:hover { border-color: var(--tertiary); color: var(--tertiary); }
+}
+
+.preuni-clave-valor {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--success);
+}
+
+// ── Error ─────────────────────────────────────────────────────────────────────
+.preuni-error {
+  color: var(--danger);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}

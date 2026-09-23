@@ -24,3 +24,10 @@ tools/
 # Debug artifacts
 debug_case4.js
 Cases/case4_debug_*
+/*.png
+*.log
+server_restart*.err
+tmp_*
+
+# Editor
+.vscode/
