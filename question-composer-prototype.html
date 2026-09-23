@@ -232,6 +232,17 @@ select[multiple] { height: 90px; }
 <div class="layout">
 <div class="form-panel">
 
+  <!-- PREGUNTA ENLAZADA (reading-passage cluster) -->
+  <div class="toggle-sol-wrap">
+    <input type="checkbox" id="chk-linked" onchange="toggleLinkedMode()">
+    <label for="chk-linked">Es una pregunta enlazada a un texto ya publicado</label>
+  </div>
+  <div class="field" id="linked-topic-field" style="display:none">
+    <label>ID o URL del tema padre <span>— el tema que contiene el texto/pasaje</span></label>
+    <input type="text" id="linked-topic-id" placeholder="Ej: 358 o http://localhost:8080/t/.../358" onblur="resolveLinkedParent()">
+    <div class="hint" id="linked-topic-info"></div>
+  </div>
+
   <!-- IMAGE CAPTURE -->
   <div class="field">
     <label>Capturar imagen de la pregunta <span>— hasta 2 imágenes si la pregunta está en dos columnas</span></label>
@@ -375,7 +386,7 @@ select[multiple] { height: 90px; }
   <input type="hidden" id="universidad_objetivo" value="">
 
   <!-- ORIGEN + CONVOCATORIA (side by side) -->
-  <div class="meta-row" style="grid-template-columns:1fr 80px 1fr 70px">
+  <div class="meta-row" style="grid-template-columns:1fr 80px 1fr 70px" id="meta-row-full">
     <div class="field">
       <label>Universidad</label>
       <select id="university">
@@ -398,8 +409,14 @@ select[multiple] { height: 90px; }
     </div>
   </div>
 
+  <!-- N° only, shown instead of meta-row-full in linked mode -->
+  <div class="field" id="numero-only-field" style="display:none">
+    <label>N°</label>
+    <input type="number" id="numero-linked" min="1" placeholder="15">
+  </div>
+
   <!-- TEMA -->
-  <div class="field">
+  <div class="field" id="tema-field">
     <label>Tema</label>
     <select id="tema" disabled>
       <option value="">— selecciona universidad primero —</option>
@@ -407,7 +424,7 @@ select[multiple] { height: 90px; }
   </div>
 
   <!-- SUB-TEMA -->
-  <div class="field">
+  <div class="field" id="subtema-field">
     <label>Sub-tema <span>— Ctrl+click para seleccionar varios</span></label>
     <select id="subtema" multiple style="height:110px"></select>
     <div class="hint">Selecciona todas las técnicas que aplican, aunque sean de distintos temas.</div>
@@ -481,6 +498,7 @@ select[multiple] { height: 90px; }
     </div>
   </div>
 
+  <div class="extract-notice" id="publish-notice"></div>
   <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">Publicar pregunta</button>
 </div>
 
@@ -698,6 +716,41 @@ function toggleSolSection() {
   updatePreview();
 }
 
+let linkedParentInfo = null; // {topicId, tema, universidad} once resolved
+
+function toggleLinkedMode() {
+  const linked = document.getElementById('chk-linked').checked;
+  document.getElementById('linked-topic-field').style.display = linked ? '' : 'none';
+  document.getElementById('meta-row-full').style.display = linked ? 'none' : '';
+  document.getElementById('numero-only-field').style.display = linked ? '' : 'none';
+  document.getElementById('tema-field').style.display = linked ? 'none' : '';
+  document.getElementById('subtema-field').style.display = linked ? 'none' : '';
+  linkedParentInfo = null;
+  document.getElementById('linked-topic-info').textContent = '';
+}
+
+async function resolveLinkedParent() {
+  const raw = document.getElementById('linked-topic-id').value.trim();
+  const info = document.getElementById('linked-topic-info');
+  const m = raw.match(/(\d+)\s*$/);
+  const topicId = m ? m[1] : raw;
+  if (!topicId) { linkedParentInfo = null; info.textContent = ''; return null; }
+  try {
+    const res = await fetch('/api/topic-info/' + encodeURIComponent(topicId));
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'No encontrado');
+    linkedParentInfo = { topicId, ...data };
+    info.textContent = `✓ ${data.universidad} · ${data.tema} · "${data.title}"`;
+    info.style.color = 'var(--good, #2f6b3e)';
+    return linkedParentInfo;
+  } catch (err) {
+    linkedParentInfo = null;
+    info.textContent = `✗ ${err.message}`;
+    info.style.color = '#c0392b';
+    return null;
+  }
+}
+
 function handleSolDragOver(e, n) { e.preventDefault(); activePasteTarget = 'solution'; document.getElementById('sol-image-zone-' + n).classList.add('drag-over'); }
 function handleSolDragLeave(n)   { document.getElementById('sol-image-zone-' + n).classList.remove('drag-over'); }
 function handleSolDrop(e, n)     { e.preventDefault(); handleSolDragLeave(n); activePasteTarget = 'solution'; const f = e.dataTransfer.files[0]; if (f?.type.startsWith('image/')) loadSolImageFile(f, n); }
@@ -882,8 +935,8 @@ async function initBulkEditMode(id) {
   btn.textContent = 'Guardar cambios';
 
   try {
-    const data = await fetch(`/api/bulk-question/${encodeURIComponent(id)}`).then(r => {
-      if (!r.ok) throw new Error('No se encontró la pregunta en bulk_review.json');
+    const data = await fetch(`/api/bulk-question/${encodeURIComponent(id)}?batch=${encodeURIComponent(_bulkBatch)}`).then(r => {
+      if (!r.ok) throw new Error('No se encontró la pregunta en el lote');
       return r.json();
     });
     populateFromBulkRecord(data);
@@ -916,7 +969,7 @@ async function doBulkSave() {
   btn.disabled = true;
 
   try {
-    const res = await fetch(`/api/bulk-question/${encodeURIComponent(bulkEditId)}`, {
+    const res = await fetch(`/api/bulk-question/${encodeURIComponent(bulkEditId)}?batch=${encodeURIComponent(_bulkBatch)}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1047,7 +1100,7 @@ function updateChoiceHighlights() {
 
 // ── TEMAS + SUB-TEMAS ──────────────────────────────────────
 const TEMAS = {
-  UNMSM: ['Aritmética','Álgebra','Geometría','Trigonometría','Razonamiento Matemático','Razonamiento Verbal','Literatura','Historia del Perú','Geografía del Perú'],
+  UNMSM: ['Aritmética','Álgebra','Geometría','Trigonometría','Razonamiento Matemático','Razonamiento Verbal','Comunicación y Lengua','Literatura','Historia del Perú','Historia Universal','Geografía','Geografía del Perú','Educación Cívica','Economía','Filosofía','Psicología','Física','Química','Biología'],
   UNI:   ['Aritmética','Álgebra','Geometría','Trigonometría','Física','Química','Razonamiento Matemático','Razonamiento Verbal','Historia del Perú','Geografía del Perú','Literatura','Filosofía','Comunicación y Lengua','Economía','Inglés','Lógica','Psicología','Actualidad','Cálculo Diferencial','Cálculo Integral','Álgebra Lineal','Geometría Analítica','Probabilidad y Estadística'],
 };
 
@@ -1282,6 +1335,12 @@ async function runValidation() {
   if (hasSolucion && !solBody && !currentSolFigureImages.length)
     errors.push({ text: 'Solución: checkbox marcado pero sin texto ni imagen', field: 'sol-body' });
 
+  // Discourse rejects replies under 20 chars (min_post_length default) --
+  // catch this before publishing, not after the question already went live
+  // with its solution silently missing.
+  if (hasSolucion && solBody && solBody.length < 20)
+    errors.push({ text: `Solución: muy corta (${solBody.length}/20 caracteres mínimo)`, field: 'sol-body' });
+
   if (hasSolucion && solBody) {
     const mf = getMissingFigs(solBody, currentSolFigureImages);
     if (mf.length) errors.push({ text: `Solución: [FIG:${mf[0]}] sin imagen asignada`, field: 'sol-body' });
@@ -1289,7 +1348,7 @@ async function runValidation() {
 
   // ── Warnings ──
   if (!numero)
-    warnings.push({ text: 'N° de pregunta no ingresado — la pregunta no tendrá etiqueta N°X', onclick: "scrollToField('numero')" });
+    warnings.push({ text: 'N° de pregunta no ingresado — la pregunta no tendrá etiqueta con su número', onclick: "scrollToField('numero')" });
 
   if (body && hasUnclosedLatex(body))
     warnings.push({ text: 'LaTeX posiblemente incompleto: $ sin cerrar en el Enunciado', onclick: "scrollToField('body')" });
@@ -1337,6 +1396,12 @@ async function handleSubmit() {
 
   // Bulk-edit mode: save the fix back into bulk_review.json, don't touch Discourse
   if (bulkEditId) { await doBulkSave(); return; }
+
+  // Linked question mode: lighter validation, different endpoint, no topic metadata needed
+  if (document.getElementById('chk-linked').checked) {
+    await doPublishLinked();
+    return;
+  }
 
   // Second click after warnings were shown → publish directly
   if (warningsPending) {
@@ -1411,14 +1476,81 @@ async function doPublish() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || res.statusText);
 
-    const notice = document.getElementById('extract-notice');
-    notice.innerHTML = `✓ Pregunta publicada — <a href="${data.topic_url}" target="_blank">ver en Discourse</a>`;
+    const notice = document.getElementById('publish-notice');
+    notice.innerHTML = `✓ Pregunta publicada — <a href="${data.topic_url}" target="_blank">ver en Discourse</a>`
+      + (data.solution_error ? `<br>⚠ La solución no se publicó: ${data.solution_error}` : '');
     notice.className = 'extract-notice success';
     notice.style.display = 'block';
     document.getElementById('validation-panel').classList.remove('visible');
 
   } catch (err) {
-    const notice = document.getElementById('extract-notice');
+    const notice = document.getElementById('publish-notice');
+    notice.textContent = `Error al publicar: ${err.message}`;
+    notice.className = 'extract-notice error';
+    notice.style.display = 'block';
+  } finally {
+    btn.textContent = 'Publicar pregunta';
+    btn.className = 'submit-btn';
+    btn.disabled = false;
+  }
+}
+
+async function doPublishLinked() {
+  const btn = document.getElementById('submit-btn');
+  const notice = document.getElementById('publish-notice');
+
+  const body    = document.getElementById('body').value.trim();
+  const numero  = document.getElementById('numero-linked').value.trim();
+  const choices = {};
+  ['A','B','C','D','E'].forEach(l => { choices[l] = document.getElementById('choice-'+l).value.trim(); });
+  const hasSolucion = document.getElementById('chk-solucion').checked;
+  const solBody      = document.getElementById('sol-body').value.trim();
+
+  // Lighter validation -- no universidad/tema needed, those come from the parent topic
+  const parent = linkedParentInfo || await resolveLinkedParent();
+  const missing = [];
+  if (!parent) missing.push('tema padre válido');
+  if (!body) missing.push('enunciado');
+  const missingChoices = ['A','B','C','D','E'].filter(l => !choices[l] && !choiceImages[l]);
+  if (missingChoices.length) missing.push('alternativas: ' + missingChoices.join(', '));
+  if (!selectedClave) missing.push('clave');
+  if (hasSolucion && !solBody && !currentSolFigureImages.length)
+    missing.push('solución: checkbox marcado pero sin texto ni imagen');
+  if (hasSolucion && solBody && solBody.length < 20)
+    missing.push(`solución: muy corta (${solBody.length}/20 caracteres mínimo)`);
+  if (missing.length) {
+    notice.textContent = 'Falta: ' + missing.join(' · ');
+    notice.className = 'extract-notice error';
+    notice.style.display = 'block';
+    return;
+  }
+
+  btn.textContent = 'Publicando…';
+  btn.disabled = true;
+
+  try {
+    const payload = {
+      topic_id: parent.topicId,
+      body, choices,
+      choice_images: { ...choiceImages },
+      figure_images: currentFigureImages.slice(),
+      clave: selectedClave,
+      numero,
+      solucion: hasSolucion && (solBody || currentSolFigureImages.length)
+        ? { body: solBody, figure_images: currentSolFigureImages.slice() }
+        : null,
+    };
+
+    const res  = await fetch('/api/publish-linked-question', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || res.statusText);
+
+    notice.innerHTML = `✓ Pregunta enlazada publicada — <a href="${data.post_url}" target="_blank">ver en Discourse</a>`
+      + (data.solution_error ? `<br>⚠ La solución no se publicó: ${data.solution_error}` : '');
+    notice.className = 'extract-notice success';
+    notice.style.display = 'block';
+
+  } catch (err) {
     notice.textContent = `Error al publicar: ${err.message}`;
     notice.className = 'extract-notice error';
     notice.style.display = 'block';
@@ -1447,6 +1579,7 @@ updatePreview();
 checkServerStatus();
 
 const _bulkId = new URLSearchParams(location.search).get('bulk_id');
+const _bulkBatch = new URLSearchParams(location.search).get('batch') || 'default';
 if (_bulkId) initBulkEditMode(_bulkId);
 
 // ── MANUAL CROP ─────────────────────────────────────────────

@@ -10,10 +10,19 @@ export default class PreuniClave extends Component {
   @tracked mostrarClave = false;
 
   get post() { return this.args.outletArgs?.post; }
-  get clave() { return this.post?.topic?.preuni_fields?.clave; }
-  get esPreuni() { return this.post?.post_number === 1 && !!this.clave; }
-  get esSolucion() { return this.post?.preuni_post_type === "solucion" && this.post?.post_number > 1; }
   get esPreguntaAdicional() { return this.post?.preuni_post_type === "pregunta_adicional" && this.post?.post_number > 1; }
+  // Root post: clave lives on the topic. Linked question: clave lives on
+  // that specific post -- "Mostrar clave" needs to work for both, not just
+  // the root (it only ever checked post_number === 1 before).
+  get clave() {
+    if (this.esPreguntaAdicional) return this.post?.preuni_clave;
+    return this.post?.topic?.preuni_fields?.clave;
+  }
+  get esPreuni() {
+    if (this.esPreguntaAdicional) return !!this.clave;
+    return this.post?.post_number === 1 && !!this.clave;
+  }
+  get esSolucion() { return this.post?.preuni_post_type === "solucion" && this.post?.post_number > 1; }
   get esUniversitario() { return this.post?.preuni_is_universitario === true; }
   get esEgresado()     { return this.post?.preuni_is_egresado     === true; }
   get esModerador()    { return this.post?.preuni_is_moderador    === true; }
@@ -24,6 +33,12 @@ export default class PreuniClave extends Component {
   }
 
   <template>
+    {{! Linked question: pill first, THEN its "Mostrar clave" spoiler below it.
+        Root post: no pill here (it's mounted separately, above all posts),
+        just the spoiler -- order below is a no-op for that case. }}
+    {{#if this.esPreguntaAdicional}}
+      <PreuniWidget @post={{this.post}} />
+    {{/if}}
     {{#if this.esPreuni}}
       <div class="preuni-spoiler-wrap">
         {{#if this.currentUser}}
@@ -55,9 +70,6 @@ export default class PreuniClave extends Component {
       {{#if this.esModerador}}
         <span class="preuni-moderador-badge">Moderador ✓</span>
       {{/if}}
-    {{/if}}
-    {{#if this.esPreguntaAdicional}}
-      <PreuniWidget @post={{this.post}} />
     {{/if}}
   </template>
 }

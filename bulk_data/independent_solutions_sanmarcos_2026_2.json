@@ -1,0 +1,30 @@
+{
+  "28": {
+    "answer": "12 (no figura en las alternativas)",
+    "text": "Al juntar las dos cajas, la tercera queda con 18 objetos: 6 esferas blancas, 5 esferas negras, 3 cubos blancos y 4 cubos negros.\nPara asegurar un par esfera-cubo del mismo color hay que pensar en el peor caso: sacar la mayor cantidad posible de objetos sin formar ese par. Se consigue sacando solo esferas (o solo cubos), porque así nunca coinciden. Con esferas se pueden sacar 6 + 5 = 11 sin formar pareja.\nLa extracción número 12 tiene que ser un cubo, y como ya salieron esferas de los dos colores, ese cubo forma pareja con una esfera de su mismo color.\nResultado: 12 extracciones. Ese valor no aparece entre las alternativas y la clave publicada (6) tampoco cuadra con el razonamiento: pregunta con clave o enunciado por revisar."
+  },
+  "31": {
+    "answer": "B",
+    "text": "En la visita n, Manuel compra c(n) juguetes y recibe n de regalo. Las compras 3, 5, 8, 12… aumentan de a 2, 3, 4…, de modo que c(n) = n(n+1)/2 + 2.\nEn cada visita se lleva c(n) + n juguetes, así que el total en 30 visitas es la suma de tres partes:\n• Σ n(n+1)/2 = 30·31·32/6 = 4960\n• Σ 2 = 60\n• Σ n = 465\nTotal = 4960 + 60 + 465 = 5485."
+  },
+  "65": {
+    "answer": "C",
+    "text": "Se evalúa cada proposición por separado.\nI. Los maltratos y el trauma de la conquista también redujeron la población: verdadera.\nII. Los cambios de costumbres, de dieta y la explotación desorganizaron las sociedades andinas: verdadera.\nIII. El mal de Chagas es una enfermedad propia de América (la causa el parásito Trypanosoma cruzi), no llegó con los españoles; el sarampión, la viruela y la gripe sí: falsa.\nSecuencia: VVF."
+  },
+  "73": {
+    "answer": "C",
+    "text": "Un bien cuya cantidad demandada sube cuando su precio sube contradice la ley de la demanda; ese comportamiento es el de un bien Giffen.\nEs el caso del pan: al encarecerse todo, el ingreso real de las familias cae y dejan de comprar alimentos más caros para reemplazarlos por pan, aunque también haya subido.\nLas otras opciones no encajan: en un bien normal la demanda baja si el precio sube; intangible describe un servicio; libre es el bien sin precio; y free rider designa a quien aprovecha un bien sin pagarlo."
+  },
+  "81": {
+    "answer": "C",
+    "text": "El potencial de frenado mide la energía cinética máxima de los fotoelectrones: K = e·V₀ = 45,5 eV.\nEn joules: K = 45,5 × 1,6×10⁻¹⁹ = 7,28×10⁻¹⁸ J.\nDe K = ½·m·v²: v = √(2K/m) = √(2 × 7,28×10⁻¹⁸ / 9,1×10⁻³¹) = √(1,6×10¹³) = 4×10⁶ m/s."
+  },
+  "87": {
+    "answer": "C",
+    "text": "El compuesto es la vitamina D: se forma a partir de un derivado del colesterol (el 7-deshidrocolesterol, con núcleo de ciclopentanoperhidrofenantreno) cuando la radiación ultravioleta actúa sobre la piel.\nLuego sufre dos hidroxilaciones seguidas: la primera en el hígado (da calcidiol) y la segunda en el riñón (da calcitriol, la forma activa).\nSecuencia: vitamina D – piel – hígado – riñón."
+  },
+  "90": {
+    "answer": "B",
+    "text": "Moles de Ag⁺: 0,025 L × 0,1 mol/L = 2,5×10⁻³ mol.\nA. Falsa: lo que precipita con Ag⁺ es el ion Cl⁻, no el Cl₂.\nB. Verdadera: el cloruro tiene valencia 1, así que 2,5 mmol de Cl⁻ equivalen a 2,5 meq.\nC. Falsa: 2,5 mmol × 143,5 g/mol = 358,75 mg de AgCl, no 14,6 mg.\nD. Falsa: 2,5 mmol de AgNO₃ liberan 5 mmol de iones (0,005 mol), no 0,05 mol.\nE. Falsa: el AgCl es un sólido iónico y predomina el enlace ion-ion."
+  }
+}

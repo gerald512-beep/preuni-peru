@@ -51,6 +51,38 @@ function stripHeaderHash(line) {
   return line.replace(/^#{1,4}\s*/, '');
 }
 
+// ── Question-boundary matcher: different source PDFs mark question starts
+//    differently. "N. text" (bare number, same line) is the original/default
+//    format and works whether or not the line is a markdown heading. The two
+//    additional styles -- "Pregunta N" and abbreviated "PN" -- are only
+//    trusted when the line is an actual markdown heading (## ...), because
+//    unlike a bare number, "P" + digits collides with ordinary body text
+//    (physics/chemistry variable notation like "P1 = 5000 Pa" is common in
+//    worked solutions) and "pregunta" can appear in prose. A real heading is
+//    a structural signal from MinerU that this line is a section marker, not
+//    body content, which rules out that collision. "PN" additionally requires
+//    the WHOLE heading to be just "P" + number -- nothing else on the line --
+//    for the same reason. Callers that don't pass extended:true keep the
+//    original bare-number-only behavior (used for worked-solution blocks,
+//    where "P1"/"P2" variable names are especially likely to appear). ───────
+function matchQuestionBoundary(rawLine, extended) {
+  const isHeading = /^#{1,4}\s/.test(rawLine.trim());
+  const stripped = stripHeaderHash(rawLine.trim());
+
+  let m = stripped.match(/^(\d{1,3})\.\s+(\S.*)/);
+  if (m) return { num: parseInt(m[1], 10), rest: m[2] };
+
+  if (!extended || !isHeading) return null;
+
+  m = stripped.match(/^Pregunta\s*(?:N[°ºo]?\.?\s*)?(\d{1,3})\b[.:)]?\s*(.*)$/i);
+  if (m) return { num: parseInt(m[1], 10), rest: m[2] || '' };
+
+  m = stripped.match(/^P[.\-\s]?(\d{1,3})\s*$/);
+  if (m) return { num: parseInt(m[1], 10), rest: '' };
+
+  return null;
+}
+
 // ── Unwrap choices MinerU rendered as a single-line LaTeX array instead of
 //    plain "A) text" lines — common for ordering/Plan de Redacción questions:
 //    \begin{array}{l l} \text{A) foo} & \text{D) bar} \\ \text{B) baz} ... \end{array}
@@ -78,6 +110,64 @@ function unwrapLatexArrayChoices(text) {
 //    avoids splitting an already-clean "A) ... D) ..." line at position 0). ──
 function fixInlineChoiceStart(text) {
   return text.replace(/^(.*\S)\s+(A\)\s*.*?\s+D\).*)$/gm, (_, prefix, rest) => `${prefix}\n${rest}`);
+}
+
+// ── Reading-passage clusters: "TEXTO N" (bold or heading) introduces a shared
+//    passage followed by several questions that all reference it. Splits a
+//    materia block's lines into alternating plain / texto-cluster segments.
+//    Format assumptions here are based on a single real example (UNMSM
+//    Habilidad Verbal) -- flag anything that doesn't segment cleanly rather
+//    than silently mis-grouping, since a wrong guess here is much costlier
+//    than a normal flagged single question (it'd corrupt several at once).
+//    Returns [{ type: 'plain', lines }, { type: 'texto', textoNum, passageLines, lines }]
+function splitTextoClusters(lines) {
+  const TEXTO_RE = /^\**\s*Texto\s+(\d{1,3}|[A-Z])\s*\**\s*$/i;
+  const segments = [];
+  let plain = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const stripped = stripHeaderHash(lines[i].trim());
+    const m = stripped.match(TEXTO_RE);
+    if (!m) { plain.push(lines[i]); i++; continue; }
+
+    if (plain.length) { segments.push({ type: 'plain', lines: plain }); plain = []; }
+    const textoLabel = m[1];
+    i++;
+
+    // Passage = everything up to the first real question boundary. A shared
+    // passage can be split into paired sub-passages (e.g. "Texto A" + "Texto
+    // B" for a comparative reading) -- kept simple deliberately: both are
+    // just folded into one combined passage (their own "Texto A"/"Texto B"
+    // sub-headers stay inline as visible labels within it), and every
+    // question that follows can reference either. No attempt to track which
+    // question maps to which sub-passage.
+    const passageLines = [];
+    while (i < lines.length) {
+      if (matchQuestionBoundary(lines[i], true)) break;
+      passageLines.push(lines[i]);
+      i++;
+    }
+
+    // Question lines = everything until the next TEXTO header or end of block.
+    const clusterLines = [];
+    while (i < lines.length) {
+      const s = stripHeaderHash(lines[i].trim());
+      if (TEXTO_RE.test(s)) break;
+      clusterLines.push(lines[i]);
+      i++;
+    }
+
+    if (clusterLines.length === 0) {
+      // No questions ever followed this TEXTO header -- don't silently drop
+      // the passage text, just fold it back in as plain content to flag later.
+      segments.push({ type: 'plain', lines: [`TEXTO ${textoLabel}`, ...passageLines] });
+    } else {
+      segments.push({ type: 'texto', textoNum: textoLabel, passageLines, lines: clusterLines });
+    }
+  }
+  if (plain.length) segments.push({ type: 'plain', lines: plain });
+  return segments;
 }
 
 // ── Phase 1: linear scan — tag every line as a boundary marker or content ──
@@ -122,22 +212,19 @@ function segmentDocument(text) {
 // ── Split a block's raw text into numbered items (questions or worked solutions).
 //    Requires strictly increasing numbers to reject false-positive digit matches
 //    inside LaTeX/body text. Returns [{ num, text }]. ─────────────────────────
-function splitByNumberedBoundary(lines) {
+function splitByNumberedBoundary(lines, opts = {}) {
+  const extended = !!opts.extended;
   const items = [];
   let current = null;
   let lastNum = 0;
 
   for (const rawLine of lines) {
-    const stripped = stripHeaderHash(rawLine.trim());
-    const m = stripped.match(/^(\d{1,3})\.\s+(\S.*)/);
-    if (m) {
-      const num = parseInt(m[1], 10);
-      if (num > lastNum) {
-        if (current) items.push(current);
-        current = { num, lines: [m[2]] };
-        lastNum = num;
-        continue;
-      }
+    const m = matchQuestionBoundary(rawLine, extended);
+    if (m && m.num > lastNum) {
+      if (current) items.push(current);
+      current = { num: m.num, lines: m.rest ? [m.rest] : [] };
+      lastNum = m.num;
+      continue;
     }
     if (current) current.lines.push(rawLine);
   }
@@ -203,6 +290,75 @@ function splitChoiceImages(choices, imagesDir) {
   return { cleanChoices, choiceImages };
 }
 
+// ── Shared record assembly: figure-marker insertion, figure/choice-image
+//    resolution, validation, ID + needsReview generation. Format-agnostic —
+//    doesn't care whether `raw` came from the regex extraction path below or
+//    was hand-built (e.g. by reading a document whose structure the regex
+//    parser doesn't recognize). `raw` must already have clave/solutionRawBody
+//    resolved (via solution-group lookup, or known directly); this function
+//    only does the plumbing every record needs regardless of source. ────────
+//    raw: {
+//      prueba, materiaHeader, tema, pendingClassification?, claudeTemas,
+//      numero, rawBody, choices,
+//      clave, oaMethod, solutionRawBody, solutionMissingReason,
+//      clusterId, clusterRole, extraNeedsReview,
+//      universidad, anio, convocatoria,
+//    }
+function assembleRecord(raw, ctx) {
+  const { imagesDir } = ctx;
+  const needsReview = [...(raw.extraNeedsReview || [])];
+
+  const { markedText: body, refs: rawFigureRefs } = insertFigureMarkers(raw.rawBody);
+  const { cleanChoices, choiceImages } = splitChoiceImages(raw.choices, imagesDir);
+  const missingChoices = validateChoices(cleanChoices, choiceImages);
+  if (missingChoices.length) needsReview.push(`missing_choices:${missingChoices.join(',')}`);
+
+  let solutionBody = null, solutionFigureRefs = [];
+  if (raw.solutionRawBody) {
+    const marked = insertFigureMarkers(raw.solutionRawBody);
+    solutionBody = marked.markedText;
+    solutionFigureRefs = marked.refs;
+  }
+
+  if (!raw.clave) {
+    needsReview.push(raw.solutionMissingReason || 'oa_unmatched');
+  } else if (raw.oaMethod === 'value_fallback') {
+    needsReview.push('oa_value_fallback_used');
+  }
+
+  const figureImages = rawFigureRefs.map(ref => resolveFigureToDataUrl(ref, imagesDir)).filter(Boolean);
+  const solutionFigureImages = solutionFigureRefs.map(ref => resolveFigureToDataUrl(ref, imagesDir)).filter(Boolean);
+
+  return {
+    id: `p${raw.prueba}-${String(raw.materiaHeader).replace(/\s+/g, '_')}-${String(raw.numero).padStart(2, '0')}`,
+    prueba: raw.prueba,
+    materiaHeader: raw.materiaHeader,
+    numero: raw.numero,
+    tema: raw.tema,
+    pendingClassification: raw.tema === null,
+    claudeTemas: raw.claudeTemas || null,
+    body,
+    choices: cleanChoices,
+    choiceImages,
+    figureRefs: rawFigureRefs,
+    figureImages,
+    clave: raw.clave || null,
+    oaMethod: raw.oaMethod || null,
+    solutionBody,
+    solutionFigureRefs,
+    solutionFigureImages,
+    // Reading-passage cluster membership. undefined for a normal standalone
+    // question -- every existing consumer of bulk_review.json treats a
+    // missing clusterId as "not part of a cluster", so this is additive.
+    clusterId: raw.clusterId || null,
+    clusterRole: raw.clusterRole || null,
+    universidad: raw.universidad,
+    anio: raw.anio,
+    convocatoria: raw.convocatoria || '',
+    needsReview,
+  };
+}
+
 // ── Main ─────────────────────────────────────────────────────────────────
 function main() {
   const [,, mdPath, universidad, anio, convocatoria] = process.argv;
@@ -221,18 +377,50 @@ function main() {
 
   // Parse questions per materia occurrence (a materia header can legitimately
   // repeat, e.g. none here, but keep it general)
-  const questionsByMateria = []; // [{ materia, items: [{num, body, choices}] }]
+  const questionsByMateria = []; // [{ materia, items: [{num, body, choices, clusterId?, clusterRole?}] }]
+  let clusterCounter = 0;
+
+  function parseQuestionItem(it) {
+    const text = fixInlineChoiceStart(unwrapLatexArrayChoices(it.text));
+    const firstChoice = findFirstChoice(text);
+    const rawBody = firstChoice > 0 ? text.slice(0, firstChoice).trim() : (firstChoice < 0 ? text : '');
+    const choiceRaw = firstChoice >= 0 ? text.slice(firstChoice) : '';
+    const choices = parseChoices(choiceRaw);
+    return { num: it.num, rawBody, choices };
+  }
+
   for (const b of materiaBlocks) {
-    const items = splitByNumberedBoundary(b.lines)
-      .map(it => ({ ...it, text: fixInlineChoiceStart(unwrapLatexArrayChoices(it.text)) }))
-      .map(it => {
-        const firstChoice = findFirstChoice(it.text);
-        const rawBody = firstChoice > 0 ? it.text.slice(0, firstChoice).trim() : (firstChoice < 0 ? it.text : '');
-        const choiceRaw = firstChoice >= 0 ? it.text.slice(firstChoice) : '';
-        const choices = parseChoices(choiceRaw);
-        const { markedText: body, refs: rawFigureRefs } = insertFigureMarkers(rawBody);
-        return { num: it.num, body, choices, rawFigureRefs };
+    const segments = splitTextoClusters(b.lines);
+    const items = [];
+
+    for (const seg of segments) {
+      if (seg.type === 'plain') {
+        for (const it of splitByNumberedBoundary(seg.lines, { extended: true })) {
+          const q = parseQuestionItem(it);
+          items.push({ num: q.num, rawBody: q.rawBody, choices: q.choices });
+        }
+        continue;
+      }
+
+      // texto cluster: first question becomes root (passage + its own body
+      // combined so figure markers number consistently across both), the
+      // rest become linked, all sharing one clusterId.
+      const clusterQuestions = splitByNumberedBoundary(seg.lines, { extended: true }).map(parseQuestionItem);
+      if (clusterQuestions.length === 0) continue; // shouldn't happen (splitTextoClusters already guards this) but don't crash if it does
+
+      const clusterId = `texto-${clusterCounter++}`;
+      clusterQuestions.forEach((q, idx) => {
+        const isRoot = idx === 0;
+        const rawBody = isRoot
+          ? seg.passageLines.join('\n').trim() + '\n\n' + q.rawBody
+          : q.rawBody;
+        items.push({
+          num: q.num, rawBody, choices: q.choices,
+          clusterId, clusterRole: isRoot ? 'root' : 'linked',
+        });
       });
+    }
+
     if (items.length > 0) questionsByMateria.push({ materia: b.materia, items });
   }
 
@@ -248,8 +436,7 @@ function main() {
       const items = splitByNumberedBoundary(b.lines);
       const worked = solutionsByGroup[b.group]?.worked || {};
       for (const it of items) {
-        const { markedText, refs } = insertFigureMarkers(it.text);
-        worked[it.num] = { text: markedText, rawFigureRefs: refs };
+        worked[it.num] = { text: it.text }; // raw, unmarked -- assembleRecord marks it
       }
       solutionsByGroup[b.group] = { format, worked };
     }
@@ -271,61 +458,48 @@ function main() {
     const group = solutionsByGroup[materia.solutionGroup];
 
     for (const q of items) {
-      const needsReview = [];
+      // A texto-cluster's boundary (where the shared passage's questions end
+      // and the next standalone/cluster content begins) is inferred from
+      // "next TEXTO header or end of block" -- there's no explicit marker for
+      // it in the source, so a standalone question right after a cluster with
+      // nothing separating them can get absorbed into it by mistake. Rather
+      // than guess more cleverly, every cluster-derived record is flagged for
+      // mandatory human review in bulk-preview.html.
+      const extraNeedsReview = q.clusterId ? ['texto_cluster_boundary_unverified'] : [];
 
-      // A choice that's just a markdown image ref ("A) [image]") is a real,
-      // valid choice — split it out so validation and the composer both see
-      // it as present, instead of raw "![](images/...)" text or a false miss.
-      const { cleanChoices, choiceImages } = splitChoiceImages(q.choices, imagesDir);
-      const missingChoices = validateChoices(cleanChoices, choiceImages);
-      if (missingChoices.length) needsReview.push(`missing_choices:${missingChoices.join(',')}`);
-
-      let clave = null, oaMethod = null, solutionBody = null, solutionFigureRefs = [];
+      let clave = null, oaMethod = null, solutionRawBody = null, solutionMissingReason = null;
       if (!group) {
-        needsReview.push('no_solution_group_found');
+        solutionMissingReason = 'no_solution_group_found';
       } else if (group.format === 'table') {
         clave = group.table[q.num] || null;
         oaMethod = clave ? 'table' : null;
-        if (!clave) needsReview.push('oa_not_found_in_table');
+        if (!clave) solutionMissingReason = 'oa_not_found_in_table';
       } else {
         const sol = group.worked[q.num];
         if (!sol) {
-          needsReview.push('worked_solution_not_found');
+          solutionMissingReason = 'worked_solution_not_found';
         } else {
           const oa = extractOA(sol.text, q.choices);
           clave = oa.clave;
           oaMethod = oa.method;
-          solutionBody = sol.text;
-          solutionFigureRefs = sol.rawFigureRefs;
-          if (!clave) needsReview.push('oa_unmatched');
-          else if (oa.method === 'value_fallback') needsReview.push('oa_value_fallback_used');
+          solutionRawBody = sol.text;
+          if (!clave) solutionMissingReason = 'oa_unmatched';
         }
       }
 
-      const figureImages = q.rawFigureRefs.map(ref => resolveFigureToDataUrl(ref, imagesDir)).filter(Boolean);
-      const solutionFigureImages = solutionFigureRefs.map(ref => resolveFigureToDataUrl(ref, imagesDir)).filter(Boolean);
-
-      results.push({
-        id: `p${materia.prueba}-${materia.header.replace(/\s+/g, '_')}-${String(q.num).padStart(2, '0')}`,
+      results.push(assembleRecord({
         prueba: materia.prueba,
         materiaHeader: materia.header,
-        numero: q.num,
         tema: materia.tema,
-        pendingClassification: materia.tema === null,
         claudeTemas: materia.claudeTemas || null,
-        body: q.body,
-        choices: cleanChoices,
-        choiceImages,
-        figureRefs: q.rawFigureRefs,
-        figureImages,
-        clave,
-        oaMethod,
-        solutionBody,
-        solutionFigureRefs,
-        solutionFigureImages,
-        universidad, anio, convocatoria: convocatoria || '',
-        needsReview,
-      });
+        numero: q.num,
+        rawBody: q.rawBody,
+        choices: q.choices,
+        clave, oaMethod, solutionRawBody, solutionMissingReason,
+        clusterId: q.clusterId, clusterRole: q.clusterRole,
+        extraNeedsReview,
+        universidad, anio, convocatoria,
+      }, { imagesDir }));
     }
   }
 
@@ -359,6 +533,20 @@ function main() {
     console.log('\nFlagged questions (reason):');
     for (const r of flagged) {
       console.log(`  ${r.id}  [${r.needsReview.join(', ')}]`);
+    }
+  }
+
+  const clusters = {};
+  results.filter(r => r.clusterId).forEach(r => {
+    (clusters[r.clusterId] = clusters[r.clusterId] || []).push(r);
+  });
+  const clusterIds = Object.keys(clusters);
+  if (clusterIds.length) {
+    console.log(`\nReading-passage clusters detected: ${clusterIds.length}`);
+    for (const cid of clusterIds) {
+      const qs = clusters[cid];
+      const root = qs.find(q => q.clusterRole === 'root');
+      console.log(`  ${cid}: ${qs.length} questions (root: ${root?.id})`);
     }
   }
 
@@ -402,4 +590,9 @@ function resolveFigureToDataUrl(ref, imagesDir) {
   return `data:${mime};base64,${buf.toString('base64')}`;
 }
 
-main();
+if (require.main === module) main();
+
+module.exports = {
+  matchQuestionBoundary, splitByNumberedBoundary, splitTextoClusters, stripHeaderHash,
+  assembleRecord, insertFigureMarkers, resolveFigureToDataUrl,
+};

@@ -7,6 +7,7 @@ import { fn, concat } from "@ember/helper";
 import { schedule } from "@ember/runloop";
 import { ajax } from "discourse/lib/ajax";
 import { eq, not } from "discourse/truth-helpers";
+import DiscourseURL from "discourse/lib/url";
 
 const PREUNI_CSS = `
 .preuni-widget{margin:0 0 1.2rem 0}
@@ -60,7 +61,7 @@ const PREUNI_CSS = `
   display:flex;align-items:center;justify-content:center;transition:opacity .15s
 }
 .preuni-log-btn:hover{opacity:.8}
-.preuni-spoiler-wrap{margin-top:2px}
+.preuni-spoiler-wrap{margin-top:2px;margin-bottom:14px}
 .preuni-spoiler-btn{
   display:flex;align-items:center;gap:8px;width:100%;
   padding:8px 14px;border-radius:6px;border:1px solid #ddd;
@@ -133,7 +134,12 @@ export default class PreuniWidget extends Component {
 
   get fields() {
     if (this.postMode) {
-      return { clave: this.args.post?.preuni_clave, numero: this.args.post?.preuni_numero };
+      return {
+        clave: this.args.post?.preuni_clave,
+        numero: this.args.post?.preuni_numero,
+        dificultad: this.args.post?.preuni_dificultad,
+        total_intentos: this.args.post?.preuni_total_intentos,
+      };
     }
     return this.args.topic?.preuni_fields;
   }
@@ -151,6 +157,7 @@ export default class PreuniWidget extends Component {
         schedule("afterRender", this, () => {
           this._cargarPrevio(this.postId);
           this._adjustWidth();
+          this._injectDificultadChip();
         });
       }
       return !!this.fields?.clave;
@@ -171,12 +178,20 @@ export default class PreuniWidget extends Component {
     return !!this.fields?.clave;
   }
 
+  // Topic-mode: one chip, injected into the topic-category row (there's only
+  // ever one root question per topic). Post-mode: one chip PER linked
+  // question, injected right after that question's own widget instance —
+  // needs its own id so multiple chips on one page don't collide or get
+  // wiped by each other's `#id?.remove()` call.
   _injectDificultadChip() {
-    document.getElementById('preuni-dificultad-chip')?.remove();
+    const chipId = this.postMode ? `preuni-dificultad-chip-${this.postId}` : 'preuni-dificultad-chip';
+    document.getElementById(chipId)?.remove();
     const dif      = this.fields?.dificultad;
     const intentos = this.fields?.total_intentos;
     if (!dif || !intentos) return;
-    const tagContainer = document.querySelector('.topic-category');
+    const tagContainer = this.postMode
+      ? document.getElementById(`preuni-widget-${this.postId}`)
+      : document.querySelector('.topic-category');
     if (!tagContainer) return;
     const MAP = {
       facil:   { bg: '#d4edda', color: '#155724', border: '#c3e6cb', label: 'Fácil'   },
@@ -186,7 +201,7 @@ export default class PreuniWidget extends Component {
     const c = MAP[dif];
     if (!c) return;
     const chip = document.createElement('span');
-    chip.id = 'preuni-dificultad-chip';
+    chip.id = chipId;
     chip.style.cssText = `display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600;background:${c.bg};color:${c.color};border:1px solid ${c.border};vertical-align:middle;margin-left:6px`;
     chip.textContent = `${c.label} · ${intentos} intentos`;
     tagContainer.appendChild(chip);
@@ -336,7 +351,13 @@ export default class PreuniWidget extends Component {
 
   @action
   handleLog() {
-    // error log — future feature
+    // The log is a personal page: signed-out users are sent to log in, like
+    // the other gated features.
+    if (!this.currentUser) {
+      window.location.href = "/login";
+      return;
+    }
+    DiscourseURL.routeTo(`/errores?pregunta=${this.postId}`);
   }
 
   willDestroy() {

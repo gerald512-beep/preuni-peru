@@ -371,7 +371,7 @@ Discourse handles email/password registration natively. Registration prompt show
 
 ---
 
-**9. Error Log with personal notes**  
+**9. Error Log with personal notes** ✓ BUILT 2026-09-21 (promoted to MVP)  
 *Tier: Phase 2 | Effort: 3 days | Schema delta: Add `registro_errores` table — see Section 6*
 
 GMATClub's Error Log (Question | Result | Attempts | Category | Difficulty | Time | Date | Mistakes/Notes) is the tool that separates students who improve from students who plateau. The Mistakes/Notes column is the highest-value piece: a student can write "confundí combinaciones con permutaciones" and it becomes a searchable personal log of conceptual gaps. For PreUni, this becomes viable in Phase 2 because it requires the difficulty-filter and topic-tag infrastructure from MVP to be meaningful. The Time column also feeds the penalización-aware analytics: if a student averages 4 minutes on Aritmética questions but UNMSM allocates 3 minutes per question, the error log reveals that pacing is a problem, not just accuracy.
@@ -923,6 +923,34 @@ wsl -d Ubuntu -- bash -c "while true; do sleep 3600; done"
 Start this (in the background) before any multi-step Discourse work — bulk publishing, plugin deploys, repeated Rails-runner checks. Verified: without it, connectivity fails within ~100s of idle; with it attached, 100s+ idle windows stay stable and `journalctl -u docker` shows zero `Stopping docker.service` events.
 
 **If Discourse flakes again:** check `wsl -d Ubuntu -- ps aux | grep 'sleep 3600'` first — the keep-alive session may have died or was never started this session.
+
+---
+
+### Reading-passage question clusters (Option A) — 2026-09-15
+
+Some exam formats (UNMSM reading comprehension in particular) share one passage across several linked questions instead of one question per topic. Rather than mirror GMAT Club's single-post-with-N-embedded-polls layout (which needs a custom DOM-parsing widget-mount mechanism Discourse has no native outlet for), this uses Discourse's own reply structure: **the topic root holds the passage + question 1; each further linked question is a reply.**
+
+**Data model:**
+- New post type `pregunta_adicional` (alongside the existing `solucion`/`comentario`), guarded the same way — never allowed on the root post.
+- New post-level custom fields `preuni_clave` / `preuni_numero`, same shape as the existing topic-level `PREUNI_FIELDS`, just scoped to one reply instead of the whole topic. Registered as post custom field types + permitted create params in `plugin.rb`; set inside the existing `on(:post_created)` guard.
+- `preuni_respuestas` now has a `post_id` column (migration `20260915000001`) and the uniqueness constraint moved from `(topic_id, user_id)` to `(post_id, user_id)` — every answer, root or linked, is keyed to the specific post that asked it. Existing rows were backfilled with the topic's first post as their `post_id` before the constraint changed, so old data didn't break.
+- `PreuniRespuestasController#create`/`#distribucion` take `post_id` instead of `topic_id` now; `clave_for(post)` checks the post's own `preuni_clave` first, falling back to the topic's (root-question case).
+
+**Widget:** `preuni-widget.gjs` runs in two modes based on which arg it receives — `@topic` (root question, unchanged behavior, one instance reused across SPA topic navigation) or `@post` (a linked question; Ember naturally creates/destroys one instance per rendered post, so none of the topic-mode SPA-navigation bookkeeping applies). `preuni-clave.gjs` — already mounted per-post via the `post-links` outlet — renders a full `<PreuniWidget @post={{this.post}} />` for any post with `preuni_post_type === "pregunta_adicional"`. Multiple linked-question pills can be mounted and visible simultaneously; `_adjustWidth()` and the difficulty-chip injector both scope to their own post's DOM via a per-post element id (`preuni-widget-{postId}` / `preuni-dificultad-chip-{postId}`) rather than the topic-mode `document.querySelector` (which only ever finds the first match on the page).
+
+**Difficulty stats:** same 50-attempt-minimum / >65%=fácil / <20%=difícil computation as the topic-level version, added as `preuni_dificultad`/`preuni_total_intentos` on the post serializer, gated on `preuni_post_type == "pregunta_adicional"`. The topic-list filter/chip stays root-question-only by design — it's a list view, one chip per row.
+
+**Tagging:** tags are topic-level in Discourse, so a linked question's own `N°X` gets *added* to the parent topic's tag list rather than replacing it (topics in a cluster carry every question's number). Two real bugs surfaced here, both fixed:
+1. `POST /admin/tags` (and any tag referenced only as a plain string in a topic-update payload) silently strips special characters — `"N°99"` becomes `"n99"`. Fixed with a dedicated staff-only plugin route (`POST /preuni/ensure-tag`) that creates the tag via `Tag.find_or_create_by!` directly, which skips that sanitizer.
+2. `GET /t/:id.json`'s `tags` field can come back as an array of `{id,name,slug}` objects rather than plain strings depending on context — spreading it directly into a tag-update PUT payload alongside a plain string produced a mixed array Discourse's API rejected with a 500. Fixed by normalizing to plain name strings before use.
+
+**Composer:** new "pregunta enlazada" mode (checkbox near the top of the form) — paste/enter the parent topic's ID or URL, the composer resolves and displays its universidad/tema for context (`GET /api/topic-info/:id`), then reuses the existing body/choices/clave/figure fields (universidad/tema/subtema/convocatoria are hidden — inherited from the parent) and publishes via `POST /api/publish-linked-question`.
+
+**A third bug, more serious, found via edge-case testing (not code review):** `preuni-type-selector.gjs` (the Solución/Comentario toggle shown in Discourse's reply composer) unconditionally defaulted `preuni_post_type` to `"comentario"` in its constructor on every mount — including when *editing an existing `pregunta_adicional` post*, where it had no awareness of that third type. Saving an edit to a linked question through Discourse's normal edit UI would have silently overwritten its type, breaking its pill and orphaning its clave/numero. Fixed: the component now checks `model.post.preuni_post_type` and, if it's already `pregunta_adicional`, skips both the default-sync and its own visibility entirely — that toggle has nothing meaningful to offer a post type it doesn't know about.
+
+**Validated against a real UNMSM example** (passage + infographic + 3 linked questions, topic 358) and stress-tested with dummy questions covering: 7 simultaneously-mounted pills (no width/id collisions), 50 simulated answers triggering a correct per-post difficulty chip, and a real save-through-the-UI edit confirming custom fields survive.
+
+**Not yet built:** bulk-pipeline support (parsing a "TEXTO N + N questions" source block, cluster-aware publish ordering in `bulk-preview.html`) — every cluster question published so far was authored individually, either via a one-off script or the new composer mode.
 
 ---
 
