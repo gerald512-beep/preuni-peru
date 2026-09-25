@@ -796,6 +796,9 @@ function describeBatch(id, filePath) {
   const stat = fs.statSync(filePath);
   let data = [];
   try { data = JSON.parse(fs.readFileSync(filePath, 'utf8')); } catch {}
+  // bulk_data/ also holds non-batch reference files (e.g. per-question solution
+  // lookups keyed by number, not an array of records) -- not publishable batches.
+  if (!Array.isArray(data)) return null;
   const uni = [...new Set(data.map(r => r.universidad).filter(Boolean))].join(' / ');
   const anio = [...new Set(data.map(r => r.anio).filter(Boolean))].join(', ');
   const conv = [...new Set(data.map(r => r.convocatoria).filter(Boolean))].join(', ');
@@ -810,7 +813,8 @@ app.get('/api/bulk-batches', (req, res) => {
     if (fs.existsSync(BULK_DATA_DIR)) {
       for (const f of fs.readdirSync(BULK_DATA_DIR)) {
         if (!f.endsWith('.json')) continue;
-        batches.push(describeBatch(f.slice(0, -5), path.join(BULK_DATA_DIR, f)));
+        const b = describeBatch(f.slice(0, -5), path.join(BULK_DATA_DIR, f));
+        if (b) batches.push(b);
       }
     }
     batches.sort((a, b) => b.mtime - a.mtime);

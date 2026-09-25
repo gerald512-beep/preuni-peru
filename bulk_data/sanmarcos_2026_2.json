@@ -3443,13 +3443,13 @@
   "tema": "Biología",
   "pendingClassification": false,
   "claudeTemas": null,
-  "body": "A partir de la figura y usando la leyenda, señale la secuencia correcta del proceso digestivo de los rumiantes.\n\n[FIG:0]\n\nLeyenda: Absorción de agua, sales y pequeñas moléculas orgánicas = AB; Degradación de celulosa = DC; Digestión de proteínas = DP; Formación de contenido ruminal = FR. Los compartimentos (rumen, retículo, omaso, abomaso) están marcados en la figura con símbolos [símbolo rumen no capturado en el texto], &, @, # respectivamente.",
+  "body": "A partir de la figura y usando la leyenda, señale la secuencia correcta del proceso digestivo de los rumiantes.\n\n[FIG:0]\n\nLeyenda: Absorción de agua, sales y pequeñas moléculas orgánicas = AB; Degradación de celulosa = DC; Digestión de proteínas = DP; Formación de contenido ruminal = FR. Los compartimentos (rumen, retículo, omaso, abomaso) están marcados en la figura con símbolos ◆, &, @, # respectivamente.",
   "choices": {
-   "A": "&: FR → : DC → @: AB → #: DP",
-   "B": "@: AB → : DC → &: FR → #: DP",
-   "C": "♦: DC → &: FR → @: AB → #: DP",
-   "D": "#: DP → &: FR → @: AB → : DC",
-   "E": "@: AB → #: DP → &: FR → : DC"
+   "A": "&: FR → ◆: DC → @: AB → #: DP",
+   "B": "@: AB → ◆: DC → &: FR → #: DP",
+   "C": "◆: DC → &: FR → @: AB → #: DP",
+   "D": "#: DP → &: FR → @: AB → ◆: DC",
+   "E": "@: AB → #: DP → &: FR → ◆: DC"
   },
   "choiceImages": {},
   "figureRefs": [

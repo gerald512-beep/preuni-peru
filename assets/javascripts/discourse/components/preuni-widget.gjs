@@ -94,6 +94,21 @@ const PREUNI_CSS = `
   display:flex;align-items:center;gap:5px
 }
 .preuni-login-prompt:hover{text-decoration:underline}
+
+@media (max-width: 600px){
+  .preuni-pill{padding:6px 8px;min-height:44px}
+  .preuni-pill-btn{width:30px;height:30px;font-size:13px}
+  .preuni-pill-time{font-size:13px;min-width:38px;margin-left:5px}
+  .preuni-sep{margin:0 6px;height:22px}
+  .preuni-center{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;justify-content:flex-start}
+  .preuni-center::-webkit-scrollbar{display:none}
+  .preuni-choices{gap:4px}
+  .preuni-c-btn{width:28px;height:28px;font-size:12px;flex-shrink:0}
+  .preuni-dist{gap:3px}
+  .preuni-dist-item{padding:4px 6px;min-width:34px;flex-shrink:0}
+  .preuni-idle-text{font-size:12px;white-space:nowrap}
+  .preuni-log-btn{width:30px;height:30px;font-size:13px;margin-left:6px;flex-shrink:0}
+}
 `;
 
 export default class PreuniWidget extends Component {

@@ -10,6 +10,8 @@ ruby -c $P/plugin.rb
 ruby -c $P/app/controllers/preuni_errores_controller.rb
 
 cd $D
+
+# Step 1: compile just this plugin's JS into app/assets/generated/ (fast, ~10s).
 BUNDLE_WITHOUT=development:test RAILS_ENV=production su discourse -c "bundle exec rails assets:precompile:build_plugins" 2>&1 | tail -15
 
 GEN=$D/app/assets/generated/preuni-question-widget/js/plugins
@@ -22,25 +24,13 @@ if [ "$SIZE" -lt 5000 ]; then
   exit 1
 fi
 
-NEW=$(basename "$NEWFILE")
-cp "$NEWFILE" $D/public/assets/js/plugins/$NEW
-gzip -f -c -9 $D/public/assets/js/plugins/$NEW > $D/public/assets/js/plugins/$NEW.gz
-
-python3 - "$NEW" <<'PY'
-import json, sys
-NEW = sys.argv[1]
-MANIFEST = '/var/www/discourse/public/assets/.manifest.json'
-m = json.load(open(MANIFEST))
-old = m['assets'].get('discourse/plugins/preuni-question-widget', '')
-OLD = old.split('/')[-1]
-m['assets']['discourse/plugins/preuni-question-widget'] = 'js/plugins/' + NEW
-for s in ['', '.gz']:
-    m['js/plugins/' + NEW + s] = {'digested_path': 'js/plugins/' + NEW + s, 'integrity': None}
-    if OLD and OLD != NEW:
-        m.pop('js/plugins/' + OLD + s, None)
-json.dump(m, open(MANIFEST, 'w'))
-print('manifest', OLD, '->', NEW)
-PY
+# Step 2: Propshaft's own precompile step -- copies app/assets/generated/** into
+# public/assets/, brotli-compresses it, and rewrites public/assets/.manifest.json.
+# This is what assets:precompile:build_plugins does NOT do on its own; running
+# it standalone (instead of the full, slow `rails assets:precompile`, which also
+# rebuilds the ember app, recompiles all CSS and tries a MaxMind download) is
+# the fast path that actually makes the new bundle get served.
+BUNDLE_WITHOUT=development:test RAILS_ENV=production su discourse -c "bundle exec rails runner 'Rails.application.assets.processor.process'"
 
 sv restart unicorn
 echo DONE

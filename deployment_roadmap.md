@@ -4,7 +4,7 @@
 **Target platform:** Discourse on AWS Lightsail (São Paulo, sa-east-1)
 **Instance:** `preuni-discourse-prod` — 2 vCPU / 8GB RAM / 160GB SSD — $44/mo
 **Static IP:** `18.231.103.224`
-**Current phase:** Server + Docker ready, domain DNS live (`preuni.voluntaria.pe`). Blocked on Amazon SES setup before Discourse itself can be launched.
+**Current phase:** LIVE. Site is up at `preuni.voluntaria.pe` with 304 published questions, the plugin, and the copyright page. Only S3 backups and two credential rotations remain (non-blocking).
 
 Cloud provider decision (AWS Lightsail vs. GCP Compute Engine cost/tradeoff comparison) was made earlier — AWS chosen for lower cost at the target spec and better fit with Discourse's own install docs/community.
 
@@ -29,13 +29,17 @@ Cloud provider decision (AWS Lightsail vs. GCP Compute Engine cost/tradeoff comp
 3. [x] **Write production `app.yml`** — real `DISCOURSE_HOSTNAME` (`preuni.voluntaria.pe`), SES SMTP settings pulled from `.env`, `DISCOURSE_SKIP_EMAIL_SETUP` removed. Completed 2026-09-15.
 4. [x] Ran `./launcher bootstrap app` then `./launcher start app` — container up and serving.
 5. [x] HTTPS / Let's Encrypt confirmed — valid cert for `preuni.voluntaria.pe`, issued 2026-09-15, expires 2026-12-14, auto-renews.
-6. [ ] Re-run category/tag seeding against production (`seed-categories.sh`, `seed-tags.sh`, pointed at the new instance's API)
-7. [ ] Install the `preuni-question-widget` plugin (`plugin.rb` + `.gjs`/`.js` files) on production, rebuild container
-8. [ ] Re-create custom groups (`universitario`, `egresado`, `moderador`) and badges on production
-9. [ ] Decide: migrate the 52 already-published UNI questions from local, or start production fresh
-10. [ ] Set up Discourse's native backup-to-S3 (create bucket in `sa-east-1`, scoped IAM credentials, enable in admin settings)
-11. [ ] End-to-end smoke test: registration, OA gate, answer submission, difficulty badge, typed posts (Pregunta/Solución/Comentario)
-12. [ ] Go live
+6. [x] Categories/tags/groups/badges/user-fields seeded on production from local as ground truth (44 categories, 64 tags, 3 groups, 3 badges, 2 user fields). Completed 2026-09-23.
+7. [x] Installed the `preuni-question-widget` plugin on production and rebuilt. The repo had to be restructured first (was flat at root; Discourse needs `app/`, `assets/javascripts/discourse/`, `db/migrate/`) so a plain `git clone` onto production works. `app.yml`'s `after_code` hook now clones `gerald512-beep/preuni-peru` as `plugins/preuni-question-widget`. Completed 2026-09-23.
+8. [x] Groups/badges re-created (see #6). Completed 2026-09-23.
+9. [x] Decided and done: published everything ready — 218 UNI 2019-2 + 86 UNMSM 2026-II (Q28/59/99/100 held, matching the local decision). 0 publish failures. Completed 2026-09-23.
+10. [ ] Set up Discourse's native backup-to-S3 — **blocked**: the only AWS credential available (`lightsail-preuni`) is scoped to `lightsail:*` only, no S3/IAM permissions. Needs broader/temporary AWS access or the user doing it via Console. Local on-box backups confirmed working as an interim safety net.
+11. [x] End-to-end smoke test passed: homepage, anonymous OA-gate view, login, answering a question, the answer appearing in `/errores`, category/tag rendering, production email delivery (SES sandbox has cleared). Also caught and fixed: site branding (title showed generic "Discourse" — `DISCOURSE_SITENAME` only applies via the interactive `discourse-setup` wizard, which was never run; fixed via `SiteSetting.title` directly) and uploaded the logo/favicon. Completed 2026-09-23.
+12. [x] Go live — site is functionally live at https://preuni.voluntaria.pe with real content. Completed 2026-09-23.
+
+**Follow-ups, not launch-blocking:**
+- Rotate the AWS access key and the `DISCOURSE_SMTP_PASSWORD` for `ses-smtp-preuni` — both were accidentally exposed on screen during this session (see git history / session notes) and should be rotated once broader AWS access is available.
+- Set up S3 backups once AWS access allows it (#10 above).
 
 ## Guardrails — local (test) vs. AWS (production)
 
