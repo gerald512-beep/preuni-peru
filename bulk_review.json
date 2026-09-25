@@ -7850,11 +7850,11 @@
   "claudeTemas": null,
   "body": "Calcule el volumen (en unidades cúbicas) del sólido de revolución que se obtiene al rotar la región acotada por la gráfica de $y = \\ln(x)$ ; y = 0; x = e, en torno de la recta x = 0",
   "choices": {
-   "A": "-6",
-   "B": "-4",
-   "C": "0",
-   "D": "2",
-   "E": "6"
+   "A": "$\\frac{\\pi}{3}(e^{2} - 1)$",
+   "B": "$\\frac{\\pi}{2}(e^{2} - 1)$",
+   "C": "$\\frac{\\pi}{3}(e^{2} + 1)$",
+   "D": "$\\frac{\\pi}{2}(e^{2} + 1)$",
+   "E": "$\\pi(e^{2} + 1)$"
   },
   "figureRefs": [],
   "figureImages": [],
@@ -8137,5 +8137,38 @@
   "topicId": 287,
   "topicUrl": "http://localhost:8080/t/la-funcion-costo-marginal-de-un-fabricante-es-donde-c-c-q-representa-la-fun/287",
   "publishedAt": "2026-09-15T02:58:54.704Z"
+ },
+ {
+  "id": "ptraslado-CÁLCULO_INTEGRAL-32",
+  "prueba": "traslado",
+  "materiaHeader": "CÁLCULO INTEGRAL",
+  "numero": 32,
+  "tema": "Cálculo Integral",
+  "pendingClassification": false,
+  "claudeTemas": null,
+  "body": "Calcule $\\int\\limits_{-e^{4}}^{-e^{2}}\\frac{\\ln|x|}{x}dx$",
+  "choices": {
+   "A": "-6",
+   "B": "-4",
+   "C": "0",
+   "D": "2",
+   "E": "6"
+  },
+  "figureRefs": [],
+  "figureImages": [],
+  "clave": "A",
+  "oaMethod": "table",
+  "solutionBody": null,
+  "solutionFigureRefs": [],
+  "solutionFigureImages": [],
+  "universidad": "UNI",
+  "anio": "2019",
+  "convocatoria": "2",
+  "needsReview": [],
+  "choiceImages": {},
+  "published": true,
+  "topicId": 492,
+  "topicUrl": "http://localhost:8080/t/calcule-e4-e2-x-xdx/492",
+  "publishedAt": "2026-09-25T04:47:00.000Z"
  }
 ]
