@@ -35,13 +35,14 @@
   "needsReview": [],
   "temaOriginal": "Comprensión de Lectura",
   "subtemas": [
-   "comprension-lectura",
-   "area-a"
+   "comprension-de-lectura"
   ],
   "published": true,
   "topicId": 408,
   "topicUrl": "http://localhost:8080/t/produccion-de-hidrocarburos-antes-de-la-guerra-del-golfo-persico-de-2026-porcent/408",
-  "publishedAt": "2026-09-20T23:39:36.072Z"
+  "publishedAt": "2026-09-20T23:39:36.072Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_VERBAL-12",
@@ -75,13 +76,14 @@
   "needsReview": [],
   "temaOriginal": "Comprensión de Lectura",
   "subtemas": [
-   "comprension-lectura",
-   "area-a"
+   "comprension-de-lectura"
   ],
   "published": true,
   "topicId": 408,
   "topicUrl": "http://localhost:8080/t/produccion-de-hidrocarburos-antes-de-la-guerra-del-golfo-persico-de-2026-porcent/408/3",
-  "publishedAt": "2026-09-20T23:39:50.826Z"
+  "publishedAt": "2026-09-20T23:39:50.826Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_VERBAL-13",
@@ -115,13 +117,14 @@
   "needsReview": [],
   "temaOriginal": "Comprensión de Lectura",
   "subtemas": [
-   "comprension-lectura",
-   "area-a"
+   "inferencia-y-extrapolacion"
   ],
   "published": true,
   "topicId": 408,
   "topicUrl": "http://localhost:8080/t/produccion-de-hidrocarburos-antes-de-la-guerra-del-golfo-persico-de-2026-porcent/408/5",
-  "publishedAt": "2026-09-20T23:39:52.814Z"
+  "publishedAt": "2026-09-20T23:39:52.814Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_VERBAL-14",
@@ -155,13 +158,14 @@
   "needsReview": [],
   "temaOriginal": "Comprensión de Lectura",
   "subtemas": [
-   "comprension-lectura",
-   "area-a"
+   "comprension-de-lectura"
   ],
   "published": true,
   "topicId": 412,
   "topicUrl": "http://localhost:8080/t/texto-a-los-realistas-postulan-la-existencia-de-dos-tipos-de-entidades-particul/412",
-  "publishedAt": "2026-09-20T23:44:18.496Z"
+  "publishedAt": "2026-09-20T23:44:18.496Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_VERBAL-15",
@@ -195,13 +199,14 @@
   "needsReview": [],
   "temaOriginal": "Comprensión de Lectura",
   "subtemas": [
-   "comprension-lectura",
-   "area-a"
+   "comprension-de-lectura"
   ],
   "published": true,
   "topicId": 412,
   "topicUrl": "http://localhost:8080/t/texto-a-los-realistas-postulan-la-existencia-de-dos-tipos-de-entidades-particul/412/3",
-  "publishedAt": "2026-09-20T23:50:31.189Z"
+  "publishedAt": "2026-09-20T23:50:31.189Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_VERBAL-16",
@@ -235,13 +240,14 @@
   "needsReview": [],
   "temaOriginal": "Comprensión de Lectura",
   "subtemas": [
-   "comprension-lectura",
-   "area-a"
+   "inferencia-y-extrapolacion"
   ],
   "published": true,
   "topicId": 412,
   "topicUrl": "http://localhost:8080/t/texto-a-los-realistas-postulan-la-existencia-de-dos-tipos-de-entidades-particul/412/5",
-  "publishedAt": "2026-09-20T23:50:45.276Z"
+  "publishedAt": "2026-09-20T23:50:45.276Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_VERBAL-17",
@@ -275,13 +281,14 @@
   "needsReview": [],
   "temaOriginal": "Comprensión de Lectura",
   "subtemas": [
-   "comprension-lectura",
-   "area-a"
+   "inferencia-y-extrapolacion"
   ],
   "published": true,
   "topicId": 412,
   "topicUrl": "http://localhost:8080/t/texto-a-los-realistas-postulan-la-existencia-de-dos-tipos-de-entidades-particul/412/9",
-  "publishedAt": "2026-09-20T23:54:32.401Z"
+  "publishedAt": "2026-09-20T23:54:32.401Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-INGLÉS-18",
@@ -315,13 +322,14 @@
   "needsReview": [],
   "temaOriginal": "Inglés",
   "subtemas": [
-   "ingles",
-   "area-a"
+   "comprension-de-lectura"
   ],
   "published": true,
   "topicId": 413,
   "topicUrl": "http://localhost:8080/t/text-3-most-adults-wish-they-could-catch-more-zzzs-for-better-health-sharper-fo/413",
-  "publishedAt": "2026-09-20T23:44:19.282Z"
+  "publishedAt": "2026-09-20T23:44:19.282Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-INGLÉS-19",
@@ -355,13 +363,14 @@
   "needsReview": [],
   "temaOriginal": "Inglés",
   "subtemas": [
-   "ingles",
-   "area-a"
+   "comprension-de-lectura"
   ],
   "published": true,
   "topicId": 413,
   "topicUrl": "http://localhost:8080/t/text-3-most-adults-wish-they-could-catch-more-zzzs-for-better-health-sharper-fo/413/3",
-  "publishedAt": "2026-09-20T23:51:01.716Z"
+  "publishedAt": "2026-09-20T23:51:01.716Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-INGLÉS-20",
@@ -395,13 +404,14 @@
   "needsReview": [],
   "temaOriginal": "Inglés",
   "subtemas": [
-   "ingles",
-   "area-a"
+   "comprension-de-lectura"
   ],
   "published": true,
   "topicId": 413,
   "topicUrl": "http://localhost:8080/t/text-3-most-adults-wish-they-could-catch-more-zzzs-for-better-health-sharper-fo/413/5",
-  "publishedAt": "2026-09-20T23:51:05.189Z"
+  "publishedAt": "2026-09-20T23:51:05.189Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-21",
@@ -444,12 +454,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "problemas-de-forma-movimiento-y-localizacion"
   ],
   "published": true,
   "topicId": 414,
   "topicUrl": "http://localhost:8080/t/fernando-tiene-un-tablero-de-madera-cuadriculada-de-1-cm-de-espesor-tal-como-se/414",
-  "publishedAt": "2026-09-20T23:44:20.667Z"
+  "publishedAt": "2026-09-20T23:44:20.667Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-22",
@@ -490,12 +502,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "problemas-de-cantidad"
   ],
   "published": true,
   "topicId": 415,
   "topicUrl": "http://localhost:8080/t/en-la-figura-se-muestra-un-reloj-en-el-cual-11-que-hora-marca-el-rel/415",
-  "publishedAt": "2026-09-20T23:44:21.761Z"
+  "publishedAt": "2026-09-20T23:44:21.761Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-23",
@@ -542,13 +556,15 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "problemas-de-cantidad"
   ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 416,
   "topicUrl": "http://localhost:8080/t/sobre-una-mesa-no-transparente-manuel-coloca-cuatro-dados-convencionales-como/416",
-  "publishedAt": "2026-09-20T23:44:22.982Z"
+  "publishedAt": "2026-09-20T23:44:22.982Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-24",
@@ -589,12 +605,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "problemas-de-cantidad"
   ],
   "published": true,
   "topicId": 417,
   "topicUrl": "http://localhost:8080/t/en-el-almacen-de-su-negocio-marcos-tiene-50-kg-de-harina-contenidos-en-un-saco/417",
-  "publishedAt": "2026-09-20T23:44:24.043Z"
+  "publishedAt": "2026-09-20T23:44:24.043Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-25",
@@ -627,12 +645,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "problemas-de-gestion-de-datos-e-incertidumbre"
   ],
   "published": true,
   "topicId": 418,
   "topicUrl": "http://localhost:8080/t/arnold-baruc-matias-clark-y-daniel-son-muy-buenos-amigos-cada-uno-de-ellos-t/418",
-  "publishedAt": "2026-09-20T23:44:24.734Z"
+  "publishedAt": "2026-09-20T23:44:24.734Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-26",
@@ -675,12 +695,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "problemas-de-regularidad-equivalencia-y-cambio"
   ],
   "published": true,
   "topicId": 419,
   "topicUrl": "http://localhost:8080/t/en-la-siguiente-secuencia-de-figuras-todas-son-formadas-por-cuadrados-congruent/419",
-  "publishedAt": "2026-09-20T23:44:25.986Z"
+  "publishedAt": "2026-09-20T23:44:25.986Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-27",
@@ -713,12 +735,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "problemas-de-cantidad"
   ],
   "published": true,
   "topicId": 420,
   "topicUrl": "http://localhost:8080/t/el-medico-de-silvia-le-indico-comprar-dos-frascos-de-la-misma-medicina-para-el-m/420",
-  "publishedAt": "2026-09-20T23:44:26.714Z"
+  "publishedAt": "2026-09-20T23:44:26.714Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-28",
@@ -762,7 +786,9 @@
   "topicId": 421,
   "topicUrl": "http://localhost:8080/t/sobre-una-mesa-hay-tres-cajas-de-madera-dos-contienen-solidos-geometricos-de-co/421",
   "publishedAt": "2026-09-20T23:45:29.957Z",
-  "hold": "Mi resolución independiente y una verificación por fuerza bruta dan 12 como respuesta correcta, que no figura entre las alternativas; la clave publicada es E (6). El texto MinerU también perdió la alternativa C. Revisar contra el PDF fuente antes de publicar en producción."
+  "hold": "Mi resolución independiente y una verificación por fuerza bruta dan 12 como respuesta correcta, que no figura entre las alternativas; la clave publicada es E (6). El texto MinerU también perdió la alternativa C. Revisar contra el PDF fuente antes de publicar en producción.",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-29",
@@ -805,12 +831,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "problemas-de-forma-movimiento-y-localizacion"
   ],
   "published": true,
   "topicId": 422,
   "topicUrl": "http://localhost:8080/t/siga-las-lineas-de-la-figura-sin-pasar-por-los-puntos-m-y-n-y-luego-determine/422",
-  "publishedAt": "2026-09-20T23:45:33.499Z"
+  "publishedAt": "2026-09-20T23:45:33.499Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-30",
@@ -851,12 +879,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "problemas-de-regularidad-equivalencia-y-cambio"
   ],
   "published": true,
   "topicId": 423,
   "topicUrl": "http://localhost:8080/t/carlos-debe-escribir-en-los-circulos-de-la-figura-mostrada-los-once-primeros-num/423",
-  "publishedAt": "2026-09-20T23:45:37.042Z"
+  "publishedAt": "2026-09-20T23:45:37.042Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-ARITMÉTICA-31",
@@ -893,12 +923,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "sucesiones-y-progresiones"
   ],
   "published": true,
   "topicId": 409,
   "topicUrl": "http://localhost:8080/t/manuel-acude-a-una-tienda-de-regalos-a-comprar-3-juguetes-y-el-vendedor-le-regal/409",
-  "publishedAt": "2026-09-20T23:39:42.658Z"
+  "publishedAt": "2026-09-20T23:39:42.658Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-ARITMÉTICA-32",
@@ -931,12 +963,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "numeros-divisibilidad-y-fracciones"
   ],
   "published": true,
   "topicId": 424,
   "topicUrl": "http://localhost:8080/t/julio-pego-en-su-album-una-cantidad-de-figuras-entre-600-y-700-al-contarlas-de/424",
-  "publishedAt": "2026-09-20T23:45:40.257Z"
+  "publishedAt": "2026-09-20T23:45:40.257Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-ARITMÉTICA-33",
@@ -969,13 +1003,15 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "numeros-divisibilidad-y-fracciones"
   ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 425,
   "topicUrl": "http://localhost:8080/t/las-claves-para-la-billetera-digital-de-un-inversionista-son-numeros-que-estan-c/425",
-  "publishedAt": "2026-09-20T23:45:43.452Z"
+  "publishedAt": "2026-09-20T23:45:43.452Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-ARITMÉTICA-34",
@@ -1008,12 +1044,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "estadistica-y-probabilidad"
   ],
   "published": true,
   "topicId": 425,
   "topicUrl": "http://localhost:8080/t/las-claves-para-la-billetera-digital-de-un-inversionista-son-numeros-que-estan-c/425/3",
-  "publishedAt": "2026-09-20T23:51:08.417Z"
+  "publishedAt": "2026-09-20T23:51:08.417Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-GEOMETRÍA-35",
@@ -1054,12 +1092,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "areas-y-poligonos-regulares"
   ],
   "published": true,
   "topicId": 410,
   "topicUrl": "http://localhost:8080/t/la-figura-representa-el-diseno-de-una-ventana-rectangular-abcd-de-una-iglesia-d/410",
-  "publishedAt": "2026-09-20T23:39:45.592Z"
+  "publishedAt": "2026-09-20T23:39:45.592Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-GEOMETRÍA-36",
@@ -1100,12 +1140,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "circunferencia"
   ],
   "published": true,
   "topicId": 426,
   "topicUrl": "http://localhost:8080/t/cinco-amigos-salen-a-jugar-al-parque-y-se-ubican-en-los-puntos-correspondientes/426",
-  "publishedAt": "2026-09-20T23:45:46.929Z"
+  "publishedAt": "2026-09-20T23:45:46.929Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-GEOMETRÍA-37",
@@ -1146,13 +1188,15 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "angulos-triangulos-y-poligonos"
   ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 427,
   "topicUrl": "http://localhost:8080/t/en-la-figura-se-muestra-un-terreno-que-tiene-la-forma-de-un-poligono-equiangulo/427",
-  "publishedAt": "2026-09-20T23:45:50.357Z"
+  "publishedAt": "2026-09-20T23:45:50.357Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-ÁLGEBRA-38",
@@ -1185,12 +1229,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "ecuaciones-e-inecuaciones"
   ],
   "published": true,
   "topicId": 428,
   "topicUrl": "http://localhost:8080/t/durante-un-control-medico-ocupacional-a-un-paciente-se-le-realiza-un-analisis-d/428",
-  "publishedAt": "2026-09-20T23:45:53.522Z"
+  "publishedAt": "2026-09-20T23:45:53.522Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-ÁLGEBRA-39",
@@ -1223,12 +1269,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "sistemas-de-ecuaciones-y-matrices"
   ],
   "published": true,
   "topicId": 429,
   "topicUrl": "http://localhost:8080/t/una-chicharroneria-ofrece-dos-tipos-de-combos-durante-la-hora-del-desayuno-el-c/429",
-  "publishedAt": "2026-09-20T23:45:56.683Z"
+  "publishedAt": "2026-09-20T23:45:56.683Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-ÁLGEBRA-40",
@@ -1261,12 +1309,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "sistemas-de-ecuaciones-y-matrices"
   ],
   "published": true,
   "topicId": 429,
   "topicUrl": "http://localhost:8080/t/una-chicharroneria-ofrece-dos-tipos-de-combos-durante-la-hora-del-desayuno-el-c/429/3",
-  "publishedAt": "2026-09-20T23:51:11.671Z"
+  "publishedAt": "2026-09-20T23:51:11.671Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-TRIGONOMETRÍA-41",
@@ -1307,12 +1357,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "ecuaciones-y-resolucion-de-triangulos"
   ],
   "published": true,
   "topicId": 430,
   "topicUrl": "http://localhost:8080/t/la-figura-representa-un-terreno-circular-donde-la-region-triangular-abc-se-dest/430",
-  "publishedAt": "2026-09-20T23:46:00.073Z"
+  "publishedAt": "2026-09-20T23:46:00.073Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-TRIGONOMETRÍA-42",
@@ -1345,12 +1397,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "identidades-trigonometricas"
   ],
   "published": true,
   "topicId": 431,
   "topicUrl": "http://localhost:8080/t/un-medico-le-indica-a-su-paciente-que-debe-aplicarse-un-preparado-dermatologico/431",
-  "publishedAt": "2026-09-20T23:46:03.248Z"
+  "publishedAt": "2026-09-20T23:46:03.248Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-LENGUAJE-43",
@@ -1384,12 +1438,14 @@
   "needsReview": [],
   "temaOriginal": "Lenguaje",
   "subtemas": [
-   "area-a"
+   "comunicacion-y-realidad-linguistica-del-peru"
   ],
   "published": true,
   "topicId": 432,
   "topicUrl": "http://localhost:8080/t/relacione-cada-tipo-de-comunicacion-con-el-ejemplo-que-le-corresponde-i-humana/432",
-  "publishedAt": "2026-09-20T23:46:06.371Z"
+  "publishedAt": "2026-09-20T23:46:06.371Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-LENGUAJE-44",
@@ -1423,12 +1479,14 @@
   "needsReview": [],
   "temaOriginal": "Lenguaje",
   "subtemas": [
-   "area-a"
+   "fonologia-y-ortografia"
   ],
   "published": true,
   "topicId": 433,
   "topicUrl": "http://localhost:8080/t/en-la-clase-de-ortografia-la-profesora-explico-las-normas-vigentes-de-la-real-a/433",
-  "publishedAt": "2026-09-20T23:46:33.671Z"
+  "publishedAt": "2026-09-20T23:46:33.671Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-LENGUAJE-45",
@@ -1462,12 +1520,14 @@
   "needsReview": [],
   "temaOriginal": "Lenguaje",
   "subtemas": [
-   "area-a"
+   "comunicacion-y-realidad-linguistica-del-peru"
   ],
   "published": true,
   "topicId": 434,
   "topicUrl": "http://localhost:8080/t/doroteo-ancajima-un-adolescente-de-trece-anos-crecio-en-ancash-y-es-hablante-b/434",
-  "publishedAt": "2026-09-20T23:46:36.800Z"
+  "publishedAt": "2026-09-20T23:46:36.800Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-LENGUAJE-46",
@@ -1501,12 +1561,14 @@
   "needsReview": [],
   "temaOriginal": "Lenguaje",
   "subtemas": [
-   "area-a"
+   "fonologia-y-ortografia"
   ],
   "published": true,
   "topicId": 435,
   "topicUrl": "http://localhost:8080/t/el-empleo-correcto-de-los-signos-de-puntuacion-permite-poner-en-evidencia-la-coh/435",
-  "publishedAt": "2026-09-20T23:46:39.920Z"
+  "publishedAt": "2026-09-20T23:46:39.920Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-LENGUAJE-47",
@@ -1540,12 +1602,14 @@
   "needsReview": [],
   "temaOriginal": "Lenguaje",
   "subtemas": [
-   "area-a"
+   "semantica"
   ],
   "published": true,
   "topicId": 436,
   "topicUrl": "http://localhost:8080/t/la-homonimia-es-la-relacion-lexica-entre-diferentes-palabras-cuya-coincidencia-o/436",
-  "publishedAt": "2026-09-20T23:46:43.070Z"
+  "publishedAt": "2026-09-20T23:46:43.070Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-LENGUAJE-48",
@@ -1579,12 +1643,14 @@
   "needsReview": [],
   "temaOriginal": "Lenguaje",
   "subtemas": [
-   "area-a"
+   "fonologia-y-ortografia"
   ],
   "published": true,
   "topicId": 437,
   "topicUrl": "http://localhost:8080/t/lea-el-siguiente-texto-y-determine-el-valor-de-verdad-v-o-f-de-las-proposicion/437",
-  "publishedAt": "2026-09-20T23:46:46.217Z"
+  "publishedAt": "2026-09-20T23:46:46.217Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-LENGUAJE-49",
@@ -1618,12 +1684,14 @@
   "needsReview": [],
   "temaOriginal": "Lenguaje",
   "subtemas": [
-   "area-a"
+   "fonologia-y-ortografia"
   ],
   "published": true,
   "topicId": 438,
   "topicUrl": "http://localhost:8080/t/en-el-silabeo-ortografico-de-la-lengua-espanola-se-debe-considerar-entre-otros/438",
-  "publishedAt": "2026-09-20T23:46:49.437Z"
+  "publishedAt": "2026-09-20T23:46:49.437Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-LITERATURA-50",
@@ -1656,12 +1724,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "literatura-universal-moderna"
   ],
   "published": true,
   "topicId": 439,
   "topicUrl": "http://localhost:8080/t/tiene-que-irse-exclamo-la-hermana-es-la-unica-posibilidad-padre-solo-tiene/439",
-  "publishedAt": "2026-09-20T23:46:52.646Z"
+  "publishedAt": "2026-09-20T23:46:52.646Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-LITERATURA-51",
@@ -1694,13 +1764,15 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "literatura-espanola"
   ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 440,
   "topicUrl": "http://localhost:8080/t/tanto-el-ingenioso-hidalgo-don-quijote-de-la-mancha-de-miguel-de-cervantes-saav/440",
-  "publishedAt": "2026-09-20T23:46:55.908Z"
+  "publishedAt": "2026-09-20T23:46:55.908Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-LITERATURA-52",
@@ -1733,12 +1805,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "literatura-peruana-colonial-y-emancipacion"
   ],
   "published": true,
   "topicId": 441,
   "topicUrl": "http://localhost:8080/t/por-los-anos-de-1640-vino-de-extremadura-a-estos-reinos-del-peru-un-mozo-a-quie/441",
-  "publishedAt": "2026-09-20T23:46:59.067Z"
+  "publishedAt": "2026-09-20T23:46:59.067Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-LITERATURA-53",
@@ -1771,12 +1845,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "literatura-latinoamericana"
   ],
   "published": true,
   "topicId": 442,
   "topicUrl": "http://localhost:8080/t/cien-anos-de-soledad-de-gabriel-garcia-marquez-se-caracteriza-por-presentar-ev/442",
-  "publishedAt": "2026-09-20T23:47:02.228Z"
+  "publishedAt": "2026-09-20T23:47:02.228Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-PSICOLOGÍA-54",
@@ -1809,12 +1885,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "afectividad-y-motivacion"
   ],
   "published": true,
   "topicId": 443,
   "topicUrl": "http://localhost:8080/t/en-la-actualidad-lima-se-ha-convertido-en-una-ciudad-caotica-en-terminos-de-tra/443",
-  "publishedAt": "2026-09-20T23:47:05.373Z"
+  "publishedAt": "2026-09-20T23:47:05.373Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-PSICOLOGÍA-55",
@@ -1847,12 +1925,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "procesos-cognitivos-y-aprendizaje"
   ],
   "published": true,
   "topicId": 444,
   "topicUrl": "http://localhost:8080/t/para-poder-atender-las-fobias-el-psicologo-utiliza-la-terapia-cognitiva-conduct/444",
-  "publishedAt": "2026-09-20T23:47:08.502Z"
+  "publishedAt": "2026-09-20T23:47:08.502Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-PSICOLOGÍA-56",
@@ -1885,12 +1965,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "desarrollo-humano-e-identidad"
   ],
   "published": true,
   "topicId": 445,
   "topicUrl": "http://localhost:8080/t/rodrigo-es-un-joven-de-dieciseis-anos-que-acude-al-psicologo-a-quien-comenta-qu/445",
-  "publishedAt": "2026-09-20T23:47:11.841Z"
+  "publishedAt": "2026-09-20T23:47:11.841Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-PSICOLOGÍA-57",
@@ -1923,12 +2005,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "afectividad-y-motivacion"
   ],
   "published": true,
   "topicId": 446,
   "topicUrl": "http://localhost:8080/t/a-inicio-del-ano-escolar-en-una-reunion-de-docentes-de-la-i-e-maria-auxiliador/446",
-  "publishedAt": "2026-09-20T23:47:14.981Z"
+  "publishedAt": "2026-09-20T23:47:14.981Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-PSICOLOGÍA-58",
@@ -1961,12 +2045,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "desarrollo-humano-e-identidad"
   ],
   "published": true,
   "topicId": 447,
   "topicUrl": "http://localhost:8080/t/con-relacion-al-apego-bowlby-senala-que-cuando-un-nino-sabe-que-su-figura-de-ap/447",
-  "publishedAt": "2026-09-20T23:47:18.214Z"
+  "publishedAt": "2026-09-20T23:47:18.214Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-PSICOLOGÍA-59",
@@ -2008,7 +2094,9 @@
   "topicId": 448,
   "topicUrl": "http://localhost:8080/t/durante-su-adolescencia-luiggi-experimento-grandes-cambios-en-su-forma-de-ser/448",
   "publishedAt": "2026-09-20T23:47:36.516Z",
-  "hold": "La clave publicada (A, \"secundaria\") contradice la explicación, que argumenta \"terciaria\" (E). Verificar contra el PDF fuente."
+  "hold": "La clave publicada (A, \"secundaria\") contradice la explicación, que argumenta \"terciaria\" (E). Verificar contra el PDF fuente.",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-EDUCACIÓN_CÍVICA-60",
@@ -2041,12 +2129,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "derechos-humanos"
   ],
   "published": true,
   "topicId": 449,
   "topicUrl": "http://localhost:8080/t/el-ciudadano-colombiano-luis-cisneros-residente-en-nuestro-pais-en-condicion-de/449",
-  "publishedAt": "2026-09-20T23:47:39.678Z"
+  "publishedAt": "2026-09-20T23:47:39.678Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-EDUCACIÓN_CÍVICA-61",
@@ -2079,12 +2169,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "problemas-de-convivencia-en-el-peru"
   ],
   "published": true,
   "topicId": 450,
   "topicUrl": "http://localhost:8080/t/entre-los-tipos-de-corrupcion-que-existen-dentro-de-la-administracion-publica-l/450",
-  "publishedAt": "2026-09-20T23:47:42.912Z"
+  "publishedAt": "2026-09-20T23:47:42.912Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-EDUCACIÓN_CÍVICA-62",
@@ -2117,12 +2209,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "problemas-de-convivencia-en-el-peru"
   ],
   "published": true,
   "topicId": 451,
   "topicUrl": "http://localhost:8080/t/en-un-operativo-conjunto-la-fiscalia-y-la-policia-allanaron-un-local-ubicado-en/451",
-  "publishedAt": "2026-09-20T23:47:46.087Z"
+  "publishedAt": "2026-09-20T23:47:46.087Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-EDUCACIÓN_CÍVICA-63",
@@ -2155,12 +2249,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "derechos-humanos"
   ],
   "published": true,
   "topicId": 452,
   "topicUrl": "http://localhost:8080/t/dentro-de-la-clasificacion-historica-de-los-derechos-humanos-los-de-la-primera/452",
-  "publishedAt": "2026-09-20T23:47:49.236Z"
+  "publishedAt": "2026-09-20T23:47:49.236Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HISTORIA_DEL_PERÚ-64",
@@ -2193,12 +2289,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "culturas-prehispanicas-y-tawantinsuyo"
   ],
   "published": true,
   "topicId": 453,
   "topicUrl": "http://localhost:8080/t/entre-los-anos-700-a-c-y-200-d-c-en-la-costa-sur-del-peru-antiguo-se-desar/453",
-  "publishedAt": "2026-09-20T23:47:52.428Z"
+  "publishedAt": "2026-09-20T23:47:52.428Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HISTORIA_DEL_PERÚ-65",
@@ -2231,12 +2329,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "virreinato"
   ],
   "published": true,
   "topicId": 454,
   "topicUrl": "http://localhost:8080/t/una-de-las-consecuencias-directas-de-la-conquista-espanola-fue-la-notable-dismin/454",
-  "publishedAt": "2026-09-20T23:47:55.597Z"
+  "publishedAt": "2026-09-20T23:47:55.597Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HISTORIA_DEL_PERÚ-66",
@@ -2269,12 +2369,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "independencia-y-siglo-xix"
   ],
   "published": true,
   "topicId": 455,
   "topicUrl": "http://localhost:8080/t/el-aporte-de-la-comunidad-sanmarquina-a-la-ciencia-siempre-fue-crucial-en-la-se/455",
-  "publishedAt": "2026-09-20T23:47:58.912Z"
+  "publishedAt": "2026-09-20T23:47:58.912Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HISTORIA_UNIVERSAL-67",
@@ -2307,13 +2409,15 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "siglo-xx-y-contemporaneo"
   ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 456,
   "topicUrl": "http://localhost:8080/t/la-denominada-guerra-fria-1947-1989-supuso-un-enfrentamiento-entre-dos-potenci/456",
-  "publishedAt": "2026-09-20T23:48:02.386Z"
+  "publishedAt": "2026-09-20T23:48:02.386Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-HISTORIA_UNIVERSAL-68",
@@ -2346,19 +2450,21 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "mundo-antiguo-y-clasico"
   ],
   "published": true,
   "topicId": 457,
   "topicUrl": "http://localhost:8080/t/la-historia-es-maestra-de-vida-reza-la-expresion-de-pensador-y-politico-romano/457",
-  "publishedAt": "2026-09-20T23:48:05.582Z"
+  "publishedAt": "2026-09-20T23:48:05.582Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-GEOGRAFÍA-69",
   "prueba": 1,
   "materiaHeader": "GEOGRAFÍA",
   "numero": 69,
-  "tema": "Geografía",
+  "tema": "Geografía del Perú",
   "pendingClassification": false,
   "claudeTemas": null,
   "body": "Nuestro planeta presenta una gran diversidad de biomas terrestres y acuáticos, como producto de los millones de años de evolución de la Tierra. Entre estos ecosistemas, se puede mencionar a los _, cuyas características fundamentales son la _ y la elevada evapotranspiración. Además, sus superficies presentan vegetación _.",
@@ -2384,19 +2490,21 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "biodiversidad-y-recursos-naturales"
   ],
   "published": true,
   "topicId": 458,
   "topicUrl": "http://localhost:8080/t/nuestro-planeta-presenta-una-gran-diversidad-de-biomas-terrestres-y-acuaticos-c/458",
-  "publishedAt": "2026-09-20T23:48:08.776Z"
+  "publishedAt": "2026-09-20T23:48:08.776Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-GEOGRAFÍA-70",
   "prueba": 1,
   "materiaHeader": "GEOGRAFÍA",
   "numero": 70,
-  "tema": "Geografía",
+  "tema": "Geografía del Perú",
   "pendingClassification": false,
   "claudeTemas": null,
   "body": "En un espacio territorial, dos ciudades se encuentran distanciadas por 800 km y su representación en el documento cartográfico es de 2 cm. De acuerdo con lo señalado, determine el valor de verdad (V o F) de las siguientes proposiciones:\n\nI. El documento cartográfico de la representación es de escala pequeña.\nII. En el mapa, un milímetro equivale a 400 metros del terreno.\nIII. La escala grande del mapa brinda información precisa y detallada.",
@@ -2422,19 +2530,21 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "espacio-geografico-y-cartografia"
   ],
   "published": true,
   "topicId": 459,
   "topicUrl": "http://localhost:8080/t/en-un-espacio-territorial-dos-ciudades-se-encuentran-distanciadas-por-800-km-y/459",
-  "publishedAt": "2026-09-20T23:48:11.941Z"
+  "publishedAt": "2026-09-20T23:48:11.941Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-GEOGRAFÍA-71",
   "prueba": 1,
   "materiaHeader": "GEOGRAFÍA",
   "numero": 71,
-  "tema": "Geografía",
+  "tema": "Geografía del Perú",
   "pendingClassification": false,
   "claudeTemas": null,
   "body": "El vulcanismo es un proceso geológico a través del cual se produce el desplazamiento del magma desde el interior de la Tierra hacia la superficie. Al emerger el magma en la zona de divergencia de placas del centro oceánico, proveniente de la astenósfera, el material magmático va produciendo, en el fondo de los océanos, cientos de volcanes, muchos de los cuales llegan a la superficie y forman islas. Al chocar las placas, se produce una zona de convergencia y subducción, donde los materiales rocosos, debido a la fricción, se convierten en grandes bolsas magmáticas o burbujas que, al ser presionadas por el empuje de las placas, tienden a salir por las grietas o fisuras para formar volcanes en la superficie continental.\n\nAdaptado de Arnao, J. et. al. (2019). Geografía Pre San Marcos. UNMSM\n\nDe acuerdo con el texto, se puede inferir que el vulcanismo",
@@ -2460,19 +2570,21 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "relieve-y-clima-del-peru"
   ],
   "published": true,
   "topicId": 460,
   "topicUrl": "http://localhost:8080/t/el-vulcanismo-es-un-proceso-geologico-a-traves-del-cual-se-produce-el-desplazami/460",
-  "publishedAt": "2026-09-20T23:48:15.154Z"
+  "publishedAt": "2026-09-20T23:48:15.154Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-GEOGRAFÍA-72",
   "prueba": 1,
   "materiaHeader": "GEOGRAFÍA",
   "numero": 72,
-  "tema": "Geografía",
+  "tema": "Geografía del Perú",
   "pendingClassification": false,
   "claudeTemas": null,
   "body": "Según el texto leído, determine el valor de verdad (V o F) de las siguientes proposiciones:\n\nI. El vulcanismo en zonas de convergencia genera volcanes en el continente.\nII. Las erupciones volcánicas en zonas de divergencia generan nuevas rocas.\nIII. La base de los volcanes continentales se encuentra en la astenósfera superior.",
@@ -2498,12 +2610,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "relieve-y-clima-del-peru"
   ],
   "published": true,
   "topicId": 460,
   "topicUrl": "http://localhost:8080/t/el-vulcanismo-es-un-proceso-geologico-a-traves-del-cual-se-produce-el-desplazami/460/3",
-  "publishedAt": "2026-09-20T23:51:14.920Z"
+  "publishedAt": "2026-09-20T23:51:14.920Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-ECONOMÍA-73",
@@ -2540,12 +2654,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "mercado-de-bienes-y-factores"
   ],
   "published": true,
   "topicId": 461,
   "topicUrl": "http://localhost:8080/t/como-consecuencia-de-la-reduccion-al-acceso-al-gas-natural-durante-varios-meses/461",
-  "publishedAt": "2026-09-20T23:48:18.391Z"
+  "publishedAt": "2026-09-20T23:48:18.391Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-ECONOMÍA-74",
@@ -2578,12 +2694,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "sector-externo-y-comercio-internacional"
   ],
   "published": true,
   "topicId": 462,
   "topicUrl": "http://localhost:8080/t/ante-el-escenario-de-graves-problemas-energeticos-en-un-pais-las-autoridades-ha/462",
-  "publishedAt": "2026-09-20T23:48:21.312Z"
+  "publishedAt": "2026-09-20T23:48:21.312Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-ECONOMÍA-75",
@@ -2616,12 +2734,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "principios-economicos-basicos"
   ],
   "published": true,
   "topicId": 463,
   "topicUrl": "http://localhost:8080/t/a-raiz-de-haberse-reducido-drasticamente-el-acceso-al-gas-natural-en-un-pais-de/463",
-  "publishedAt": "2026-09-20T23:48:39.615Z"
+  "publishedAt": "2026-09-20T23:48:39.615Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-ECONOMÍA-76",
@@ -2654,12 +2774,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "mercado-de-bienes-y-factores"
   ],
   "published": true,
   "topicId": 464,
   "topicUrl": "http://localhost:8080/t/la-ruptura-de-la-tuberia-por-la-que-se-envia-el-gas-natural-desde-camisea-hacia/464",
-  "publishedAt": "2026-09-20T23:48:42.752Z"
+  "publishedAt": "2026-09-20T23:48:42.752Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-FILOSOFÍA-77",
@@ -2692,12 +2814,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "apreciacion-estetica"
   ],
   "published": true,
   "topicId": 465,
   "topicUrl": "http://localhost:8080/t/en-la-antiguedad-aristoteles-desarrollo-una-profunda-reflexion-sobre-el-arte-en/465",
-  "publishedAt": "2026-09-20T23:48:45.958Z"
+  "publishedAt": "2026-09-20T23:48:45.958Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-FILOSOFÍA-78",
@@ -2730,12 +2854,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "filosofia-antigua-moderna-y-contemporanea"
   ],
   "published": true,
   "topicId": 466,
   "topicUrl": "http://localhost:8080/t/francisco-miro-quesada-cantuarias-ha-sido-uno-de-los-filosofos-mas-creativos-y-l/466",
-  "publishedAt": "2026-09-20T23:48:49.110Z"
+  "publishedAt": "2026-09-20T23:48:49.110Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-FILOSOFÍA-79",
@@ -2768,12 +2894,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "filosofia-antigua-moderna-y-contemporanea"
   ],
   "published": true,
   "topicId": 467,
   "topicUrl": "http://localhost:8080/t/en-filosofia-el-termino-ontologia-se-refiere-al-conjunto-de-cosas-o-realidades/467",
-  "publishedAt": "2026-09-20T23:48:52.261Z"
+  "publishedAt": "2026-09-20T23:48:52.261Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-FILOSOFÍA-80",
@@ -2806,12 +2934,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "teoria-de-la-argumentacion"
   ],
   "published": true,
   "topicId": 468,
   "topicUrl": "http://localhost:8080/t/en-una-ceremonia-oficial-un-reconocido-artista-internacional-recibio-publicamen/468",
-  "publishedAt": "2026-09-20T23:48:55.499Z"
+  "publishedAt": "2026-09-20T23:48:55.499Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-FÍSICA-81",
@@ -2848,13 +2978,15 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "optica-y-fisica-moderna"
   ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 469,
   "topicUrl": "http://localhost:8080/t/en-un-experimento-de-efecto-fotoelectrico-con-luz-de-cierta-frecuencia-se-requi/469",
-  "publishedAt": "2026-09-20T23:48:58.862Z"
+  "publishedAt": "2026-09-20T23:48:58.862Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-FÍSICA-82",
@@ -2895,12 +3027,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "mecanica-cinematica-y-dinamica"
   ],
   "published": true,
   "topicId": 470,
   "topicUrl": "http://localhost:8080/t/la-figura-muestra-el-brazo-de-una-persona-de-masa-total-m-4-kg-en-posicion-hor/470",
-  "publishedAt": "2026-09-20T23:49:02.368Z"
+  "publishedAt": "2026-09-20T23:49:02.368Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-FÍSICA-83",
@@ -2933,12 +3067,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "termodinamica"
   ],
   "published": true,
   "topicId": 471,
   "topicUrl": "http://localhost:8080/t/la-temperatura-normal-del-cuerpo-humano-es-98-6-f-si-un-paciente-con-fiebre-re/471",
-  "publishedAt": "2026-09-20T23:49:05.616Z"
+  "publishedAt": "2026-09-20T23:49:05.616Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-FÍSICA-84",
@@ -2971,12 +3107,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "oscilaciones-ondas-y-fluidos"
   ],
   "published": true,
   "topicId": 472,
   "topicUrl": "http://localhost:8080/t/en-un-hospital-se-usa-un-conducto-de-seccion-transversal-circular-de-20-cm-de-r/472",
-  "publishedAt": "2026-09-20T23:49:08.828Z"
+  "publishedAt": "2026-09-20T23:49:08.828Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-FÍSICA-85",
@@ -3013,12 +3151,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "termodinamica"
   ],
   "published": true,
   "topicId": 473,
   "topicUrl": "http://localhost:8080/t/un-tecnico-de-salud-se-dispone-a-banar-a-un-paciente-postrado-en-una-camilla-de/473",
-  "publishedAt": "2026-09-20T23:49:12.283Z"
+  "publishedAt": "2026-09-20T23:49:12.283Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-QUÍMICA-86",
@@ -3051,12 +3191,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "recursos-naturales-y-contaminacion"
   ],
   "published": true,
   "topicId": 474,
   "topicUrl": "http://localhost:8080/t/para-la-conservacion-del-medioambiente-se-promueven-el-diseno-y-la-aplicacion-d/474",
-  "publishedAt": "2026-09-20T23:49:15.442Z"
+  "publishedAt": "2026-09-20T23:49:15.442Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-QUÍMICA-87",
@@ -3089,12 +3231,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "quimica-organica"
   ],
   "published": true,
   "topicId": 475,
   "topicUrl": "http://localhost:8080/t/uno-de-los-compuestos-importantes-para-el-ser-humano-sigue-una-ruta-metabolica-p/475",
-  "publishedAt": "2026-09-20T23:49:18.642Z"
+  "publishedAt": "2026-09-20T23:49:18.642Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-QUÍMICA-88",
@@ -3139,12 +3283,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "quimica-organica"
   ],
   "published": true,
   "topicId": 411,
   "topicUrl": "http://localhost:8080/t/durante-una-clase-virtual-de-quimica-la-estudiante-casandra-a-quien-le-gusta-c/411",
-  "publishedAt": "2026-09-20T23:39:48.459Z"
+  "publishedAt": "2026-09-20T23:39:48.459Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-QUÍMICA-89",
@@ -3185,12 +3331,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "quimica-organica"
   ],
   "published": true,
   "topicId": 476,
   "topicUrl": "http://localhost:8080/t/la-vitamina-c-esta-presente-en-diversos-productos-como-el-limon-la-naranja-el/476",
-  "publishedAt": "2026-09-20T23:49:55.486Z"
+  "publishedAt": "2026-09-20T23:49:55.486Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-QUÍMICA-90",
@@ -3223,12 +3371,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "enlace-nomenclatura-y-estequiometria"
   ],
   "published": true,
   "topicId": 477,
   "topicUrl": "http://localhost:8080/t/el-nitrato-de-plata-es-una-sal-oxisal-que-se-utiliza-para-cuantificar-cloruros/477",
-  "publishedAt": "2026-09-20T23:49:58.702Z"
+  "publishedAt": "2026-09-20T23:49:58.702Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-QUÍMICA-91",
@@ -3261,12 +3411,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "quimica-organica"
   ],
   "published": true,
   "topicId": 478,
   "topicUrl": "http://localhost:8080/t/muchos-compuestos-de-importancia-metabolica-se-forman-mediante-diversos-procesos/478",
-  "publishedAt": "2026-09-20T23:50:01.925Z"
+  "publishedAt": "2026-09-20T23:50:01.925Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-QUÍMICA-92",
@@ -3309,12 +3461,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "quimica-organica"
   ],
   "published": true,
   "topicId": 479,
   "topicUrl": "http://localhost:8080/t/la-presencia-de-aminoacidos-esenciales-y-no-esenciales-es-de-suma-importancia-pa/479",
-  "publishedAt": "2026-09-20T23:50:05.365Z"
+  "publishedAt": "2026-09-20T23:50:05.365Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-BIOLOGÍA-93",
@@ -3347,13 +3501,15 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "ecologia-salud-y-recursos-naturales"
   ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 480,
   "topicUrl": "http://localhost:8080/t/a-partir-de-una-muestra-de-hielo-obtenida-a-gran-profundidad-se-desea-tener-una/480",
-  "publishedAt": "2026-09-20T23:50:08.540Z"
+  "publishedAt": "2026-09-20T23:50:08.540Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-BIOLOGÍA-94",
@@ -3386,12 +3542,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "celula-tejidos-y-composicion-quimica"
   ],
   "published": true,
   "topicId": 481,
   "topicUrl": "http://localhost:8080/t/un-especialista-le-realiza-un-hisopado-a-un-paciente-con-faringitis-luego-hace/481",
-  "publishedAt": "2026-09-20T23:50:11.738Z"
+  "publishedAt": "2026-09-20T23:50:11.738Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-BIOLOGÍA-95",
@@ -3428,12 +3586,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "genetica-evolucion-y-biodiversidad"
   ],
   "published": true,
   "topicId": 482,
   "topicUrl": "http://localhost:8080/t/un-nuevo-software-especializado-en-biologia-molecular-es-capaz-de-generar-imagen/482",
-  "publishedAt": "2026-09-20T23:50:14.988Z"
+  "publishedAt": "2026-09-20T23:50:14.988Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-BIOLOGÍA-96",
@@ -3470,13 +3630,15 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "nutricion-digestion-y-circulacion"
   ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 483,
   "topicUrl": "http://localhost:8080/t/a-partir-de-la-figura-y-usando-la-leyenda-senale-la-secuencia-correcta-del-proc/483",
-  "publishedAt": "2026-09-20T23:50:18.381Z"
+  "publishedAt": "2026-09-20T23:50:18.381Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-BIOLOGÍA-97",
@@ -3509,12 +3671,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "celula-tejidos-y-composicion-quimica"
   ],
   "published": true,
   "topicId": 484,
   "topicUrl": "http://localhost:8080/t/en-una-clase-de-laboratorio-de-histologia-un-estudiante-observa-al-microscopio/484",
-  "publishedAt": "2026-09-20T23:50:21.543Z"
+  "publishedAt": "2026-09-20T23:50:21.543Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-BIOLOGÍA-98",
@@ -3547,12 +3711,14 @@
   "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "area-a"
+   "ecologia-salud-y-recursos-naturales"
   ],
   "published": true,
   "topicId": 485,
   "topicUrl": "http://localhost:8080/t/a-partir-de-un-proceso-de-biolixiviacion-realizado-en-una-mina-de-cobre-se-extr/485",
-  "publishedAt": "2026-09-20T23:50:24.686Z"
+  "publishedAt": "2026-09-20T23:50:24.686Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-BIOLOGÍA-99",
@@ -3593,7 +3759,9 @@
   "topicId": 486,
   "topicUrl": "http://localhost:8080/t/en-la-asignatura-de-evolucion-molecular-se-han-obtenido-secuencias-de-adn-de-ma/486",
   "publishedAt": "2026-09-20T23:50:27.910Z",
-  "hold": "Falta la figura de secuencias de ADN (el texto de la fuente estaba ilegible)."
+  "hold": "Falta la figura de secuencias de ADN (el texto de la fuente estaba ilegible).",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  },
  {
   "id": "p1-BIOLOGÍA-100",
@@ -3634,6 +3802,8 @@
   "topicId": 486,
   "topicUrl": "http://localhost:8080/t/en-la-asignatura-de-evolucion-molecular-se-han-obtenido-secuencias-de-adn-de-ma/486/3",
   "publishedAt": "2026-09-20T23:51:18.182Z",
-  "hold": "Depende de la figura de secuencias de ADN del Texto 99-100, que no se pudo extraer."
+  "hold": "Depende de la figura de secuencias de ADN del Texto 99-100, que no se pudo extraer.",
+  "modalidad": "Ordinario",
+  "tipo_area": "Área A"
  }
 ]

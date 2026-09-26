@@ -19,7 +19,7 @@ class PreuniErroresController < ApplicationController
   # rows currently in view, so it needs the values.
   PENALIZACION = { 'UNMSM' => 0.25 }.freeze
 
-  TOPIC_FIELDS = %w[preuni_clave preuni_numero preuni_universidad preuni_convocatoria preuni_tema].freeze
+  TOPIC_FIELDS = %w[preuni_clave preuni_numero preuni_universidad preuni_convocatoria preuni_anio preuni_tema].freeze
 
   def pagina
     respond_to { |format| format.html { render "default/empty" } }
@@ -56,6 +56,7 @@ class PreuniErroresController < ApplicationController
         numero: f[:numero],
         universidad: f[:universidad],
         convocatoria: f[:convocatoria],
+        anio: f[:anio],
         tema: f[:tema],
         respuesta: f[:respuesta].respuesta,
         clave: f[:clave],
@@ -137,6 +138,7 @@ class PreuniErroresController < ApplicationController
         numero: post_numeros[r.post_id].presence || meta['preuni_numero'],
         universidad: meta['preuni_universidad'],
         convocatoria: meta['preuni_convocatoria'],
+        anio: meta['preuni_anio'],
         tema: meta['preuni_tema'].presence || topic.category&.name,
       }
     end

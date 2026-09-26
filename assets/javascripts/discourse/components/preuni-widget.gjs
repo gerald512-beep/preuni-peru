@@ -8,6 +8,7 @@ import { schedule } from "@ember/runloop";
 import { ajax } from "discourse/lib/ajax";
 import { eq, not } from "discourse/truth-helpers";
 import DiscourseURL from "discourse/lib/url";
+import { registrarEvento } from "../lib/preuni-eventos";
 
 const PREUNI_CSS = `
 .preuni-widget{margin:0 0 1.2rem 0}
@@ -159,6 +160,13 @@ export default class PreuniWidget extends Component {
     return this.args.topic?.preuni_fields;
   }
 
+  get eventoRef() {
+    return {
+      topicId: this.postMode ? this.args.post?.topic_id : this.args.topic?.id,
+      postId: this.postId,
+    };
+  }
+
   // The id every server call keys off. Root question: the topic's first post.
   get postId() {
     if (this.postMode) return this.args.post?.id;
@@ -188,6 +196,9 @@ export default class PreuniWidget extends Component {
         if (this._resizeObs) { this._resizeObs.disconnect(); this._resizeObs = null; }
         this._adjustWidth();
         this._injectDificultadChip();
+        if (this.fields?.clave) {
+          registrarEvento("pregunta_vista", this.eventoRef);
+        }
       });
     }
     return !!this.fields?.clave;
@@ -314,6 +325,7 @@ export default class PreuniWidget extends Component {
     if (this.estado !== "idle") return;
     this.error = null;
     this.estado = "corriendo";
+    registrarEvento("cronometro_iniciado", this.eventoRef);
     this._inicio = Date.now();
     this._timer = setInterval(() => {
       this.segundos = Math.floor((Date.now() - this._inicio) / 1000);
@@ -327,6 +339,10 @@ export default class PreuniWidget extends Component {
     if (!this.currentUser) {
       this.seleccion = letra;
       this.loginGate = true;
+      registrarEvento("respuesta_anonima", {
+        ...this.eventoRef,
+        datos: { respuesta: letra, segundos: this.segundos },
+      });
       return;
     }
     this.seleccion = letra;
@@ -365,7 +381,16 @@ export default class PreuniWidget extends Component {
   }
 
   @action
+  clickLoginGate() {
+    registrarEvento("login_gate_click", this.eventoRef);
+  }
+
+  @action
   handleLog() {
+    registrarEvento("registro_errores_click", {
+      ...this.eventoRef,
+      datos: { logueado: !!this.currentUser },
+    });
     // The log is a personal page: signed-out users are sent to log in, like
     // the other gated features.
     if (!this.currentUser) {
@@ -409,7 +434,7 @@ export default class PreuniWidget extends Component {
               <span class="preuni-idle-text">¿Listo? Inicia el cronómetro</span>
 
             {{else if this.loginGate}}
-              <a href="/login" class="preuni-login-prompt">
+              <a href="/login" class="preuni-login-prompt" {{on "click" this.clickLoginGate}}>
                 🔒 Seleccionaste {{this.seleccion}} — inicia sesión para ver si acertaste
               </a>
 

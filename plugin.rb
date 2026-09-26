@@ -12,6 +12,9 @@ PREUNI_FIELDS = %w[
   preuni_universidad
   preuni_tema
   preuni_tipo_origen
+  preuni_anio
+  preuni_modalidad
+  preuni_tipo_area
 ].freeze
 
 PREUNI_FIELDS.each { |f| register_editable_topic_custom_field(f, staff_only: true) }
@@ -67,8 +70,17 @@ after_initialize do
           post.custom_fields["preuni_numero"] = opts[:preuni_numero] if opts[:preuni_numero].present?
         end
         post.save_custom_fields(true)
+        PreuniPreguntaIndice.sync_from_post!(post) if tipo == "pregunta_adicional"
       end
     end
+  end
+
+  # Keeps the faceted-search index table (PreuniPreguntaIndice) in sync with
+  # a new root question's custom fields. There's no equivalent "custom field
+  # changed" event for LATER edits (e.g. a Rails-runner fix) -- those call
+  # PreuniPreguntaIndice.sync_from_topic!/sync_from_post! directly instead.
+  on(:topic_created) do |topic, opts, user|
+    PreuniPreguntaIndice.sync_from_topic!(topic)
   end
 
   add_to_serializer(:post, :preuni_post_type) do
@@ -151,6 +163,10 @@ after_initialize do
   load File.expand_path('../app/controllers/preuni_respuestas_controller.rb', __FILE__)
   load File.expand_path('../app/models/preuni_nota_error.rb', __FILE__)
   load File.expand_path('../app/controllers/preuni_errores_controller.rb', __FILE__)
+  load File.expand_path('../app/models/preuni_pregunta_indice.rb', __FILE__)
+  load File.expand_path('../app/controllers/preuni_busqueda_controller.rb', __FILE__)
+  load File.expand_path('../app/models/preuni_evento.rb', __FILE__)
+  load File.expand_path('../app/controllers/preuni_eventos_controller.rb', __FILE__)
 
   PreuniRespuestasController.class_eval do
     def difficulties
@@ -270,5 +286,8 @@ after_initialize do
     get  '/errores'                 => 'preuni_errores#pagina'
     get  '/preuni/errores'          => 'preuni_errores#index'
     put  '/preuni/errores/:post_id/nota' => 'preuni_errores#update_nota'
+    get  '/preuni/buscar'           => 'preuni_busqueda#index'
+    get  '/preuni/opciones'         => 'preuni_busqueda#opciones'
+    post '/preuni/evento'           => 'preuni_eventos#create'
   end
 end

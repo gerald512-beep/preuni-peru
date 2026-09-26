@@ -474,9 +474,18 @@ function buildRaw(body, choices, choiceUrls) {
   return raw;
 }
 
+// Kebab-case, accent-stripped -- matches the SUB_TEMAS slug convention, so
+// Modalidad/Tipo-Área tags look and query the same way subtema tags do.
+function slugify(s) {
+  return (s || '')
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().trim()
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
 app.post('/api/publish', async (req, res) => {
   try {
-    const { universidad, tema, anio, convocatoria, numero, body, choices,
+    const { universidad, tema, anio, convocatoria, modalidad, tipo_area, numero, body, choices,
             choice_images, figure_images, source_image, clave,
             tipo_origen, subtemas, solucion } = req.body;
 
@@ -489,7 +498,9 @@ app.post('/api/publish', async (req, res) => {
 
     // The question number is a bare-number tag ("35" -- not N°35 / n35) and is
     // ALSO kept as the attribute preuni_numero (topic custom fields below),
-    // which is what the duplicate check reads. Subtema tags follow.
+    // which is what the duplicate check reads. Subtema, Modalidad and
+    // Tipo/Área tags follow the same tag mechanism -- no plugin.rb custom
+    // field needed for these to be functional/filterable right away.
     const tags = [];
     if (numero) {
       const numTag = String(numero);
@@ -499,6 +510,16 @@ app.post('/api/publish', async (req, res) => {
     for (const sub of (subtemas || [])) {
       await ensureTag(sub);
       tags.push(sub);
+    }
+    if (modalidad) {
+      const modTag = slugify(modalidad);
+      await ensureTag(modTag);
+      tags.push(modTag);
+    }
+    if (tipo_area) {
+      const taTag = slugify(tipo_area);
+      await ensureTag(taTag);
+      tags.push(taTag);
     }
 
     // Build structured convocatoria: "2024-I Ordinario" or just "2024"
@@ -531,7 +552,13 @@ app.post('/api/publish', async (req, res) => {
     const primaryTitle = buildTitle(resolvedBody);
     const raw = buildRaw(resolvedBody, choices, choiceUrls);
 
-    // Custom fields go in the POST body — PUT /t/:id silently drops them
+    // Custom fields go in the POST body — PUT /t/:id silently drops them.
+    // preuni_convocatoria is STILL the combined "año-convocatoria" string for
+    // now (kept for /errores' origen display, which reads it that way) --
+    // switching it to a bare roman numeral needs a coordinated fix there
+    // first (see [[question-composer]] Phase 6). preuni_anio/modalidad/
+    // tipo_area are new and safe to send as-is -- this is what lets the
+    // faceted-search index (Phase 2) actually populate for new publishes.
     const post = await createTopicWithTitleFallback(
       {
         raw, category: categoryId, tags,
@@ -542,6 +569,9 @@ app.post('/api/publish', async (req, res) => {
           preuni_universidad:  universidad,
           preuni_tema:         tema,
           preuni_tipo_origen:  tipo_origen || 'Universidad',
+          ...(anio ? { preuni_anio: String(anio) } : {}),
+          ...(modalidad ? { preuni_modalidad: modalidad } : {}),
+          ...(tipo_area ? { preuni_tipo_area: tipo_area } : {}),
         },
       },
       primaryTitle,

@@ -4,10 +4,31 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import { on } from "@ember/modifier";
 import PreuniWidget from "../../components/preuni-widget";
+import { registrarEvento } from "../../lib/preuni-eventos";
 
 export default class PreuniClave extends Component {
   @service currentUser;
+  @service preuniHilo;
   @tracked mostrarClave = false;
+
+  get hayRespuestas() { return (this.post?.topic?.posts_count || 0) > 1; }
+
+  get eventoRef() {
+    return { topicId: this.post?.topic_id, postId: this.post?.id };
+  }
+
+  @action
+  toggleHilo() {
+    this.preuniHilo.toggle();
+    if (this.preuniHilo.abierto) {
+      registrarEvento("hilo_abierto", this.eventoRef);
+    }
+  }
+
+  @action
+  clickLoginClave() {
+    registrarEvento("clave_login_click", this.eventoRef);
+  }
 
   get post() { return this.args.outletArgs?.post; }
   get esPreguntaAdicional() { return this.post?.preuni_post_type === "pregunta_adicional" && this.post?.post_number > 1; }
@@ -30,6 +51,9 @@ export default class PreuniClave extends Component {
   @action
   toggleClave() {
     this.mostrarClave = !this.mostrarClave;
+    if (this.mostrarClave) {
+      registrarEvento("clave_mostrada", this.eventoRef);
+    }
   }
 
   <template>
@@ -52,10 +76,16 @@ export default class PreuniClave extends Component {
             </div>
           {{/if}}
         {{else}}
-          <a href="/login" class="preuni-spoiler-btn" style="text-decoration:none;color:inherit;justify-content:flex-start;gap:8px">
+          <a href="/login" class="preuni-spoiler-btn" style="text-decoration:none;color:inherit;justify-content:flex-start;gap:8px" {{on "click" this.clickLoginClave}}>
             <span>🔒</span>
             Inicia sesión para ver la clave
           </a>
+        {{/if}}
+        {{#if this.hayRespuestas}}
+          <button type="button" class="preuni-spoiler-btn preuni-hilo-btn" {{on "click" this.toggleHilo}}>
+            <span>{{if this.preuniHilo.abierto "▴" "▾"}}</span>
+            {{if this.preuniHilo.abierto "Ocultar soluciones y comentarios" "Ver soluciones y comentarios"}}
+          </button>
         {{/if}}
       </div>
     {{/if}}

@@ -385,8 +385,8 @@ select[multiple] { height: 90px; }
   <input type="hidden" id="tipo" value="examen_oficial">
   <input type="hidden" id="universidad_objetivo" value="">
 
-  <!-- ORIGEN + CONVOCATORIA (side by side) -->
-  <div class="meta-row" style="grid-template-columns:1fr 80px 1fr 70px" id="meta-row-full">
+  <!-- ORIGEN + AÑO + CONVOCATORIA + N° -->
+  <div class="meta-row" style="grid-template-columns:1fr 80px 80px 70px" id="meta-row-full">
     <div class="field">
       <label>Universidad</label>
       <select id="university">
@@ -400,12 +400,38 @@ select[multiple] { height: 90px; }
       <input type="number" id="anio" min="1960" max="2099" placeholder="2024">
     </div>
     <div class="field">
-      <label>Modalidad <span>— opcional</span></label>
-      <input type="text" id="convocatoria" placeholder="Ej: I Ordinario">
+      <label>Conv.</label>
+      <select id="convocatoria">
+        <option value="">—</option>
+        <option value="I">I</option>
+        <option value="II">II</option>
+        <option value="III">III</option>
+      </select>
     </div>
     <div class="field">
       <label>N°</label>
       <input type="number" id="numero" min="1" placeholder="15">
+    </div>
+  </div>
+
+  <!-- MODALIDAD + TIPO/ÁREA -->
+  <div class="meta-row" style="grid-template-columns:1fr 1fr" id="meta-row-modalidad">
+    <div class="field">
+      <label>Modalidad <span>— opcional</span></label>
+      <select id="modalidad">
+        <option value="">— seleccionar —</option>
+        <option value="Ordinario">Ordinario</option>
+        <option value="Traslado">Traslado</option>
+        <option value="Escolar">Escolar</option>
+        <option value="Simulacro">Simulacro</option>
+        <option value="CEPRE">CEPRE</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Tipo / Área <span>— opcional</span></label>
+      <select id="tipo_area" disabled>
+        <option value="">— selecciona universidad primero —</option>
+      </select>
     </div>
   </div>
 
@@ -511,6 +537,8 @@ select[multiple] { height: 90px; }
       <div class="topic-meta">
         <span class="cat-tag" id="prev-cat">—</span>
         <span class="tag" id="prev-convocatoria" style="display:none"></span>
+        <span class="tag" id="prev-modalidad" style="display:none"></span>
+        <span class="tag" id="prev-tipo-area" style="display:none"></span>
         <span id="prev-subtema"></span>
       </div>
     </div>
@@ -902,7 +930,7 @@ function populateFromBulkRecord(data) {
   if (data.universidad) {
     const uniEl = document.getElementById('university');
     uniEl.value = data.universidad;
-    uniEl.dispatchEvent(new Event('change'));
+    uniEl.dispatchEvent(new Event('change')); // also populates tipo_area options
   }
   if (data.tema) {
     const temaEl = document.getElementById('tema');
@@ -913,6 +941,8 @@ function populateFromBulkRecord(data) {
     const subtemaEl = document.getElementById('subtema');
     Array.from(subtemaEl.options).forEach(o => { o.selected = data.subtemas.includes(o.value); });
   }
+  document.getElementById('modalidad').value = data.modalidad || '';
+  if (data.tipo_area) document.getElementById('tipo_area').value = data.tipo_area;
 
   // Figures already resolved to data URLs by bulk_seed.js — use directly
   currentFigureImages = (data.figureImages || []).slice();
@@ -1026,7 +1056,7 @@ function populateFromExtraction(data) {
   // Convocatoria
   if (data.convocatoria) document.getElementById('convocatoria').value = data.convocatoria;
 
-  // Universidad — triggers tema option population + universidad_objetivo sync
+  // Universidad — triggers tema + tipo_area option population + universidad_objetivo sync
   if (data.universidad) {
     const uniEl = document.getElementById('university');
     uniEl.value = data.universidad;
@@ -1047,6 +1077,10 @@ function populateFromExtraction(data) {
       o.selected = data.subtemas.includes(o.value);
     });
   }
+
+  // Modalidad / Tipo-Área — must come after universidad populates tipo_area's options
+  if (data.modalidad) document.getElementById('modalidad').value = data.modalidad;
+  if (data.tipo_area) document.getElementById('tipo_area').value = data.tipo_area;
 
   // Image choices
   if (data.choices_are_images) {
@@ -1100,22 +1134,48 @@ function updateChoiceHighlights() {
 
 // ── TEMAS + SUB-TEMAS ──────────────────────────────────────
 const TEMAS = {
-  UNMSM: ['Aritmética','Álgebra','Geometría','Trigonometría','Razonamiento Matemático','Razonamiento Verbal','Comunicación y Lengua','Literatura','Historia del Perú','Historia Universal','Geografía','Geografía del Perú','Educación Cívica','Economía','Filosofía','Psicología','Física','Química','Biología'],
+  UNMSM: ['Aritmética','Álgebra','Geometría','Trigonometría','Razonamiento Matemático','Razonamiento Verbal','Comunicación y Lengua','Literatura','Historia del Perú','Historia Universal','Geografía del Perú','Educación Cívica','Economía','Filosofía','Psicología','Física','Química','Biología'],
   UNI:   ['Aritmética','Álgebra','Geometría','Trigonometría','Física','Química','Razonamiento Matemático','Razonamiento Verbal','Historia del Perú','Geografía del Perú','Literatura','Filosofía','Comunicación y Lengua','Economía','Inglés','Lógica','Psicología','Actualidad','Cálculo Diferencial','Cálculo Integral','Álgebra Lineal','Geometría Analítica','Probabilidad y Estadística'],
 };
 
+// Grounded in the official UNI ("Prospecto de Admisión") and UNMSM ("Temario
+// para la Prueba General de Admisión") syllabi -- merged and shortened to a
+// practical filter granularity (~5-6 sub-temas per tema).
 const SUB_TEMAS = {
-  'Aritmética':              ['divisibilidad','mcd-mcm','razones-proporciones','porcentajes','regla-de-tres','interes'],
-  'Álgebra':                 ['polinomios','ecuaciones','inecuaciones','sistemas-ecuaciones','progresiones','logaritmos'],
-  'Geometría':               ['angulos','triangulos','cuadrilateros','circunferencia','areas','poligonos'],
-  'Trigonometría':           ['razones-trigonometricas','identidades-trigonometricas','ecuaciones-trigonometricas','triangulo-oblicuangulo'],
-  'Razonamiento Matemático': ['series-numericas','sucesiones','analogias-numericas','conteo'],
-  'Razonamiento Verbal':     ['sinonimos-antonimos','analogias-verbales','comprension-lectora','oraciones-incompletas'],
-  'Literatura':              ['generaciones-literarias','movimientos-literarios','autores','obras'],
-  'Historia del Perú':       ['culturas-prehispanicas','conquista','virreinato','republica','historia-contemporanea'],
-  'Geografía del Perú':      ['geografia-fisica','regiones-naturales','demografia','economia-peruana'],
-  'Física':                  ['cinematica','dinamica','trabajo-energia','electricidad','ondas','optica'],
-  'Química':                 ['estequiometria','enlace-quimico','reacciones-quimicas','termodinamica'],
+  'Razonamiento Verbal':       ['comprension-de-lectura','relaciones-semantico-textuales','analogias-verbales','redaccion-y-cohesion-textual','inferencia-y-extrapolacion'],
+  'Razonamiento Matemático':   ['problemas-de-cantidad','problemas-de-regularidad-equivalencia-y-cambio','problemas-de-forma-movimiento-y-localizacion','problemas-de-gestion-de-datos-e-incertidumbre','operadores-matematicos'],
+  'Aritmética':                ['razones-proporciones-y-porcentajes','interes-mezclas-y-aleaciones','sucesiones-y-progresiones','estadistica-y-probabilidad','numeros-divisibilidad-y-fracciones','logica-y-conjuntos'],
+  'Geometría':                 ['angulos-triangulos-y-poligonos','circunferencia','proporcionalidad-y-relaciones-metricas','areas-y-poligonos-regulares','geometria-del-espacio','geometria-analitica-basica'],
+  'Álgebra':                   ['ecuaciones-e-inecuaciones','sistemas-de-ecuaciones-y-matrices','polinomios-y-productos-notables','funciones','funcion-exponencial-y-logaritmica','sucesiones-y-progresiones'],
+  'Trigonometría':             ['razones-trigonometricas-y-triangulo-rectangulo','circunferencia-trigonometrica','identidades-trigonometricas','ecuaciones-y-resolucion-de-triangulos','funciones-trigonometricas'],
+  'Comunicación y Lengua':     ['fonologia-y-ortografia','morfologia-y-sintaxis','semantica','comunicacion-y-realidad-linguistica-del-peru','vicios-del-lenguaje'],
+  'Literatura':                ['literatura-universal-antigua-y-medieval','literatura-universal-moderna','literatura-espanola','literatura-latinoamericana','literatura-peruana-colonial-y-emancipacion','literatura-peruana-republicana-y-contemporanea'],
+  'Psicología':                ['introduccion-y-enfoques-psicologicos','bases-biologicas-del-comportamiento','procesos-cognitivos-y-aprendizaje','desarrollo-humano-e-identidad','afectividad-y-motivacion'],
+  'Educación Cívica':          ['derechos-humanos','participacion-ciudadana','problemas-de-convivencia-en-el-peru','identidad-e-interculturalidad','estructura-y-funciones-del-estado'],
+  'Historia del Perú':         ['culturas-prehispanicas-y-tawantinsuyo','virreinato','independencia-y-siglo-xix','republica-aristocratica-y-reformismo','peru-en-las-ultimas-decadas'],
+  'Historia Universal':        ['mundo-antiguo-y-clasico','edad-media','modernidad-y-revoluciones-burguesas','siglo-xix-mundial','siglo-xx-y-contemporaneo'],
+  'Geografía del Perú':        ['espacio-geografico-y-cartografia','relieve-y-clima-del-peru','hidrografia-y-recursos-hidricos','biodiversidad-y-recursos-naturales','poblacion-y-actividades-economicas','organizacion-politica-y-geografia-mundial'],
+  'Economía':                  ['principios-economicos-basicos','mercado-de-bienes-y-factores','sector-financiero-y-monetario','sector-publico-y-fiscal','sector-externo-y-comercio-internacional','crecimiento-desarrollo-y-emprendimiento'],
+  'Filosofía':                 ['filosofia-antigua-moderna-y-contemporanea','etica-sociedad-y-democracia','gnoseologia-y-metodo-cientifico','teoria-de-la-argumentacion','apreciacion-estetica'],
+  'Física':                    ['mecanica-cinematica-y-dinamica','trabajo-energia-y-momentum','oscilaciones-ondas-y-fluidos','termodinamica','electricidad-y-magnetismo','optica-y-fisica-moderna'],
+  'Química':                   ['materia-y-estructura-atomica','enlace-nomenclatura-y-estequiometria','estados-soluciones-y-equilibrio','electroquimica','quimica-organica','recursos-naturales-y-contaminacion'],
+  'Biología':                  ['celula-tejidos-y-composicion-quimica','nutricion-digestion-y-circulacion','sistemas-excretor-inmunologico-y-endocrino','sistema-nervioso-y-reproduccion','genetica-evolucion-y-biodiversidad','ecologia-salud-y-recursos-naturales'],
+  'Cálculo Diferencial':       ['limites-y-continuidad','la-derivada-y-reglas-de-derivacion','aplicaciones-de-la-derivada'],
+  'Cálculo Integral':          ['la-integral-definida-y-metodos-de-integracion','funciones-trascendentes','aplicaciones-de-la-integral'],
+  'Álgebra Lineal':            ['matrices-y-determinantes','sistemas-de-ecuaciones-lineales','espacios-vectoriales','valores-y-vectores-propios'],
+  'Geometría Analítica':       ['la-recta-en-el-plano','circunferencia-y-conicas','geometria-analitica-del-espacio'],
+  'Probabilidad y Estadística':['probabilidad-basica-y-combinatoria','variable-aleatoria-y-esperanza-matematica','estadistica-descriptiva','distribuciones-de-probabilidad'],
+  'Inglés':                    ['comprension-lectora-ingles','gramatica-basica','vocabulario'],
+  'Lógica':                    ['proposiciones-y-formalizacion','tablas-de-verdad-y-tautologia','inferencia-y-silogismo'],
+  'Actualidad':                ['politica-nacional','politica-internacional','economia-actual','ciencia-y-tecnologia'],
+};
+
+// Tipo/Área's value set depends on the university -- for UNI it's which
+// exam block (prueba) the question belongs to; for UNMSM it's Área (only
+// Área A has content published so far, per [[unmsm-classification]]).
+const TIPO_AREA = {
+  UNMSM: ['Área A','Área B','Área C','Área D','Área E'],
+  UNI:   ['Aptitud y Humanidades','Matemática','Física-Química'],
 };
 
 document.getElementById('university').addEventListener('change', function() {
@@ -1135,6 +1195,22 @@ document.getElementById('university').addEventListener('change', function() {
   } else {
     el.disabled = true;
   }
+
+  const taEl = document.getElementById('tipo_area');
+  const prevTa = taEl.value;
+  taEl.innerHTML = '<option value="">— seleccionar —</option>';
+  if (uni && TIPO_AREA[uni]) {
+    TIPO_AREA[uni].forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v; opt.textContent = v;
+      taEl.appendChild(opt);
+    });
+    taEl.disabled = false;
+    if (TIPO_AREA[uni].includes(prevTa)) taEl.value = prevTa;
+  } else {
+    taEl.disabled = true;
+  }
+
   updatePreview();
 });
 
@@ -1164,10 +1240,12 @@ document.getElementById('tema').addEventListener('change', function() {
 });
 
 // ── LIVE PREVIEW ───────────────────────────────────────────
-['body','choice-A','choice-B','choice-C','choice-D','choice-E','convocatoria','anio','sol-body'].forEach(id => {
+['body','choice-A','choice-B','choice-C','choice-D','choice-E','anio','sol-body'].forEach(id => {
   document.getElementById(id).addEventListener('input', () => { resetValidation(); updatePreview(); });
 });
-document.getElementById('subtema').addEventListener('change', updatePreview);
+['subtema','convocatoria','modalidad','tipo_area'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => { resetValidation(); updatePreview(); });
+});
 
 let renderTimer = null;
 
@@ -1192,6 +1270,14 @@ function updatePreview() {
 
   const convEl = document.getElementById('prev-convocatoria');
   convEl.textContent = convStr; convEl.style.display = convStr ? 'inline' : 'none';
+
+  const modalidad = document.getElementById('modalidad').value;
+  const modEl = document.getElementById('prev-modalidad');
+  modEl.textContent = modalidad; modEl.style.display = modalidad ? 'inline' : 'none';
+
+  const tipoArea = document.getElementById('tipo_area').value;
+  const taEl = document.getElementById('prev-tipo-area');
+  taEl.textContent = tipoArea; taEl.style.display = tipoArea ? 'inline' : 'none';
 
   document.getElementById('prev-subtema').innerHTML = subTemas.map(t => `<span class="tag">${t}</span>`).join(' ');
   // Render body: [FIG:N] markers become inline figure cards with crop buttons
@@ -1446,6 +1532,8 @@ async function doPublish() {
   const tema         = document.getElementById('tema').value;
   const anio         = document.getElementById('anio').value.trim();
   const convocatoria = document.getElementById('convocatoria').value.trim();
+  const modalidad    = document.getElementById('modalidad').value;
+  const tipo_area    = document.getElementById('tipo_area').value;
   const numero       = document.getElementById('numero').value.trim();
   const subtemas     = Array.from(document.getElementById('subtema').selectedOptions).map(o => o.value);
   const hasSolucion  = document.getElementById('chk-solucion').checked;
@@ -1460,7 +1548,7 @@ async function doPublish() {
     ) : null;
 
     const payload = {
-      universidad: uni, tema, anio, convocatoria, numero,
+      universidad: uni, tema, anio, convocatoria, modalidad, tipo_area, numero,
       body, choices,
       choice_images: { ...choiceImages },
       figure_images: currentFigureImages.slice(),

@@ -35,13 +35,14 @@
     "needsReview": [],
     "temaOriginal": "Comprensión de Lectura",
     "subtemas": [
-      "comprension-lectura",
-      "area-a"
+      "comprension-de-lectura"
     ],
     "published": true,
     "topicId": 52,
     "topicUrl": "https://preuni.voluntaria.pe/t/produccion-de-hidrocarburos-antes-de-la-guerra-del-golfo-persico-de-2026-porcent/52",
-    "publishedAt": "2026-09-23T04:56:13.764Z"
+    "publishedAt": "2026-09-23T04:56:13.764Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_VERBAL-12",
@@ -75,13 +76,14 @@
     "needsReview": [],
     "temaOriginal": "Comprensión de Lectura",
     "subtemas": [
-      "comprension-lectura",
-      "area-a"
+      "comprension-de-lectura"
     ],
     "published": true,
     "topicId": 52,
     "topicUrl": "https://preuni.voluntaria.pe/t/produccion-de-hidrocarburos-antes-de-la-guerra-del-golfo-persico-de-2026-porcent/52/3",
-    "publishedAt": "2026-09-23T05:02:03.875Z"
+    "publishedAt": "2026-09-23T05:02:03.875Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_VERBAL-13",
@@ -115,13 +117,14 @@
     "needsReview": [],
     "temaOriginal": "Comprensión de Lectura",
     "subtemas": [
-      "comprension-lectura",
-      "area-a"
+      "inferencia-y-extrapolacion"
     ],
     "published": true,
     "topicId": 52,
     "topicUrl": "https://preuni.voluntaria.pe/t/produccion-de-hidrocarburos-antes-de-la-guerra-del-golfo-persico-de-2026-porcent/52/5",
-    "publishedAt": "2026-09-23T05:02:07.363Z"
+    "publishedAt": "2026-09-23T05:02:07.363Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_VERBAL-14",
@@ -155,13 +158,14 @@
     "needsReview": [],
     "temaOriginal": "Comprensión de Lectura",
     "subtemas": [
-      "comprension-lectura",
-      "area-a"
+      "comprension-de-lectura"
     ],
     "published": true,
     "topicId": 53,
     "topicUrl": "https://preuni.voluntaria.pe/t/texto-a-los-realistas-postulan-la-existencia-de-dos-tipos-de-entidades-particul/53",
-    "publishedAt": "2026-09-23T04:56:17.160Z"
+    "publishedAt": "2026-09-23T04:56:17.160Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_VERBAL-15",
@@ -195,13 +199,14 @@
     "needsReview": [],
     "temaOriginal": "Comprensión de Lectura",
     "subtemas": [
-      "comprension-lectura",
-      "area-a"
+      "comprension-de-lectura"
     ],
     "published": true,
     "topicId": 53,
     "topicUrl": "https://preuni.voluntaria.pe/t/texto-a-los-realistas-postulan-la-existencia-de-dos-tipos-de-entidades-particul/53/3",
-    "publishedAt": "2026-09-23T05:02:10.901Z"
+    "publishedAt": "2026-09-23T05:02:10.901Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_VERBAL-16",
@@ -235,13 +240,14 @@
     "needsReview": [],
     "temaOriginal": "Comprensión de Lectura",
     "subtemas": [
-      "comprension-lectura",
-      "area-a"
+      "inferencia-y-extrapolacion"
     ],
     "published": true,
     "topicId": 53,
     "topicUrl": "https://preuni.voluntaria.pe/t/texto-a-los-realistas-postulan-la-existencia-de-dos-tipos-de-entidades-particul/53/5",
-    "publishedAt": "2026-09-23T05:02:29.643Z"
+    "publishedAt": "2026-09-23T05:02:29.643Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_VERBAL-17",
@@ -275,13 +281,14 @@
     "needsReview": [],
     "temaOriginal": "Comprensión de Lectura",
     "subtemas": [
-      "comprension-lectura",
-      "area-a"
+      "inferencia-y-extrapolacion"
     ],
     "published": true,
     "topicId": 53,
     "topicUrl": "https://preuni.voluntaria.pe/t/texto-a-los-realistas-postulan-la-existencia-de-dos-tipos-de-entidades-particul/53/7",
-    "publishedAt": "2026-09-23T05:02:33.014Z"
+    "publishedAt": "2026-09-23T05:02:33.014Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-INGLÉS-18",
@@ -315,13 +322,14 @@
     "needsReview": [],
     "temaOriginal": "Inglés",
     "subtemas": [
-      "ingles",
-      "area-a"
+      "comprension-de-lectura"
     ],
     "published": true,
     "topicId": 54,
     "topicUrl": "https://preuni.voluntaria.pe/t/text-3-most-adults-wish-they-could-catch-more-zzzs-for-better-health-sharper-fo/54",
-    "publishedAt": "2026-09-23T04:56:20.531Z"
+    "publishedAt": "2026-09-23T04:56:20.531Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-INGLÉS-19",
@@ -355,13 +363,14 @@
     "needsReview": [],
     "temaOriginal": "Inglés",
     "subtemas": [
-      "ingles",
-      "area-a"
+      "comprension-de-lectura"
     ],
     "published": true,
     "topicId": 54,
     "topicUrl": "https://preuni.voluntaria.pe/t/text-3-most-adults-wish-they-could-catch-more-zzzs-for-better-health-sharper-fo/54/3",
-    "publishedAt": "2026-09-23T05:02:36.431Z"
+    "publishedAt": "2026-09-23T05:02:36.431Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-INGLÉS-20",
@@ -395,13 +404,14 @@
     "needsReview": [],
     "temaOriginal": "Inglés",
     "subtemas": [
-      "ingles",
-      "area-a"
+      "comprension-de-lectura"
     ],
     "published": true,
     "topicId": 54,
     "topicUrl": "https://preuni.voluntaria.pe/t/text-3-most-adults-wish-they-could-catch-more-zzzs-for-better-health-sharper-fo/54/5",
-    "publishedAt": "2026-09-23T05:02:43.039Z"
+    "publishedAt": "2026-09-23T05:02:43.039Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-21",
@@ -444,12 +454,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "problemas-de-forma-movimiento-y-localizacion"
     ],
     "published": true,
     "topicId": 51,
     "topicUrl": "https://preuni.voluntaria.pe/t/fernando-tiene-un-tablero-de-madera-cuadriculada-de-1-cm-de-espesor-tal-como-se/51",
-    "publishedAt": null
+    "publishedAt": null,
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-22",
@@ -490,12 +502,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "problemas-de-cantidad"
     ],
     "published": true,
     "topicId": 55,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-la-figura-se-muestra-un-reloj-en-el-cual-11-que-hora-marca-el-rel/55",
-    "publishedAt": "2026-09-23T04:56:24.370Z"
+    "publishedAt": "2026-09-23T04:56:24.370Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-23",
@@ -542,13 +556,15 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "problemas-de-cantidad"
     ],
     "manuallyFixed": true,
     "published": true,
     "topicId": 56,
     "topicUrl": "https://preuni.voluntaria.pe/t/sobre-una-mesa-no-transparente-manuel-coloca-cuatro-dados-convencionales-como/56",
-    "publishedAt": "2026-09-23T04:56:29.129Z"
+    "publishedAt": "2026-09-23T04:56:29.129Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-24",
@@ -589,12 +605,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "problemas-de-cantidad"
     ],
     "published": true,
     "topicId": 57,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-el-almacen-de-su-negocio-marcos-tiene-50-kg-de-harina-contenidos-en-un-saco/57",
-    "publishedAt": "2026-09-23T04:56:33.229Z"
+    "publishedAt": "2026-09-23T04:56:33.229Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-25",
@@ -627,12 +645,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "problemas-de-gestion-de-datos-e-incertidumbre"
     ],
     "published": true,
     "topicId": 58,
     "topicUrl": "https://preuni.voluntaria.pe/t/arnold-baruc-matias-clark-y-daniel-son-muy-buenos-amigos-cada-uno-de-ellos-t/58",
-    "publishedAt": "2026-09-23T04:56:36.336Z"
+    "publishedAt": "2026-09-23T04:56:36.336Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-26",
@@ -675,12 +695,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "problemas-de-regularidad-equivalencia-y-cambio"
     ],
     "published": true,
     "topicId": 59,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-la-siguiente-secuencia-de-figuras-todas-son-formadas-por-cuadrados-congruent/59",
-    "publishedAt": "2026-09-23T04:56:40.757Z"
+    "publishedAt": "2026-09-23T04:56:40.757Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-27",
@@ -713,12 +735,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "problemas-de-cantidad"
     ],
     "published": true,
     "topicId": 60,
     "topicUrl": "https://preuni.voluntaria.pe/t/el-medico-de-silvia-le-indico-comprar-dos-frascos-de-la-misma-medicina-para-el-m/60",
-    "publishedAt": "2026-09-23T04:56:43.856Z"
+    "publishedAt": "2026-09-23T04:56:43.856Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-29",
@@ -761,12 +785,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "problemas-de-forma-movimiento-y-localizacion"
     ],
     "published": true,
     "topicId": 61,
     "topicUrl": "https://preuni.voluntaria.pe/t/siga-las-lineas-de-la-figura-sin-pasar-por-los-puntos-m-y-n-y-luego-determine/61",
-    "publishedAt": "2026-09-23T04:57:13.716Z"
+    "publishedAt": "2026-09-23T04:57:13.716Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HABILIDAD_LOGICO-MATEMÁTICA-30",
@@ -807,12 +833,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "problemas-de-regularidad-equivalencia-y-cambio"
     ],
     "published": true,
     "topicId": 62,
     "topicUrl": "https://preuni.voluntaria.pe/t/carlos-debe-escribir-en-los-circulos-de-la-figura-mostrada-los-once-primeros-num/62",
-    "publishedAt": "2026-09-23T04:57:17.997Z"
+    "publishedAt": "2026-09-23T04:57:17.997Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-ARITMÉTICA-31",
@@ -849,12 +877,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "sucesiones-y-progresiones"
     ],
     "published": true,
     "topicId": 63,
     "topicUrl": "https://preuni.voluntaria.pe/t/manuel-acude-a-una-tienda-de-regalos-a-comprar-3-juguetes-y-el-vendedor-le-regal/63",
-    "publishedAt": "2026-09-23T04:57:21.466Z"
+    "publishedAt": "2026-09-23T04:57:21.466Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-ARITMÉTICA-32",
@@ -887,12 +917,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "numeros-divisibilidad-y-fracciones"
     ],
     "published": true,
     "topicId": 64,
     "topicUrl": "https://preuni.voluntaria.pe/t/julio-pego-en-su-album-una-cantidad-de-figuras-entre-600-y-700-al-contarlas-de/64",
-    "publishedAt": "2026-09-23T04:57:24.566Z"
+    "publishedAt": "2026-09-23T04:57:24.566Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-ARITMÉTICA-33",
@@ -925,13 +957,15 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "numeros-divisibilidad-y-fracciones"
     ],
     "manuallyFixed": true,
     "published": true,
     "topicId": 65,
     "topicUrl": "https://preuni.voluntaria.pe/t/las-claves-para-la-billetera-digital-de-un-inversionista-son-numeros-que-estan-c/65",
-    "publishedAt": "2026-09-23T04:57:27.681Z"
+    "publishedAt": "2026-09-23T04:57:27.681Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-ARITMÉTICA-34",
@@ -964,12 +998,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "estadistica-y-probabilidad"
     ],
     "published": true,
     "topicId": 65,
     "topicUrl": "https://preuni.voluntaria.pe/t/las-claves-para-la-billetera-digital-de-un-inversionista-son-numeros-que-estan-c/65/3",
-    "publishedAt": "2026-09-23T05:02:46.949Z"
+    "publishedAt": "2026-09-23T05:02:46.949Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-GEOMETRÍA-35",
@@ -1010,12 +1046,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "areas-y-poligonos-regulares"
     ],
     "published": true,
     "topicId": 66,
     "topicUrl": "https://preuni.voluntaria.pe/t/la-figura-representa-el-diseno-de-una-ventana-rectangular-abcd-de-una-iglesia-d/66",
-    "publishedAt": "2026-09-23T04:57:31.880Z"
+    "publishedAt": "2026-09-23T04:57:31.880Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-GEOMETRÍA-36",
@@ -1056,12 +1094,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "circunferencia"
     ],
     "published": true,
     "topicId": 67,
     "topicUrl": "https://preuni.voluntaria.pe/t/cinco-amigos-salen-a-jugar-al-parque-y-se-ubican-en-los-puntos-correspondientes/67",
-    "publishedAt": "2026-09-23T04:57:35.800Z"
+    "publishedAt": "2026-09-23T04:57:35.800Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-GEOMETRÍA-37",
@@ -1102,13 +1142,15 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "angulos-triangulos-y-poligonos"
     ],
     "manuallyFixed": true,
     "published": true,
     "topicId": 68,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-la-figura-se-muestra-un-terreno-que-tiene-la-forma-de-un-poligono-equiangulo/68",
-    "publishedAt": "2026-09-23T04:57:39.571Z"
+    "publishedAt": "2026-09-23T04:57:39.571Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-ÁLGEBRA-38",
@@ -1141,12 +1183,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "ecuaciones-e-inecuaciones"
     ],
     "published": true,
     "topicId": 69,
     "topicUrl": "https://preuni.voluntaria.pe/t/durante-un-control-medico-ocupacional-a-un-paciente-se-le-realiza-un-analisis-d/69",
-    "publishedAt": "2026-09-23T04:57:42.702Z"
+    "publishedAt": "2026-09-23T04:57:42.702Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-ÁLGEBRA-39",
@@ -1179,12 +1223,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "sistemas-de-ecuaciones-y-matrices"
     ],
     "published": true,
     "topicId": 70,
     "topicUrl": "https://preuni.voluntaria.pe/t/una-chicharroneria-ofrece-dos-tipos-de-combos-durante-la-hora-del-desayuno-el-c/70",
-    "publishedAt": "2026-09-23T04:57:45.836Z"
+    "publishedAt": "2026-09-23T04:57:45.836Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-ÁLGEBRA-40",
@@ -1217,12 +1263,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "sistemas-de-ecuaciones-y-matrices"
     ],
     "published": true,
     "topicId": 70,
     "topicUrl": "https://preuni.voluntaria.pe/t/una-chicharroneria-ofrece-dos-tipos-de-combos-durante-la-hora-del-desayuno-el-c/70/3",
-    "publishedAt": "2026-09-23T05:02:50.388Z"
+    "publishedAt": "2026-09-23T05:02:50.388Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-TRIGONOMETRÍA-41",
@@ -1263,12 +1311,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "ecuaciones-y-resolucion-de-triangulos"
     ],
     "published": true,
     "topicId": 71,
     "topicUrl": "https://preuni.voluntaria.pe/t/la-figura-representa-un-terreno-circular-donde-la-region-triangular-abc-se-dest/71",
-    "publishedAt": "2026-09-23T04:57:49.662Z"
+    "publishedAt": "2026-09-23T04:57:49.662Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-TRIGONOMETRÍA-42",
@@ -1301,12 +1351,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "identidades-trigonometricas"
     ],
     "published": true,
     "topicId": 72,
     "topicUrl": "https://preuni.voluntaria.pe/t/un-medico-le-indica-a-su-paciente-que-debe-aplicarse-un-preparado-dermatologico/72",
-    "publishedAt": "2026-09-23T04:57:52.774Z"
+    "publishedAt": "2026-09-23T04:57:52.774Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-LENGUAJE-43",
@@ -1340,12 +1392,14 @@
     "needsReview": [],
     "temaOriginal": "Lenguaje",
     "subtemas": [
-      "area-a"
+      "comunicacion-y-realidad-linguistica-del-peru"
     ],
     "published": true,
     "topicId": 73,
     "topicUrl": "https://preuni.voluntaria.pe/t/relacione-cada-tipo-de-comunicacion-con-el-ejemplo-que-le-corresponde-i-humana/73",
-    "publishedAt": "2026-09-23T04:57:55.935Z"
+    "publishedAt": "2026-09-23T04:57:55.935Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-LENGUAJE-44",
@@ -1379,12 +1433,14 @@
     "needsReview": [],
     "temaOriginal": "Lenguaje",
     "subtemas": [
-      "area-a"
+      "fonologia-y-ortografia"
     ],
     "published": true,
     "topicId": 74,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-la-clase-de-ortografia-la-profesora-explico-las-normas-vigentes-de-la-real-a/74",
-    "publishedAt": "2026-09-23T04:58:17.319Z"
+    "publishedAt": "2026-09-23T04:58:17.319Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-LENGUAJE-45",
@@ -1418,12 +1474,14 @@
     "needsReview": [],
     "temaOriginal": "Lenguaje",
     "subtemas": [
-      "area-a"
+      "comunicacion-y-realidad-linguistica-del-peru"
     ],
     "published": true,
     "topicId": 75,
     "topicUrl": "https://preuni.voluntaria.pe/t/doroteo-ancajima-un-adolescente-de-trece-anos-crecio-en-ancash-y-es-hablante-b/75",
-    "publishedAt": "2026-09-23T04:58:20.940Z"
+    "publishedAt": "2026-09-23T04:58:20.940Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-LENGUAJE-46",
@@ -1457,12 +1515,14 @@
     "needsReview": [],
     "temaOriginal": "Lenguaje",
     "subtemas": [
-      "area-a"
+      "fonologia-y-ortografia"
     ],
     "published": true,
     "topicId": 76,
     "topicUrl": "https://preuni.voluntaria.pe/t/el-empleo-correcto-de-los-signos-de-puntuacion-permite-poner-en-evidencia-la-coh/76",
-    "publishedAt": "2026-09-23T04:58:24.055Z"
+    "publishedAt": "2026-09-23T04:58:24.055Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-LENGUAJE-47",
@@ -1496,12 +1556,14 @@
     "needsReview": [],
     "temaOriginal": "Lenguaje",
     "subtemas": [
-      "area-a"
+      "semantica"
     ],
     "published": true,
     "topicId": 77,
     "topicUrl": "https://preuni.voluntaria.pe/t/la-homonimia-es-la-relacion-lexica-entre-diferentes-palabras-cuya-coincidencia-o/77",
-    "publishedAt": "2026-09-23T04:58:27.149Z"
+    "publishedAt": "2026-09-23T04:58:27.149Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-LENGUAJE-48",
@@ -1535,12 +1597,14 @@
     "needsReview": [],
     "temaOriginal": "Lenguaje",
     "subtemas": [
-      "area-a"
+      "fonologia-y-ortografia"
     ],
     "published": true,
     "topicId": 78,
     "topicUrl": "https://preuni.voluntaria.pe/t/lea-el-siguiente-texto-y-determine-el-valor-de-verdad-v-o-f-de-las-proposicion/78",
-    "publishedAt": "2026-09-23T04:58:30.245Z"
+    "publishedAt": "2026-09-23T04:58:30.245Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-LENGUAJE-49",
@@ -1574,12 +1638,14 @@
     "needsReview": [],
     "temaOriginal": "Lenguaje",
     "subtemas": [
-      "area-a"
+      "fonologia-y-ortografia"
     ],
     "published": true,
     "topicId": 79,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-el-silabeo-ortografico-de-la-lengua-espanola-se-debe-considerar-entre-otros/79",
-    "publishedAt": "2026-09-23T04:58:33.335Z"
+    "publishedAt": "2026-09-23T04:58:33.335Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-LITERATURA-50",
@@ -1612,12 +1678,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "literatura-universal-moderna"
     ],
     "published": true,
     "topicId": 80,
     "topicUrl": "https://preuni.voluntaria.pe/t/tiene-que-irse-exclamo-la-hermana-es-la-unica-posibilidad-padre-solo-tiene/80",
-    "publishedAt": "2026-09-23T04:58:36.453Z"
+    "publishedAt": "2026-09-23T04:58:36.453Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-LITERATURA-51",
@@ -1650,13 +1718,15 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "literatura-espanola"
     ],
     "manuallyFixed": true,
     "published": true,
     "topicId": 81,
     "topicUrl": "https://preuni.voluntaria.pe/t/tanto-el-ingenioso-hidalgo-don-quijote-de-la-mancha-de-miguel-de-cervantes-saav/81",
-    "publishedAt": "2026-09-23T04:58:39.559Z"
+    "publishedAt": "2026-09-23T04:58:39.559Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-LITERATURA-52",
@@ -1689,12 +1759,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "literatura-peruana-colonial-y-emancipacion"
     ],
     "published": true,
     "topicId": 82,
     "topicUrl": "https://preuni.voluntaria.pe/t/por-los-anos-de-1640-vino-de-extremadura-a-estos-reinos-del-peru-un-mozo-a-quie/82",
-    "publishedAt": "2026-09-23T04:58:42.683Z"
+    "publishedAt": "2026-09-23T04:58:42.683Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-LITERATURA-53",
@@ -1727,12 +1799,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "literatura-latinoamericana"
     ],
     "published": true,
     "topicId": 83,
     "topicUrl": "https://preuni.voluntaria.pe/t/cien-anos-de-soledad-de-gabriel-garcia-marquez-se-caracteriza-por-presentar-ev/83",
-    "publishedAt": "2026-09-23T04:58:45.770Z"
+    "publishedAt": "2026-09-23T04:58:45.770Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-PSICOLOGÍA-54",
@@ -1765,12 +1839,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "afectividad-y-motivacion"
     ],
     "published": true,
     "topicId": 84,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-la-actualidad-lima-se-ha-convertido-en-una-ciudad-caotica-en-terminos-de-tra/84",
-    "publishedAt": "2026-09-23T04:58:48.885Z"
+    "publishedAt": "2026-09-23T04:58:48.885Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-PSICOLOGÍA-55",
@@ -1803,12 +1879,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "procesos-cognitivos-y-aprendizaje"
     ],
     "published": true,
     "topicId": 85,
     "topicUrl": "https://preuni.voluntaria.pe/t/para-poder-atender-las-fobias-el-psicologo-utiliza-la-terapia-cognitiva-conduct/85",
-    "publishedAt": "2026-09-23T04:58:51.962Z"
+    "publishedAt": "2026-09-23T04:58:51.962Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-PSICOLOGÍA-56",
@@ -1841,12 +1919,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "desarrollo-humano-e-identidad"
     ],
     "published": true,
     "topicId": 86,
     "topicUrl": "https://preuni.voluntaria.pe/t/rodrigo-es-un-joven-de-dieciseis-anos-que-acude-al-psicologo-a-quien-comenta-qu/86",
-    "publishedAt": "2026-09-23T04:58:55.040Z"
+    "publishedAt": "2026-09-23T04:58:55.040Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-PSICOLOGÍA-57",
@@ -1879,12 +1959,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "afectividad-y-motivacion"
     ],
     "published": true,
     "topicId": 87,
     "topicUrl": "https://preuni.voluntaria.pe/t/a-inicio-del-ano-escolar-en-una-reunion-de-docentes-de-la-i-e-maria-auxiliador/87",
-    "publishedAt": "2026-09-23T04:58:58.172Z"
+    "publishedAt": "2026-09-23T04:58:58.172Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-PSICOLOGÍA-58",
@@ -1917,12 +1999,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "desarrollo-humano-e-identidad"
     ],
     "published": true,
     "topicId": 88,
     "topicUrl": "https://preuni.voluntaria.pe/t/con-relacion-al-apego-bowlby-senala-que-cuando-un-nino-sabe-que-su-figura-de-ap/88",
-    "publishedAt": "2026-09-23T04:59:01.314Z"
+    "publishedAt": "2026-09-23T04:59:01.314Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-EDUCACIÓN_CÍVICA-60",
@@ -1955,12 +2039,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "derechos-humanos"
     ],
     "published": true,
     "topicId": 89,
     "topicUrl": "https://preuni.voluntaria.pe/t/el-ciudadano-colombiano-luis-cisneros-residente-en-nuestro-pais-en-condicion-de/89",
-    "publishedAt": "2026-09-23T04:59:20.228Z"
+    "publishedAt": "2026-09-23T04:59:20.228Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-EDUCACIÓN_CÍVICA-61",
@@ -1993,12 +2079,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "problemas-de-convivencia-en-el-peru"
     ],
     "published": true,
     "topicId": 90,
     "topicUrl": "https://preuni.voluntaria.pe/t/entre-los-tipos-de-corrupcion-que-existen-dentro-de-la-administracion-publica-l/90",
-    "publishedAt": "2026-09-23T04:59:23.835Z"
+    "publishedAt": "2026-09-23T04:59:23.835Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-EDUCACIÓN_CÍVICA-62",
@@ -2031,12 +2119,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "problemas-de-convivencia-en-el-peru"
     ],
     "published": true,
     "topicId": 91,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-un-operativo-conjunto-la-fiscalia-y-la-policia-allanaron-un-local-ubicado-en/91",
-    "publishedAt": "2026-09-23T04:59:26.939Z"
+    "publishedAt": "2026-09-23T04:59:26.939Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-EDUCACIÓN_CÍVICA-63",
@@ -2069,12 +2159,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "derechos-humanos"
     ],
     "published": true,
     "topicId": 92,
     "topicUrl": "https://preuni.voluntaria.pe/t/dentro-de-la-clasificacion-historica-de-los-derechos-humanos-los-de-la-primera/92",
-    "publishedAt": "2026-09-23T04:59:30.021Z"
+    "publishedAt": "2026-09-23T04:59:30.021Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HISTORIA_DEL_PERÚ-64",
@@ -2107,12 +2199,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "culturas-prehispanicas-y-tawantinsuyo"
     ],
     "published": true,
     "topicId": 93,
     "topicUrl": "https://preuni.voluntaria.pe/t/entre-los-anos-700-a-c-y-200-d-c-en-la-costa-sur-del-peru-antiguo-se-desar/93",
-    "publishedAt": "2026-09-23T04:59:33.103Z"
+    "publishedAt": "2026-09-23T04:59:33.103Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HISTORIA_DEL_PERÚ-65",
@@ -2145,12 +2239,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "virreinato"
     ],
     "published": true,
     "topicId": 94,
     "topicUrl": "https://preuni.voluntaria.pe/t/una-de-las-consecuencias-directas-de-la-conquista-espanola-fue-la-notable-dismin/94",
-    "publishedAt": "2026-09-23T04:59:36.196Z"
+    "publishedAt": "2026-09-23T04:59:36.196Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HISTORIA_DEL_PERÚ-66",
@@ -2183,12 +2279,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "independencia-y-siglo-xix"
     ],
     "published": true,
     "topicId": 95,
     "topicUrl": "https://preuni.voluntaria.pe/t/el-aporte-de-la-comunidad-sanmarquina-a-la-ciencia-siempre-fue-crucial-en-la-se/95",
-    "publishedAt": "2026-09-23T04:59:39.268Z"
+    "publishedAt": "2026-09-23T04:59:39.268Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HISTORIA_UNIVERSAL-67",
@@ -2221,13 +2319,15 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "siglo-xx-y-contemporaneo"
     ],
     "manuallyFixed": true,
     "published": true,
     "topicId": 96,
     "topicUrl": "https://preuni.voluntaria.pe/t/la-denominada-guerra-fria-1947-1989-supuso-un-enfrentamiento-entre-dos-potenci/96",
-    "publishedAt": "2026-09-23T04:59:42.350Z"
+    "publishedAt": "2026-09-23T04:59:42.350Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-HISTORIA_UNIVERSAL-68",
@@ -2260,19 +2360,21 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "mundo-antiguo-y-clasico"
     ],
     "published": true,
     "topicId": 97,
     "topicUrl": "https://preuni.voluntaria.pe/t/la-historia-es-maestra-de-vida-reza-la-expresion-de-pensador-y-politico-romano/97",
-    "publishedAt": "2026-09-23T04:59:45.445Z"
+    "publishedAt": "2026-09-23T04:59:45.445Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-GEOGRAFÍA-69",
     "prueba": 1,
     "materiaHeader": "GEOGRAFÍA",
     "numero": 69,
-    "tema": "Geografía",
+    "tema": "Geografía del Perú",
     "pendingClassification": false,
     "claudeTemas": null,
     "body": "Nuestro planeta presenta una gran diversidad de biomas terrestres y acuáticos, como producto de los millones de años de evolución de la Tierra. Entre estos ecosistemas, se puede mencionar a los _, cuyas características fundamentales son la _ y la elevada evapotranspiración. Además, sus superficies presentan vegetación _.",
@@ -2298,19 +2400,21 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "biodiversidad-y-recursos-naturales"
     ],
     "published": true,
     "topicId": 98,
     "topicUrl": "https://preuni.voluntaria.pe/t/nuestro-planeta-presenta-una-gran-diversidad-de-biomas-terrestres-y-acuaticos-c/98",
-    "publishedAt": "2026-09-23T04:59:48.571Z"
+    "publishedAt": "2026-09-23T04:59:48.571Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-GEOGRAFÍA-70",
     "prueba": 1,
     "materiaHeader": "GEOGRAFÍA",
     "numero": 70,
-    "tema": "Geografía",
+    "tema": "Geografía del Perú",
     "pendingClassification": false,
     "claudeTemas": null,
     "body": "En un espacio territorial, dos ciudades se encuentran distanciadas por 800 km y su representación en el documento cartográfico es de 2 cm. De acuerdo con lo señalado, determine el valor de verdad (V o F) de las siguientes proposiciones:\n\nI. El documento cartográfico de la representación es de escala pequeña.\nII. En el mapa, un milímetro equivale a 400 metros del terreno.\nIII. La escala grande del mapa brinda información precisa y detallada.",
@@ -2336,19 +2440,21 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "espacio-geografico-y-cartografia"
     ],
     "published": true,
     "topicId": 99,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-un-espacio-territorial-dos-ciudades-se-encuentran-distanciadas-por-800-km-y/99",
-    "publishedAt": "2026-09-23T04:59:51.674Z"
+    "publishedAt": "2026-09-23T04:59:51.674Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-GEOGRAFÍA-71",
     "prueba": 1,
     "materiaHeader": "GEOGRAFÍA",
     "numero": 71,
-    "tema": "Geografía",
+    "tema": "Geografía del Perú",
     "pendingClassification": false,
     "claudeTemas": null,
     "body": "El vulcanismo es un proceso geológico a través del cual se produce el desplazamiento del magma desde el interior de la Tierra hacia la superficie. Al emerger el magma en la zona de divergencia de placas del centro oceánico, proveniente de la astenósfera, el material magmático va produciendo, en el fondo de los océanos, cientos de volcanes, muchos de los cuales llegan a la superficie y forman islas. Al chocar las placas, se produce una zona de convergencia y subducción, donde los materiales rocosos, debido a la fricción, se convierten en grandes bolsas magmáticas o burbujas que, al ser presionadas por el empuje de las placas, tienden a salir por las grietas o fisuras para formar volcanes en la superficie continental.\n\nAdaptado de Arnao, J. et. al. (2019). Geografía Pre San Marcos. UNMSM\n\nDe acuerdo con el texto, se puede inferir que el vulcanismo",
@@ -2374,19 +2480,21 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "relieve-y-clima-del-peru"
     ],
     "published": true,
     "topicId": 100,
     "topicUrl": "https://preuni.voluntaria.pe/t/el-vulcanismo-es-un-proceso-geologico-a-traves-del-cual-se-produce-el-desplazami/100",
-    "publishedAt": "2026-09-23T04:59:54.788Z"
+    "publishedAt": "2026-09-23T04:59:54.788Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-GEOGRAFÍA-72",
     "prueba": 1,
     "materiaHeader": "GEOGRAFÍA",
     "numero": 72,
-    "tema": "Geografía",
+    "tema": "Geografía del Perú",
     "pendingClassification": false,
     "claudeTemas": null,
     "body": "Según el texto leído, determine el valor de verdad (V o F) de las siguientes proposiciones:\n\nI. El vulcanismo en zonas de convergencia genera volcanes en el continente.\nII. Las erupciones volcánicas en zonas de divergencia generan nuevas rocas.\nIII. La base de los volcanes continentales se encuentra en la astenósfera superior.",
@@ -2412,12 +2520,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "relieve-y-clima-del-peru"
     ],
     "published": true,
     "topicId": 100,
     "topicUrl": "https://preuni.voluntaria.pe/t/el-vulcanismo-es-un-proceso-geologico-a-traves-del-cual-se-produce-el-desplazami/100/3",
-    "publishedAt": "2026-09-23T05:02:53.872Z"
+    "publishedAt": "2026-09-23T05:02:53.872Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-ECONOMÍA-73",
@@ -2454,12 +2564,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "mercado-de-bienes-y-factores"
     ],
     "published": true,
     "topicId": 101,
     "topicUrl": "https://preuni.voluntaria.pe/t/como-consecuencia-de-la-reduccion-al-acceso-al-gas-natural-durante-varios-meses/101",
-    "publishedAt": "2026-09-23T04:59:58.222Z"
+    "publishedAt": "2026-09-23T04:59:58.222Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-ECONOMÍA-74",
@@ -2492,12 +2604,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "sector-externo-y-comercio-internacional"
     ],
     "published": true,
     "topicId": 102,
     "topicUrl": "https://preuni.voluntaria.pe/t/ante-el-escenario-de-graves-problemas-energeticos-en-un-pais-las-autoridades-ha/102",
-    "publishedAt": "2026-09-23T05:00:01.321Z"
+    "publishedAt": "2026-09-23T05:00:01.321Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-ECONOMÍA-75",
@@ -2530,12 +2644,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "principios-economicos-basicos"
     ],
     "published": true,
     "topicId": 103,
     "topicUrl": "https://preuni.voluntaria.pe/t/a-raiz-de-haberse-reducido-drasticamente-el-acceso-al-gas-natural-en-un-pais-de/103",
-    "publishedAt": "2026-09-23T05:00:04.467Z"
+    "publishedAt": "2026-09-23T05:00:04.467Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-ECONOMÍA-76",
@@ -2568,12 +2684,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "mercado-de-bienes-y-factores"
     ],
     "published": true,
     "topicId": 104,
     "topicUrl": "https://preuni.voluntaria.pe/t/la-ruptura-de-la-tuberia-por-la-que-se-envia-el-gas-natural-desde-camisea-hacia/104",
-    "publishedAt": "2026-09-23T05:00:22.590Z"
+    "publishedAt": "2026-09-23T05:00:22.590Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-FILOSOFÍA-77",
@@ -2606,12 +2724,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "apreciacion-estetica"
     ],
     "published": true,
     "topicId": 105,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-la-antiguedad-aristoteles-desarrollo-una-profunda-reflexion-sobre-el-arte-en/105",
-    "publishedAt": "2026-09-23T05:00:26.170Z"
+    "publishedAt": "2026-09-23T05:00:26.170Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-FILOSOFÍA-78",
@@ -2644,12 +2764,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "filosofia-antigua-moderna-y-contemporanea"
     ],
     "published": true,
     "topicId": 106,
     "topicUrl": "https://preuni.voluntaria.pe/t/francisco-miro-quesada-cantuarias-ha-sido-uno-de-los-filosofos-mas-creativos-y-l/106",
-    "publishedAt": "2026-09-23T05:00:29.299Z"
+    "publishedAt": "2026-09-23T05:00:29.299Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-FILOSOFÍA-79",
@@ -2682,12 +2804,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "filosofia-antigua-moderna-y-contemporanea"
     ],
     "published": true,
     "topicId": 107,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-filosofia-el-termino-ontologia-se-refiere-al-conjunto-de-cosas-o-realidades/107",
-    "publishedAt": "2026-09-23T05:00:32.385Z"
+    "publishedAt": "2026-09-23T05:00:32.385Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-FILOSOFÍA-80",
@@ -2720,12 +2844,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "teoria-de-la-argumentacion"
     ],
     "published": true,
     "topicId": 108,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-una-ceremonia-oficial-un-reconocido-artista-internacional-recibio-publicamen/108",
-    "publishedAt": "2026-09-23T05:00:35.472Z"
+    "publishedAt": "2026-09-23T05:00:35.472Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-FÍSICA-81",
@@ -2762,13 +2888,15 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "optica-y-fisica-moderna"
     ],
     "manuallyFixed": true,
     "published": true,
     "topicId": 109,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-un-experimento-de-efecto-fotoelectrico-con-luz-de-cierta-frecuencia-se-requi/109",
-    "publishedAt": "2026-09-23T05:00:38.941Z"
+    "publishedAt": "2026-09-23T05:00:38.941Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-FÍSICA-82",
@@ -2809,12 +2937,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "mecanica-cinematica-y-dinamica"
     ],
     "published": true,
     "topicId": 110,
     "topicUrl": "https://preuni.voluntaria.pe/t/la-figura-muestra-el-brazo-de-una-persona-de-masa-total-m-4-kg-en-posicion-hor/110",
-    "publishedAt": "2026-09-23T05:00:42.769Z"
+    "publishedAt": "2026-09-23T05:00:42.769Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-FÍSICA-83",
@@ -2847,12 +2977,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "termodinamica"
     ],
     "published": true,
     "topicId": 111,
     "topicUrl": "https://preuni.voluntaria.pe/t/la-temperatura-normal-del-cuerpo-humano-es-98-6-f-si-un-paciente-con-fiebre-re/111",
-    "publishedAt": "2026-09-23T05:00:45.903Z"
+    "publishedAt": "2026-09-23T05:00:45.903Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-FÍSICA-84",
@@ -2885,12 +3017,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "oscilaciones-ondas-y-fluidos"
     ],
     "published": true,
     "topicId": 112,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-un-hospital-se-usa-un-conducto-de-seccion-transversal-circular-de-20-cm-de-r/112",
-    "publishedAt": "2026-09-23T05:00:49.023Z"
+    "publishedAt": "2026-09-23T05:00:49.023Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-FÍSICA-85",
@@ -2927,12 +3061,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "termodinamica"
     ],
     "published": true,
     "topicId": 113,
     "topicUrl": "https://preuni.voluntaria.pe/t/un-tecnico-de-salud-se-dispone-a-banar-a-un-paciente-postrado-en-una-camilla-de/113",
-    "publishedAt": "2026-09-23T05:00:52.446Z"
+    "publishedAt": "2026-09-23T05:00:52.446Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-QUÍMICA-86",
@@ -2965,12 +3101,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "recursos-naturales-y-contaminacion"
     ],
     "published": true,
     "topicId": 114,
     "topicUrl": "https://preuni.voluntaria.pe/t/para-la-conservacion-del-medioambiente-se-promueven-el-diseno-y-la-aplicacion-d/114",
-    "publishedAt": "2026-09-23T05:00:55.566Z"
+    "publishedAt": "2026-09-23T05:00:55.566Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-QUÍMICA-87",
@@ -3003,12 +3141,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "quimica-organica"
     ],
     "published": true,
     "topicId": 115,
     "topicUrl": "https://preuni.voluntaria.pe/t/uno-de-los-compuestos-importantes-para-el-ser-humano-sigue-una-ruta-metabolica-p/115",
-    "publishedAt": "2026-09-23T05:00:58.655Z"
+    "publishedAt": "2026-09-23T05:00:58.655Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-QUÍMICA-88",
@@ -3053,12 +3193,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "quimica-organica"
     ],
     "published": true,
     "topicId": 116,
     "topicUrl": "https://preuni.voluntaria.pe/t/durante-una-clase-virtual-de-quimica-la-estudiante-casandra-a-quien-le-gusta-c/116",
-    "publishedAt": "2026-09-23T05:01:06.399Z"
+    "publishedAt": "2026-09-23T05:01:06.399Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-QUÍMICA-89",
@@ -3099,12 +3241,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "quimica-organica"
     ],
     "published": true,
     "topicId": 117,
     "topicUrl": "https://preuni.voluntaria.pe/t/la-vitamina-c-esta-presente-en-diversos-productos-como-el-limon-la-naranja-el/117",
-    "publishedAt": "2026-09-23T05:01:26.809Z"
+    "publishedAt": "2026-09-23T05:01:26.809Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-QUÍMICA-90",
@@ -3137,12 +3281,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "enlace-nomenclatura-y-estequiometria"
     ],
     "published": true,
     "topicId": 118,
     "topicUrl": "https://preuni.voluntaria.pe/t/el-nitrato-de-plata-es-una-sal-oxisal-que-se-utiliza-para-cuantificar-cloruros/118",
-    "publishedAt": "2026-09-23T05:01:29.911Z"
+    "publishedAt": "2026-09-23T05:01:29.911Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-QUÍMICA-91",
@@ -3175,12 +3321,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "quimica-organica"
     ],
     "published": true,
     "topicId": 119,
     "topicUrl": "https://preuni.voluntaria.pe/t/muchos-compuestos-de-importancia-metabolica-se-forman-mediante-diversos-procesos/119",
-    "publishedAt": "2026-09-23T05:01:33.028Z"
+    "publishedAt": "2026-09-23T05:01:33.028Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-QUÍMICA-92",
@@ -3223,12 +3371,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "quimica-organica"
     ],
     "published": true,
     "topicId": 120,
     "topicUrl": "https://preuni.voluntaria.pe/t/la-presencia-de-aminoacidos-esenciales-y-no-esenciales-es-de-suma-importancia-pa/120",
-    "publishedAt": "2026-09-23T05:01:40.418Z"
+    "publishedAt": "2026-09-23T05:01:40.418Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-BIOLOGÍA-93",
@@ -3261,13 +3411,15 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "ecologia-salud-y-recursos-naturales"
     ],
     "manuallyFixed": true,
     "published": true,
     "topicId": 121,
     "topicUrl": "https://preuni.voluntaria.pe/t/a-partir-de-una-muestra-de-hielo-obtenida-a-gran-profundidad-se-desea-tener-una/121",
-    "publishedAt": "2026-09-23T05:01:44.075Z"
+    "publishedAt": "2026-09-23T05:01:44.075Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-BIOLOGÍA-94",
@@ -3300,12 +3452,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "celula-tejidos-y-composicion-quimica"
     ],
     "published": true,
     "topicId": 122,
     "topicUrl": "https://preuni.voluntaria.pe/t/un-especialista-le-realiza-un-hisopado-a-un-paciente-con-faringitis-luego-hace/122",
-    "publishedAt": "2026-09-23T05:01:47.159Z"
+    "publishedAt": "2026-09-23T05:01:47.159Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-BIOLOGÍA-95",
@@ -3342,12 +3496,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "genetica-evolucion-y-biodiversidad"
     ],
     "published": true,
     "topicId": 123,
     "topicUrl": "https://preuni.voluntaria.pe/t/un-nuevo-software-especializado-en-biologia-molecular-es-capaz-de-generar-imagen/123",
-    "publishedAt": "2026-09-23T05:01:50.582Z"
+    "publishedAt": "2026-09-23T05:01:50.582Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-BIOLOGÍA-96",
@@ -3384,13 +3540,15 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "nutricion-digestion-y-circulacion"
     ],
     "manuallyFixed": true,
     "published": true,
     "topicId": 124,
     "topicUrl": "https://preuni.voluntaria.pe/t/a-partir-de-la-figura-y-usando-la-leyenda-senale-la-secuencia-correcta-del-proc/124",
-    "publishedAt": "2026-09-23T05:01:54.158Z"
+    "publishedAt": "2026-09-23T05:01:54.158Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-BIOLOGÍA-97",
@@ -3423,12 +3581,14 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "celula-tejidos-y-composicion-quimica"
     ],
     "published": true,
     "topicId": 125,
     "topicUrl": "https://preuni.voluntaria.pe/t/en-una-clase-de-laboratorio-de-histologia-un-estudiante-observa-al-microscopio/125",
-    "publishedAt": "2026-09-23T05:01:57.251Z"
+    "publishedAt": "2026-09-23T05:01:57.251Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   },
   {
     "id": "p1-BIOLOGÍA-98",
@@ -3461,11 +3621,13 @@
     "convocatoria": "II",
     "needsReview": [],
     "subtemas": [
-      "area-a"
+      "ecologia-salud-y-recursos-naturales"
     ],
     "published": true,
     "topicId": 126,
     "topicUrl": "https://preuni.voluntaria.pe/t/a-partir-de-un-proceso-de-biolixiviacion-realizado-en-una-mina-de-cobre-se-extr/126",
-    "publishedAt": "2026-09-23T05:02:00.343Z"
+    "publishedAt": "2026-09-23T05:02:00.343Z",
+    "modalidad": "Ordinario",
+    "tipo_area": "Área A"
   }
 ]

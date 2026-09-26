@@ -27,6 +27,8 @@ const CSS = `
   padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;
   background:#cce5ff;color:#004085;border:1px solid #b8daff;margin-left:6px
 }
+body:not(.preuni-hilo-abierto) .topic-post.preuni-hilo-respuesta{display:none}
+.preuni-hilo-btn{margin-top:8px}
 .preuni-moderador-badge{
   display:inline-flex;align-items:center;
   padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;
@@ -47,9 +49,26 @@ export default {
     withPluginApi("1.0", (api) => {
       api.serializeOnCreate("preuni_post_type");
       api.addPostClassesCallback((attrs) => {
-        if (attrs.preuni_post_type === "solucion") return ["preuni-solucion"];
-        return [];
+        const clases = [];
+        if (attrs.preuni_post_type === "solucion") clases.push("preuni-solucion");
+        // Every reply of a question topic that isn't itself a question
+        // (solutions, comments, plain replies) collapses behind
+        // "Ver soluciones y comentarios" -- see services/preuni-hilo.js.
+        if (
+          attrs.post_number > 1 &&
+          attrs.preuni_post_type !== "pregunta_adicional" &&
+          attrs.topic?.preuni_fields?.clave
+        ) {
+          clases.push("preuni-hilo-respuesta");
+        }
+        return clases;
       });
+
+      const hilo = api.container.lookup("service:preuni-hilo");
+      api.onPageChange((url) => hilo.cambioDeRuta(url));
+      // Writing a reply means you want to see the thread, and your own post
+      // once it lands.
+      api.onAppEvent("composer:opened", () => hilo.setAbierto(true));
     });
   },
 };

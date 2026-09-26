@@ -24,13 +24,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 140,
   "topicUrl": "http://localhost:8080/t/sea-la-proposicion-dadas-las-siguientes-proposiciones-determine-los-casos-don/140",
-  "publishedAt": "2026-09-15T02:48:13.829Z"
+  "publishedAt": "2026-09-15T02:48:13.829Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-02",
@@ -61,13 +66,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 141,
   "topicUrl": "http://localhost:8080/t/cinco-empresas-venden-el-mayor-numero-de-autos-en-el-pais-ford-toyota-datsun/141",
-  "publishedAt": "2026-09-15T02:48:15.570Z"
+  "publishedAt": "2026-09-15T02:48:15.570Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-03",
@@ -102,13 +112,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 142,
   "topicUrl": "http://localhost:8080/t/se-afirma-los-ingenieros-son-profesionales-algunas-mujeres-no-son-profesion/142",
-  "publishedAt": "2026-09-15T02:48:17.231Z"
+  "publishedAt": "2026-09-15T02:48:17.231Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-04",
@@ -135,13 +150,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 143,
   "topicUrl": "http://localhost:8080/t/yo-tengo-unicamente-un-hermano-entonces-quien-es-el-otro-hijo-del-padre-del/143",
-  "publishedAt": "2026-09-15T02:48:18.610Z"
+  "publishedAt": "2026-09-15T02:48:18.610Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-05",
@@ -168,13 +188,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 144,
   "topicUrl": "http://localhost:8080/t/sean-simplifique/144",
-  "publishedAt": "2026-09-15T02:48:20.005Z"
+  "publishedAt": "2026-09-15T02:48:20.005Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "operadores-matematicos"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-06",
@@ -217,7 +242,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {
    "A": "data:image/jpeg;base64,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",
@@ -229,7 +254,12 @@
   "published": true,
   "topicId": 145,
   "topicUrl": "http://localhost:8080/t/seleccione-la-figura-que-no-tiene-la-misma-caracteristica-de-las-demas/145",
-  "publishedAt": "2026-09-15T02:48:22.144Z"
+  "publishedAt": "2026-09-15T02:48:22.144Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-forma-movimiento-y-localizacion"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-07",
@@ -274,7 +304,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {
    "A": "data:image/jpeg;base64,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",
@@ -286,7 +316,12 @@
   "published": true,
   "topicId": 146,
   "topicUrl": "http://localhost:8080/t/establezca-la-imagen-discordante-con-las-demas/146",
-  "publishedAt": "2026-09-15T02:48:24.354Z"
+  "publishedAt": "2026-09-15T02:48:24.354Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-forma-movimiento-y-localizacion"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-08",
@@ -319,7 +354,7 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {
    "A": "data:image/jpeg;base64,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",
@@ -331,7 +366,12 @@
   "published": true,
   "topicId": 147,
   "topicUrl": "http://localhost:8080/t/dada-la-siguiente-sucesion-figura-1-upload-xxpe8tjng77rkieosxpn2zaixhz-jpe/147",
-  "publishedAt": "2026-09-15T02:48:26.269Z"
+  "publishedAt": "2026-09-15T02:48:26.269Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-regularidad-equivalencia-y-cambio"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-09",
@@ -378,7 +418,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {
    "A": "data:image/jpeg;base64,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",
@@ -390,7 +430,12 @@
   "published": true,
   "topicId": 187,
   "topicUrl": "http://localhost:8080/t/halle-la-figura-que-sigue-a-la-secuencia-siguiente-table-tr-td-u-td-td-n/187",
-  "publishedAt": "2026-09-15T02:53:20.878Z"
+  "publishedAt": "2026-09-15T02:53:20.878Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-regularidad-equivalencia-y-cambio"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-10",
@@ -431,13 +476,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 188,
   "topicUrl": "http://localhost:8080/t/la-figura-muestra-el-desarrollo-de-un-cubo-en-cuyas-caras-existen-un-numero-dif/188",
-  "publishedAt": "2026-09-15T02:53:23.826Z"
+  "publishedAt": "2026-09-15T02:53:23.826Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-forma-movimiento-y-localizacion"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-11",
@@ -472,7 +522,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {
    "A": "data:image/jpeg;base64,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",
@@ -484,7 +534,12 @@
   "published": true,
   "topicId": 189,
   "topicUrl": "http://localhost:8080/t/indica-la-seccion-que-falta-figura-1-upload-rmvzcamlwhpercmr1wmjy9wy2sr-jpe/189",
-  "publishedAt": "2026-09-15T02:53:27.662Z"
+  "publishedAt": "2026-09-15T02:53:27.662Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-forma-movimiento-y-localizacion"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-12",
@@ -519,13 +574,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 190,
   "topicUrl": "http://localhost:8080/t/un-cuadrado-se-parte-en-4-cuadraditos-uno-de-los-cuadraditos-se-parte-en-otros/190",
-  "publishedAt": "2026-09-15T02:53:31.224Z"
+  "publishedAt": "2026-09-15T02:53:31.224Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-regularidad-equivalencia-y-cambio"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-13",
@@ -552,13 +612,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 191,
   "topicUrl": "http://localhost:8080/t/establezca-el-valor-de-x-y-del-arreglo-siguiente-4786-1114-x-8847-y-72/191",
-  "publishedAt": "2026-09-15T02:53:33.428Z"
+  "publishedAt": "2026-09-15T02:53:33.428Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-regularidad-equivalencia-y-cambio"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-14",
@@ -585,13 +650,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 192,
   "topicUrl": "http://localhost:8080/t/en-la-sucesion-mostrada-determine-la-suma-de-x-con-las-cifras-de-x-33-26-1/192",
-  "publishedAt": "2026-09-15T02:53:35.666Z"
+  "publishedAt": "2026-09-15T02:53:35.666Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-regularidad-equivalencia-y-cambio"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-15",
@@ -626,13 +696,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 193,
   "topicUrl": "http://localhost:8080/t/que-numero-debe-reemplazar-el-en-la-figura-figura-1-upload-3phbbg4mbvwr/193",
-  "publishedAt": "2026-09-15T02:53:38.210Z"
+  "publishedAt": "2026-09-15T02:53:38.210Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-regularidad-equivalencia-y-cambio"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-16",
@@ -659,13 +734,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 194,
   "topicUrl": "http://localhost:8080/t/complete-la-siguiente-sucesion-azbyevfu/194",
-  "publishedAt": "2026-09-15T02:53:40.452Z"
+  "publishedAt": "2026-09-15T02:53:40.452Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-regularidad-equivalencia-y-cambio"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-17",
@@ -692,13 +772,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 195,
   "topicUrl": "http://localhost:8080/t/senale-el-elemento-que-continua-la-sucesion-3-4-7-10-16-21/195",
-  "publishedAt": "2026-09-15T02:53:42.674Z"
+  "publishedAt": "2026-09-15T02:53:42.674Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-regularidad-equivalencia-y-cambio"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-18",
@@ -725,13 +810,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 196,
   "topicUrl": "http://localhost:8080/t/196",
-  "publishedAt": "2026-09-15T03:20:53.718Z"
+  "publishedAt": "2026-09-15T03:20:53.718Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-cantidad"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-19",
@@ -758,13 +848,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 288,
   "topicUrl": "http://localhost:8080/t/un-rectangulo-con-dimensiones-20cm-x-50-cm-si-la-longitud-se-aumenta-en-20-y-e/288",
-  "publishedAt": "2026-09-15T03:03:56.403Z"
+  "publishedAt": "2026-09-15T03:03:56.403Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-cantidad"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-20",
@@ -791,13 +886,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 289,
   "topicUrl": "http://localhost:8080/t/una-tienda-ofrece-en-venta-una-maquina-por-s-27500-se-conoce-que-si-hace-un-de/289",
-  "publishedAt": "2026-09-15T03:03:59.576Z"
+  "publishedAt": "2026-09-15T03:03:59.576Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-cantidad"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-21",
@@ -824,16 +924,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "analogias-numericas"
+   "problemas-de-cantidad"
   ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 290,
   "topicUrl": "http://localhost:8080/t/hallar-un-numero-de-3-cifras-que-cumple-abc-a-b-c-dar-como-respuesta-el-valo/290",
-  "publishedAt": "2026-09-15T03:04:03.556Z"
+  "publishedAt": "2026-09-15T03:04:03.556Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades"
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-22",
@@ -860,13 +962,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 291,
   "topicUrl": "http://localhost:8080/t/el-producto-del-numero-abc-por-12-es-igual-a-78ca-determine-la-suma-de-a-b/291",
-  "publishedAt": "2026-09-15T03:04:06.795Z"
+  "publishedAt": "2026-09-15T03:04:06.795Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-cantidad"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-23",
@@ -893,13 +1000,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 292,
   "topicUrl": "http://localhost:8080/t/para-determinar-el-precio-de-cada-uno-de-dos-productos-se-tiene-dato-i-por-3-u/292",
-  "publishedAt": "2026-09-15T03:04:09.674Z"
+  "publishedAt": "2026-09-15T03:04:09.674Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-24",
@@ -926,13 +1038,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 293,
   "topicUrl": "http://localhost:8080/t/determine-el-numero-de-hombres-en-un-taller-si-por-cada-hombre-se-cuentan-4-muj/293",
-  "publishedAt": "2026-09-15T03:04:12.424Z"
+  "publishedAt": "2026-09-15T03:04:12.424Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-25",
@@ -959,13 +1076,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 294,
   "topicUrl": "http://localhost:8080/t/ordene-en-orden-cronologico-la-edad-en-anos-de-mayor-a-menor-de-un-grupo-de-5/294",
-  "publishedAt": "2026-09-15T03:04:15.265Z"
+  "publishedAt": "2026-09-15T03:04:15.265Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-26",
@@ -992,13 +1114,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 295,
   "topicUrl": "http://localhost:8080/t/determine-el-valor-de-x-si-el-producto-del-numero-yxx-por-x-es-el-numero-xww/295",
-  "publishedAt": "2026-09-15T03:04:18.136Z"
+  "publishedAt": "2026-09-15T03:04:18.136Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-27",
@@ -1029,13 +1156,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 296,
   "topicUrl": "http://localhost:8080/t/en-la-figura-adjunta-es-el-lado-del-decagono-regular-inscrito-en-la-circunferenc/296",
-  "publishedAt": "2026-09-15T03:04:21.072Z"
+  "publishedAt": "2026-09-15T03:04:21.072Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-28",
@@ -1062,14 +1194,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
-  "subtemas": [],
+  "subtemas": [
+   "operadores-matematicos"
+  ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 297,
   "topicUrl": "http://localhost:8080/t/razonamiento-matematico-n-28/297",
-  "publishedAt": "2026-09-15T03:04:23.969Z"
+  "publishedAt": "2026-09-15T03:04:23.969Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades"
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-29",
@@ -1102,16 +1238,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "analogias-numericas"
+   "operadores-matematicos"
   ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 357,
   "topicUrl": "http://localhost:8080/t/se-define-en-n-la-operacion-figura-1-upload-1wle49atejkny8uprbhsytfoe4n-jpe/357",
-  "publishedAt": "2026-09-15T03:19:04.430Z"
+  "publishedAt": "2026-09-15T03:19:04.430Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades"
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-30",
@@ -1138,13 +1276,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 298,
   "topicUrl": "http://localhost:8080/t/dada-la-tabla-y-la-operacion-ademas-indica-el-inverso-de-un-elemento-x-table/298",
-  "publishedAt": "2026-09-15T03:04:28.714Z"
+  "publishedAt": "2026-09-15T03:04:28.714Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "operadores-matematicos"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-31",
@@ -1171,13 +1314,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 299,
   "topicUrl": "http://localhost:8080/t/el-operador-esta-definido-por-la-tabla-table-tr-td-td-td-td-td-t/299",
-  "publishedAt": "2026-09-15T03:04:31.665Z"
+  "publishedAt": "2026-09-15T03:04:31.665Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "operadores-matematicos"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-32",
@@ -1204,13 +1352,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 300,
   "topicUrl": "http://localhost:8080/t/la-distribucion-de-los-empleados-de-una-corporacion-por-sueldos-anuales-en-miles/300",
-  "publishedAt": "2026-09-15T03:04:34.498Z"
+  "publishedAt": "2026-09-15T03:04:34.498Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-33",
@@ -1241,13 +1394,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 301,
   "topicUrl": "http://localhost:8080/t/el-siguiente-grafico-de-barras-muestra-la-produccion-en-toneladas-metricas-de-ma/301",
-  "publishedAt": "2026-09-15T03:04:37.463Z"
+  "publishedAt": "2026-09-15T03:04:37.463Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-34",
@@ -1274,13 +1432,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 302,
   "topicUrl": "http://localhost:8080/t/la-tabla-de-frecuencias-adjunta-muestra-los-nombres-de-universidades-y-los-depor/302",
-  "publishedAt": "2026-09-15T03:04:40.321Z"
+  "publishedAt": "2026-09-15T03:04:40.321Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_MATEMÁTICO-35",
@@ -1313,13 +1476,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 303,
   "topicUrl": "http://localhost:8080/t/la-tabla-de-frecuencias-muestra-los-numeros-de-alumnos-matriculados-en-una-unive/303",
-  "publishedAt": "2026-09-15T03:04:43.386Z"
+  "publishedAt": "2026-09-15T03:04:43.386Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "problemas-de-gestion-de-datos-e-incertidumbre"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-36",
@@ -1346,13 +1514,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 304,
   "topicUrl": "http://localhost:8080/t/rectificar-enmendar-los-errores-o-defectos-de-alguien-o-algo/304",
-  "publishedAt": "2026-09-15T03:04:45.729Z"
+  "publishedAt": "2026-09-15T03:04:45.729Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "relaciones-semantico-textuales"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-37",
@@ -1379,13 +1552,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 327,
   "topicUrl": "http://localhost:8080/t/razonamiento-verbal-n-37/327",
-  "publishedAt": "2026-09-15T03:08:05.241Z"
+  "publishedAt": "2026-09-15T03:08:05.241Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "analogias-verbales"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-38",
@@ -1412,13 +1590,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 328,
   "topicUrl": "http://localhost:8080/t/el-ministro-de-economia-y-finanzas-decidio-que-se-debe-subir-el-precio-de-la-gas/328",
-  "publishedAt": "2026-09-15T03:08:07.269Z"
+  "publishedAt": "2026-09-15T03:08:07.269Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-39",
@@ -1445,13 +1628,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 197,
   "topicUrl": "http://localhost:8080/t/todos-criticaron-su-atrevimiento-al-dirigirse-a-su-tutor/197",
-  "publishedAt": "2026-09-15T02:54:17.943Z"
+  "publishedAt": "2026-09-15T02:54:17.943Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-40",
@@ -1478,13 +1666,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 198,
   "topicUrl": "http://localhost:8080/t/la-prensa-publico-noticias-adulteradas-sobre-los-candidatos-que-lideraban-las-en/198",
-  "publishedAt": "2026-09-15T02:54:19.964Z"
+  "publishedAt": "2026-09-15T02:54:19.964Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-41",
@@ -1511,13 +1704,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 199,
   "topicUrl": "http://localhost:8080/t/las-comunidades-son-duenas-de-su-propia-cultura/199",
-  "publishedAt": "2026-09-15T02:54:22.059Z"
+  "publishedAt": "2026-09-15T02:54:22.059Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-42",
@@ -1544,13 +1742,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 200,
   "topicUrl": "http://localhost:8080/t/durante-su-gestion-como-mandatario-el-cambio-en-el-precio-de-los-alimentos-bene/200",
-  "publishedAt": "2026-09-15T02:54:24.050Z"
+  "publishedAt": "2026-09-15T02:54:24.050Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-43",
@@ -1577,13 +1780,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 201,
   "topicUrl": "http://localhost:8080/t/los-poetas-algunas-veces-suelen-enaltecer-la-imagen-de-sus-amadas/201",
-  "publishedAt": "2026-09-15T02:54:26.102Z"
+  "publishedAt": "2026-09-15T02:54:26.102Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-44",
@@ -1610,13 +1818,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 202,
   "topicUrl": "http://localhost:8080/t/las-evidencias-fueron-encubiertas-por-el-principal-sospechoso-de-un-homicidio/202",
-  "publishedAt": "2026-09-15T02:54:28.070Z"
+  "publishedAt": "2026-09-15T02:54:28.070Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-45",
@@ -1643,13 +1856,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 203,
   "topicUrl": "http://localhost:8080/t/luego-de-la-migracion-de-las-personas-del-campo-a-la-ciudad-han-quedado-terreno/203",
-  "publishedAt": "2026-09-15T02:54:30.028Z"
+  "publishedAt": "2026-09-15T02:54:30.028Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-46",
@@ -1676,13 +1894,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 204,
   "topicUrl": "http://localhost:8080/t/existe-una-declaracion-de-los-derechos-humanos-millones-de-personas-desconocen/204",
-  "publishedAt": "2026-09-15T02:54:31.966Z"
+  "publishedAt": "2026-09-15T02:54:31.966Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-47",
@@ -1709,13 +1932,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 205,
   "topicUrl": "http://localhost:8080/t/muchos-de-los-sucesos-que-explico-el-autor-no-tuvieron-lugar-en-los-grandes-y-fa/205",
-  "publishedAt": "2026-09-15T02:54:33.895Z"
+  "publishedAt": "2026-09-15T02:54:33.895Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-48",
@@ -1742,13 +1970,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 206,
   "topicUrl": "http://localhost:8080/t/los-habitantes-de-un-determinado-pais-tienen-como-regla-desarrollar-un-proyecto/206",
-  "publishedAt": "2026-09-15T02:54:35.810Z"
+  "publishedAt": "2026-09-15T02:54:35.810Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-49",
@@ -1775,13 +2008,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 207,
   "topicUrl": "http://localhost:8080/t/i-nuestras-manos-poseen-tal-precision-que-nos-permiten-insertar-un-hilo-en-una/207",
-  "publishedAt": "2026-09-15T02:54:37.760Z"
+  "publishedAt": "2026-09-15T02:54:37.760Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-50",
@@ -1808,13 +2046,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 208,
   "topicUrl": "http://localhost:8080/t/i-la-generacion-de-fenomenos-fisicos-en-el-universo-es-muy-grande-ii-una-supe/208",
-  "publishedAt": "2026-09-15T02:54:39.694Z"
+  "publishedAt": "2026-09-15T02:54:39.694Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-51",
@@ -1841,13 +2084,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 209,
   "topicUrl": "http://localhost:8080/t/i-temple-de-acero-es-una-de-las-ultimas-peliculas-de-los-hermanos-coen-ii-dur/209",
-  "publishedAt": "2026-09-15T02:54:41.596Z"
+  "publishedAt": "2026-09-15T02:54:41.596Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-52",
@@ -1874,13 +2122,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 210,
   "topicUrl": "http://localhost:8080/t/i-los-elefantes-son-los-mayores-animales-terrestres-que-existen-en-la-actualida/210",
-  "publishedAt": "2026-09-15T02:54:43.545Z"
+  "publishedAt": "2026-09-15T02:54:43.545Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-53",
@@ -1907,13 +2160,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 211,
   "topicUrl": "http://localhost:8080/t/la-vision-de-los-perros-i-la-retina-llamada-fondo-de-ojo-posee-una-serie-de-r/211",
-  "publishedAt": "2026-09-15T02:54:45.539Z"
+  "publishedAt": "2026-09-15T02:54:45.539Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-54",
@@ -1940,13 +2198,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 212,
   "topicUrl": "http://localhost:8080/t/los-alfabetos-i-todos-los-simbolos-senalados-se-derivan-del-semitico-del-norte/212",
-  "publishedAt": "2026-09-15T02:54:47.508Z"
+  "publishedAt": "2026-09-15T02:54:47.508Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-55",
@@ -1973,13 +2236,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 213,
   "topicUrl": "http://localhost:8080/t/el-programa-apolo-i-las-misiones-zond-no-tripuladas-lo-hicieron-en-setiembre-y/213",
-  "publishedAt": "2026-09-15T02:54:49.508Z"
+  "publishedAt": "2026-09-15T02:54:49.508Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-56",
@@ -2006,13 +2274,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 214,
   "topicUrl": "http://localhost:8080/t/las-tierras-perdidas-i-se-trata-de-los-restos-de-pavlopetri-en-la-costa-sur-de/214",
-  "publishedAt": "2026-09-15T02:54:51.450Z"
+  "publishedAt": "2026-09-15T02:54:51.450Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-57",
@@ -2039,13 +2312,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 215,
   "topicUrl": "http://localhost:8080/t/inmortales-i-si-quisieramos-observar-su-desarrollo-seria-como-sentarse-a-conte/215",
-  "publishedAt": "2026-09-15T02:54:53.448Z"
+  "publishedAt": "2026-09-15T02:54:53.448Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-58",
@@ -2072,13 +2350,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 216,
   "topicUrl": "http://localhost:8080/t/i-originariamente-el-torneo-era-una-contienda-regular-con-armas-en-la-que-inte/216",
-  "publishedAt": "2026-09-15T02:54:55.406Z"
+  "publishedAt": "2026-09-15T02:54:55.406Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-59",
@@ -2105,13 +2388,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 217,
   "topicUrl": "http://localhost:8080/t/i-el-urbanismo-entendido-como-la-busqueda-de-un-modelo-ideal-de-ciudad-es-cas/217",
-  "publishedAt": "2026-09-15T02:54:57.324Z"
+  "publishedAt": "2026-09-15T02:54:57.324Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-60",
@@ -2138,13 +2426,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 218,
   "topicUrl": "http://localhost:8080/t/i-la-palabra-catedral-se-deriva-del-termino-latino-cathedra-que-quiere-decir/218",
-  "publishedAt": "2026-09-15T02:54:59.261Z"
+  "publishedAt": "2026-09-15T02:54:59.261Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-61",
@@ -2171,13 +2464,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 219,
   "topicUrl": "http://localhost:8080/t/i-la-superficie-terrestre-varia-conforme-a-una-serie-de-acciones-externas-que-d/219",
-  "publishedAt": "2026-09-15T02:55:01.299Z"
+  "publishedAt": "2026-09-15T02:55:01.299Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-62",
@@ -2204,13 +2502,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 220,
   "topicUrl": "http://localhost:8080/t/i-en-medicina-se-llama-trasplante-a-la-sustitucion-quirurgica-de-ciertos-tejid/220",
-  "publishedAt": "2026-09-15T02:55:03.273Z"
+  "publishedAt": "2026-09-15T02:55:03.273Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-63",
@@ -2237,13 +2540,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 221,
   "topicUrl": "http://localhost:8080/t/i-mas-tarde-hewlett-y-sus-colaboradores-codificaron-el-comportamiento-grabado/221",
-  "publishedAt": "2026-09-15T02:55:05.231Z"
+  "publishedAt": "2026-09-15T02:55:05.231Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-64",
@@ -2270,13 +2578,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 222,
   "topicUrl": "http://localhost:8080/t/i-el-teatro-romano-tambien-adopto-el-empleo-de-las-mascaras-y-posteriormente/222",
-  "publishedAt": "2026-09-15T02:55:07.323Z"
+  "publishedAt": "2026-09-15T02:55:07.323Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-65",
@@ -2303,13 +2616,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 223,
   "topicUrl": "http://localhost:8080/t/i-el-presente-trabajo-pretende-evidenciar-que-dichas-relaciones-de-poder-se-exp/223",
-  "publishedAt": "2026-09-15T02:55:09.291Z"
+  "publishedAt": "2026-09-15T02:55:09.291Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-66",
@@ -2336,13 +2654,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 224,
   "topicUrl": "http://localhost:8080/t/i-estas-partes-se-hallan-sumergidas-en-el-liquido-cefalorraquideo-y-estan-prote/224",
-  "publishedAt": "2026-09-15T02:55:11.410Z"
+  "publishedAt": "2026-09-15T02:55:11.410Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-67",
@@ -2369,13 +2692,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 225,
   "topicUrl": "http://localhost:8080/t/i-la-herencia-de-las-ultimas-transformaciones-urbanas-demuestra-que-no-siempre/225",
-  "publishedAt": "2026-09-15T02:55:13.492Z"
+  "publishedAt": "2026-09-15T02:55:13.492Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-68",
@@ -2402,13 +2730,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 226,
   "topicUrl": "http://localhost:8080/t/i-el-dibujante-puede-insinuar-el-volumen-y-la-luz-mediante-un-trazo-que-va-camb/226",
-  "publishedAt": "2026-09-15T02:55:15.503Z"
+  "publishedAt": "2026-09-15T02:55:15.503Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "redaccion-y-cohesion-textual"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-69",
@@ -2435,13 +2768,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 227,
   "topicUrl": "http://localhost:8080/t/el-texto-trata-sobre/227",
-  "publishedAt": "2026-09-15T02:55:17.435Z"
+  "publishedAt": "2026-09-15T02:55:17.435Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "comprension-de-lectura"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-70",
@@ -2468,13 +2806,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 329,
   "topicUrl": "http://localhost:8080/t/en-el-texto-el-termino-precoz-significa/329",
-  "publishedAt": "2026-09-15T03:08:09.255Z"
+  "publishedAt": "2026-09-15T03:08:09.255Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "relaciones-semantico-textuales"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-71",
@@ -2501,13 +2844,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 228,
   "topicUrl": "http://localhost:8080/t/segun-el-contenido-del-texto-en-nuestro-organismo-algunas-proteinas-tienen-com/228",
-  "publishedAt": "2026-09-15T02:55:20.936Z"
+  "publishedAt": "2026-09-15T02:55:20.936Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "comprension-de-lectura"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-72",
@@ -2534,13 +2882,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 229,
   "topicUrl": "http://localhost:8080/t/el-tema-central-del-texto/229",
-  "publishedAt": "2026-09-15T02:55:22.926Z"
+  "publishedAt": "2026-09-15T02:55:22.926Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "comprension-de-lectura"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-73",
@@ -2567,13 +2920,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 230,
   "topicUrl": "http://localhost:8080/t/elija-la-idea-principal-que-desarrolla-el-texto/230",
-  "publishedAt": "2026-09-15T02:55:24.931Z"
+  "publishedAt": "2026-09-15T02:55:24.931Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "comprension-de-lectura"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-74",
@@ -2600,13 +2958,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 231,
   "topicUrl": "http://localhost:8080/t/resulta-incompatible-respecto-de-como-se-redefine-el-concepto-de-corrupcion-af/231",
-  "publishedAt": "2026-09-15T02:55:26.905Z"
+  "publishedAt": "2026-09-15T02:55:26.905Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "comprension-de-lectura"
+  ]
  },
  {
   "id": "p1-RAZONAMIENTO_VERBAL-75",
@@ -2633,13 +2996,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 232,
   "topicUrl": "http://localhost:8080/t/si-en-un-pais-se-acepta-que-los-candidatos-politicos-regalen-dinero-y-bienes-d/232",
-  "publishedAt": "2026-09-15T02:55:28.882Z"
+  "publishedAt": "2026-09-15T02:55:28.882Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "inferencia-y-extrapolacion"
+  ]
  },
  {
   "id": "p1-COMUNICACIÓN_Y_LENGUA-76",
@@ -2666,13 +3034,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 233,
   "topicUrl": "http://localhost:8080/t/cual-de-las-siguientes-palabras-esta-correctamente-escrita/233",
-  "publishedAt": "2026-09-15T02:55:30.924Z"
+  "publishedAt": "2026-09-15T02:55:30.924Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "fonologia-y-ortografia"
+  ]
  },
  {
   "id": "p1-COMUNICACIÓN_Y_LENGUA-77",
@@ -2699,13 +3072,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 234,
   "topicUrl": "http://localhost:8080/t/indique-que-funciones-del-lenguaje-se-identifican-en-el-siguiente-texto-el-ext/234",
-  "publishedAt": "2026-09-15T02:55:33.064Z"
+  "publishedAt": "2026-09-15T02:55:33.064Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "comunicacion-y-realidad-linguistica-del-peru"
+  ]
  },
  {
   "id": "p1-COMUNICACIÓN_Y_LENGUA-78",
@@ -2732,13 +3110,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 235,
   "topicUrl": "http://localhost:8080/t/dadas-las-siguiente-oracion-es-o-frases-i-un-profesor-de-la-uni-recibio-una-m/235",
-  "publishedAt": "2026-09-15T02:55:35.055Z"
+  "publishedAt": "2026-09-15T02:55:35.055Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "morfologia-y-sintaxis"
+  ]
  },
  {
   "id": "p1-LITERATURA-79",
@@ -2765,13 +3148,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 236,
   "topicUrl": "http://localhost:8080/t/relacione-a-los-siguientes-autores-latinoamericanos-con-sus-correspondientes-pai/236",
-  "publishedAt": "2026-09-15T02:55:37.008Z"
+  "publishedAt": "2026-09-15T02:55:37.008Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "literatura-latinoamericana"
+  ]
  },
  {
   "id": "p1-LITERATURA-80",
@@ -2798,13 +3186,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 237,
   "topicUrl": "http://localhost:8080/t/con-respecto-a-la-obra-de-felipe-pardo-y-aliaga-mi-viaje-que-describe-las-per/237",
-  "publishedAt": "2026-09-15T02:55:38.958Z"
+  "publishedAt": "2026-09-15T02:55:38.958Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "literatura-peruana-republicana-y-contemporanea"
+  ]
  },
  {
   "id": "p1-HISTORIA_DEL_PERÚ_Y_DEL_MUNDO-81",
@@ -2831,13 +3224,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 238,
   "topicUrl": "http://localhost:8080/t/el-resurgimiento-economico-del-peru-luego-de-la-guerra-del-pacifico-tuvo-como/238",
-  "publishedAt": "2026-09-15T02:55:40.962Z"
+  "publishedAt": "2026-09-15T02:55:40.962Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "republica-aristocratica-y-reformismo"
+  ]
  },
  {
   "id": "p1-HISTORIA_DEL_PERÚ_Y_DEL_MUNDO-82",
@@ -2864,13 +3262,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 239,
   "topicUrl": "http://localhost:8080/t/senale-el-presidente-del-peru-que-desarrollo-la-idea-y-empezo-el-proyecto-de-con/239",
-  "publishedAt": "2026-09-15T02:55:42.914Z"
+  "publishedAt": "2026-09-15T02:55:42.914Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "peru-en-las-ultimas-decadas"
+  ]
  },
  {
   "id": "p1-HISTORIA_DEL_PERÚ_Y_DEL_MUNDO-83",
@@ -2897,13 +3300,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 240,
   "topicUrl": "http://localhost:8080/t/en-la-historia-prehispanica-periodo-intermedio-temprano-tambien-conocido-como/240",
-  "publishedAt": "2026-09-15T02:55:44.852Z"
+  "publishedAt": "2026-09-15T02:55:44.852Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "culturas-prehispanicas-y-tawantinsuyo"
+  ]
  },
  {
   "id": "p1-HISTORIA_DEL_PERÚ_Y_DEL_MUNDO-84",
@@ -2930,13 +3338,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 241,
   "topicUrl": "http://localhost:8080/t/la-especie-humana-dio-un-salto-cualitativo-en-su-largo-camino-a-la-civilizacion/241",
-  "publishedAt": "2026-09-15T02:55:46.834Z"
+  "publishedAt": "2026-09-15T02:55:46.834Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "culturas-prehispanicas-y-tawantinsuyo"
+  ]
  },
  {
   "id": "p1-GEOGRAFÍA_Y_DESARROLLO_NACIONAL-85",
@@ -2963,13 +3376,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 242,
   "topicUrl": "http://localhost:8080/t/en-relacion-al-cambio-climatico-se-dan-las-siguientes-afirmaciones-i-es-causa/242",
-  "publishedAt": "2026-09-15T02:55:48.755Z"
+  "publishedAt": "2026-09-15T02:55:48.755Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "biodiversidad-y-recursos-naturales"
+  ]
  },
  {
   "id": "p1-GEOGRAFÍA_Y_DESARROLLO_NACIONAL-86",
@@ -2996,13 +3414,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 243,
   "topicUrl": "http://localhost:8080/t/dadas-las-siguientes-afirmaciones-en-relacion-a-las-regiones-naturales-en-el-pe/243",
-  "publishedAt": "2026-09-15T02:55:50.695Z"
+  "publishedAt": "2026-09-15T02:55:50.695Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "relieve-y-clima-del-peru"
+  ]
  },
  {
   "id": "p1-GEOGRAFÍA_Y_DESARROLLO_NACIONAL-87",
@@ -3029,13 +3452,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 244,
   "topicUrl": "http://localhost:8080/t/con-respecto-a-las-unidades-geomorfologicas-andinas-relacione-ambas-columnas-i/244",
-  "publishedAt": "2026-09-15T02:55:52.623Z"
+  "publishedAt": "2026-09-15T02:55:52.623Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "relieve-y-clima-del-peru"
+  ]
  },
  {
   "id": "p1-ECONOMÍA-88",
@@ -3062,13 +3490,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 245,
   "topicUrl": "http://localhost:8080/t/una-empresa-manufacturera-que-no-emplea-trabajadores-tiene-un-costo-total-de-pro/245",
-  "publishedAt": "2026-09-15T02:55:54.552Z"
+  "publishedAt": "2026-09-15T02:55:54.552Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "mercado-de-bienes-y-factores"
+  ]
  },
  {
   "id": "p1-ECONOMÍA-89",
@@ -3095,13 +3528,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 148,
   "topicUrl": "http://localhost:8080/t/indique-cual-de-las-perturbaciones-abajo-senaladas-pretende-enfrentar-el-gobier/148",
-  "publishedAt": "2026-09-15T02:49:12.921Z"
+  "publishedAt": "2026-09-15T02:49:12.921Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "sector-publico-y-fiscal"
+  ]
  },
  {
   "id": "p1-INGLÉS-90",
@@ -3128,13 +3566,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 246,
   "topicUrl": "http://localhost:8080/t/cual-de-las-preposiciones-abajo-enunciadas-se-debe-insertar-en-el-siguiente-esp/246",
-  "publishedAt": "2026-09-15T02:55:56.484Z"
+  "publishedAt": "2026-09-15T02:55:56.484Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "gramatica-basica"
+  ]
  },
  {
   "id": "p1-INGLÉS-91",
@@ -3161,13 +3604,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 149,
   "topicUrl": "http://localhost:8080/t/marque-la-alternativa-que-hace-uso-correcto-de-las-preposiciones-de-acuerdo-al-c/149",
-  "publishedAt": "2026-09-15T02:49:14.603Z"
+  "publishedAt": "2026-09-15T02:49:14.603Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "gramatica-basica"
+  ]
  },
  {
   "id": "p1-INGLÉS-92",
@@ -3194,13 +3642,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 150,
   "topicUrl": "http://localhost:8080/t/cual-de-las-alternativas-siguientes-debe-insertarse-en-el-siguiente-espacio-par/150",
-  "publishedAt": "2026-09-15T02:49:15.576Z"
+  "publishedAt": "2026-09-15T02:49:15.576Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "gramatica-basica"
+  ]
  },
  {
   "id": "p1-INGLÉS-93",
@@ -3227,13 +3680,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 151,
   "topicUrl": "http://localhost:8080/t/cual-de-las-alternativas-abajo-planteadas-al-insertarse-en-el-siguiente-espac/151",
-  "publishedAt": "2026-09-15T02:49:16.586Z"
+  "publishedAt": "2026-09-15T02:49:16.586Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "vocabulario"
+  ]
  },
  {
   "id": "p1-FILOSOFÍA-94",
@@ -3260,13 +3718,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 152,
   "topicUrl": "http://localhost:8080/t/son-caracteristicas-de-una-persona-inmoral-i-tener-conciencia-y-libertad-ii-s/152",
-  "publishedAt": "2026-09-15T02:49:17.587Z"
+  "publishedAt": "2026-09-15T02:49:17.587Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "etica-sociedad-y-democracia"
+  ]
  },
  {
   "id": "p1-FILOSOFÍA-95",
@@ -3293,14 +3756,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
-  "subtemas": [],
+  "subtemas": [
+   "gnoseologia-y-metodo-cientifico"
+  ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 153,
   "topicUrl": "http://localhost:8080/t/abajo-se-presentan-diversos-planteamientos-sobre-epistemologia-formulados-en-su/153",
-  "publishedAt": "2026-09-15T02:49:18.635Z"
+  "publishedAt": "2026-09-15T02:49:18.635Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades"
  },
  {
   "id": "p1-LÓGICA-96",
@@ -3327,13 +3794,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 154,
   "topicUrl": "http://localhost:8080/t/que-funcion-del-lenguaje-se-expresa-en-la-siguiente-oracion-prohibido-arrojar/154",
-  "publishedAt": "2026-09-15T02:49:19.645Z"
+  "publishedAt": "2026-09-15T02:49:19.645Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "proposiciones-y-formalizacion"
+  ]
  },
  {
   "id": "p1-PSICOLOGÍA-97",
@@ -3360,13 +3832,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 155,
   "topicUrl": "http://localhost:8080/t/m-r-rosenzweig-demostro-la-importancia-de-la-experiencia-para-el-desarrollo-de/155",
-  "publishedAt": "2026-09-15T02:49:20.941Z"
+  "publishedAt": "2026-09-15T02:49:20.941Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "bases-biologicas-del-comportamiento"
+  ]
  },
  {
   "id": "p1-ACTUALIDAD-98",
@@ -3393,13 +3870,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 156,
   "topicUrl": "http://localhost:8080/t/el-adelanto-de-las-elecciones-generales-en-el-peru-ha-sido-propuesto-por/156",
-  "publishedAt": "2026-09-15T02:49:21.916Z"
+  "publishedAt": "2026-09-15T02:49:21.916Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "politica-nacional"
+  ]
  },
  {
   "id": "p1-ACTUALIDAD-99",
@@ -3426,13 +3908,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 157,
   "topicUrl": "http://localhost:8080/t/dada-las-siguientes-afirmaciones-en-relacion-a-los-juegos-panamericanos-que-orga/157",
-  "publishedAt": "2026-09-15T02:49:22.886Z"
+  "publishedAt": "2026-09-15T02:49:22.886Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "politica-nacional"
+  ]
  },
  {
   "id": "p1-ACTUALIDAD-100",
@@ -3459,13 +3946,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 158,
   "topicUrl": "http://localhost:8080/t/la-feria-internacional-del-libro-2019-ha-tenido-como-personaje-central-a/158",
-  "publishedAt": "2026-09-15T02:49:23.855Z"
+  "publishedAt": "2026-09-15T02:49:23.855Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Aptitud y Humanidades",
+  "subtemas": [
+   "politica-nacional"
+  ]
  },
  {
   "id": "p2-MATEMÁTICA-01",
@@ -3497,17 +3989,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "esperanza-matematica"
+   "probabilidad-basica-y-combinatoria"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 159,
   "topicUrl": "http://localhost:8080/t/en-una-urna-se-tienen-fichas-identicas-en-cada-una-de-las-cuales-esta-escrito-un/159",
-  "publishedAt": "2026-09-15T02:49:25.181Z"
+  "publishedAt": "2026-09-15T02:49:25.181Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-02",
@@ -3539,17 +4033,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "bases-numericas"
+   "numeros-divisibilidad-y-fracciones"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 160,
   "topicUrl": "http://localhost:8080/t/se-tiene-exprese-el-numero-en-base-10-de-como-respuesta-la-suma-de-sus-cifras/160",
-  "publishedAt": "2026-09-15T02:49:26.412Z"
+  "publishedAt": "2026-09-15T02:49:26.412Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-03",
@@ -3581,17 +4077,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "bases-numericas"
+   "numeros-divisibilidad-y-fracciones"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 161,
   "topicUrl": "http://localhost:8080/t/se-sabe-que-abcd-es-igual-al-producto-de-tres-numeros-pares-consecutivos-y-adema/161",
-  "publishedAt": "2026-09-15T02:49:27.698Z"
+  "publishedAt": "2026-09-15T02:49:27.698Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-04",
@@ -3623,17 +4121,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "divisibilidad-algebraica"
+   "polinomios-y-productos-notables"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 162,
   "topicUrl": "http://localhost:8080/t/determine-el-conjunto-de-valores-de-n-n-n-de-tal-modo-que-la-expresion-e-n/162",
-  "publishedAt": "2026-09-15T02:49:28.912Z"
+  "publishedAt": "2026-09-15T02:49:28.912Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-05",
@@ -3665,17 +4165,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "mcd-mcm"
+   "numeros-divisibilidad-y-fracciones"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 163,
   "topicUrl": "http://localhost:8080/t/se-tiene-que-cercar-con-alambre-un-terreno-rectangular-cuyas-dimensiones-son-5/163",
-  "publishedAt": "2026-09-15T02:49:30.174Z"
+  "publishedAt": "2026-09-15T02:49:30.174Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-06",
@@ -3707,17 +4209,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "fracciones"
+   "numeros-divisibilidad-y-fracciones"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 164,
   "topicUrl": "http://localhost:8080/t/dadas-las-siguientes-proposiciones-i-el-producto-de-dos-fracciones-propias-posi/164",
-  "publishedAt": "2026-09-15T02:49:31.413Z"
+  "publishedAt": "2026-09-15T02:49:31.413Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-07",
@@ -3749,17 +4253,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "cuadrados-perfectos"
+   "numeros-divisibilidad-y-fracciones"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 165,
   "topicUrl": "http://localhost:8080/t/si-los-siguientes-numeros-son-cuadrados-perfectos-aabb-1ccc-y-al-multiplicar-s/165",
-  "publishedAt": "2026-09-15T02:49:32.706Z"
+  "publishedAt": "2026-09-15T02:49:32.706Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-08",
@@ -3791,17 +4297,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "funciones-polinomiales"
+   "polinomios-y-productos-notables"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 166,
   "topicUrl": "http://localhost:8080/t/sea-la-expresion-con-si-son-todos-los-numeros-naturales-tales-que-es-divisib/166",
-  "publishedAt": "2026-09-15T02:49:33.947Z"
+  "publishedAt": "2026-09-15T02:49:33.947Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-09",
@@ -3833,17 +4341,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "matrices-determinantes"
+   "matrices-y-determinantes"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 167,
   "topicUrl": "http://localhost:8080/t/sea-con-determine-a/167",
-  "publishedAt": "2026-09-15T02:49:35.236Z"
+  "publishedAt": "2026-09-15T02:49:35.236Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-10",
@@ -3883,17 +4393,19 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "programacion-lineal"
+   "funciones"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 247,
   "topicUrl": "http://localhost:8080/t/247",
-  "publishedAt": "2026-09-15T03:18:40.428Z"
+  "publishedAt": "2026-09-15T03:18:40.428Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-11",
@@ -3925,17 +4437,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "sistemas-ecuaciones"
+   "sistemas-de-ecuaciones-y-matrices"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 330,
   "topicUrl": "http://localhost:8080/t/una-marca-de-producto-de-limpieza-usada-para-obtener-una-solucion-es-25-acida/330",
-  "publishedAt": "2026-09-15T03:08:13.261Z"
+  "publishedAt": "2026-09-15T03:08:13.261Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-12",
@@ -3967,17 +4481,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "sistemas-lineales"
+   "sistemas-de-ecuaciones-lineales"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 305,
   "topicUrl": "http://localhost:8080/t/305",
-  "publishedAt": "2026-09-15T03:20:55.591Z"
+  "publishedAt": "2026-09-15T03:20:55.591Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-13",
@@ -4013,17 +4529,19 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "optimizacion-cuadratica"
+   "sistemas-de-ecuaciones-y-matrices"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 331,
   "topicUrl": "http://localhost:8080/t/un-granjero-tiene-un-terreno-donde-siembra-hortalizas-cierto-dia-decide-cercar/331",
-  "publishedAt": "2026-09-15T03:08:15.750Z"
+  "publishedAt": "2026-09-15T03:08:15.750Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-14",
@@ -4055,17 +4573,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "ecuaciones"
+   "ecuaciones-e-inecuaciones"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 332,
   "topicUrl": "http://localhost:8080/t/dada-la-ecuacion-determine-el-valor-de-donde-el-conjunto-solucion-es/332",
-  "publishedAt": "2026-09-15T03:08:18.071Z"
+  "publishedAt": "2026-09-15T03:08:18.071Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-15",
@@ -4097,17 +4617,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "inecuaciones"
+   "ecuaciones-e-inecuaciones"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 306,
   "topicUrl": "http://localhost:8080/t/a-un-atleta-que-va-a-participar-en-una-competencia-le-informaron-que-cuando-hay/306",
-  "publishedAt": "2026-09-15T03:05:02.953Z"
+  "publishedAt": "2026-09-15T03:05:02.953Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-16",
@@ -4139,15 +4661,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
-  "subtemas": [],
+  "subtemas": [
+   "sucesiones-y-progresiones"
+  ],
   "classificationMethod": "manual_review",
   "manuallyFixed": true,
   "published": true,
   "topicId": 248,
   "topicUrl": "http://localhost:8080/t/248",
-  "publishedAt": "2026-09-15T03:20:57.454Z"
+  "publishedAt": "2026-09-15T03:20:57.454Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-17",
@@ -4179,17 +4705,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "logica-proposicional"
+   "tablas-de-verdad-y-tautologia"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 333,
   "topicUrl": "http://localhost:8080/t/si-es-verdadera-indique-la-secuencia-correcta-despues-de-determinar-si-la-propo/333",
-  "publishedAt": "2026-09-15T03:08:20.379Z"
+  "publishedAt": "2026-09-15T03:08:20.379Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-18",
@@ -4229,15 +4757,19 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
-  "subtemas": [],
+  "subtemas": [
+   "funcion-exponencial-y-logaritmica"
+  ],
   "classificationMethod": "manual_review",
   "manuallyFixed": true,
   "published": true,
   "topicId": 307,
   "topicUrl": "http://localhost:8080/t/307",
-  "publishedAt": "2026-09-15T03:18:42.651Z"
+  "publishedAt": "2026-09-15T03:18:42.651Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-19",
@@ -4269,7 +4801,7 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
    "funciones"
@@ -4279,7 +4811,9 @@
   "published": true,
   "topicId": 334,
   "topicUrl": "http://localhost:8080/t/senale-la-alternativa-que-presente-la-secuencia-correcta-despues-de-determinar/334",
-  "publishedAt": "2026-09-15T03:08:24.619Z"
+  "publishedAt": "2026-09-15T03:08:24.619Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-20",
@@ -4321,9 +4855,11 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
-  "subtemas": [],
+  "subtemas": [
+   "funciones"
+  ],
   "classificationMethod": "manual_review",
   "manuallyFixed": true,
   "choiceImages": {
@@ -4336,7 +4872,9 @@
   "published": true,
   "topicId": 335,
   "topicUrl": "http://localhost:8080/t/identifique-la-grafica-del-siguiente-conjunto-de-numeros-complejos/335",
-  "publishedAt": "2026-09-15T03:08:27.610Z"
+  "publishedAt": "2026-09-15T03:08:27.610Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-21",
@@ -4376,17 +4914,19 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "triangulos"
+   "areas-y-poligonos-regulares"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 336,
   "topicUrl": "http://localhost:8080/t/en-la-figura-p-es-punto-medio-de-q-es-punto-medio-de-y-r-es-punto-medio-de/336",
-  "publishedAt": "2026-09-15T03:08:30.241Z"
+  "publishedAt": "2026-09-15T03:08:30.241Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-22",
@@ -4422,17 +4962,19 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "triangulos"
+   "proporcionalidad-y-relaciones-metricas"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 308,
   "topicUrl": "http://localhost:8080/t/308",
-  "publishedAt": "2026-09-15T03:18:44.712Z"
+  "publishedAt": "2026-09-15T03:18:44.712Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-23",
@@ -4468,17 +5010,19 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "cuadrilateros"
+   "proporcionalidad-y-relaciones-metricas"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 337,
   "topicUrl": "http://localhost:8080/t/en-un-trapecio-circunscriptible-abcd-isosceles-ab-cd-cuyo-perimetro-es-20/337",
-  "publishedAt": "2026-09-15T03:08:34.364Z"
+  "publishedAt": "2026-09-15T03:08:34.364Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-24",
@@ -4516,18 +5060,19 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "circunferencia",
-   "poligonos"
+   "circunferencia"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 347,
   "topicUrl": "http://localhost:8080/t/en-el-arco-bc-de-una-circunferencia-circunscrita-a-un-octogono-regular-abcdefgh/347",
-  "publishedAt": "2026-09-15T03:12:44.401Z"
+  "publishedAt": "2026-09-15T03:12:44.401Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-25",
@@ -4567,7 +5112,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
    "circunferencia"
@@ -4577,7 +5122,9 @@
   "published": true,
   "topicId": 309,
   "topicUrl": "http://localhost:8080/t/309",
-  "publishedAt": "2026-09-15T03:18:46.656Z"
+  "publishedAt": "2026-09-15T03:18:46.656Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-26",
@@ -4617,18 +5164,19 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "circunferencia",
-   "cuadrilateros"
+   "areas-y-poligonos-regulares"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 348,
   "topicUrl": "http://localhost:8080/t/en-la-figura-se-tiene-bc-2-5-cm-y-el-radio-de-la-circunferencia-mostrada-es-de/348",
-  "publishedAt": "2026-09-15T03:12:49.590Z"
+  "publishedAt": "2026-09-15T03:12:49.590Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-27",
@@ -4670,7 +5218,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
    "geometria-del-espacio"
@@ -4680,7 +5228,9 @@
   "published": true,
   "topicId": 349,
   "topicUrl": "http://localhost:8080/t/el-paralelogramo-abcd-es-perpendicular-a-la-base-del-cilindro-oblicuo-de-seccion/349",
-  "publishedAt": "2026-09-15T03:12:52.827Z"
+  "publishedAt": "2026-09-15T03:12:52.827Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-28",
@@ -4716,15 +5266,19 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
-  "subtemas": [],
+  "subtemas": [
+   "geometria-del-espacio"
+  ],
   "classificationMethod": "manual_review",
   "manuallyFixed": true,
   "published": true,
   "topicId": 310,
   "topicUrl": "http://localhost:8080/t/dado-un-prisma-cuadrangular-regular-abcd-efgh-donde-ae-2-ab-sabiendo-que/310",
-  "publishedAt": "2026-09-15T03:05:27.232Z"
+  "publishedAt": "2026-09-15T03:05:27.232Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-29",
@@ -4760,7 +5314,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
    "geometria-del-espacio"
@@ -4770,7 +5324,9 @@
   "published": true,
   "topicId": 311,
   "topicUrl": "http://localhost:8080/t/un-cilindro-de-revolucion-esta-inscrito-en-un-cono-de-revolucion-de-modo-que-un/311",
-  "publishedAt": "2026-09-15T03:05:29.614Z"
+  "publishedAt": "2026-09-15T03:05:29.614Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-30",
@@ -4808,7 +5364,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
    "geometria-del-espacio"
@@ -4818,7 +5374,9 @@
   "published": true,
   "topicId": 312,
   "topicUrl": "http://localhost:8080/t/312",
-  "publishedAt": "2026-09-15T03:18:48.736Z"
+  "publishedAt": "2026-09-15T03:18:48.736Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-31",
@@ -4854,7 +5412,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
    "geometria-del-espacio"
@@ -4864,7 +5422,9 @@
   "published": true,
   "topicId": 313,
   "topicUrl": "http://localhost:8080/t/313",
-  "publishedAt": "2026-09-15T03:18:50.795Z"
+  "publishedAt": "2026-09-15T03:18:50.795Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-32",
@@ -4902,7 +5462,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
    "geometria-del-espacio"
@@ -4912,7 +5472,9 @@
   "published": true,
   "topicId": 350,
   "topicUrl": "http://localhost:8080/t/las-dos-bases-de-un-prismoide-son-triangulos-equilateros-de-lados-cm-y-cm-respe/350",
-  "publishedAt": "2026-09-15T03:14:59.260Z"
+  "publishedAt": "2026-09-15T03:14:59.260Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-33",
@@ -4950,17 +5512,19 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "funciones-trigonometricas-inversas"
+   "funciones-trigonometricas"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 314,
   "topicUrl": "http://localhost:8080/t/314",
-  "publishedAt": "2026-09-15T03:18:52.830Z"
+  "publishedAt": "2026-09-15T03:18:52.830Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-34",
@@ -4992,17 +5556,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "ecuaciones-trigonometricas"
+   "ecuaciones-y-resolucion-de-triangulos"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 315,
   "topicUrl": "http://localhost:8080/t/para-determine-el-conjunto-solucion-de-la-ecuacion-de-como-respuesta-la-suma-de/315",
-  "publishedAt": "2026-09-15T03:05:40.500Z"
+  "publishedAt": "2026-09-15T03:05:40.500Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-35",
@@ -5034,18 +5600,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "identidades-trigonometricas",
-   "triangulo-oblicuangulo"
+   "ecuaciones-y-resolucion-de-triangulos"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 316,
   "topicUrl": "http://localhost:8080/t/en-un-triangulo-abc-y-calcule-el-area-de-la-region-triangular-en/316",
-  "publishedAt": "2026-09-15T03:05:44.247Z"
+  "publishedAt": "2026-09-15T03:05:44.247Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-36",
@@ -5085,7 +5652,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
    "circunferencia-trigonometrica"
@@ -5095,7 +5662,9 @@
   "published": true,
   "topicId": 351,
   "topicUrl": "http://localhost:8080/t/en-la-figura-mostrada-se-tiene-una-circunferencia-trigonometrica-donde-pq-es-ta/351",
-  "publishedAt": "2026-09-15T03:15:03.765Z"
+  "publishedAt": "2026-09-15T03:15:03.765Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-37",
@@ -5137,7 +5706,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
    "circunferencia-trigonometrica"
@@ -5147,7 +5716,9 @@
   "published": true,
   "topicId": 352,
   "topicUrl": "http://localhost:8080/t/en-la-figura-mostrada-abcd-es-un-cuadrado-si-corta-a-la-circunferencia-inscrit/352",
-  "publishedAt": "2026-09-15T03:15:06.603Z"
+  "publishedAt": "2026-09-15T03:15:06.603Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-38",
@@ -5183,7 +5754,7 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
    "funciones-trigonometricas"
@@ -5193,7 +5764,9 @@
   "published": true,
   "topicId": 353,
   "topicUrl": "http://localhost:8080/t/sean-a-b-c-constantes-y-f-r-r-dada-por-f-x-a-sen-x-b-cos-x-c-sen-x/353",
-  "publishedAt": "2026-09-15T03:15:09.121Z"
+  "publishedAt": "2026-09-15T03:15:09.121Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-39",
@@ -5225,17 +5798,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "conicas"
+   "circunferencia-y-conicas"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 354,
   "topicUrl": "http://localhost:8080/t/la-ecuacion-cuadratica-representa/354",
-  "publishedAt": "2026-09-15T03:15:11.617Z"
+  "publishedAt": "2026-09-15T03:15:11.617Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p2-MATEMÁTICA-40",
@@ -5271,17 +5846,19 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "optimizacion-area"
+   "areas-y-poligonos-regulares"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 355,
   "topicUrl": "http://localhost:8080/t/un-terreno-tiene-la-forma-de-un-sector-circular-y-su-perimetro-mide-1500-m-cua/355",
-  "publishedAt": "2026-09-15T03:15:14.206Z"
+  "publishedAt": "2026-09-15T03:15:14.206Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Matemática"
  },
  {
   "id": "p3-FÍSICA-01",
@@ -5308,13 +5885,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 249,
   "topicUrl": "http://localhost:8080/t/dada-la-ecuacion-dimensionalmente-correcta-e-xfv-determine-la-dimension-de-x/249",
-  "publishedAt": "2026-09-15T02:56:49.599Z"
+  "publishedAt": "2026-09-15T02:56:49.599Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "mecanica-cinematica-y-dinamica"
+  ]
  },
  {
   "id": "p3-FÍSICA-02",
@@ -5345,13 +5927,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 250,
   "topicUrl": "http://localhost:8080/t/250",
-  "publishedAt": "2026-09-15T03:18:54.855Z"
+  "publishedAt": "2026-09-15T03:18:54.855Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "mecanica-cinematica-y-dinamica"
+  ]
  },
  {
   "id": "p3-FÍSICA-03",
@@ -5382,13 +5969,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 251,
   "topicUrl": "http://localhost:8080/t/251",
-  "publishedAt": "2026-09-15T03:18:56.858Z"
+  "publishedAt": "2026-09-15T03:18:56.858Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "mecanica-cinematica-y-dinamica"
+  ]
  },
  {
   "id": "p3-FÍSICA-04",
@@ -5431,7 +6023,7 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {
    "A": "data:image/jpeg;base64,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",
@@ -5443,7 +6035,12 @@
   "published": true,
   "topicId": 356,
   "topicUrl": "http://localhost:8080/t/un-cuerpo-de-5-kg-de-masa-se-mueve-a-lo-largo-del-eje-x-su-posicion-esta-dada-p/356",
-  "publishedAt": "2026-09-15T03:16:06.726Z"
+  "publishedAt": "2026-09-15T03:16:06.726Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "mecanica-cinematica-y-dinamica"
+  ]
  },
  {
   "id": "p3-FÍSICA-05",
@@ -5478,13 +6075,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 338,
   "topicUrl": "http://localhost:8080/t/un-bloque-de-4-kg-de-masa-se-encuentra-apoyado-sobre-un-plano-inclinado-que-form/338",
-  "publishedAt": "2026-09-15T03:09:03.637Z"
+  "publishedAt": "2026-09-15T03:09:03.637Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "mecanica-cinematica-y-dinamica"
+  ]
  },
  {
   "id": "p3-FÍSICA-06",
@@ -5511,13 +6113,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 252,
   "topicUrl": "http://localhost:8080/t/el-peso-de-un-cuerpo-en-la-superficie-de-la-tierra-es-de-625-n-calcule-aproxim/252",
-  "publishedAt": "2026-09-15T02:56:59.134Z"
+  "publishedAt": "2026-09-15T02:56:59.134Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "mecanica-cinematica-y-dinamica"
+  ]
  },
  {
   "id": "p3-FÍSICA-07",
@@ -5544,13 +6151,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 253,
   "topicUrl": "http://localhost:8080/t/un-cuerpo-se-lanza-hacia-arriba-con-una-rapidez-de-3-m-s-calcule-la-masa-del-cu/253",
-  "publishedAt": "2026-09-15T02:57:01.319Z"
+  "publishedAt": "2026-09-15T02:57:01.319Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "trabajo-energia-y-momentum"
+  ]
  },
  {
   "id": "p3-FÍSICA-08",
@@ -5581,13 +6193,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 317,
   "topicUrl": "http://localhost:8080/t/317",
-  "publishedAt": "2026-09-15T03:12:15.767Z"
+  "publishedAt": "2026-09-15T03:12:15.767Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "trabajo-energia-y-momentum"
+  ]
  },
  {
   "id": "p3-FÍSICA-09",
@@ -5614,13 +6231,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 254,
   "topicUrl": "http://localhost:8080/t/un-pendulo-simple-tiene-un-periodo-t-cuando-oscila-en-la-tierra-cuando-se-pone/254",
-  "publishedAt": "2026-09-15T02:57:05.108Z"
+  "publishedAt": "2026-09-15T02:57:05.108Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "oscilaciones-ondas-y-fluidos"
+  ]
  },
  {
   "id": "p3-FÍSICA-10",
@@ -5647,13 +6269,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 255,
   "topicUrl": "http://localhost:8080/t/el-nivel-de-sonido-a-2-m-de-una-fuente-sonora-que-emite-ondas-acusticas-homogene/255",
-  "publishedAt": "2026-09-15T02:57:07.523Z"
+  "publishedAt": "2026-09-15T02:57:07.523Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "oscilaciones-ondas-y-fluidos"
+  ]
  },
  {
   "id": "p3-FÍSICA-11",
@@ -5686,13 +6313,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 256,
   "topicUrl": "http://localhost:8080/t/256",
-  "publishedAt": "2026-09-15T03:12:18.110Z"
+  "publishedAt": "2026-09-15T03:12:18.110Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "oscilaciones-ondas-y-fluidos"
+  ]
  },
  {
   "id": "p3-FÍSICA-12",
@@ -5723,13 +6355,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 257,
   "topicUrl": "http://localhost:8080/t/257",
-  "publishedAt": "2026-09-15T03:12:20.307Z"
+  "publishedAt": "2026-09-15T03:12:20.307Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "termodinamica"
+  ]
  },
  {
   "id": "p3-FÍSICA-13",
@@ -5756,13 +6393,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 258,
   "topicUrl": "http://localhost:8080/t/una-masa-de-hielo-de-600-g-a-0-c-se-coloca-sobre-una-estufa-que-le-suministra-c/258",
-  "publishedAt": "2026-09-15T02:57:14.354Z"
+  "publishedAt": "2026-09-15T02:57:14.354Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "termodinamica"
+  ]
  },
  {
   "id": "p3-FÍSICA-14",
@@ -5793,13 +6435,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 339,
   "topicUrl": "http://localhost:8080/t/determine-la-diferencia-de-potencial-en-v-entre-los-terminales-a-y-d-del-arre/339",
-  "publishedAt": "2026-09-15T03:09:10.881Z"
+  "publishedAt": "2026-09-15T03:09:10.881Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "electricidad-y-magnetismo"
+  ]
  },
  {
   "id": "p3-FÍSICA-15",
@@ -5832,13 +6479,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 259,
   "topicUrl": "http://localhost:8080/t/cuando-se-conectan-2-resistencias-y-en-serie-a-una-fuente-por-las-resistencias/259",
-  "publishedAt": "2026-09-15T02:57:18.382Z"
+  "publishedAt": "2026-09-15T02:57:18.382Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "electricidad-y-magnetismo"
+  ]
  },
  {
   "id": "p3-FÍSICA-16",
@@ -5869,13 +6521,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 318,
   "topicUrl": "http://localhost:8080/t/una-carga-de-1-c-y-0-1-mg-de-masa-se-mueve-por-una-trayectoria-circular-en-el-pl/318",
-  "publishedAt": "2026-09-15T03:06:07.961Z"
+  "publishedAt": "2026-09-15T03:06:07.961Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "electricidad-y-magnetismo"
+  ]
  },
  {
   "id": "p3-FÍSICA-17",
@@ -5910,13 +6567,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 340,
   "topicUrl": "http://localhost:8080/t/un-rayo-de-luz-incide-sobre-la-cara-de-un-prisma-cuya-seccion-transversal-es-un/340",
-  "publishedAt": "2026-09-15T03:09:13.209Z"
+  "publishedAt": "2026-09-15T03:09:13.209Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "optica-y-fisica-moderna"
+  ]
  },
  {
   "id": "p3-FÍSICA-18",
@@ -5951,13 +6613,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 341,
   "topicUrl": "http://localhost:8080/t/un-alambre-homogeneo-de-50-g-de-masa-y-1-m-de-longitud-conduce-una-corriente-de/341",
-  "publishedAt": "2026-09-15T03:09:16.111Z"
+  "publishedAt": "2026-09-15T03:09:16.111Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "electricidad-y-magnetismo"
+  ]
  },
  {
   "id": "p3-FÍSICA-19",
@@ -5984,13 +6651,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 260,
   "topicUrl": "http://localhost:8080/t/un-objeto-de-3-cm-de-alto-esta-situado-a-10-cm-delante-de-un-espejo-convexo-cuy/260",
-  "publishedAt": "2026-09-15T02:57:25.413Z"
+  "publishedAt": "2026-09-15T02:57:25.413Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "optica-y-fisica-moderna"
+  ]
  },
  {
   "id": "p3-FÍSICA-20",
@@ -6017,13 +6689,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 261,
   "topicUrl": "http://localhost:8080/t/calcule-aproximadamente-la-frecuencia-umbral-en-hz-del-silicio-si-su-funcion/261",
-  "publishedAt": "2026-09-15T02:57:27.449Z"
+  "publishedAt": "2026-09-15T02:57:27.449Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "optica-y-fisica-moderna"
+  ]
  },
  {
   "id": "p3-QUÍMICA-21",
@@ -6050,13 +6727,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 262,
   "topicUrl": "http://localhost:8080/t/cuales-de-los-siguientes-fenomenos-presentados-son-fisicos-i-metabolismo-de-l/262",
-  "publishedAt": "2026-09-15T02:57:29.831Z"
+  "publishedAt": "2026-09-15T02:57:29.831Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "materia-y-estructura-atomica"
+  ]
  },
  {
   "id": "p3-QUÍMICA-22",
@@ -6083,13 +6765,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 263,
   "topicUrl": "http://localhost:8080/t/el-cloruro-de-magnesio-es-un-compuesto-que-se-utiliza-como-desecante-de-solve/263",
-  "publishedAt": "2026-09-15T02:57:31.890Z"
+  "publishedAt": "2026-09-15T02:57:31.890Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "enlace-nomenclatura-y-estequiometria"
+  ]
  },
  {
   "id": "p3-QUÍMICA-23",
@@ -6116,13 +6803,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 264,
   "topicUrl": "http://localhost:8080/t/se-tiene-un-elemento-x-que-al-reaccionar-con-el-oxigeno-forma-el-compuesto-xo-y/264",
-  "publishedAt": "2026-09-15T02:57:33.993Z"
+  "publishedAt": "2026-09-15T02:57:33.993Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "materia-y-estructura-atomica"
+  ]
  },
  {
   "id": "p3-QUÍMICA-24",
@@ -6153,13 +6845,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 265,
   "topicUrl": "http://localhost:8080/t/265",
-  "publishedAt": "2026-09-15T03:12:22.522Z"
+  "publishedAt": "2026-09-15T03:12:22.522Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "enlace-nomenclatura-y-estequiometria"
+  ]
  },
  {
   "id": "p3-QUÍMICA-25",
@@ -6186,13 +6883,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 266,
   "topicUrl": "http://localhost:8080/t/indique-el-estado-de-oxidacion-de-cada-uno-de-los-elementos-subrayados-en-las-si/266",
-  "publishedAt": "2026-09-15T02:57:38.160Z"
+  "publishedAt": "2026-09-15T02:57:38.160Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "enlace-nomenclatura-y-estequiometria"
+  ]
  },
  {
   "id": "p3-QUÍMICA-26",
@@ -6219,13 +6921,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 267,
   "topicUrl": "http://localhost:8080/t/una-pastilla-de-aspirina-contiene-0-5-gramos-de-acido-acetilsalicilico-c-h-o/267",
-  "publishedAt": "2026-09-15T02:57:40.675Z"
+  "publishedAt": "2026-09-15T02:57:40.675Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "enlace-nomenclatura-y-estequiometria"
+  ]
  },
  {
   "id": "p3-QUÍMICA-27",
@@ -6252,13 +6959,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 268,
   "topicUrl": "http://localhost:8080/t/para-analizar-el-poder-calorifico-de-una-mezcla-formada-por-60-moles-de-propano/268",
-  "publishedAt": "2026-09-15T02:57:43.041Z"
+  "publishedAt": "2026-09-15T02:57:43.041Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "enlace-nomenclatura-y-estequiometria"
+  ]
  },
  {
   "id": "p3-QUÍMICA-28",
@@ -6293,13 +7005,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 319,
   "topicUrl": "http://localhost:8080/t/319",
-  "publishedAt": "2026-09-15T03:12:24.742Z"
+  "publishedAt": "2026-09-15T03:12:24.742Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "estados-soluciones-y-equilibrio"
+  ]
  },
  {
   "id": "p3-QUÍMICA-29",
@@ -6326,13 +7043,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 320,
   "topicUrl": "http://localhost:8080/t/respecto-a-los-solidos-indique-la-secuencia-correcta-despues-de-determinar-si-l/320",
-  "publishedAt": "2026-09-15T03:06:17.232Z"
+  "publishedAt": "2026-09-15T03:06:17.232Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "estados-soluciones-y-equilibrio"
+  ]
  },
  {
   "id": "p3-QUÍMICA-30",
@@ -6359,13 +7081,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 269,
   "topicUrl": "http://localhost:8080/t/en-un-laboratorio-se-desarrolla-el-analisis-quimico-para-determinar-la-masa-cont/269",
-  "publishedAt": "2026-09-15T02:57:48.377Z"
+  "publishedAt": "2026-09-15T02:57:48.377Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "enlace-nomenclatura-y-estequiometria"
+  ]
  },
  {
   "id": "p3-QUÍMICA-31",
@@ -6392,13 +7119,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 270,
   "topicUrl": "http://localhost:8080/t/el-acido-acetico-puro-ch-cooh-es-un-liquido-que-tiene-una-densidad-de-1-049-g/270",
-  "publishedAt": "2026-09-15T02:57:50.432Z"
+  "publishedAt": "2026-09-15T02:57:50.432Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "estados-soluciones-y-equilibrio"
+  ]
  },
  {
   "id": "p3-QUÍMICA-32",
@@ -6429,13 +7161,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 342,
   "topicUrl": "http://localhost:8080/t/en-el-siguiente-grafico-se-muestra-la-solubilidad-de-tres-sales-en-agua-en-funci/342",
-  "publishedAt": "2026-09-15T03:09:21.823Z"
+  "publishedAt": "2026-09-15T03:09:21.823Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "estados-soluciones-y-equilibrio"
+  ]
  },
  {
   "id": "p3-QUÍMICA-33",
@@ -6462,13 +7199,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 271,
   "topicUrl": "http://localhost:8080/t/en-un-recipiente-de-5-l-se-introduce-una-mezcla-de-2-moles-de-n-y-6-moles-de-h/271",
-  "publishedAt": "2026-09-15T02:57:54.424Z"
+  "publishedAt": "2026-09-15T02:57:54.424Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "estados-soluciones-y-equilibrio"
+  ]
  },
  {
   "id": "p3-QUÍMICA-34",
@@ -6495,13 +7237,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 168,
   "topicUrl": "http://localhost:8080/t/en-un-reactor-quimico-de-5-l-se-tiene-una-mezcla-en-equilibrio-formada-por-3-22/168",
-  "publishedAt": "2026-09-15T02:50:12.514Z"
+  "publishedAt": "2026-09-15T02:50:12.514Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "estados-soluciones-y-equilibrio"
+  ]
  },
  {
   "id": "p3-QUÍMICA-35",
@@ -6528,13 +7275,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 272,
   "topicUrl": "http://localhost:8080/t/a-100-ml-de-una-solucion-de-1-0-m-se-le-adicionan-100-ml-de-solucion-de-naoh-0-5/272",
-  "publishedAt": "2026-09-15T02:57:57.274Z"
+  "publishedAt": "2026-09-15T02:57:57.274Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "estados-soluciones-y-equilibrio"
+  ]
  },
  {
   "id": "p3-QUÍMICA-36",
@@ -6561,13 +7313,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 273,
   "topicUrl": "http://localhost:8080/t/se-tiene-las-siguientes-reacciones-globales-en-las-celdas-galvanicas-a-y-b-resp/273",
-  "publishedAt": "2026-09-15T02:58:00.094Z"
+  "publishedAt": "2026-09-15T02:58:00.094Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "electroquimica"
+  ]
  },
  {
   "id": "p3-QUÍMICA-37",
@@ -6594,13 +7351,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 169,
   "topicUrl": "http://localhost:8080/t/una-de-las-semireacciones-de-la-electrolisis-del-agua-es-si-se-recogen-0-076-l/169",
-  "publishedAt": "2026-09-15T02:50:14.598Z"
+  "publishedAt": "2026-09-15T02:50:14.598Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "electroquimica"
+  ]
  },
  {
   "id": "p3-QUÍMICA-38",
@@ -6635,13 +7397,18 @@
   ],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 170,
   "topicUrl": "http://localhost:8080/t/170",
-  "publishedAt": "2026-09-15T03:03:03.032Z"
+  "publishedAt": "2026-09-15T03:03:03.032Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "quimica-organica"
+  ]
  },
  {
   "id": "p3-QUÍMICA-39",
@@ -6668,13 +7435,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 171,
   "topicUrl": "http://localhost:8080/t/respecto-a-la-lluvia-acida-indique-la-secuencia-correcta-despues-de-determinar/171",
-  "publishedAt": "2026-09-15T02:50:16.591Z"
+  "publishedAt": "2026-09-15T02:50:16.591Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "recursos-naturales-y-contaminacion"
+  ]
  },
  {
   "id": "p3-QUÍMICA-40",
@@ -6701,13 +7473,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 172,
   "topicUrl": "http://localhost:8080/t/la-corrosion-es-el-deterioro-electroquimico-de-un-material-debido-a-la-interacci/172",
-  "publishedAt": "2026-09-15T02:50:17.537Z"
+  "publishedAt": "2026-09-15T02:50:17.537Z",
+  "modalidad": "Ordinario",
+  "tipo_area": "Física-Química",
+  "subtemas": [
+   "electroquimica"
+  ]
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_I-01",
@@ -6739,17 +7516,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "rectas"
+   "la-recta-en-el-plano"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 321,
   "topicUrl": "http://localhost:8080/t/sean-las-rectas-perpendiculares-halle-el-valor-de-a/321",
-  "publishedAt": "2026-09-15T03:06:20.872Z"
+  "publishedAt": "2026-09-15T03:06:20.872Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_I-02",
@@ -6781,18 +7560,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "rectas",
-   "bisectriz"
+   "la-recta-en-el-plano"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 343,
   "topicUrl": "http://localhost:8080/t/determine-la-ecuacion-de-la-bisectriz-del-angulo-a-en-el-triangulo-donde-a-5-5/343",
-  "publishedAt": "2026-09-15T03:09:24.425Z"
+  "publishedAt": "2026-09-15T03:09:24.425Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_I-03",
@@ -6828,17 +7608,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "rectas-paralelas"
+   "la-recta-en-el-plano"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 344,
   "topicUrl": "http://localhost:8080/t/en-el-grafico-adjunto-siendo-halle-d-figura-1-upload-jabbuf2w9gztkq8mvk/344",
-  "publishedAt": "2026-09-15T03:09:26.809Z"
+  "publishedAt": "2026-09-15T03:09:26.809Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_I-04",
@@ -6870,17 +7652,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "rectas"
+   "la-recta-en-el-plano"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 345,
   "topicUrl": "http://localhost:8080/t/la-recta-l-pasa-por-el-punto-1-2-y-es-ortogonal-a-la-recta-si-l-ax-by-2/345",
-  "publishedAt": "2026-09-15T03:09:29.012Z"
+  "publishedAt": "2026-09-15T03:09:29.012Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_I-05",
@@ -6912,17 +7696,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "lugares-geometricos"
+   "la-recta-en-el-plano"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 322,
   "topicUrl": "http://localhost:8080/t/el-siguiente-conjunto-de-puntos-corresponde-a/322",
-  "publishedAt": "2026-09-15T03:06:27.796Z"
+  "publishedAt": "2026-09-15T03:06:27.796Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_I-06",
@@ -6954,17 +7740,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "circunferencia"
+   "circunferencia-y-conicas"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 323,
   "topicUrl": "http://localhost:8080/t/si-es-el-angulo-que-forman-las-tangentes-trazadas-desde-el-punto-3-4-a-la-ci/323",
-  "publishedAt": "2026-09-15T03:06:29.852Z"
+  "publishedAt": "2026-09-15T03:06:29.852Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_I-07",
@@ -6996,17 +7784,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "circunferencia"
+   "circunferencia-y-conicas"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 324,
   "topicUrl": "http://localhost:8080/t/determine-las-coordenadas-del-centro-de-una-de-las-circunferencias-de-radio-5-y/324",
-  "publishedAt": "2026-09-15T03:06:31.889Z"
+  "publishedAt": "2026-09-15T03:06:31.889Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_I-08",
@@ -7038,17 +7828,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "conicas"
+   "circunferencia-y-conicas"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 325,
   "topicUrl": "http://localhost:8080/t/determine-las-asintotas-de-la-curva-descrita-por/325",
-  "publishedAt": "2026-09-15T03:06:33.905Z"
+  "publishedAt": "2026-09-15T03:06:33.905Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_I-09",
@@ -7080,17 +7872,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "conicas"
+   "circunferencia-y-conicas"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 346,
   "topicUrl": "http://localhost:8080/t/se-esta-disenando-un-faro-que-tenga-30-centimetros-de-diametro-el-filamento-de/346",
-  "publishedAt": "2026-09-15T03:09:31.330Z"
+  "publishedAt": "2026-09-15T03:09:31.330Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_I-10",
@@ -7122,17 +7916,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "conicas"
+   "circunferencia-y-conicas"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 274,
   "topicUrl": "http://localhost:8080/t/sea-la-elipse-cuya-ecuacion-es-calcule-el-area-en-de-la-region-cuadrada-in/274",
-  "publishedAt": "2026-09-15T02:58:19.645Z"
+  "publishedAt": "2026-09-15T02:58:19.645Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_II-11",
@@ -7164,15 +7960,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
-  "subtemas": [],
+  "subtemas": [
+   "matrices-y-determinantes"
+  ],
   "classificationMethod": "manual_review",
   "manuallyFixed": true,
   "published": true,
   "topicId": 275,
   "topicUrl": "http://localhost:8080/t/halle-el-rango-de-la-matriz-a/275",
-  "publishedAt": "2026-09-15T02:58:21.915Z"
+  "publishedAt": "2026-09-15T02:58:21.915Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_II-12",
@@ -7204,17 +8004,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "matriz-inversa"
+   "matrices-y-determinantes"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 173,
   "topicUrl": "http://localhost:8080/t/calcule-la-inversa-de-a-e-indique-como-respuesta-la-suma-de-sus-elementos-a/173",
-  "publishedAt": "2026-09-15T02:50:24.982Z"
+  "publishedAt": "2026-09-15T02:50:24.982Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_II-13",
@@ -7246,17 +8048,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "planos-angulo"
+   "espacios-vectoriales"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 174,
   "topicUrl": "http://localhost:8080/t/halle-el-angulo-que-forman-los-planos-2x-y-2z-3-x-2y-2z-0-senal/174",
-  "publishedAt": "2026-09-15T02:50:25.950Z"
+  "publishedAt": "2026-09-15T02:50:25.950Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_II-15",
@@ -7288,7 +8092,7 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
    "espacios-vectoriales"
@@ -7298,7 +8102,9 @@
   "published": true,
   "topicId": 175,
   "topicUrl": "http://localhost:8080/t/dado-los-siguientes-conjuntos-de-vectores-de-indique-cuales-de-los-siguientes/175",
-  "publishedAt": "2026-09-15T02:50:26.932Z"
+  "publishedAt": "2026-09-15T02:50:26.932Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_II-16",
@@ -7330,17 +8136,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "planos-proyeccion"
+   "espacios-vectoriales"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 176,
   "topicUrl": "http://localhost:8080/t/se-tiene-un-plano-p-que-pasa-por-el-origen-de-coordenadas-y-es-perpendicular-a-l/176",
-  "publishedAt": "2026-09-15T02:50:27.952Z"
+  "publishedAt": "2026-09-15T02:50:27.952Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_II-17",
@@ -7372,17 +8180,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "valores-propios"
+   "valores-y-vectores-propios"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 177,
   "topicUrl": "http://localhost:8080/t/si-y-son-los-valores-propios-de-la-matriz-halle-la-suma-de/177",
-  "publishedAt": "2026-09-15T02:50:28.967Z"
+  "publishedAt": "2026-09-15T02:50:28.967Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_II-18",
@@ -7414,17 +8224,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "rectas-espacio"
+   "espacios-vectoriales"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 178,
   "topicUrl": "http://localhost:8080/t/las-rectas-l-1-2-2-t-3-1-2-t-r-m-0-1-2-t-1-1-1-t/178",
-  "publishedAt": "2026-09-15T02:50:30.005Z"
+  "publishedAt": "2026-09-15T02:50:30.005Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_II-19",
@@ -7456,7 +8268,7 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
    "espacios-vectoriales"
@@ -7466,7 +8278,9 @@
   "published": true,
   "topicId": 179,
   "topicUrl": "http://localhost:8080/t/de-las-siguientes-proposiciones-i-el-conjunto-de-vectores-es-un-conjunto/179",
-  "publishedAt": "2026-09-15T02:50:31.012Z"
+  "publishedAt": "2026-09-15T02:50:31.012Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-MATEMÁTICA_BÁSICA_II-20",
@@ -7498,17 +8312,19 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "subtemas": [
-   "matrices-propiedades"
+   "valores-y-vectores-propios"
   ],
   "classificationMethod": "manual_review",
   "choiceImages": {},
   "published": true,
   "topicId": 180,
   "topicUrl": "http://localhost:8080/t/indique-la-secuencia-correcta-despues-de-determinar-si-la-proposicion-es-verdade/180",
-  "publishedAt": "2026-09-15T02:50:32.010Z"
+  "publishedAt": "2026-09-15T02:50:32.010Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-CÁLCULO_DIFERENCIAL-21",
@@ -7535,13 +8351,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 181,
   "topicUrl": "http://localhost:8080/t/considere-la-funcion-polinomial-siguiente-con-a-b-se-sabe-que-en-existe-un/181",
-  "publishedAt": "2026-09-15T02:50:32.957Z"
+  "publishedAt": "2026-09-15T02:50:32.957Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "aplicaciones-de-la-derivada"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_DIFERENCIAL-22",
@@ -7568,13 +8389,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 182,
   "topicUrl": "http://localhost:8080/t/determine-los-extremos-absolutos-de-la-funcion-en-el-intervalo-0-2/182",
-  "publishedAt": "2026-09-15T02:50:33.928Z"
+  "publishedAt": "2026-09-15T02:50:33.928Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "aplicaciones-de-la-derivada"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_DIFERENCIAL-23",
@@ -7601,13 +8427,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 183,
   "topicUrl": "http://localhost:8080/t/indique-la-secuencia-correcta-despues-de-determinar-la-veracidad-v-o-falsedad/183",
-  "publishedAt": "2026-09-15T02:50:34.850Z"
+  "publishedAt": "2026-09-15T02:50:34.850Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "limites-y-continuidad"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_DIFERENCIAL-24",
@@ -7634,13 +8465,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 184,
   "topicUrl": "http://localhost:8080/t/el-valor-de-es/184",
-  "publishedAt": "2026-09-15T02:50:35.778Z"
+  "publishedAt": "2026-09-15T02:50:35.778Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "limites-y-continuidad"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_DIFERENCIAL-25",
@@ -7667,13 +8503,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 185,
   "topicUrl": "http://localhost:8080/t/calculo-diferencial-n-25/185",
-  "publishedAt": "2026-09-15T02:50:36.739Z"
+  "publishedAt": "2026-09-15T02:50:36.739Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "limites-y-continuidad"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_DIFERENCIAL-26",
@@ -7700,13 +8541,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 186,
   "topicUrl": "http://localhost:8080/t/para-las-funciones-se-afirma-i-f-es-continua-en-x-0-ii-g-no-es-continua-en/186",
-  "publishedAt": "2026-09-15T02:50:37.665Z"
+  "publishedAt": "2026-09-15T02:50:37.665Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "limites-y-continuidad"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_DIFERENCIAL-27",
@@ -7733,13 +8579,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 276,
   "topicUrl": "http://localhost:8080/t/determine-la-ecuacion-de-la-recta-tangente-a-la-grafica-de-la-funcion-en-el-pu/276",
-  "publishedAt": "2026-09-15T02:58:24.215Z"
+  "publishedAt": "2026-09-15T02:58:24.215Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "la-derivada-y-reglas-de-derivacion"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_DIFERENCIAL-28",
@@ -7766,13 +8617,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 277,
   "topicUrl": "http://localhost:8080/t/sea-f-dada-por-calcule-el-valor-de-f-en-el-punto-donde-posee-su-unico-min/277",
-  "publishedAt": "2026-09-15T02:58:26.560Z"
+  "publishedAt": "2026-09-15T02:58:26.560Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "aplicaciones-de-la-derivada"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_DIFERENCIAL-29",
@@ -7799,13 +8655,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 278,
   "topicUrl": "http://localhost:8080/t/calculo-diferencial-n-29/278",
-  "publishedAt": "2026-09-15T02:58:28.821Z"
+  "publishedAt": "2026-09-15T02:58:28.821Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "limites-y-continuidad"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_DIFERENCIAL-30",
@@ -7832,13 +8693,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 279,
   "topicUrl": "http://localhost:8080/t/de-las-cuatro-esquinas-de-una-lamina-cuadrada-de-lado-a-cm-se-suprimen-cuadrad/279",
-  "publishedAt": "2026-09-15T02:58:31.134Z"
+  "publishedAt": "2026-09-15T02:58:31.134Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "aplicaciones-de-la-derivada"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_INTEGRAL-31",
@@ -7865,13 +8731,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 280,
   "topicUrl": "http://localhost:8080/t/calcule-el-volumen-en-unidades-cubicas-del-solido-de-revolucion-que-se-obtiene/280",
-  "publishedAt": "2026-09-15T02:58:33.369Z"
+  "publishedAt": "2026-09-15T02:58:33.369Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "aplicaciones-de-la-integral"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_INTEGRAL-33",
@@ -7898,13 +8769,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 281,
   "topicUrl": "http://localhost:8080/t/determine-el-area-en-u-de-la-region-limitada-por-f-x-y-las-rectas-y-2-y/281",
-  "publishedAt": "2026-09-15T02:58:35.941Z"
+  "publishedAt": "2026-09-15T02:58:35.941Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "aplicaciones-de-la-integral"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_INTEGRAL-34",
@@ -7931,13 +8807,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 282,
   "topicUrl": "http://localhost:8080/t/calculo-integral-n-34/282",
-  "publishedAt": "2026-09-15T02:58:38.217Z"
+  "publishedAt": "2026-09-15T02:58:38.217Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "la-integral-definida-y-metodos-de-integracion"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_INTEGRAL-35",
@@ -7964,13 +8845,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 326,
   "topicUrl": "http://localhost:8080/t/calculo-integral-n-35/326",
-  "publishedAt": "2026-09-15T03:06:37.495Z"
+  "publishedAt": "2026-09-15T03:06:37.495Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "la-integral-definida-y-metodos-de-integracion"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_INTEGRAL-36",
@@ -7997,13 +8883,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 283,
   "topicUrl": "http://localhost:8080/t/calcule-el-volumen-del-solido-en-u-que-se-genera-al-girar-la-superficie-limit/283",
-  "publishedAt": "2026-09-15T02:58:42.674Z"
+  "publishedAt": "2026-09-15T02:58:42.674Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "aplicaciones-de-la-integral"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_INTEGRAL-37",
@@ -8030,13 +8921,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 284,
   "topicUrl": "http://localhost:8080/t/sea-calcule-el-area-en-de-la-region-encerrada-por-la-grafica-de-f-y-el-eje/284",
-  "publishedAt": "2026-09-15T02:58:44.942Z"
+  "publishedAt": "2026-09-15T02:58:44.942Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "aplicaciones-de-la-integral"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_INTEGRAL-38",
@@ -8063,13 +8959,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 285,
   "topicUrl": "http://localhost:8080/t/si-determine-el-valor-de-b/285",
-  "publishedAt": "2026-09-15T02:58:48.367Z"
+  "publishedAt": "2026-09-15T02:58:48.367Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "la-integral-definida-y-metodos-de-integracion"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_INTEGRAL-39",
@@ -8096,14 +8997,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
-  "subtemas": [],
+  "subtemas": [
+   "aplicaciones-de-la-integral"
+  ],
   "manuallyFixed": true,
   "published": true,
   "topicId": 286,
   "topicUrl": "http://localhost:8080/t/encuentre-el-centroide-de-la-region-limitada-por-y-la-recta-y-x/286",
-  "publishedAt": "2026-09-15T02:58:51.528Z"
+  "publishedAt": "2026-09-15T02:58:51.528Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática"
  },
  {
   "id": "ptraslado-CÁLCULO_INTEGRAL-40",
@@ -8130,13 +9035,18 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 287,
   "topicUrl": "http://localhost:8080/t/la-funcion-costo-marginal-de-un-fabricante-es-donde-c-c-q-representa-la-fun/287",
-  "publishedAt": "2026-09-15T02:58:54.704Z"
+  "publishedAt": "2026-09-15T02:58:54.704Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "aplicaciones-de-la-integral"
+  ]
  },
  {
   "id": "ptraslado-CÁLCULO_INTEGRAL-32",
@@ -8163,12 +9073,17 @@
   "solutionFigureImages": [],
   "universidad": "UNI",
   "anio": "2019",
-  "convocatoria": "2",
+  "convocatoria": "II",
   "needsReview": [],
   "choiceImages": {},
   "published": true,
   "topicId": 492,
   "topicUrl": "http://localhost:8080/t/calcule-e4-e2-x-xdx/492",
-  "publishedAt": "2026-09-25T04:47:00.000Z"
+  "publishedAt": "2026-09-25T04:47:00.000Z",
+  "modalidad": "Traslado",
+  "tipo_area": "Matemática",
+  "subtemas": [
+   "funciones-trascendentes"
+  ]
  }
 ]

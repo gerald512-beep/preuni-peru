@@ -206,6 +206,7 @@ class Fila {
     this.numero = d.numero;
     this.universidad = d.universidad || "";
     this.convocatoria = d.convocatoria || "";
+    this.anio = d.anio || "";
     this.tema = d.tema || "";
     this.respuesta = d.respuesta;
     this.clave = d.clave;
@@ -216,8 +217,10 @@ class Fila {
     this.fecha = formatoFecha(d.respondida_en);
     this.dificultad = DIFICULTAD[d.dificultad] || null;
     this.nota = d.nota || "";
-    this.origen = [this.universidad, this.convocatoria].filter(Boolean).join(" ");
-    this.ordenPregunta = `${this.universidad} ${this.convocatoria} ${String(d.numero ?? "").padStart(4, "0")}`;
+    // Convocatoria is a bare roman numeral ("I"/"II") as of the Phase 3
+    // backfill (2026-09) -- año is its own field now, shown alongside it.
+    this.origen = [this.universidad, this.anio, this.convocatoria].filter(Boolean).join(" ");
+    this.ordenPregunta = `${this.universidad} ${this.anio} ${this.convocatoria} ${String(d.numero ?? "").padStart(4, "0")}`;
   }
 
   get estadoTexto() {
@@ -506,14 +509,14 @@ export default class PreuniErrorLog extends Component {
     if (!filas.length) return;
 
     const cabecera = [
-      "Pregunta", "Título", "Universidad", "Convocatoria", "Tema", "Resultado", "Tu respuesta",
+      "Pregunta", "Título", "Universidad", "Año", "Convocatoria", "Tema", "Resultado", "Tu respuesta",
       "Clave", "Dificultad", "Tiempo (s)", "Fecha", "Nota", "Enlace",
     ];
     const lineas = [cabecera.map(celdaCsv).join(",")];
     for (const f of filas) {
       lineas.push(
         [
-          f.numero, f.titulo, f.universidad, f.convocatoria, f.tema,
+          f.numero, f.titulo, f.universidad, f.anio, f.convocatoria, f.tema,
           f.correcto ? "Correcta" : "Incorrecta", f.respuesta, f.clave, f.dificultad?.texto || "",
           f.tiempoSeg, new Date(f.fechaMs).toISOString().slice(0, 10), f.nota,
           `${window.location.origin}${f.url}`,
