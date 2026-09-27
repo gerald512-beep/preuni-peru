@@ -1501,7 +1501,7 @@
   "choices": {
    "A": "Advertir",
    "B": "Acomodar",
-   "C": "Reconocer ANALOGÍAS Precise la opción que mantiene una relación análoga con el par base escrito en mayúscula",
+   "C": "Reconocer",
    "D": "Corregir",
    "E": "Reprender"
   },
@@ -3935,7 +3935,7 @@
    "B": "Salvador del Solar Labarthe",
    "C": "Mario Vargas Llosa",
    "D": "Renato Cisneros Sánchez",
-   "E": "Raúl Tola Pedraglio Enunciados de la segunda prueba de Matemática"
+   "E": "Raúl Tola Pedraglio"
   },
   "figureRefs": [],
   "figureImages": [],
@@ -5829,7 +5829,7 @@
   "choices": {
    "A": "175",
    "B": "225",
-   "C": "275 Enunciados de la tercera prueba de Física y Química",
+   "C": "275",
    "D": "375",
    "E": "475"
   },
@@ -7460,7 +7460,7 @@
   "choices": {
    "A": "VVV",
    "B": "VFV",
-   "C": "VVF Parte II Solución del examen de admisión 2019-2",
+   "C": "VVF",
    "D": "FFF",
    "E": "FVF"
   },
@@ -8986,7 +8986,7 @@
    "B": "$\\left(\\frac{1}{4};\\frac{2}{5}\\right)$",
    "C": "$\\left(\\frac{1}{2};\\frac{2}{5}\\right)$",
    "D": "$\\left(\\frac{1}{2};\\frac{1}{5}\\right)$",
-   "E": "$\\left(\\frac{1}{2};\\frac{3}{5}\\right)$ \\left(\\frac {1}{2}; \\frac {2}{5}\\right)"
+   "E": "$\\left(\\frac{1}{2};\\frac{3}{5}\\right)$"
   },
   "figureRefs": [],
   "figureImages": [],
