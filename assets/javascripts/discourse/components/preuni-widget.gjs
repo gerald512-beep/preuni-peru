@@ -101,12 +101,26 @@ const PREUNI_CSS = `
   .preuni-pill-btn{width:30px;height:30px;font-size:13px}
   .preuni-pill-time{font-size:13px;min-width:38px;margin-left:5px}
   .preuni-sep{margin:0 6px;height:22px}
-  .preuni-center{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;justify-content:flex-start}
-  .preuni-center::-webkit-scrollbar{display:none}
+  .preuni-center{justify-content:flex-start}
   .preuni-choices{gap:4px}
   .preuni-c-btn{width:28px;height:28px;font-size:12px;flex-shrink:0}
-  .preuni-dist{gap:3px}
-  .preuni-dist-item{padding:4px 6px;min-width:34px;flex-shrink:0}
+  /* The five result boxes share the width that's left instead of each
+     claiming a minimum -- with a fixed min-width (worse with the phone's
+     text size bumped up) the last box, often the correct answer, was
+     pushed off-screen. */
+  .preuni-dist{gap:2px;flex:1;min-width:0}
+  .preuni-dist-item{padding:4px 1px;min-width:0;flex:1 1 0;overflow:hidden}
+  .preuni-dist-letter{font-size:9px}
+  .preuni-dist-pct{font-size:clamp(9px,2.8vw,11px);white-space:nowrap;letter-spacing:-.2px}
+  .preuni-dist-check{display:none}
+}
+@media (max-width: 360px){
+  .preuni-pill{padding:5px 5px}
+  .preuni-pill-btn,.preuni-log-btn{width:26px;height:26px;font-size:12px}
+  .preuni-log-btn{margin-left:3px}
+  .preuni-pill-time{font-size:12px;min-width:33px;margin-left:3px}
+  .preuni-sep{margin:0 3px}
+  .preuni-dist{gap:1px}
   .preuni-idle-text{font-size:12px;white-space:nowrap}
   .preuni-log-btn{width:30px;height:30px;font-size:13px;margin-left:6px;flex-shrink:0}
 }
@@ -280,6 +294,8 @@ export default class PreuniWidget extends Component {
         this.seleccion = data.mi_respuesta;
         this.distribucion = data.distribucion;
         this.correcto = data.mi_respuesta === this.clave;
+        // The time it took back then, not 00:00 as if answered instantly.
+        this.segundos = data.mi_tiempo ?? null;
         this.estado = "respondido";
       }
     } catch (_) {
@@ -288,6 +304,7 @@ export default class PreuniWidget extends Component {
   }
 
   get timerDisplay() {
+    if (this.segundos == null) return "--:--";
     const m = String(Math.floor(this.segundos / 60)).padStart(2, "0");
     const s = String(this.segundos % 60).padStart(2, "0");
     return m + ":" + s;
@@ -366,6 +383,7 @@ export default class PreuniWidget extends Component {
           const dist = await ajax(`/preuni/distribucion/${this.postId}`);
           this.clave = this.fields.clave;
           this.seleccion = dist.mi_respuesta || letra;
+          this.segundos = dist.mi_tiempo ?? this.segundos;
           this.correcto = this.seleccion === this.clave;
           this.distribucion = dist.distribucion;
           this.estado = "respondido";
@@ -454,7 +472,7 @@ export default class PreuniWidget extends Component {
                 {{#each this.barras as |b|}}
                   <div class={{b.clase}}>
                     <span class="preuni-dist-letter">{{b.letra}}</span>
-                    <span class="preuni-dist-pct">{{b.pct}}%{{if b.esClave " ✓" ""}}</span>
+                    <span class="preuni-dist-pct">{{b.pct}}%{{#if b.esClave}}<span class="preuni-dist-check"> ✓</span>{{/if}}</span>
                   </div>
                 {{/each}}
               </div>

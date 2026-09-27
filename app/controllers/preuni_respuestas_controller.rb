@@ -40,13 +40,12 @@ class PreuniRespuestasController < ApplicationController
     post = Post.find_by(id: post_id)
     return render json: { error: 'No encontrada' }, status: :not_found unless post
 
-    mi_respuesta = current_user ?
-      PreuniRespuesta.find_by(post_id: post_id, user_id: current_user.id)&.respuesta :
-      nil
+    mia = current_user && PreuniRespuesta.find_by(post_id: post_id, user_id: current_user.id)
 
     render json: {
       distribucion: distribucion_for(post_id),
-      mi_respuesta: mi_respuesta,
+      mi_respuesta: mia&.respuesta,
+      mi_tiempo: mia&.tiempo_segundos,
     }
   end
 
