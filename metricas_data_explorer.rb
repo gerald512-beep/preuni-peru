@@ -2,19 +2,28 @@
 # Idempotent (matched by name). Run inside the container:
 #   rails runner /tmp/metricas_data_explorer.rb
 
+# Accounts that are not real students: staff, plus members of the
+# "excluir_metricas" group (demo/test accounts, e.g. user_test).
+INTERNOS = <<~SQL.strip
+  (u.admin OR u.moderator OR EXISTS (
+    SELECT 1 FROM group_users gu JOIN groups g ON g.id = gu.group_id
+    WHERE g.name = 'excluir_metricas' AND gu.user_id = u.id))
+SQL
+
 TESTERS = <<~SQL.strip
   testers AS (
-    SELECT id, username, created_at FROM users
-    WHERE id > 0 AND NOT admin AND NOT moderator AND NOT staged
+    SELECT u.id, u.username, u.created_at FROM users u
+    WHERE u.id > 0 AND NOT u.staged AND NOT #{INTERNOS}
   )
 SQL
 
-# Browsers that were ever used by a staff account (your own testing, including
-# logged-out tests from the same browser) are left out of event metrics.
+# Browsers that were ever used by an internal account (your own testing,
+# including logged-out tests from the same browser) are left out of event
+# metrics.
 STAFF_VIS = <<~SQL.strip
   staff_visitantes AS (
     SELECT DISTINCT e.visitante_id FROM preuni_eventos e
-    JOIN users u ON u.id = e.user_id WHERE u.admin OR u.moderator
+    JOIN users u ON u.id = e.user_id WHERE #{INTERNOS}
   ),
   e AS (
     SELECT * FROM preuni_eventos
