@@ -53,6 +53,14 @@ after_initialize do
         base[:pct_correcto]   = pct
         base[:dificultad]     = pct > 65 ? "facil" : (pct < 20 ? "dificil" : "medio")
       end
+
+      # Replies collapsed behind "Ver soluciones y comentarios" (everything
+      # after the question except linked questions, which stay visible).
+      base[:num_respuestas] = Post
+        .where(topic_id: t.id, post_type: Post.types[:regular], deleted_at: nil)
+        .where("post_number > 1")
+        .where.not(id: PostCustomField.where(name: "preuni_post_type", value: "pregunta_adicional").select(:post_id))
+        .count
     end
 
     base

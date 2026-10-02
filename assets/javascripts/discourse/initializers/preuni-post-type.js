@@ -68,7 +68,11 @@ export default {
       api.onPageChange((url) => hilo.cambioDeRuta(url));
       // Writing a reply means you want to see the thread, and your own post
       // once it lands.
-      api.onAppEvent("composer:opened", () => hilo.setAbierto(true));
+      api.onAppEvent("composer:opened", () => {
+        if (api.getCurrentUser()) {
+          hilo.setAbierto(true);
+        }
+      });
     });
   },
 };

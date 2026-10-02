@@ -14,6 +14,7 @@ class PreuniEvento < ActiveRecord::Base
     login_gate_click
     clave_mostrada
     clave_login_click
+    hilo_login_click
     hilo_abierto
     registro_errores_click
     busqueda_filtro

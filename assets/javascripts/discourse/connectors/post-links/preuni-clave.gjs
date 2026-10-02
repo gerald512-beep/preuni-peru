@@ -11,7 +11,8 @@ export default class PreuniClave extends Component {
   @service preuniHilo;
   @tracked mostrarClave = false;
 
-  get hayRespuestas() { return (this.post?.topic?.posts_count || 0) > 1; }
+  get numRespuestas() { return this.post?.topic?.preuni_fields?.num_respuestas ?? 0; }
+  get hayRespuestas() { return this.numRespuestas > 0; }
 
   get eventoRef() {
     return { topicId: this.post?.topic_id, postId: this.post?.id };
@@ -28,6 +29,11 @@ export default class PreuniClave extends Component {
   @action
   clickLoginClave() {
     registrarEvento("clave_login_click", this.eventoRef);
+  }
+
+  @action
+  clickLoginHilo() {
+    registrarEvento("hilo_login_click", { ...this.eventoRef, datos: { respuestas: this.numRespuestas } });
   }
 
   get post() { return this.args.outletArgs?.post; }
@@ -82,10 +88,23 @@ export default class PreuniClave extends Component {
           </a>
         {{/if}}
         {{#if this.hayRespuestas}}
-          <button type="button" class="preuni-spoiler-btn preuni-hilo-btn" {{on "click" this.toggleHilo}}>
-            <span>{{if this.preuniHilo.abierto "▴" "▾"}}</span>
-            {{if this.preuniHilo.abierto "Ocultar soluciones y comentarios" "Ver soluciones y comentarios"}}
-          </button>
+          {{#if this.currentUser}}
+            <button type="button" class="preuni-spoiler-btn preuni-hilo-btn" {{on "click" this.toggleHilo}}>
+              <span>{{if this.preuniHilo.abierto "▴" "▾"}}</span>
+              {{#if this.preuniHilo.abierto}}
+                Ocultar soluciones y comentarios
+              {{else}}
+                Ver soluciones y comentarios ({{this.numRespuestas}})
+              {{/if}}
+            </button>
+          {{else}}
+            {{! Soft gate, same strength as the clave one: the replies are
+                still in the page (and indexed), just not shown. }}
+            <a href="/login" class="preuni-spoiler-btn preuni-hilo-btn preuni-hilo-login" style="text-decoration:none;color:inherit;justify-content:flex-start;gap:8px" {{on "click" this.clickLoginHilo}}>
+              <span>🔒</span>
+              Inicia sesión para ver las soluciones y comentarios ({{this.numRespuestas}})
+            </a>
+          {{/if}}
         {{/if}}
       </div>
     {{/if}}

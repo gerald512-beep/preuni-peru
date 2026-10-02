@@ -1,4 +1,4 @@
-# Creates/updates the 11 saved Data Explorer queries (H1-H4 + events).
+# Creates/updates the 12 saved Data Explorer queries (H1-H4, events, contact list).
 # Idempotent (matched by name). Run inside the container:
 #   rails runner /tmp/metricas_data_explorer.rb
 
@@ -9,6 +9,9 @@ INTERNOS = <<~SQL.strip
     SELECT 1 FROM group_users gu JOIN groups g ON g.id = gu.group_id
     WHERE g.name = 'excluir_metricas' AND gu.user_id = u.id))
 SQL
+
+# Must match the field name in config_registro.rb.
+CONSENTIMIENTO = "¿Aceptas que te contactemos?"
 
 TESTERS = <<~SQL.strip
   testers AS (
@@ -61,6 +64,8 @@ QUERIES = [
       t.id AS user_id,
       t.created_at AS registro,
       (SELECT u.active FROM users u WHERE u.id = t.id) AS email_confirmado,
+      (SELECT ucf.value FROM user_custom_fields ucf JOIN user_fields uf ON ucf.name = 'user_field_' || uf.id
+         WHERE uf.name = '#{CONSENTIMIENTO}' AND ucf.user_id = t.id LIMIT 1) AS acepta_contacto,
       (SELECT u.username FROM invited_users iu JOIN invites i ON i.id = iu.invite_id
          JOIN users u ON u.id = i.invited_by_id WHERE iu.user_id = t.id LIMIT 1) AS invitado_por,
       (SELECT MIN(r.created_at) FROM preuni_respuestas r WHERE r.user_id = t.id) AS primera_respuesta,
@@ -196,7 +201,7 @@ QUERIES = [
       SELECT visitante_id,
         BOOL_OR(evento = 'pregunta_vista') AS vio,
         BOOL_OR(evento = 'respuesta_anonima') AS respondio,
-        BOOL_OR(evento IN ('login_gate_click', 'clave_login_click')) AS click_login,
+        BOOL_OR(evento IN ('login_gate_click', 'clave_login_click', 'hilo_login_click')) AS click_login,
         MIN(created_at) AS primera_vez
       FROM e WHERE user_id IS NULL
       GROUP BY visitante_id
@@ -244,6 +249,33 @@ QUERIES = [
     FROM f
     GROUP BY faceta, valor
     ORDER BY faceta, veces_agregado DESC
+  SQL
+
+  ["12 · Testers que aceptan ser contactados",
+   "Solo quienes respondieron Sí a '#{CONSENTIMIENTO}'. Úsala para elegir a quién llamar: ordenada por actividad. Si alguien cambia su respuesta a No en su perfil, desaparece de esta lista.",
+   <<~SQL],
+    WITH #{TESTERS},
+    campo AS (
+      SELECT uf.id, uf.name FROM user_fields uf
+      WHERE uf.name IN ('#{CONSENTIMIENTO}', 'WhatsApp', 'Universidad objetivo', 'Especialidad objetivo')
+    ),
+    valores AS (
+      SELECT ucf.user_id, c.name, ucf.value
+      FROM user_custom_fields ucf JOIN campo c ON ucf.name = 'user_field_' || c.id
+    )
+    SELECT
+      t.id AS user_id,
+      (SELECT ue.email FROM user_emails ue WHERE ue.user_id = t.id AND ue.primary LIMIT 1) AS email,
+      (SELECT v.value FROM valores v WHERE v.user_id = t.id AND v.name = 'WhatsApp') AS whatsapp,
+      (SELECT v.value FROM valores v WHERE v.user_id = t.id AND v.name = 'Universidad objetivo') AS universidad_objetivo,
+      (SELECT v.value FROM valores v WHERE v.user_id = t.id AND v.name = 'Especialidad objetivo') AS especialidad_objetivo,
+      (SELECT COUNT(*) FROM preuni_respuestas r WHERE r.user_id = t.id) AS respuestas,
+      (SELECT COUNT(*) FROM user_visits v WHERE v.user_id = t.id) AS dias_con_visita,
+      (SELECT MAX(v.visited_at) FROM user_visits v WHERE v.user_id = t.id) AS ultima_visita,
+      t.created_at AS registro
+    FROM testers t
+    WHERE EXISTS (SELECT 1 FROM valores v WHERE v.user_id = t.id AND v.name = '#{CONSENTIMIENTO}' AND v.value = 'Sí')
+    ORDER BY respuestas DESC, dias_con_visita DESC
   SQL
 ]
 
