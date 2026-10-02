@@ -7,26 +7,46 @@
 # field is required -- the consent question is that required field. It is a
 # Sí/No choice (not a pre-ticked or mandatory checkbox) so consent stays
 # freely given (Ley 29733), and it is editable from the profile so it can be
-# withdrawn. WhatsApp and consent are private: never on profile or user card.
+# withdrawn. (A checkbox can't do both: a required one forces consent, an
+# optional one leaves no required field, so the step never appears.)
+# WhatsApp is hidden until "Sí, acepto" is picked (CSS in
+# preuni-post-type.js). All of these are private: never on profile or card.
 
 CONSENTIMIENTO = "¿Aceptas que te contactemos?"
+SI = "Sí, acepto"
+NO = "No, gracias"
+NACIMIENTO = "Fecha de nacimiento"
 
 privado = { editable: true, show_on_signup: true, show_on_profile: false, show_on_user_card: false, searchable: false }
 
 ok = UserField.find_or_initialize_by(name: CONSENTIMIENTO)
 ok.assign_attributes(privado.merge(
   field_type_enum: "dropdown", position: 3, requirement: "for_all_users", required: true,
-  description: "Solo para preguntarte cómo te va con PreUni, por correo o WhatsApp. Puedes cambiar tu respuesta cuando quieras desde tu perfil.",
+  description: "PreUni está en fase beta y nos encantaría conocer tu opinión. Si aceptas, te escribiremos de vez en cuando por correo o WhatsApp, y tendrás acceso anticipado a las nuevas funciones. Es opcional y puedes cambiarlo cuando quieras desde tu perfil.",
 ))
 ok.save!
-%w[Sí No].each { |v| ok.user_field_options.find_or_create_by!(value: v) }
+# Options were plain "Sí"/"No" until 2026-10-02: carry existing answers over.
+{ "Sí" => SI, "No" => NO }.each do |viejo, nuevo|
+  UserCustomField.where(name: "user_field_#{ok.id}", value: viejo).update_all(value: nuevo)
+end
+ok.user_field_options.where.not(value: [SI, NO]).destroy_all
+[SI, NO].each { |v| ok.user_field_options.find_or_create_by!(value: v) }
 
 wa = UserField.find_or_initialize_by(name: "WhatsApp")
 wa.assign_attributes(privado.merge(
   field_type_enum: "text", position: 4, requirement: "optional", required: false,
-  description: "Opcional. Solo lo usaremos si respondiste Sí a la pregunta anterior.",
+  description: "Para escribirte por WhatsApp en vez de (o además de) por correo.",
 ))
 wa.save!
+
+# Asked at signup only (existing accounts aren't sent to their profile for
+# it). Used for age stats; private like the rest.
+fn = UserField.find_or_initialize_by(name: NACIMIENTO)
+fn.assign_attributes(privado.merge(
+  field_type_enum: "date", position: 2, requirement: "on_signup", required: true,
+  description: "Solo para estadísticas por edad. No se muestra en tu perfil.",
+))
+fn.save!
 
 CODE_LOGIN = {
   "check_your_email" => "Revisa tu correo",
@@ -42,7 +62,7 @@ CODE_LOGIN = {
   # Discourse shows a validation error under a required field as soon as this
   # step opens, hiding that field's description -- so the purpose of the
   # consent question is repeated here, where it's always visible.
-  "user_fields_instructions" => "Solo unos datos más para crear tu cuenta. Si aceptas que te contactemos, será solo para preguntarte cómo te va con PreUni (por correo o WhatsApp). Puedes cambiar tu respuesta cuando quieras desde tu perfil.",
+  "user_fields_instructions" => "Solo unos datos más para crear tu cuenta. Tu fecha de nacimiento es solo para estadísticas por edad y no se muestra a nadie. PreUni está en fase beta y nos encantaría conocer tu opinión: si aceptas que te contactemos, te escribiremos de vez en cuando por correo o WhatsApp y tendrás acceso anticipado a las nuevas funciones. Es opcional y puedes cambiarlo cuando quieras desde tu perfil.",
   "signup_details_title" => "Elige tu nombre de usuario y avatar",
   "account_details_title" => "Termina de crear tu cuenta",
   "account_details_instructions" => "Elige cómo te verá la comunidad antes de enviar tu cuenta para aprobación.",

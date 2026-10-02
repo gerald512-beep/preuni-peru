@@ -1,4 +1,4 @@
-# Creates/updates the 12 saved Data Explorer queries (H1-H4, events, contact list).
+# Creates/updates the 13 saved Data Explorer queries (H1-H4, events, contact list, ages).
 # Idempotent (matched by name). Run inside the container:
 #   rails runner /tmp/metricas_data_explorer.rb
 
@@ -10,8 +10,21 @@ INTERNOS = <<~SQL.strip
     WHERE g.name = 'excluir_metricas' AND gu.user_id = u.id))
 SQL
 
-# Must match the field name in config_registro.rb.
+# Must match the field names in config_registro.rb. The yes option is
+# "Sí, acepto" (plain "Sí" before 2026-10-02), so match on the prefix.
 CONSENTIMIENTO = "¿Aceptas que te contactemos?"
+NACIMIENTO = "Fecha de nacimiento"
+
+# Age in whole years from the signup date field (stored as YYYY-MM-DD text);
+# NULL when missing or malformed.
+def edad_sql(user_id)
+  <<~SQL.strip
+    (SELECT DATE_PART('year', AGE(ucf.value::date))::int
+       FROM user_custom_fields ucf JOIN user_fields uf ON ucf.name = 'user_field_' || uf.id
+      WHERE uf.name = '#{NACIMIENTO}' AND ucf.user_id = #{user_id}
+        AND ucf.value ~ '^\\d{4}-\\d{2}-\\d{2}$' LIMIT 1)
+  SQL
+end
 
 TESTERS = <<~SQL.strip
   testers AS (
@@ -66,6 +79,7 @@ QUERIES = [
       (SELECT u.active FROM users u WHERE u.id = t.id) AS email_confirmado,
       (SELECT ucf.value FROM user_custom_fields ucf JOIN user_fields uf ON ucf.name = 'user_field_' || uf.id
          WHERE uf.name = '#{CONSENTIMIENTO}' AND ucf.user_id = t.id LIMIT 1) AS acepta_contacto,
+      #{edad_sql("t.id")} AS edad,
       (SELECT u.username FROM invited_users iu JOIN invites i ON i.id = iu.invite_id
          JOIN users u ON u.id = i.invited_by_id WHERE iu.user_id = t.id LIMIT 1) AS invitado_por,
       (SELECT MIN(r.created_at) FROM preuni_respuestas r WHERE r.user_id = t.id) AS primera_respuesta,
@@ -252,7 +266,7 @@ QUERIES = [
   SQL
 
   ["12 · Testers que aceptan ser contactados",
-   "Solo quienes respondieron Sí a '#{CONSENTIMIENTO}'. Úsala para elegir a quién llamar: ordenada por actividad. Si alguien cambia su respuesta a No en su perfil, desaparece de esta lista.",
+   "Solo quienes respondieron \"Sí, acepto\" a '#{CONSENTIMIENTO}'. Úsala para elegir a quién llamar: ordenada por actividad. Si alguien cambia su respuesta a No en su perfil, desaparece de esta lista.",
    <<~SQL],
     WITH #{TESTERS},
     campo AS (
@@ -274,8 +288,28 @@ QUERIES = [
       (SELECT MAX(v.visited_at) FROM user_visits v WHERE v.user_id = t.id) AS ultima_visita,
       t.created_at AS registro
     FROM testers t
-    WHERE EXISTS (SELECT 1 FROM valores v WHERE v.user_id = t.id AND v.name = '#{CONSENTIMIENTO}' AND v.value = 'Sí')
+    WHERE EXISTS (SELECT 1 FROM valores v WHERE v.user_id = t.id AND v.name = '#{CONSENTIMIENTO}' AND v.value LIKE 'Sí%')
     ORDER BY respuestas DESC, dias_con_visita DESC
+  SQL
+
+  ["13 · Edad de los testers",
+   "Cuántos testers hay por edad (de '#{NACIMIENTO}', pedida al registrarse desde el 2026-10-02) y cuánto practica cada grupo. 'sin dato' = cuentas creadas antes o fecha inválida.",
+   <<~SQL],
+    WITH #{TESTERS},
+    e AS (
+      SELECT t.id, #{edad_sql("t.id")} AS edad FROM testers t
+    )
+    SELECT
+      CASE WHEN e.edad IS NULL OR e.edad < 10 OR e.edad > 80 THEN 'sin dato'
+           WHEN e.edad <= 15 THEN '15 o menos'
+           WHEN e.edad >= 21 THEN '21 o más'
+           ELSE e.edad::text END AS edad,
+      COUNT(*) AS testers,
+      ROUND(AVG((SELECT COUNT(*) FROM preuni_respuestas r WHERE r.user_id = e.id)), 1) AS respuestas_promedio,
+      ROUND(AVG((SELECT COUNT(*) FROM user_visits v WHERE v.user_id = e.id)), 1) AS dias_con_visita_promedio
+    FROM e
+    GROUP BY 1
+    ORDER BY MIN(CASE WHEN e.edad BETWEEN 10 AND 80 THEN e.edad ELSE 999 END)
   SQL
 ]
 

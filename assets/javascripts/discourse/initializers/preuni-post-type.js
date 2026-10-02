@@ -29,6 +29,7 @@ const CSS = `
 }
 body:not(.preuni-hilo-abierto) .topic-post.preuni-hilo-respuesta{display:none}
 .preuni-hilo-btn{margin-top:8px}
+:root:not(:has(.user-field.dropdown .select-kit-header[data-value="Sí, acepto"])) .user-field-whatsapp{display:none}
 .preuni-moderador-badge{
   display:inline-flex;align-items:center;
   padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;
