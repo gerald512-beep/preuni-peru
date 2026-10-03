@@ -98,7 +98,7 @@ canvas.save(r"__OUT__", "JPEG", quality=95)
 }
 
 // ── MinerU Standard API ──────────────────────────────────────────────────────
-async function mineruParse(imgBuf, modelVersion = 'pipeline') {
+async function mineruParse(imgBuf, modelVersion = 'pipeline', maxPolls = 40) {
   const authJSON = { 'Authorization': `Bearer ${API_KEY}`, 'Content-Type': 'application/json' };
 
   const batchRes = await fetch(`${MINERU}/api/v4/file-urls/batch`, {
@@ -119,7 +119,7 @@ async function mineruParse(imgBuf, modelVersion = 'pipeline') {
   const putRes = await fetch(file_urls[0], { method: 'PUT', body: imgBuf });
   if (!putRes.ok) throw new Error(`MinerU upload: ${putRes.status}`);
 
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < maxPolls; i++) {
     await new Promise(r => setTimeout(r, 3000));
     const poll   = await (await fetch(`${MINERU}/api/v4/extract-results/batch/${batch_id}`,
       { headers: { 'Authorization': `Bearer ${API_KEY}` } })).json();
@@ -153,6 +153,25 @@ async function agentParse(imgBuf) {
   throw new Error('MinerU agent: timeout');
 }
 
+// The keyed Standard API sometimes leaves jobs "pending" indefinitely (on
+// 2026-10-02 every job sat there 25+ min) while the keyless Agent API kept
+// working. So: give Standard 60 s, then fall back to the Agent API (text only,
+// no cropped figures) and skip Standard for the next 15 min.
+let standardDownUntil = 0;
+
+async function parseImage(buf, modelVersion = 'pipeline') {
+  if (API_KEY && Date.now() > standardDownUntil) {
+    try {
+      return await mineruParse(buf, modelVersion, 20);
+    } catch (e) {
+      if (e.message !== 'MinerU: timeout') throw e;
+      standardDownUntil = Date.now() + 15 * 60 * 1000;
+      console.log('[MinerU] Standard API timed out -- using the Agent API for 15 min');
+    }
+  }
+  return agentParse(buf);
+}
+
 // ── ZIP extraction ───────────────────────────────────────────────────────────
 async function extractZip(zipUrl) {
   const buf = Buffer.from(await (await fetch(zipUrl)).arrayBuffer());
@@ -178,7 +197,7 @@ async function extractZip(zipUrl) {
 async function extractAll(rawBuf) {
   const buf = upscaleImage(rawBuf);
 
-  const pass1 = API_KEY ? await mineruParse(buf) : await agentParse(buf);
+  const pass1 = await parseImage(buf);
   const result = parseResult(pass1);
 
   const filled = Object.values(result.choices).filter(v => v.trim()).length;
@@ -186,7 +205,7 @@ async function extractAll(rawBuf) {
     console.log(`[extract] Only ${filled} choices — boost1: bottom-12% crop`);
     const crop12Buf = cropChoiceZone(buf);  // 12% centered in 1200×1200
     try {
-      const boost1 = API_KEY ? await mineruParse(crop12Buf, 'pipeline') : await agentParse(crop12Buf);
+      const boost1 = await parseImage(crop12Buf, 'pipeline');
       const boost1Result = parseResult(boost1);
       for (const k of 'ABCDE') {
         if (!result.choices[k] && boost1Result.choices[k]) result.choices[k] = boost1Result.choices[k];
@@ -211,7 +230,7 @@ canvas.paste(crop, (0, y_off))
 canvas.save(r"__OUT__", "JPEG", quality=95)
 `);
       try {
-        const boost2 = API_KEY ? await mineruParse(crop20Buf, 'pipeline') : await agentParse(crop20Buf);
+        const boost2 = await parseImage(crop20Buf, 'pipeline');
         const boost2Result = parseResult(boost2);
         for (const k of 'ABCDE') {
           if (!result.choices[k] && boost2Result.choices[k]) result.choices[k] = boost2Result.choices[k];
@@ -522,9 +541,6 @@ app.post('/api/publish', async (req, res) => {
       tags.push(taTag);
     }
 
-    // Build structured convocatoria: "2024-I Ordinario" or just "2024"
-    const convStr = [anio, convocatoria].filter(Boolean).join('-');
-
     // Upload figures, replace [FIG:N] markers
     let resolvedBody = body;
     for (let i = 0; i < (figure_images?.length || 0); i++) {
@@ -553,18 +569,15 @@ app.post('/api/publish', async (req, res) => {
     const raw = buildRaw(resolvedBody, choices, choiceUrls);
 
     // Custom fields go in the POST body — PUT /t/:id silently drops them.
-    // preuni_convocatoria is STILL the combined "año-convocatoria" string for
-    // now (kept for /errores' origen display, which reads it that way) --
-    // switching it to a bare roman numeral needs a coordinated fix there
-    // first (see [[question-composer]] Phase 6). preuni_anio/modalidad/
-    // tipo_area are new and safe to send as-is -- this is what lets the
-    // faceted-search index (Phase 2) actually populate for new publishes.
+    // preuni_convocatoria is the bare roman numeral ("II") and the year goes
+    // in preuni_anio, same as every backfilled question: the search index
+    // copies both into its own facets, and /errores joins them for display.
     const post = await createTopicWithTitleFallback(
       {
         raw, category: categoryId, tags,
         topic_custom_fields: {
           preuni_clave:        clave,
-          preuni_convocatoria: convStr,
+          preuni_convocatoria: convocatoria || '',
           preuni_numero:       String(numero || ''),
           preuni_universidad:  universidad,
           preuni_tema:         tema,
@@ -760,12 +773,12 @@ app.post('/api/check-duplicate', async (req, res) => {
     const uniCatIds = await getCategoryIdsForUniversidad(universidad);
     let match = null;
 
-    // Strategy 1: exact attribute lookup (universidad + convocatoria + número),
-    // via the plugin -- the number is no longer stored as a tag.
+    // Strategy 1: exact attribute lookup (universidad + año + convocatoria +
+    // número), via the plugin -- the number is no longer stored as a tag.
     if (numero && universidad) {
-      const convStr = [anio, convocatoria].filter(Boolean).join('-');
       const qs = new URLSearchParams({ numero: String(numero), universidad });
-      if (convStr) qs.set('convocatoria', convStr);
+      if (anio) qs.set('anio', String(anio));
+      if (convocatoria) qs.set('convocatoria', convocatoria);
       const findRes = await fetch(`${DISCOURSE_URL}/preuni/find?${qs}`, {
         headers: { ...headers, Accept: 'application/json' },
       });
@@ -880,7 +893,7 @@ app.put('/api/bulk-question/:id', (req, res) => {
     const idx = data.findIndex(r => r.id === req.params.id);
     if (idx === -1) return res.status(404).json({ error: 'No encontrado en el lote' });
 
-    const { body, choices, choiceImages, figureImages, clave, tema, subtemas, solutionBody, solutionFigureImages } = req.body;
+    const { body, choices, choiceImages, figureImages, clave, tema, subtemas, modalidad, tipo_area, solutionBody, solutionFigureImages } = req.body;
     if (body !== undefined) data[idx].body = body;
     if (choices !== undefined) data[idx].choices = choices;
     // Merge per-letter, never replace wholesale — the composer's choiceImages
@@ -896,6 +909,8 @@ app.put('/api/bulk-question/:id', (req, res) => {
     if (clave !== undefined) data[idx].clave = clave;
     if (tema !== undefined) data[idx].tema = tema;
     if (subtemas !== undefined) data[idx].subtemas = subtemas;
+    if (modalidad !== undefined) data[idx].modalidad = modalidad;
+    if (tipo_area !== undefined) data[idx].tipo_area = tipo_area;
     if (solutionBody !== undefined) data[idx].solutionBody = solutionBody;
     if (solutionFigureImages !== undefined) data[idx].solutionFigureImages = solutionFigureImages;
 
@@ -939,6 +954,11 @@ app.post('/api/bulk-question/:id/publish', (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>
-  console.log(`PreUni composer → http://localhost:${PORT}/question-composer-prototype.html  [${API_KEY ? 'MinerU Standard' : 'MinerU Agent'}]`));
+// composer_demo.js (the public English demo) reuses the extraction only.
+module.exports = { extractAll };
+
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () =>
+    console.log(`PreUni composer → http://localhost:${PORT}/question-composer-prototype.html  [${API_KEY ? 'MinerU Standard' : 'MinerU Agent'}]`));
+}

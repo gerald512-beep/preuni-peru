@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PreUni — Nueva Pregunta (Prototipo)</title>
+<title>PreUni — New Question (Demo)</title>
 <script>
 window.MathJax = {
   tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
@@ -230,16 +230,25 @@ select[multiple] { height: 90px; }
 .manual-crop-actions button { padding:6px 20px; border-radius:4px; border:none; cursor:pointer; font-size:13px; font-weight:500; }
 .manual-crop-actions .btn-confirm { background:#6f5acd; color:#fff; }
 .manual-crop-actions .btn-cancel  { background:#f0f0f0; color:#333; }
+/* ── DEMO: preview overlay ── */
+.preview-overlay { position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:1500; display:flex; align-items:flex-start; justify-content:center; overflow-y:auto; padding:40px 16px; }
+.preview-overlay.hidden { display:none; }
+.preview-overlay-card { background:#fafafa; border-radius:8px; width:min(760px,100%); padding:20px 24px; box-shadow:0 10px 40px rgba(0,0,0,.3); }
+.preview-overlay-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:4px; }
+.preview-overlay-head h2 { font-size:17px; font-weight:700; color:#1d1d1d; }
+.preview-overlay-note { font-size:12px; color:#666; margin-bottom:14px; }
+.preview-overlay-close { padding:6px 16px; border-radius:4px; border:1px solid #ccc; background:#fff; font-size:13px; cursor:pointer; }
+.preview-overlay-close:hover { border-color:#00529b; color:#00529b; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>PreUni Peru — Nueva Pregunta</h1>
-  <span class="badge">ADMIN</span>
+  <h1>PreUni Peru — New Question</h1>
+  <span class="badge">DEMO</span>
   <div class="ai-status">
     <div class="ai-dot ready" id="ai-dot"></div>
-    <span id="ai-status-text">MinerU listo</span>
+    <span id="ai-status-text">MinerU ready</span>
   </div>
 </header>
 
@@ -247,7 +256,7 @@ select[multiple] { height: 90px; }
 <div class="form-panel">
 
   <!-- PREGUNTA ENLAZADA (reading-passage cluster) -->
-  <div class="toggle-sol-wrap">
+  <div class="toggle-sol-wrap" style="display:none">
     <input type="checkbox" id="chk-linked" onchange="toggleLinkedMode()">
     <label for="chk-linked">Es una pregunta enlazada a un texto ya publicado</label>
   </div>
@@ -259,48 +268,48 @@ select[multiple] { height: 90px; }
 
   <!-- IMAGE CAPTURE -->
   <div class="field">
-    <label>Capturar imagen de la pregunta <span>— hasta 2 imágenes si la pregunta está en dos columnas</span></label>
+    <label>Question image <span>— up to 2 images if the question spans two columns</span></label>
     <div class="dual-image-row">
       <div class="zone-wrap">
-        <div class="zone-label">Imagen 1</div>
+        <div class="zone-label">Image 1</div>
         <div class="image-zone" id="image-zone-1" tabindex="0" onclick="selectPasteZone('question',1)"
           ondragover="handleDragOver(event,1)" ondragleave="handleDragLeave(1)" ondrop="handleDrop(event,1)">
           <input type="file" accept="image/*" onchange="handleFileInput(event,1)">
           <img class="img-preview" id="img-preview-1">
           <div class="image-zone-text" id="image-zone-text-1">
-            <strong>Haz clic y pega (Ctrl+V)</strong>
-            o arrastra · <button type="button" class="zone-file-link" onclick="this.closest('.image-zone').querySelector('input[type=file]').click()">Elegir archivo</button>
+            <strong>Click, then paste (Ctrl+V)</strong>
+            or drag · <button type="button" class="zone-file-link" onclick="this.closest('.image-zone').querySelector('input[type=file]').click()">Choose file</button>
           </div>
         </div>
-        <button class="clear-img-btn" id="clear-btn-1" style="display:none;width:100%" onclick="clearImage(1)">Limpiar</button>
+        <button class="clear-img-btn" id="clear-btn-1" style="display:none;width:100%" onclick="clearImage(1)">Clear</button>
       </div>
       <div class="zone-wrap">
-        <div class="zone-label">Imagen 2 <em style="font-weight:400">(opcional)</em></div>
+        <div class="zone-label">Image 2 <em style="font-weight:400">(optional)</em></div>
         <div class="image-zone" id="image-zone-2" tabindex="0" onclick="selectPasteZone('question',2)"
           ondragover="handleDragOver(event,2)" ondragleave="handleDragLeave(2)" ondrop="handleDrop(event,2)">
           <input type="file" accept="image/*" onchange="handleFileInput(event,2)">
           <img class="img-preview" id="img-preview-2">
           <div class="image-zone-text" id="image-zone-text-2">
-            <strong>Haz clic y pega (Ctrl+V)</strong>
-            columna siguiente · o arrastra · <button type="button" class="zone-file-link" onclick="this.closest('.image-zone').querySelector('input[type=file]').click()">Elegir archivo</button>
+            <strong>Click, then paste (Ctrl+V)</strong>
+            next column · or drag · <button type="button" class="zone-file-link" onclick="this.closest('.image-zone').querySelector('input[type=file]').click()">Choose file</button>
           </div>
         </div>
-        <button class="clear-img-btn" id="clear-btn-2" style="display:none;width:100%" onclick="clearImage(2)">Limpiar</button>
+        <button class="clear-img-btn" id="clear-btn-2" style="display:none;width:100%" onclick="clearImage(2)">Clear</button>
       </div>
     </div>
     <div class="extract-notice" id="extract-notice"></div>
     <div class="img-actions">
-      <button class="extract-btn" id="extract-btn" disabled onclick="extractFromImage()">Cargar pregunta</button>
+      <button class="extract-btn" id="extract-btn" disabled onclick="extractFromImage()">Extract question</button>
     </div>
   </div>
 
   <hr class="divider">
-  <h2>Completa o edita manualmente</h2>
+  <h2>Complete or edit manually</h2>
 
   <!-- BODY -->
   <div class="field">
-    <label>Enunciado <span>— acepta LaTeX con $ ... $ o $$ ... $$</span></label>
-    <textarea id="body" rows="4" placeholder="Ej: Si $x^2 - 5x + 6 = 0$, ¿cuál es la suma de sus raíces?"></textarea>
+    <label>Question text <span>— supports LaTeX with $ ... $ or $$ ... $$</span></label>
+    <textarea id="body" rows="4" placeholder="e.g. If $x^2 - 5x + 6 = 0$, what is the sum of its roots?"></textarea>
     <div class="hint">Inline: $x^2$  &nbsp;·&nbsp;  Display: $$\frac{a}{b}$$</div>
   </div>
 
@@ -308,19 +317,19 @@ select[multiple] { height: 90px; }
 
   <!-- CHOICES -->
   <div class="field">
-    <label>Alternativas</label>
-    <div class="hint choices-hint">Escribe texto o LaTeX en cada alternativa. Para adjuntar una imagen, usa <strong>&#9986; Insertar imagen</strong> — la imagen reemplazará el texto en la vista previa.</div>
+    <label>Answer choices</label>
+    <div class="hint choices-hint">Type text or LaTeX in each choice. To attach an image, use <strong>&#9986; Insert image</strong> — the image replaces the text in the preview.</div>
     <div class="choices-grid" id="choices-text-mode">
       <div class="choice-row">
         <div class="choice-label" id="lbl-A">A</div>
         <div class="choice-input-wrap">
           <div class="choice-input-row">
-            <textarea class="short" id="choice-A" rows="1" placeholder="Alternativa A — texto o LaTeX"></textarea>
-            <button class="btn-choice-crop" onclick="openManualCrop('A')" disabled>&#9986; Insertar imagen</button>
+            <textarea class="short" id="choice-A" rows="1" placeholder="Choice A — text or LaTeX"></textarea>
+            <button class="btn-choice-crop" onclick="openManualCrop('A')" disabled>&#9986; Insert image</button>
           </div>
           <div class="choice-img-preview-row" id="cip-A" style="display:none">
             <img class="choice-img-thumb-preview" id="cipimg-A">
-            <button class="btn-choice-clear-img" onclick="clearChoiceImage('A')">&#10005; Quitar imagen</button>
+            <button class="btn-choice-clear-img" onclick="clearChoiceImage('A')">&#10005; Remove image</button>
           </div>
         </div>
       </div>
@@ -328,12 +337,12 @@ select[multiple] { height: 90px; }
         <div class="choice-label" id="lbl-B">B</div>
         <div class="choice-input-wrap">
           <div class="choice-input-row">
-            <textarea class="short" id="choice-B" rows="1" placeholder="Alternativa B — texto o LaTeX"></textarea>
-            <button class="btn-choice-crop" onclick="openManualCrop('B')" disabled>&#9986; Insertar imagen</button>
+            <textarea class="short" id="choice-B" rows="1" placeholder="Choice B — text or LaTeX"></textarea>
+            <button class="btn-choice-crop" onclick="openManualCrop('B')" disabled>&#9986; Insert image</button>
           </div>
           <div class="choice-img-preview-row" id="cip-B" style="display:none">
             <img class="choice-img-thumb-preview" id="cipimg-B">
-            <button class="btn-choice-clear-img" onclick="clearChoiceImage('B')">&#10005; Quitar imagen</button>
+            <button class="btn-choice-clear-img" onclick="clearChoiceImage('B')">&#10005; Remove image</button>
           </div>
         </div>
       </div>
@@ -341,12 +350,12 @@ select[multiple] { height: 90px; }
         <div class="choice-label" id="lbl-C">C</div>
         <div class="choice-input-wrap">
           <div class="choice-input-row">
-            <textarea class="short" id="choice-C" rows="1" placeholder="Alternativa C — texto o LaTeX"></textarea>
-            <button class="btn-choice-crop" onclick="openManualCrop('C')" disabled>&#9986; Insertar imagen</button>
+            <textarea class="short" id="choice-C" rows="1" placeholder="Choice C — text or LaTeX"></textarea>
+            <button class="btn-choice-crop" onclick="openManualCrop('C')" disabled>&#9986; Insert image</button>
           </div>
           <div class="choice-img-preview-row" id="cip-C" style="display:none">
             <img class="choice-img-thumb-preview" id="cipimg-C">
-            <button class="btn-choice-clear-img" onclick="clearChoiceImage('C')">&#10005; Quitar imagen</button>
+            <button class="btn-choice-clear-img" onclick="clearChoiceImage('C')">&#10005; Remove image</button>
           </div>
         </div>
       </div>
@@ -354,12 +363,12 @@ select[multiple] { height: 90px; }
         <div class="choice-label" id="lbl-D">D</div>
         <div class="choice-input-wrap">
           <div class="choice-input-row">
-            <textarea class="short" id="choice-D" rows="1" placeholder="Alternativa D — texto o LaTeX"></textarea>
-            <button class="btn-choice-crop" onclick="openManualCrop('D')" disabled>&#9986; Insertar imagen</button>
+            <textarea class="short" id="choice-D" rows="1" placeholder="Choice D — text or LaTeX"></textarea>
+            <button class="btn-choice-crop" onclick="openManualCrop('D')" disabled>&#9986; Insert image</button>
           </div>
           <div class="choice-img-preview-row" id="cip-D" style="display:none">
             <img class="choice-img-thumb-preview" id="cipimg-D">
-            <button class="btn-choice-clear-img" onclick="clearChoiceImage('D')">&#10005; Quitar imagen</button>
+            <button class="btn-choice-clear-img" onclick="clearChoiceImage('D')">&#10005; Remove image</button>
           </div>
         </div>
       </div>
@@ -367,12 +376,12 @@ select[multiple] { height: 90px; }
         <div class="choice-label" id="lbl-E">E</div>
         <div class="choice-input-wrap">
           <div class="choice-input-row">
-            <textarea class="short" id="choice-E" rows="1" placeholder="Alternativa E — texto o LaTeX"></textarea>
-            <button class="btn-choice-crop" onclick="openManualCrop('E')" disabled>&#9986; Insertar imagen</button>
+            <textarea class="short" id="choice-E" rows="1" placeholder="Choice E — text or LaTeX"></textarea>
+            <button class="btn-choice-crop" onclick="openManualCrop('E')" disabled>&#9986; Insert image</button>
           </div>
           <div class="choice-img-preview-row" id="cip-E" style="display:none">
             <img class="choice-img-thumb-preview" id="cipimg-E">
-            <button class="btn-choice-clear-img" onclick="clearChoiceImage('E')">&#10005; Quitar imagen</button>
+            <button class="btn-choice-clear-img" onclick="clearChoiceImage('E')">&#10005; Remove image</button>
           </div>
         </div>
       </div>
@@ -383,7 +392,7 @@ select[multiple] { height: 90px; }
 
   <!-- CLAVE -->
   <div class="field">
-    <label>Clave</label>
+    <label>Answer key</label>
     <div class="clave-row">
       <button class="clave-btn" data-clave="A">A</button>
       <button class="clave-btn" data-clave="B">B</button>
@@ -402,19 +411,19 @@ select[multiple] { height: 90px; }
   <!-- ORIGEN + AÑO + CONVOCATORIA + N° -->
   <div class="meta-row" style="grid-template-columns:minmax(0,1fr) 96px 88px 88px" id="meta-row-full">
     <div class="field">
-      <label>Universidad</label>
+      <label>University</label>
       <select id="university">
-        <option value="">— seleccionar —</option>
+        <option value="">— select —</option>
         <option value="UNMSM">UNMSM</option>
         <option value="UNI">UNI</option>
       </select>
     </div>
     <div class="field">
-      <label>Año</label>
+      <label>Year</label>
       <input type="number" id="anio" min="1960" max="2099" placeholder="2024">
     </div>
     <div class="field">
-      <label>Conv.</label>
+      <label>Round</label>
       <select id="convocatoria">
         <option value="">—</option>
         <option value="I">I</option>
@@ -423,7 +432,7 @@ select[multiple] { height: 90px; }
       </select>
     </div>
     <div class="field">
-      <label>N°</label>
+      <label>No.</label>
       <input type="number" id="numero" min="1" placeholder="15">
     </div>
   </div>
@@ -431,43 +440,43 @@ select[multiple] { height: 90px; }
   <!-- MODALIDAD + TIPO/ÁREA -->
   <div class="meta-row" style="grid-template-columns:1fr 1fr" id="meta-row-modalidad">
     <div class="field">
-      <label>Modalidad <span>— opcional</span></label>
+      <label>Admission type <span>— optional</span></label>
       <select id="modalidad">
-        <option value="">— seleccionar —</option>
-        <option value="Ordinario">Ordinario</option>
-        <option value="Traslado">Traslado</option>
-        <option value="Escolar">Escolar</option>
-        <option value="Simulacro">Simulacro</option>
+        <option value="">— select —</option>
+        <option value="Ordinario">Regular</option>
+        <option value="Traslado">Transfer</option>
+        <option value="Escolar">School</option>
+        <option value="Simulacro">Practice exam</option>
         <option value="CEPRE">CEPRE</option>
       </select>
     </div>
     <div class="field">
-      <label>Tipo / Área <span>— opcional</span></label>
+      <label>Exam / Area <span>— optional</span></label>
       <select id="tipo_area" disabled>
-        <option value="">— selecciona universidad primero —</option>
+        <option value="">— select a university first —</option>
       </select>
     </div>
   </div>
 
   <!-- N° only, shown instead of meta-row-full in linked mode -->
   <div class="field" id="numero-only-field" style="display:none">
-    <label>N°</label>
+    <label>No.</label>
     <input type="number" id="numero-linked" min="1" placeholder="15">
   </div>
 
   <!-- TEMA -->
   <div class="field" id="tema-field">
-    <label>Tema</label>
+    <label>Subject</label>
     <select id="tema" disabled>
-      <option value="">— selecciona universidad primero —</option>
+      <option value="">— select a university first —</option>
     </select>
   </div>
 
   <!-- SUB-TEMA -->
   <div class="field" id="subtema-field">
-    <label>Sub-tema <span>— Ctrl+click para seleccionar varios</span></label>
+    <label>Topic <span>— Ctrl+click to select several</span></label>
     <select id="subtema" multiple style="height:110px"></select>
-    <div class="hint">Selecciona todas las técnicas que aplican, aunque sean de distintos temas.</div>
+    <div class="hint">Select every technique that applies, even across subjects.</div>
   </div>
 
   <hr class="divider">
@@ -475,77 +484,77 @@ select[multiple] { height: 90px; }
   <!-- AGREGAR SOLUCIÓN -->
   <div class="toggle-sol-wrap">
     <input type="checkbox" id="chk-solucion" onchange="toggleSolSection()">
-    <label for="chk-solucion">Agregar solución</label>
+    <label for="chk-solucion">Add solution</label>
   </div>
 
   <div class="sol-section" id="sol-section">
-    <h2>Solución</h2>
+    <h2>Solution</h2>
     <div class="field">
-      <label>Capturar imagen de la solución <span>— hasta 2 imágenes si la solución está en dos páginas</span></label>
+      <label>Solution image <span>— up to 2 images if the solution spans two pages</span></label>
       <div class="dual-image-row">
         <div class="zone-wrap">
-          <div class="zone-label">Imagen 1</div>
+          <div class="zone-label">Image 1</div>
           <div class="image-zone" id="sol-image-zone-1" tabindex="0" onclick="selectPasteZone('solution',1)"
             ondragover="handleSolDragOver(event,1)" ondragleave="handleSolDragLeave(1)" ondrop="handleSolDrop(event,1)">
             <input type="file" accept="image/*" onchange="handleSolFileInput(event,1)">
             <img class="img-preview" id="sol-img-preview-1">
             <div class="image-zone-text" id="sol-image-zone-text-1">
-              <strong>Haz clic y pega (Ctrl+V)</strong>
-              o arrastra · <button type="button" class="zone-file-link" onclick="this.closest('.image-zone').querySelector('input[type=file]').click()">Elegir archivo</button>
+              <strong>Click, then paste (Ctrl+V)</strong>
+              or drag · <button type="button" class="zone-file-link" onclick="this.closest('.image-zone').querySelector('input[type=file]').click()">Choose file</button>
             </div>
           </div>
-          <button class="clear-img-btn" id="sol-clear-btn-1" style="display:none;width:100%" onclick="clearSolImage(1)">Limpiar</button>
+          <button class="clear-img-btn" id="sol-clear-btn-1" style="display:none;width:100%" onclick="clearSolImage(1)">Clear</button>
         </div>
         <div class="zone-wrap">
-          <div class="zone-label">Imagen 2 <em style="font-weight:400">(opcional)</em></div>
+          <div class="zone-label">Image 2 <em style="font-weight:400">(optional)</em></div>
           <div class="image-zone" id="sol-image-zone-2" tabindex="0" onclick="selectPasteZone('solution',2)"
             ondragover="handleSolDragOver(event,2)" ondragleave="handleSolDragLeave(2)" ondrop="handleSolDrop(event,2)">
             <input type="file" accept="image/*" onchange="handleSolFileInput(event,2)">
             <img class="img-preview" id="sol-img-preview-2">
             <div class="image-zone-text" id="sol-image-zone-text-2">
-              <strong>Haz clic y pega (Ctrl+V)</strong>
-              página siguiente · o arrastra · <button type="button" class="zone-file-link" onclick="this.closest('.image-zone').querySelector('input[type=file]').click()">Elegir archivo</button>
+              <strong>Click, then paste (Ctrl+V)</strong>
+              next page · or drag · <button type="button" class="zone-file-link" onclick="this.closest('.image-zone').querySelector('input[type=file]').click()">Choose file</button>
             </div>
           </div>
-          <button class="clear-img-btn" id="sol-clear-btn-2" style="display:none;width:100%" onclick="clearSolImage(2)">Limpiar</button>
+          <button class="clear-img-btn" id="sol-clear-btn-2" style="display:none;width:100%" onclick="clearSolImage(2)">Clear</button>
         </div>
       </div>
       <div class="extract-notice" id="sol-extract-notice"></div>
       <div class="img-actions">
-        <button class="extract-btn" id="sol-extract-btn" disabled onclick="extractSolution()">Cargar solución</button>
+        <button class="extract-btn" id="sol-extract-btn" disabled onclick="extractSolution()">Extract solution</button>
       </div>
     </div>
     <hr class="divider" style="margin:10px 0">
-    <h2>Completa o edita manualmente</h2>
+    <h2>Complete or edit manually</h2>
     <div class="field">
-      <label>Texto de la solución <span>— acepta LaTeX con $ ... $ o $$ ... $$</span></label>
-      <textarea id="sol-body" rows="6" placeholder="La solución extraída aparecerá aquí. Edita si es necesario."></textarea>
+      <label>Solution text <span>— supports LaTeX with $ ... $ or $$ ... $$</span></label>
+      <textarea id="sol-body" rows="6" placeholder="The extracted solution will appear here. Edit it if needed."></textarea>
     </div>
   </div>
 
   <!-- VALIDATION PANEL -->
   <div id="validation-panel" class="validation-panel">
-    <div class="validation-header">⚠ Revisa antes de publicar</div>
+    <div class="validation-header">⚠ Check before previewing</div>
     <div id="val-errors-wrap" class="val-section val-errors" style="display:none">
-      <div class="val-section-title">🔴 Errores — necesitas resolverlos</div>
+      <div class="val-section-title">🔴 Errors — fix these first</div>
       <div id="val-errors-list"></div>
     </div>
     <div id="val-warnings-wrap" class="val-section val-warnings" style="display:none">
-      <div class="val-section-title">🟡 Advertencias — puedes publicar igualmente</div>
+      <div class="val-section-title">🟡 Warnings — you can still preview</div>
       <div id="val-warnings-list"></div>
     </div>
   </div>
 
   <div class="extract-notice" id="publish-notice"></div>
-  <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">Publicar pregunta</button>
+  <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">Preview</button>
 </div>
 
 <!-- PREVIEW -->
 <div class="preview-panel">
-  <h2>Vista previa del tema en Discourse</h2>
+  <h2>Question preview</h2>
   <div class="topic-preview">
     <div class="topic-header">
-      <div class="topic-title" id="prev-title">Tu pregunta aparecerá aquí</div>
+      <div class="topic-title" id="prev-title">Your question will appear here</div>
       <div class="topic-meta">
         <span class="cat-tag" id="prev-cat">—</span>
         <span class="tag" id="prev-convocatoria" style="display:none"></span>
@@ -555,9 +564,9 @@ select[multiple] { height: 90px; }
       </div>
     </div>
     <div class="topic-body">
-      <div class="question-text" id="prev-body"><em style="color:#aaa">El enunciado con LaTeX renderizado aparecerá aquí...</em></div>
+      <div class="question-text" id="prev-body"><em style="color:#aaa">The question text with rendered LaTeX will appear here...</em></div>
       <div id="prev-figures"></div>
-      <button class="btn-manual-crop" onclick="openManualCrop()" style="margin-bottom:10px;">&#9986; Recortar e insertar manualmente</button>
+      <button class="btn-manual-crop" onclick="openManualCrop()" style="margin-bottom:10px;">&#9986; Crop and insert manually</button>
       <ul class="choices-preview" id="prev-choices">
         <li class="choice-item"><span class="letter">A</span><span class="choice-text"></span></li>
         <li class="choice-item"><span class="letter">B</span><span class="choice-text"></span></li>
@@ -567,8 +576,8 @@ select[multiple] { height: 90px; }
       </ul>
     </div>
     <div class="topic-footer">
-      <span class="clave-display" id="prev-clave">Clave: no seleccionada</span>
-      <span style="font-size:11px;color:#aaa;margin-left:8px;">visible solo para admins</span>
+      <span class="clave-display" id="prev-clave">Answer key: not selected</span>
+      <span style="font-size:11px;color:#aaa;margin-left:8px;">visible to admins only</span>
     </div>
   </div>
 
@@ -576,12 +585,12 @@ select[multiple] { height: 90px; }
   <div id="prev-sol-wrap" style="display:none;margin-top:10px;">
     <div class="topic-preview">
       <div class="topic-header" style="padding:10px 16px;display:flex;align-items:center;gap:8px;">
-        <span style="font-size:11px;font-weight:700;padding:2px 9px;border-radius:3px;background:#d4edda;color:#155724;border:1px solid #c3e6cb;">✓ Solución</span>
-        <span style="font-size:11px;color:#aaa;">post #2 · preuni_post_type = solucion</span>
+        <span style="font-size:11px;font-weight:700;padding:2px 9px;border-radius:3px;background:#d4edda;color:#155724;border:1px solid #c3e6cb;">✓ Solution</span>
+        <span style="font-size:11px;color:#aaa;">reply #2 · solution post</span>
       </div>
       <div class="topic-body" style="border-left:3px solid #28a745;margin-left:0;padding-left:16px;">
-        <div class="question-text" id="prev-sol-body"><em style="color:#aaa">La solución aparecerá aquí...</em></div>
-        <button class="btn-manual-crop" onclick="openManualSolCrop()" style="margin-top:10px;">&#9986; Recortar e insertar en solución</button>
+        <div class="question-text" id="prev-sol-body"><em style="color:#aaa">The solution will appear here...</em></div>
+        <button class="btn-manual-crop" onclick="openManualSolCrop()" style="margin-top:10px;">&#9986; Crop and insert into solution</button>
       </div>
     </div>
   </div>
@@ -595,9 +604,9 @@ let currentFigureImages = [];  // all figure data URLs from last extraction
 // Build figure card HTML for preview
 function figCardHtml(src, idx) {
   return `<div class="fig-card" data-fig-idx="${idx}">
-    <img src="${src}" alt="Figura ${idx+1}">
-    <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Recortar</button>
-    <button class="fig-del-btn"  onclick="deleteFig(${idx})">&#10005; Eliminar</button>
+    <img src="${src}" alt="Figure ${idx+1}">
+    <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Crop</button>
+    <button class="fig-del-btn"  onclick="deleteFig(${idx})">&#10005; Delete</button>
   </div>`;
 }
 
@@ -610,9 +619,9 @@ function bodyToHtml(text) {
       const src = currentFigureImages[idx];
       if (!src) return '';
       return `<div class="fig-card" data-fig-idx="${idx}">
-        <img src="${src}" alt="Figura ${idx+1}">
-        <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Recortar</button>
-        <button class="fig-del-btn"  onclick="deleteFig(${idx})">&#10005; Eliminar</button>
+        <img src="${src}" alt="Figure ${idx+1}">
+        <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Crop</button>
+        <button class="fig-del-btn"  onclick="deleteFig(${idx})">&#10005; Delete</button>
       </div>`;
     });
 }
@@ -704,7 +713,7 @@ document.addEventListener('paste', (e) => {
   if (!item) return;
   e.preventDefault();
   if (!pasteZone) {
-    avisar('Haz clic en el recuadro donde quieres pegar la imagen y vuelve a pegar.');
+    avisar('Click the box where you want to paste the image, then paste again.');
     return;
   }
   if (pasteZone.kind === 'solution') loadSolImageFile(item.getAsFile(), pasteZone.n);
@@ -867,69 +876,73 @@ async function extractSolution() {
   if (!capturedSolImage) return;
   const btn    = document.getElementById('sol-extract-btn');
   const notice = document.getElementById('sol-extract-notice');
-  btn.textContent = 'Extrayendo…';
+  btn.textContent = 'Extracting…';
   btn.classList.add('loading');
   btn.disabled = true;
   notice.className = 'extract-notice';
   try {
     const stitched = await getSolImageForExtraction();
-    const res = await fetch('/api/extract', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ image: stitched, mode: 'solution' })
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({ error: res.statusText }));
-      throw new Error(err.error || res.statusText);
-    }
-    const data = await res.json();
+    const data = await extractImage(stitched, btn);
     if (data.body) {
       document.getElementById('sol-body').value = data.body;
       currentSolFigureImages = data.figure_images || [];
       updatePreview();
     }
-    notice.textContent = '✓ Solución extraída. Revisa y corrige si es necesario.';
+    notice.textContent = '✓ Solution extracted. Review and fix it if needed.';
     notice.className = 'extract-notice success';
   } catch (err) {
     notice.textContent = `Error: ${err.message}`;
     notice.className = 'extract-notice error';
   } finally {
-    btn.textContent = 'Cargar solución';
+    btn.textContent = 'Extract solution';
     btn.classList.remove('loading');
     refreshSolBtn();
   }
 }
 
 // ── EXTRACTION ─────────────────────────────────────────────
+// MinerU can keep a job queued for minutes, so the server runs extraction as a
+// job: start it, then poll every 3 s (the button shows the elapsed time).
+async function extractImage(image, btn) {
+  const start = await fetch('/composer_en/api/extract', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ image })
+  });
+  const job = await start.json().catch(() => ({ error: start.statusText }));
+  if (!start.ok) throw new Error(job.error || start.statusText);
+  const t0 = Date.now();
+  for (;;) {
+    await new Promise(r => setTimeout(r, 3000));
+    btn.textContent = `Extracting… ${Math.round((Date.now() - t0) / 1000)} s`;
+    const res = await fetch('/composer_en/api/extract/' + job.id);
+    const st = await res.json().catch(() => ({ error: res.statusText }));
+    if (!res.ok) throw new Error(st.error || res.statusText);
+    if (st.state === 'done') return st.result;
+    if (st.state === 'error') throw new Error(st.error || 'Extraction failed.');
+    if (Date.now() - t0 > 6 * 60 * 1000) throw new Error('Extraction is taking too long. Please try again.');
+  }
+}
 async function extractFromImage() {
   if (!capturedImage) return;
   const btn = document.getElementById('extract-btn');
   const notice = document.getElementById('extract-notice');
-  btn.textContent = 'Extrayendo…';
+  btn.textContent = 'Extracting…';
   btn.classList.add('loading');
   btn.disabled = true;
   notice.className = 'extract-notice';
 
   try {
     const stitched = await getImageForExtraction();
-    const res = await fetch('/api/extract', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ image: stitched })
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({ error: res.statusText }));
-      throw new Error(err.error || res.statusText);
-    }
-    const data = await res.json();
+    const data = await extractImage(stitched, btn);
     populateFromExtraction(data);
-    notice.textContent = '✓ Extracción completada. Revisa y corrige si es necesario antes de publicar.';
+    notice.textContent = '✓ Extraction complete. Review and fix it before previewing.';
     notice.className = 'extract-notice success';
   } catch (err) {
     notice.textContent = `Error: ${err.message}`;
     notice.className = 'extract-notice error';
   } finally {
-    btn.textContent = 'Cargar pregunta';
+    btn.textContent = 'Extract question';
     btn.classList.remove('loading');
     refreshExtractBtn();
   }
@@ -1118,7 +1131,7 @@ function populateFromExtraction(data) {
   // Image choices
   if (data.choices_are_images) {
     const notice = document.getElementById('extract-notice');
-    notice.textContent = '✓ Opciones son imágenes — usa ✂ Adjuntar imagen en cada alternativa (A–E).';
+    notice.textContent = '✓ The choices are images — use ✂ Insert image on each choice (A–E).';
     notice.className = 'extract-notice success';
   }
 
@@ -1211,17 +1224,185 @@ const TIPO_AREA = {
   UNI:   ['Aptitud y Humanidades','Matemática','Física-Química'],
 };
 
+// English display labels; option values stay the Spanish taxonomy keys.
+const LABEL_EN = {
+  'Aritmética': 'Arithmetic',
+  'Álgebra': 'Algebra',
+  'Geometría': 'Geometry',
+  'Trigonometría': 'Trigonometry',
+  'Razonamiento Matemático': 'Mathematical Reasoning',
+  'Razonamiento Verbal': 'Verbal Reasoning',
+  'Comunicación y Lengua': 'Language and Communication',
+  'Literatura': 'Literature',
+  'Historia del Perú': 'History of Peru',
+  'Historia Universal': 'World History',
+  'Geografía del Perú': 'Geography of Peru',
+  'Educación Cívica': 'Civics',
+  'Economía': 'Economics',
+  'Filosofía': 'Philosophy',
+  'Psicología': 'Psychology',
+  'Física': 'Physics',
+  'Química': 'Chemistry',
+  'Biología': 'Biology',
+  'Inglés': 'English',
+  'Lógica': 'Logic',
+  'Actualidad': 'Current Affairs',
+  'Cálculo Diferencial': 'Differential Calculus',
+  'Cálculo Integral': 'Integral Calculus',
+  'Álgebra Lineal': 'Linear Algebra',
+  'Geometría Analítica': 'Analytic Geometry',
+  'Probabilidad y Estadística': 'Probability and Statistics',
+  'Ordinario': 'Regular',
+  'Traslado': 'Transfer',
+  'Escolar': 'School',
+  'Simulacro': 'Practice exam',
+  'Área A': 'Area A',
+  'Área B': 'Area B',
+  'Área C': 'Area C',
+  'Área D': 'Area D',
+  'Área E': 'Area E',
+  'Aptitud y Humanidades': 'Aptitude and Humanities',
+  'Matemática': 'Mathematics',
+  'Física-Química': 'Physics-Chemistry',
+  'comprension-de-lectura': 'Reading comprehension',
+  'relaciones-semantico-textuales': 'Semantic and textual relations',
+  'analogias-verbales': 'Verbal analogies',
+  'redaccion-y-cohesion-textual': 'Writing and textual cohesion',
+  'inferencia-y-extrapolacion': 'Inference and extrapolation',
+  'problemas-de-cantidad': 'Quantity problems',
+  'problemas-de-regularidad-equivalencia-y-cambio': 'Regularity, equivalence and change',
+  'problemas-de-forma-movimiento-y-localizacion': 'Shape, movement and location',
+  'problemas-de-gestion-de-datos-e-incertidumbre': 'Data and uncertainty',
+  'operadores-matematicos': 'Mathematical operators',
+  'razones-proporciones-y-porcentajes': 'Ratios, proportions and percentages',
+  'interes-mezclas-y-aleaciones': 'Interest, mixtures and alloys',
+  'sucesiones-y-progresiones': 'Sequences and progressions',
+  'estadistica-y-probabilidad': 'Statistics and probability',
+  'numeros-divisibilidad-y-fracciones': 'Numbers, divisibility and fractions',
+  'logica-y-conjuntos': 'Logic and sets',
+  'angulos-triangulos-y-poligonos': 'Angles, triangles and polygons',
+  'circunferencia': 'Circles',
+  'proporcionalidad-y-relaciones-metricas': 'Proportionality and metric relations',
+  'areas-y-poligonos-regulares': 'Areas and regular polygons',
+  'geometria-del-espacio': 'Solid geometry',
+  'geometria-analitica-basica': 'Basic analytic geometry',
+  'ecuaciones-e-inecuaciones': 'Equations and inequalities',
+  'sistemas-de-ecuaciones-y-matrices': 'Systems of equations and matrices',
+  'polinomios-y-productos-notables': 'Polynomials and special products',
+  'funciones': 'Functions',
+  'funcion-exponencial-y-logaritmica': 'Exponential and logarithmic functions',
+  'razones-trigonometricas-y-triangulo-rectangulo': 'Trigonometric ratios and right triangles',
+  'circunferencia-trigonometrica': 'Unit circle',
+  'identidades-trigonometricas': 'Trigonometric identities',
+  'ecuaciones-y-resolucion-de-triangulos': 'Equations and solving triangles',
+  'funciones-trigonometricas': 'Trigonometric functions',
+  'fonologia-y-ortografia': 'Phonology and spelling',
+  'morfologia-y-sintaxis': 'Morphology and syntax',
+  'semantica': 'Semantics',
+  'comunicacion-y-realidad-linguistica-del-peru': "Communication and Peru's languages",
+  'vicios-del-lenguaje': 'Common language errors',
+  'literatura-universal-antigua-y-medieval': 'Ancient and medieval world literature',
+  'literatura-universal-moderna': 'Modern world literature',
+  'literatura-espanola': 'Spanish literature',
+  'literatura-latinoamericana': 'Latin American literature',
+  'literatura-peruana-colonial-y-emancipacion': 'Peruvian literature: colonial and independence',
+  'literatura-peruana-republicana-y-contemporanea': 'Peruvian literature: republican and contemporary',
+  'introduccion-y-enfoques-psicologicos': 'Introduction and psychological approaches',
+  'bases-biologicas-del-comportamiento': 'Biological bases of behavior',
+  'procesos-cognitivos-y-aprendizaje': 'Cognitive processes and learning',
+  'desarrollo-humano-e-identidad': 'Human development and identity',
+  'afectividad-y-motivacion': 'Emotion and motivation',
+  'derechos-humanos': 'Human rights',
+  'participacion-ciudadana': 'Civic participation',
+  'problemas-de-convivencia-en-el-peru': 'Social coexistence issues in Peru',
+  'identidad-e-interculturalidad': 'Identity and interculturality',
+  'estructura-y-funciones-del-estado': 'Structure and functions of the State',
+  'culturas-prehispanicas-y-tawantinsuyo': 'Pre-Hispanic cultures and the Inca Empire',
+  'virreinato': 'Viceroyalty',
+  'independencia-y-siglo-xix': 'Independence and the 19th century',
+  'republica-aristocratica-y-reformismo': 'Aristocratic Republic and reformism',
+  'peru-en-las-ultimas-decadas': 'Peru in recent decades',
+  'mundo-antiguo-y-clasico': 'Ancient and classical world',
+  'edad-media': 'Middle Ages',
+  'modernidad-y-revoluciones-burguesas': 'Modernity and bourgeois revolutions',
+  'siglo-xix-mundial': 'The 19th-century world',
+  'siglo-xx-y-contemporaneo': '20th century and contemporary',
+  'espacio-geografico-y-cartografia': 'Geographic space and cartography',
+  'relieve-y-clima-del-peru': 'Relief and climate of Peru',
+  'hidrografia-y-recursos-hidricos': 'Hydrography and water resources',
+  'biodiversidad-y-recursos-naturales': 'Biodiversity and natural resources',
+  'poblacion-y-actividades-economicas': 'Population and economic activities',
+  'organizacion-politica-y-geografia-mundial': 'Political organization and world geography',
+  'principios-economicos-basicos': 'Basic economic principles',
+  'mercado-de-bienes-y-factores': 'Goods and factor markets',
+  'sector-financiero-y-monetario': 'Financial and monetary sector',
+  'sector-publico-y-fiscal': 'Public and fiscal sector',
+  'sector-externo-y-comercio-internacional': 'External sector and international trade',
+  'crecimiento-desarrollo-y-emprendimiento': 'Growth, development and entrepreneurship',
+  'filosofia-antigua-moderna-y-contemporanea': 'Ancient, modern and contemporary philosophy',
+  'etica-sociedad-y-democracia': 'Ethics, society and democracy',
+  'gnoseologia-y-metodo-cientifico': 'Epistemology and the scientific method',
+  'teoria-de-la-argumentacion': 'Argumentation theory',
+  'apreciacion-estetica': 'Aesthetics',
+  'mecanica-cinematica-y-dinamica': 'Mechanics: kinematics and dynamics',
+  'trabajo-energia-y-momentum': 'Work, energy and momentum',
+  'oscilaciones-ondas-y-fluidos': 'Oscillations, waves and fluids',
+  'termodinamica': 'Thermodynamics',
+  'electricidad-y-magnetismo': 'Electricity and magnetism',
+  'optica-y-fisica-moderna': 'Optics and modern physics',
+  'materia-y-estructura-atomica': 'Matter and atomic structure',
+  'enlace-nomenclatura-y-estequiometria': 'Bonding, nomenclature and stoichiometry',
+  'estados-soluciones-y-equilibrio': 'States, solutions and equilibrium',
+  'electroquimica': 'Electrochemistry',
+  'quimica-organica': 'Organic chemistry',
+  'recursos-naturales-y-contaminacion': 'Natural resources and pollution',
+  'celula-tejidos-y-composicion-quimica': 'Cells, tissues and chemical composition',
+  'nutricion-digestion-y-circulacion': 'Nutrition, digestion and circulation',
+  'sistemas-excretor-inmunologico-y-endocrino': 'Excretory, immune and endocrine systems',
+  'sistema-nervioso-y-reproduccion': 'Nervous system and reproduction',
+  'genetica-evolucion-y-biodiversidad': 'Genetics, evolution and biodiversity',
+  'ecologia-salud-y-recursos-naturales': 'Ecology, health and natural resources',
+  'limites-y-continuidad': 'Limits and continuity',
+  'la-derivada-y-reglas-de-derivacion': 'The derivative and its rules',
+  'aplicaciones-de-la-derivada': 'Applications of the derivative',
+  'la-integral-definida-y-metodos-de-integracion': 'The definite integral and integration methods',
+  'funciones-trascendentes': 'Transcendental functions',
+  'aplicaciones-de-la-integral': 'Applications of the integral',
+  'matrices-y-determinantes': 'Matrices and determinants',
+  'sistemas-de-ecuaciones-lineales': 'Systems of linear equations',
+  'espacios-vectoriales': 'Vector spaces',
+  'valores-y-vectores-propios': 'Eigenvalues and eigenvectors',
+  'la-recta-en-el-plano': 'Lines in the plane',
+  'circunferencia-y-conicas': 'Circles and conics',
+  'geometria-analitica-del-espacio': 'Analytic geometry in space',
+  'probabilidad-basica-y-combinatoria': 'Basic probability and combinatorics',
+  'variable-aleatoria-y-esperanza-matematica': 'Random variables and expected value',
+  'estadistica-descriptiva': 'Descriptive statistics',
+  'distribuciones-de-probabilidad': 'Probability distributions',
+  'comprension-lectora-ingles': 'Reading comprehension (English)',
+  'gramatica-basica': 'Basic grammar',
+  'vocabulario': 'Vocabulary',
+  'proposiciones-y-formalizacion': 'Propositions and formalization',
+  'tablas-de-verdad-y-tautologia': 'Truth tables and tautologies',
+  'inferencia-y-silogismo': 'Inference and syllogisms',
+  'politica-nacional': 'National politics',
+  'politica-internacional': 'International politics',
+  'economia-actual': 'Current economy',
+  'ciencia-y-tecnologia': 'Science and technology'
+};
+const en = v => LABEL_EN[v] || v;
+
 document.getElementById('university').addEventListener('change', function() {
   const uni = this.value;
   // mirror to universidad_objetivo since tipo is examen_oficial
   document.getElementById('universidad_objetivo').value = uni;
 
   const el = document.getElementById('tema');
-  el.innerHTML = '<option value="">— seleccionar tema —</option>';
+  el.innerHTML = '<option value="">— select subject —</option>';
   if (uni && TEMAS[uni]) {
     TEMAS[uni].forEach(m => {
       const opt = document.createElement('option');
-      opt.value = m; opt.textContent = m;
+      opt.value = m; opt.textContent = en(m);
       el.appendChild(opt);
     });
     el.disabled = false;
@@ -1231,11 +1412,11 @@ document.getElementById('university').addEventListener('change', function() {
 
   const taEl = document.getElementById('tipo_area');
   const prevTa = taEl.value;
-  taEl.innerHTML = '<option value="">— seleccionar —</option>';
+  taEl.innerHTML = '<option value="">— select —</option>';
   if (uni && TIPO_AREA[uni]) {
     TIPO_AREA[uni].forEach(v => {
       const opt = document.createElement('option');
-      opt.value = v; opt.textContent = v;
+      opt.value = v; opt.textContent = en(v);
       taEl.appendChild(opt);
     });
     taEl.disabled = false;
@@ -1252,10 +1433,10 @@ function populateSubtema() {
   el.innerHTML = '';
   Object.entries(SUB_TEMAS).forEach(([tema, subs]) => {
     const group = document.createElement('optgroup');
-    group.label = tema;
+    group.label = en(tema);
     subs.forEach(s => {
       const opt = document.createElement('option');
-      opt.value = s; opt.textContent = s;
+      opt.value = s; opt.textContent = en(s);
       group.appendChild(opt);
     });
     el.appendChild(group);
@@ -1286,7 +1467,7 @@ function updatePreview() {
   const body = document.getElementById('body').value.trim();
   const uni = document.getElementById('university').value;
   const tema = document.getElementById('tema').value;
-  const cat = uni && tema ? `${uni} / ${tema}` : (uni || '—');
+  const cat = uni && tema ? `${uni} / ${en(tema)}` : (uni || '—');
   const anio = document.getElementById('anio').value.trim();
   const convocatoria = document.getElementById('convocatoria').value.trim();
   const convStr = [anio, convocatoria].filter(Boolean).join('-');
@@ -1297,7 +1478,7 @@ function updatePreview() {
     .replace(/\$\$[\s\S]*?\$\$/g, ' ')
     .replace(/\$[^$]+\$/g, ' ')
     .replace(/\s+/g, ' ').trim()
-    .substring(0, 80) || 'Tu pregunta aparecerá aquí';
+    .substring(0, 80) || 'Your question will appear here';
   document.getElementById('prev-title').textContent = titleText + (body.length > 80 ? '…' : '');
   document.getElementById('prev-cat').textContent = cat;
 
@@ -1306,16 +1487,16 @@ function updatePreview() {
 
   const modalidad = document.getElementById('modalidad').value;
   const modEl = document.getElementById('prev-modalidad');
-  modEl.textContent = modalidad; modEl.style.display = modalidad ? 'inline' : 'none';
+  modEl.textContent = en(modalidad); modEl.style.display = modalidad ? 'inline' : 'none';
 
   const tipoArea = document.getElementById('tipo_area').value;
   const taEl = document.getElementById('prev-tipo-area');
-  taEl.textContent = tipoArea; taEl.style.display = tipoArea ? 'inline' : 'none';
+  taEl.textContent = en(tipoArea); taEl.style.display = tipoArea ? 'inline' : 'none';
 
-  document.getElementById('prev-subtema').innerHTML = subTemas.map(t => `<span class="tag">${t}</span>`).join(' ');
+  document.getElementById('prev-subtema').innerHTML = subTemas.map(t => `<span class="tag">${en(t)}</span>`).join(' ');
   // Render body: [FIG:N] markers become inline figure cards with crop buttons
   const bodyHtml = bodyToHtml(body);
-  document.getElementById('prev-body').innerHTML = bodyHtml || '<em style="color:#aaa">El enunciado aparecerá aquí...</em>';
+  document.getElementById('prev-body').innerHTML = bodyHtml || '<em style="color:#aaa">The question text will appear here...</em>';
 
   // Fallback: if no [FIG:N] in body but we have figures, show them below body
   const hasFigMarkers = body.includes('[FIG:');
@@ -1335,11 +1516,11 @@ function updatePreview() {
       li.querySelector('.choice-text').innerHTML = `<img src="${img}" style="max-height:100px;border-radius:3px;">`;
     } else {
       const text = document.getElementById('choice-' + l).value.trim();
-      li.querySelector('.choice-text').innerHTML = text || `<em style="color:#ccc">Alternativa ${l}</em>`;
+      li.querySelector('.choice-text').innerHTML = text || `<em style="color:#ccc">Choice ${l}</em>`;
     }
   });
 
-  document.getElementById('prev-clave').textContent = selectedClave ? `Clave: ${selectedClave}` : 'Clave: no seleccionada';
+  document.getElementById('prev-clave').textContent = selectedClave ? `Answer key: ${selectedClave}` : 'Answer key: not selected';
 
   // Solution preview
   const solBodyEl = document.getElementById('sol-body');
@@ -1355,7 +1536,7 @@ function updatePreview() {
       .replace(/\n/g, '<br>');
     prevSolEl.innerHTML = solHtml;
   } else {
-    prevSolEl.innerHTML = '<em style="color:#aaa">La solución aparecerá aquí...</em>';
+    prevSolEl.innerHTML = '<em style="color:#aaa">The solution will appear here...</em>';
   }
 
   clearTimeout(renderTimer);
@@ -1374,7 +1555,7 @@ function resetValidation() {
   warningsPending = false;
   document.getElementById('validation-panel').classList.remove('visible');
   const btn = document.getElementById('submit-btn');
-  btn.textContent = 'Publicar pregunta';
+  btn.textContent = 'Preview';
   btn.className = 'submit-btn';
   btn.disabled = false;
 }
@@ -1428,71 +1609,56 @@ async function runValidation() {
 
   // ── Errors ──
   if (!body)
-    errors.push({ text: 'Enunciado: no puede estar vacío', field: 'body' });
+    errors.push({ text: 'Question text: cannot be empty', field: 'body' });
 
   if (!selectedClave)
-    errors.push({ text: 'Clave: no seleccionada', field: 'choice-A' });
+    errors.push({ text: 'Answer key: not selected', field: 'choice-A' });
 
   const emptyChoices = ['A','B','C','D','E'].filter(l => !document.getElementById('choice-'+l).value.trim() && !choiceImages[l]);
   if (emptyChoices.length)
-    errors.push({ text: `Alternativas sin contenido: ${emptyChoices.join(', ')}`, field: 'choice-'+emptyChoices[0] });
+    errors.push({ text: `Choices without content: ${emptyChoices.join(', ')}`, field: 'choice-'+emptyChoices[0] });
 
   if (!uni)
-    errors.push({ text: 'Universidad: obligatoria', field: 'university' });
+    errors.push({ text: 'University: required', field: 'university' });
 
   if (!anio)
-    errors.push({ text: 'Año: obligatorio', field: 'anio' });
+    errors.push({ text: 'Year: required', field: 'anio' });
 
   if (!subTemas.length)
-    errors.push({ text: 'Sub-tema: selecciona al menos uno', field: 'subtema' });
+    errors.push({ text: 'Topic: select at least one', field: 'subtema' });
 
   if (body) {
     const mf = getMissingFigs(body, currentFigureImages);
-    if (mf.length) errors.push({ text: `Enunciado: [FIG:${mf[0]}] sin imagen asignada`, field: 'body' });
+    if (mf.length) errors.push({ text: `Question text: [FIG:${mf[0]}] has no image assigned`, field: 'body' });
   }
 
   if (hasSolucion && !solBody && !currentSolFigureImages.length)
-    errors.push({ text: 'Solución: checkbox marcado pero sin texto ni imagen', field: 'sol-body' });
+    errors.push({ text: 'Solution: box checked but no text or image', field: 'sol-body' });
 
   // Discourse rejects replies under 20 chars (min_post_length default) --
   // catch this before publishing, not after the question already went live
   // with its solution silently missing.
   if (hasSolucion && solBody && solBody.length < 20)
-    errors.push({ text: `Solución: muy corta (${solBody.length}/20 caracteres mínimo)`, field: 'sol-body' });
+    errors.push({ text: `Solution: too short (${solBody.length}/20 characters minimum)`, field: 'sol-body' });
 
   if (hasSolucion && solBody) {
     const mf = getMissingFigs(solBody, currentSolFigureImages);
-    if (mf.length) errors.push({ text: `Solución: [FIG:${mf[0]}] sin imagen asignada`, field: 'sol-body' });
+    if (mf.length) errors.push({ text: `Solution: [FIG:${mf[0]}] has no image assigned`, field: 'sol-body' });
   }
 
   // ── Warnings ──
   if (!numero)
-    warnings.push({ text: 'N° de pregunta no ingresado — la pregunta no tendrá etiqueta con su número', onclick: "scrollToField('numero')" });
+    warnings.push({ text: 'Question number missing — the question will not get a number tag', onclick: "scrollToField('numero')" });
 
   if (body && hasUnclosedLatex(body))
-    warnings.push({ text: 'LaTeX posiblemente incompleto: $ sin cerrar en el Enunciado', onclick: "scrollToField('body')" });
+    warnings.push({ text: 'Possibly incomplete LaTeX: unclosed $ in the question text', onclick: "scrollToField('body')" });
 
   ['A','B','C','D','E'].forEach(l => {
     const t = document.getElementById('choice-'+l).value;
     if (t && hasUnclosedLatex(t))
-      warnings.push({ text: `LaTeX posiblemente incompleto en Alternativa ${l}`, onclick: `scrollToField('choice-${l}')` });
+      warnings.push({ text: `Possibly incomplete LaTeX in choice ${l}`, onclick: `scrollToField('choice-${l}')` });
   });
 
-  // Duplicate check
-  if (uni && (numero || body)) {
-    try {
-      const titlePreview = body.replace(/\[FIG:\d+\]/g,'').replace(/\$\$[\s\S]*?\$\$/g,'').replace(/\$[^$]+\$/g,'').replace(/\s+/g,' ').trim().substring(0, 60);
-      const dup = await fetch('/api/check-duplicate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ titulo: titlePreview, universidad: uni, anio, convocatoria, numero }),
-      }).then(r => r.json());
-      if (dup.duplicate) {
-        const link = dup.topic_url ? ` — <a href="${dup.topic_url}" target="_blank">ver en Discourse</a>` : '';
-        warnings.push({ text: `Posible duplicado encontrado en Discourse${link}`, onclick: '' });
-      }
-    } catch {}
-  }
 
   return { errors, warnings };
 }
@@ -1529,14 +1695,14 @@ async function handleSubmit() {
     return;
   }
 
-  btn.textContent = 'Verificando…';
+  btn.textContent = 'Checking…';
   btn.disabled = true;
 
   const { errors, warnings } = await runValidation();
 
   if (errors.length > 0) {
     showValidationPanel(errors, warnings);
-    btn.textContent = 'Publicar pregunta';
+    btn.textContent = 'Preview';
     btn.className = 'submit-btn';
     btn.disabled = false;
     return;
@@ -1544,7 +1710,7 @@ async function handleSubmit() {
 
   if (warnings.length > 0) {
     showValidationPanel([], warnings);
-    btn.textContent = '⚠ Publicar de todas formas';
+    btn.textContent = '⚠ Preview anyway';
     btn.className = 'submit-btn warn';
     btn.disabled = false;
     warningsPending = true;
@@ -1555,66 +1721,32 @@ async function handleSubmit() {
   await doPublish();
 }
 
+// Demo: instead of publishing, show the finished question as a layer over the
+// page (a copy of the live preview, without the editing buttons).
 async function doPublish() {
-  const btn = document.getElementById('submit-btn');
-  btn.textContent = 'Publicando…';
-  btn.disabled = true;
-
-  const body         = document.getElementById('body').value.trim();
-  const uni          = document.getElementById('university').value;
-  const tema         = document.getElementById('tema').value;
-  const anio         = document.getElementById('anio').value.trim();
-  const convocatoria = document.getElementById('convocatoria').value.trim();
-  const modalidad    = document.getElementById('modalidad').value;
-  const tipo_area    = document.getElementById('tipo_area').value;
-  const numero       = document.getElementById('numero').value.trim();
-  const subtemas     = Array.from(document.getElementById('subtema').selectedOptions).map(o => o.value);
-  const hasSolucion  = document.getElementById('chk-solucion').checked;
-  const solBody      = document.getElementById('sol-body').value.trim();
-
-  const choices = {};
-  ['A','B','C','D','E'].forEach(l => { choices[l] = document.getElementById('choice-'+l).value.trim(); });
-
-  try {
-    const sourceImage = capturedImage ? await compressSourceImage(
-      capturedImage2 ? await getImageForExtraction() : capturedImage
-    ) : null;
-
-    const payload = {
-      universidad: uni, tema, anio, convocatoria, modalidad, tipo_area, numero,
-      body, choices,
-      choice_images: { ...choiceImages },
-      figure_images: currentFigureImages.slice(),
-      source_image: sourceImage,
-      clave: selectedClave,
-      subtemas,
-      solucion: hasSolucion && (solBody || currentSolFigureImages.length)
-        ? { body: solBody, figure_images: currentSolFigureImages.slice() }
-        : null,
-    };
-
-    const res  = await fetch('/api/publish', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || res.statusText);
-
-    const notice = document.getElementById('publish-notice');
-    notice.innerHTML = `✓ Pregunta publicada — <a href="${data.topic_url}" target="_blank">ver en Discourse</a>`
-      + (data.solution_error ? `<br>⚠ La solución no se publicó: ${data.solution_error}` : '');
-    notice.className = 'extract-notice success';
-    notice.style.display = 'block';
-    document.getElementById('validation-panel').classList.remove('visible');
-
-  } catch (err) {
-    const notice = document.getElementById('publish-notice');
-    notice.textContent = `Error al publicar: ${err.message}`;
-    notice.className = 'extract-notice error';
-    notice.style.display = 'block';
-  } finally {
-    btn.textContent = 'Publicar pregunta';
-    btn.className = 'submit-btn';
-    btn.disabled = false;
+  const nodes = [document.getElementById('prev-body'), document.getElementById('prev-choices'), document.getElementById('prev-sol-body')];
+  if (window.MathJax?.typesetPromise) await MathJax.typesetPromise(nodes.filter(Boolean));
+  const target = document.getElementById('preview-overlay-body');
+  target.innerHTML = '';
+  target.appendChild(document.querySelector('.preview-panel .topic-preview').cloneNode(true));
+  if (document.getElementById('chk-solucion').checked) {
+    const sol = document.getElementById('prev-sol-wrap').cloneNode(true);
+    sol.style.display = '';
+    target.appendChild(sol);
   }
+  target.querySelectorAll('button').forEach(b => b.remove());
+  target.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+  document.getElementById('preview-overlay').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  resetValidation();
 }
+
+function closePreviewOverlay() {
+  document.getElementById('preview-overlay').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePreviewOverlay(); });
 
 async function doPublishLinked() {
   const btn = document.getElementById('submit-btn');
@@ -1676,7 +1808,7 @@ async function doPublishLinked() {
     notice.className = 'extract-notice error';
     notice.style.display = 'block';
   } finally {
-    btn.textContent = 'Publicar pregunta';
+    btn.textContent = 'Preview';
     btn.className = 'submit-btn';
     btn.disabled = false;
   }
@@ -1685,13 +1817,13 @@ async function doPublishLinked() {
 // ── INIT ───────────────────────────────────────────────────
 async function checkServerStatus() {
   try {
-    const res = await fetch('/api/status');
+    const res = await fetch('/composer_en/api/status');
     if (!res.ok) throw new Error();
     const { ready } = await res.json();
     document.getElementById('ai-dot').classList.toggle('ready', ready);
-    document.getElementById('ai-status-text').textContent = ready ? 'MinerU listo' : 'Servidor no disponible';
+    document.getElementById('ai-status-text').textContent = ready ? 'MinerU ready' : 'Server unavailable';
   } catch {
-    document.getElementById('ai-status-text').textContent = 'Servidor no disponible';
+    document.getElementById('ai-status-text').textContent = 'Server unavailable';
   }
 }
 
@@ -1699,7 +1831,7 @@ populateSubtema();
 updatePreview();
 checkServerStatus();
 
-const _bulkId = new URLSearchParams(location.search).get('bulk_id');
+const _bulkId = null; // no bulk editing in the demo
 const _bulkBatch = new URLSearchParams(location.search).get('batch') || 'default';
 if (_bulkId) initBulkEditMode(_bulkId);
 
@@ -1708,10 +1840,10 @@ let mcropImg = null, mcropRect = null, mcropDragging = false, mcropStart = null,
 let mcropTargetChoice = null;  // null = insert into body; 'A'-'E' = set that choice image
 
 function openManualCrop(letter) {
-  if (!capturedImage) { alert('Carga una imagen primero.'); return; }
+  if (!capturedImage) { alert('Load an image first.'); return; }
   mcropTargetChoice = letter || null;
   const title = document.getElementById('mcrop-title');
-  if (title) title.textContent = mcropTargetChoice ? `Seleccionar imagen — Alternativa ${mcropTargetChoice}` : 'Seleccionar área a insertar';
+  if (title) title.textContent = mcropTargetChoice ? `Select image — Choice ${mcropTargetChoice}` : 'Select the area to insert';
   mcropActiveNum = 1;
   document.getElementById('mcrop-sel-1').classList.add('active');
   document.getElementById('mcrop-sel-2').classList.remove('active');
@@ -1814,9 +1946,9 @@ function cancelManualCrop() {
 // ── SOLUTION FIGURE CARDS ──────────────────────────────────
 function solFigCardHtml(src, idx) {
   return `<div class="fig-card" data-sol-fig-idx="${idx}">
-    <img src="${src}" alt="Figura sol ${idx+1}">
-    <button class="fig-crop-btn" onclick="openSolCrop(${idx})">&#9986; Recortar</button>
-    <button class="fig-del-btn"  onclick="deleteSolFig(${idx})">&#10005; Eliminar</button>
+    <img src="${src}" alt="Solution figure ${idx+1}">
+    <button class="fig-crop-btn" onclick="openSolCrop(${idx})">&#9986; Crop</button>
+    <button class="fig-del-btn"  onclick="deleteSolFig(${idx})">&#10005; Delete</button>
   </div>`;
 }
 
@@ -1849,14 +1981,14 @@ function openSolCrop(idx) {
     const cw = Math.round(activeSolCropImg.naturalWidth * scale);
     const ch = Math.round(activeSolCropImg.naturalHeight * scale);
     figCard.innerHTML = `
-      <div class="fig-crop-hint">Arrastra para seleccionar el área a recortar</div>
+      <div class="fig-crop-hint">Drag to select the area to crop</div>
       <div class="fig-crop-wrap">
         <canvas id="solcrop-c-${idx}" width="${cw}" height="${ch}"></canvas>
         <canvas id="solcrop-o-${idx}" width="${cw}" height="${ch}" class="fig-crop-overlay" style="width:${cw}px;height:${ch}px;"></canvas>
       </div>
       <div class="fig-crop-actions">
-        <button class="btn-cancel"  onclick="cancelSolInlineCrop()">Cancelar</button>
-        <button class="btn-confirm" onclick="confirmSolInlineCrop()">Confirmar recorte</button>
+        <button class="btn-cancel"  onclick="cancelSolInlineCrop()">Cancel</button>
+        <button class="btn-confirm" onclick="confirmSolInlineCrop()">Confirm crop</button>
       </div>`;
     const c = document.getElementById(`solcrop-c-${idx}`);
     const o = document.getElementById(`solcrop-o-${idx}`);
@@ -1907,17 +2039,17 @@ function confirmSolInlineCrop() {
 function restoreSolFigCard(idx) {
   const figCard = document.querySelector(`.fig-card[data-sol-fig-idx="${idx}"]`);
   if (figCard) figCard.innerHTML =
-    `<img src="${currentSolFigureImages[idx]}" alt="Figura sol ${idx+1}">
-     <button class="fig-crop-btn" onclick="openSolCrop(${idx})">&#9986; Recortar</button>
-     <button class="fig-del-btn"  onclick="deleteSolFig(${idx})">&#10005; Eliminar</button>`;
+    `<img src="${currentSolFigureImages[idx]}" alt="Solution figure ${idx+1}">
+     <button class="fig-crop-btn" onclick="openSolCrop(${idx})">&#9986; Crop</button>
+     <button class="fig-del-btn"  onclick="deleteSolFig(${idx})">&#10005; Delete</button>`;
 }
 
 // Open manual crop for solution figures
 function openManualSolCrop() {
-  if (!capturedSolImage) { alert('Carga una imagen de solución primero.'); return; }
+  if (!capturedSolImage) { alert('Load a solution image first.'); return; }
   mcropTargetChoice = 'sol-fig';
   const title = document.getElementById('mcrop-title');
-  if (title) title.textContent = 'Insertar figura en solución';
+  if (title) title.textContent = 'Insert figure into solution';
   mcropActiveNum = 1;
   document.getElementById('mcrop-sel-1').classList.add('active');
   document.getElementById('mcrop-sel-2').classList.remove('active');
@@ -1945,15 +2077,15 @@ function openCrop(idx) {
     const cw = Math.round(activeCropImg.naturalWidth  * scale);
     const ch = Math.round(activeCropImg.naturalHeight * scale);
     figCard.innerHTML = `
-      <div class="fig-crop-hint">Arrastra para seleccionar el área a recortar</div>
+      <div class="fig-crop-hint">Drag to select the area to crop</div>
       <div class="fig-crop-wrap">
         <canvas id="icrop-c-${idx}" width="${cw}" height="${ch}"></canvas>
         <canvas id="icrop-o-${idx}" width="${cw}" height="${ch}" class="fig-crop-overlay"
           style="width:${cw}px;height:${ch}px;"></canvas>
       </div>
       <div class="fig-crop-actions">
-        <button class="btn-cancel"  onclick="cancelInlineCrop()">Cancelar</button>
-        <button class="btn-confirm" onclick="confirmInlineCrop()">Confirmar recorte</button>
+        <button class="btn-cancel"  onclick="cancelInlineCrop()">Cancel</button>
+        <button class="btn-confirm" onclick="confirmInlineCrop()">Confirm crop</button>
       </div>`;
     const c = document.getElementById(`icrop-c-${idx}`);
     const o = document.getElementById(`icrop-o-${idx}`);
@@ -2016,9 +2148,9 @@ function confirmInlineCrop() {
 function restoreFigCard(idx) {
   const figCard = document.querySelector(`.fig-card[data-fig-idx="${idx}"]`);
   if (figCard) figCard.innerHTML =
-    `<img src="${currentFigureImages[idx]}" alt="Figura ${idx+1}">
-     <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Recortar</button>
-     <button class="fig-del-btn"  onclick="deleteFig(${idx})">&#10005; Eliminar</button>`;
+    `<img src="${currentFigureImages[idx]}" alt="Figure ${idx+1}">
+     <button class="fig-crop-btn" onclick="openCrop(${idx})">&#9986; Crop</button>
+     <button class="fig-del-btn"  onclick="deleteFig(${idx})">&#10005; Delete</button>`;
 }
 
 // ── DELETE FIGURE ───────────────────────────────────────────
@@ -2039,20 +2171,32 @@ function deleteFig(idx) {
 <!-- MANUAL CROP OVERLAY -->
 <div id="manual-crop-overlay" class="manual-crop-overlay hidden">
   <div class="manual-crop-header">
-    <span id="mcrop-title" style="color:#fff;font-size:13px;font-weight:600;">Seleccionar área a insertar</span>
+    <span id="mcrop-title" style="color:#fff;font-size:13px;font-weight:600;">Select the area to insert</span>
     <div class="manual-crop-img-sel">
-      <button id="mcrop-sel-1" class="active" onclick="switchManualCropImg(1)">Imagen 1</button>
-      <button id="mcrop-sel-2" onclick="switchManualCropImg(2)">Imagen 2</button>
+      <button id="mcrop-sel-1" class="active" onclick="switchManualCropImg(1)">Image 1</button>
+      <button id="mcrop-sel-2" onclick="switchManualCropImg(2)">Image 2</button>
     </div>
   </div>
-  <div style="color:#bbb;font-size:12px;">Arrastra para seleccionar · el recorte se insertará en el enunciado</div>
+  <div style="color:#bbb;font-size:12px;">Drag to select · the crop will be inserted into the question text</div>
   <div class="manual-crop-wrap">
     <canvas id="mcrop-canvas"></canvas>
     <canvas id="mcrop-overlay" class="manual-crop-overlay-canvas"></canvas>
   </div>
   <div class="manual-crop-actions">
-    <button class="btn-cancel" onclick="cancelManualCrop()">Cancelar</button>
-    <button class="btn-confirm" onclick="confirmManualCrop()">Insertar recorte</button>
+    <button class="btn-cancel" onclick="cancelManualCrop()">Cancel</button>
+    <button class="btn-confirm" onclick="confirmManualCrop()">Insert crop</button>
+  </div>
+</div>
+
+<!-- DEMO: preview overlay (opened by "Publish question") -->
+<div id="preview-overlay" class="preview-overlay hidden" onclick="if (event.target === this) closePreviewOverlay()">
+  <div class="preview-overlay-card" role="dialog" aria-modal="true" aria-labelledby="preview-overlay-title">
+    <div class="preview-overlay-head">
+      <h2 id="preview-overlay-title">✓ Your question is ready</h2>
+      <button class="preview-overlay-close" onclick="closePreviewOverlay()">Close</button>
+    </div>
+    <div class="preview-overlay-note">This is how it will look once published. Demo mode: nothing was published.</div>
+    <div id="preview-overlay-body"></div>
   </div>
 </div>
 

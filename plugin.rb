@@ -175,6 +175,7 @@ after_initialize do
   load File.expand_path('../app/controllers/preuni_busqueda_controller.rb', __FILE__)
   load File.expand_path('../app/models/preuni_evento.rb', __FILE__)
   load File.expand_path('../app/controllers/preuni_eventos_controller.rb', __FILE__)
+  load File.expand_path('../app/controllers/preuni_composer_demo_controller.rb', __FILE__)
 
   PreuniRespuestasController.class_eval do
     def difficulties
@@ -262,7 +263,7 @@ after_initialize do
     # not as an N°35 / n35 tag, so duplicate detection looks the attribute up
     # directly: topic-level for a normal question, post-level for a linked
     # question inside a reading cluster. Optional filters narrow by
-    # universidad and convocatoria ("2026-II").
+    # universidad, anio ("2026") and convocatoria ("II").
     def find_by_numero
       raise Discourse::InvalidAccess unless current_user&.staff?
       numero = params.require(:numero).to_s
@@ -276,6 +277,7 @@ after_initialize do
       topics = Topic.where(id: (topic_ids + linked_topic_ids).uniq, deleted_at: nil).select do |t|
         f = t.custom_fields
         (params[:universidad].blank? || f['preuni_universidad'] == params[:universidad].to_s) &&
+          (params[:anio].blank? || f['preuni_anio'].to_s == params[:anio].to_s) &&
           (params[:convocatoria].blank? || f['preuni_convocatoria'] == params[:convocatoria].to_s)
       end
 
@@ -297,5 +299,10 @@ after_initialize do
     get  '/preuni/buscar'           => 'preuni_busqueda#index'
     get  '/preuni/opciones'         => 'preuni_busqueda#opciones'
     post '/preuni/evento'           => 'preuni_eventos#create'
+    # Public English composer demo (proxied to composer_demo.js on the host).
+    get  '/composer_en'                 => 'preuni_composer_demo#show'
+    get  '/composer_en/api/status'      => 'preuni_composer_demo#status'
+    post '/composer_en/api/extract'     => 'preuni_composer_demo#extract'
+    get  '/composer_en/api/extract/:id' => 'preuni_composer_demo#extract_status'
   end
 end
