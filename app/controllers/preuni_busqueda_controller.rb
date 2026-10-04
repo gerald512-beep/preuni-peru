@@ -40,9 +40,12 @@ class PreuniBusquedaController < ApplicationController
       scope = scope.where(topic_id: topic_ids)
     end
 
+    # One page of MAX_ITEMS per request; the filter bar's "Ver más" asks for
+    # the next page with offset = the `siguiente` this response returns.
+    offset = [params[:offset].to_i, 0].max
     total = scope.count
-    filas = scope.order(id: :desc).limit(MAX_ITEMS).to_a
-    truncado = total > filas.size
+    filas = scope.order(id: :desc).offset(offset).limit(MAX_ITEMS).to_a
+    truncado = total > offset + filas.size
 
     post_ids = filas.map(&:post_id)
     topic_ids = filas.map(&:topic_id).uniq
@@ -73,7 +76,7 @@ class PreuniBusquedaController < ApplicationController
       }
     end
 
-    render json: { items: items, total: total, truncado: truncado }
+    render json: { items: items, total: total, truncado: truncado, siguiente: offset + filas.size }
   end
 
   # Size of the question bank for the welcome-banner line ("Tenemos N preguntas

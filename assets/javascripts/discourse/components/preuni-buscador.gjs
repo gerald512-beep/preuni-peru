@@ -76,6 +76,12 @@ const CSS = `
 .preuni-buscador-item-dif[data-dif="dificil"]{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb}
 .preuni-buscador-item-titulo{font-weight:600;color:var(--primary,#222);line-height:1.4}
 .preuni-buscador-vacio{padding:24px;text-align:center;color:var(--primary-medium,#666)}
+.preuni-buscador-mas-fila{display:flex;justify-content:center;margin-top:14px}
+.preuni-buscador-mas{
+  border:1px solid #00529b;background:#00529b;color:#fff;border-radius:6px;padding:9px 18px;
+  font-size:14px;font-weight:600;cursor:pointer
+}
+.preuni-buscador-mas:disabled{opacity:.6;cursor:default}
 `;
 
 class Facet extends Component {
@@ -112,6 +118,11 @@ export default class PreuniBuscador extends Component {
   @tracked total = 0;
   @tracked truncado = false;
   @tracked cargando = true;
+  @tracked cargandoMas = false;
+  siguiente = 0;
+  // A response is applied only if no newer search started meanwhile (filters
+  // changed while a page was still loading).
+  consulta = 0;
 
   constructor(owner, args) {
     super(owner, args);
@@ -133,8 +144,7 @@ export default class PreuniBuscador extends Component {
     }
   }
 
-  async buscar() {
-    this.cargando = true;
+  filtrosParaConsulta() {
     const data = {};
     FACETS.forEach(({ key }) => {
       const vals = this.seleccion[key].map((o) => o.id);
@@ -142,21 +152,65 @@ export default class PreuniBuscador extends Component {
         data[`${key}[]`] = vals;
       }
     });
+    return data;
+  }
 
+  conEtiqueta(items) {
+    return items.map((item) => ({
+      ...item,
+      dificultadLabel: DIF_LABEL[item.dificultad],
+    }));
+  }
+
+  async buscar() {
+    const consulta = ++this.consulta;
+    this.cargando = true;
+    this.cargandoMas = false;
     try {
-      const res = await ajax("/preuni/buscar", { data });
-      this.items = res.items.map((item) => ({
-        ...item,
-        dificultadLabel: DIF_LABEL[item.dificultad],
-      }));
+      const res = await ajax("/preuni/buscar", { data: this.filtrosParaConsulta() });
+      if (consulta !== this.consulta) {
+        return;
+      }
+      this.items = this.conEtiqueta(res.items);
       this.total = res.total;
       this.truncado = res.truncado;
+      this.siguiente = res.siguiente ?? res.items.length;
     } catch {
+      if (consulta !== this.consulta) {
+        return;
+      }
       this.items = [];
       this.total = 0;
       this.truncado = false;
     }
     this.cargando = false;
+  }
+
+  @action
+  async verMas() {
+    const consulta = this.consulta;
+    this.cargandoMas = true;
+    try {
+      const res = await ajax("/preuni/buscar", {
+        data: { ...this.filtrosParaConsulta(), offset: this.siguiente },
+      });
+      if (consulta !== this.consulta) {
+        return;
+      }
+      this.items = [...this.items, ...this.conEtiqueta(res.items)];
+      this.total = res.total;
+      this.truncado = res.truncado;
+      this.siguiente = res.siguiente ?? this.siguiente + res.items.length;
+    } catch {
+      // keep what is shown; the button stays so the student can retry
+    }
+    if (consulta === this.consulta) {
+      this.cargandoMas = false;
+    }
+  }
+
+  get restantes() {
+    return Math.max(0, this.total - this.items.length);
   }
 
   get facetConfigs() {
@@ -245,7 +299,7 @@ export default class PreuniBuscador extends Component {
           <strong>{{this.total}}</strong>
           {{this.totalLabel}}
           {{#if this.truncado}}
-            — mostrando las primeras {{this.items.length}}, acota los filtros para ver el resto
+            — mostrando {{this.items.length}}
           {{/if}}
         {{/if}}
       </div>
@@ -277,6 +331,25 @@ export default class PreuniBuscador extends Component {
           {{/unless}}
         {{/each}}
       </div>
+
+      {{#if this.truncado}}
+        {{#unless this.cargando}}
+          <div class="preuni-buscador-mas-fila">
+            <button
+              class="preuni-buscador-mas"
+              type="button"
+              disabled={{this.cargandoMas}}
+              {{on "click" this.verMas}}
+            >
+              {{#if this.cargandoMas}}
+                Cargando…
+              {{else}}
+                Ver más preguntas ({{this.restantes}} restantes)
+              {{/if}}
+            </button>
+          </div>
+        {{/unless}}
+      {{/if}}
     </div>
   </template>
 }
