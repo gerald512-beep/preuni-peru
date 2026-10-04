@@ -298,6 +298,7 @@ after_initialize do
     put  '/preuni/errores/:post_id/nota' => 'preuni_errores#update_nota'
     get  '/preuni/buscar'           => 'preuni_busqueda#index'
     get  '/preuni/opciones'         => 'preuni_busqueda#opciones'
+    get  '/preuni/total'            => 'preuni_busqueda#total'
     post '/preuni/evento'           => 'preuni_eventos#create'
     # Public English composer demo (proxied to composer_demo.js on the host).
     get  '/composer_en'                 => 'preuni_composer_demo#show'

@@ -76,6 +76,13 @@ class PreuniBusquedaController < ApplicationController
     render json: { items: items, total: total, truncado: truncado }
   end
 
+  # Size of the question bank for the welcome-banner line ("Tenemos N preguntas
+  # a la fecha..."): one index row per published question, linked reading-passage
+  # questions included, so it moves the moment anything is published.
+  def total
+    render json: { total: PreuniPreguntaIndice.count }
+  end
+
   # Every value each dimension currently takes across the published question
   # bank -- derived live from the index table + tags rather than a hardcoded
   # list, so the filter bar never drifts from what's actually filterable.
