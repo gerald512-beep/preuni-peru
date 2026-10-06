@@ -424,6 +424,44 @@ async function discourseUpload(dataUrl, filename) {
   return { shortUrl: data.short_url, url: data.url };
 }
 
+// Readable plain text for the most common LaTeX in titles ("tan(2θ)" rather
+// than "(2 )"). Mirrored in bulk-preview.html (rqTitle) -- keep them in sync.
+const LATEX_PLAIN = {
+  alpha: 'α', beta: 'β', gamma: 'γ', delta: 'δ', theta: 'θ', lambda: 'λ', mu: 'μ', pi: 'π', rho: 'ρ', sigma: 'σ',
+  phi: 'φ', omega: 'ω', Delta: 'Δ', Omega: 'Ω', ell: 'ℓ', infty: '∞', times: '×', cdot: '·', div: '÷', pm: '±',
+  leq: '≤', geq: '≥', le: '≤', ge: '≥', neq: '≠', ne: '≠', approx: '≈', in: '∈', circ: '°', angle: '∠',
+  triangle: '△', to: '→', rightarrow: '→', Rightarrow: '⇒', leftrightarrow: '↔', sqrt: '√', bigcirc: '○',
+  sin: 'sen', cos: 'cos', tan: 'tan', sec: 'sec', csc: 'csc', cot: 'cot', log: 'log', ln: 'ln',
+  arctan: 'arctan', arcsin: 'arcsen', arccos: 'arccos', lor: '∨', land: '∧', vee: '∨', wedge: '∧', sim: '~',
+  langle: '⟨', rangle: '⟩', setminus: '∖', mid: '|', longrightarrow: '→', rightleftharpoons: '⇌', therefore: '∴',
+  equiv: '≡', subset: '⊂', implies: '⇒', Leftrightarrow: '⇔', lnot: '¬', neg: '¬', forall: '∀', exists: '∃',
+  epsilon: 'ε', varepsilon: 'ε', varphi: 'φ', parallel: '∥', perp: '⊥', Re: 'ℜ', vartheta: 'ϑ', lim: 'lím ', ldots: '…', cdots: '⋯', dots: '…',
+};
+// "1+\sqrt{2}" -> "(1+√2)" so a flattened fraction stays readable; single terms ("x", "2\pi") stay bare.
+const wrapTerm = x => (/^(?:[\w√.,]|\\[a-zA-Z]+)+$/.test(x.trim()) ? x.trim() : `(${x.trim()})`);
+function circled(x) {
+  if (/^[a-z]$/.test(x)) return String.fromCodePoint(0x24D0 + x.charCodeAt(0) - 97);
+  if (/^[A-Z]$/.test(x)) return String.fromCodePoint(0x24B6 + x.charCodeAt(0) - 65);
+  if (/^[1-9]$/.test(x)) return String.fromCodePoint(0x2460 + Number(x) - 1);
+  return `(${x})`;
+}
+function latexToPlain(s) {
+  // arrays/matrices/cases: drop the environment markup, keep the cells
+  s = s.replace(/\\begin\{[a-zA-Z*]+\}(?:\{[^{}]*\})?|\\end\{[a-zA-Z*]+\}/g, ' ')
+       .replace(/\\\\/g, '; ').replace(/&/g, ' ').replace(/\\[,;:! ]/g, ' ');
+  // \enclose{circle}{t} (operator notation) -> ⓣ
+  s = s.replace(/\\enclose\{[^{}]*\}\{\s*(?:\\,)?\s*([^{}]*?)\s*(?:\\,)?\s*\}/g, (_, x) => circled(x));
+  let prev;
+  do {
+    prev = s;
+    s = s.replace(/\\(?:operatorname|mathrm|text|mathbf|boldsymbol|overline|widehat|underline|vec|hat|boxed)\s*\{([^{}]*)\}/g, '$1')
+         .replace(/\\sqrt\s*\{([^{}]*)\}/g, (_, x) => '√' + wrapTerm(x))
+         .replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, (_, a, b) => `${wrapTerm(a)}/${wrapTerm(b)}`);
+  } while (s !== prev);
+  // \left/\right delimiters only -- not the start of \rightarrow / \leftrightarrow
+  return s.replace(/\\(?:left|right)(?![a-zA-Z])/g, '').replace(/\\([a-zA-Z]+)/g, (m, c) => (LATEX_PLAIN[c] !== undefined ? LATEX_PLAIN[c] : m));
+}
+
 function buildTitle(body) {
   // Keep math CONTENT (digits, variables, operators) but drop math MARKUP
   // ($ delimiters, \commands, braces). Earlier this fully deleted $...$
@@ -441,6 +479,14 @@ function buildTitle(body) {
     // title is built; on a short stem it used to leak into the title text.
     .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/\[FIG:\d+\]/g, '')
+    // By the time the title is built, [FIG:n] markers are already uploaded
+    // images (![figura 1](upload://...)); tables (HTML or markdown pipes)
+    // likewise leaked into titles of short stems.
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/<table>[\s\S]*?<\/table>/g, '')
+    .replace(/^\s*\|.*\|\s*$/gm, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\$\$?([^$]*)\$\$?/g, (_, m) => latexToPlain(m))
     .replace(/\$\$?/g, '')
     .replace(/\\[a-zA-Z]+/g, ' ')
     .replace(/[{}^_\\]/g, '')
@@ -455,7 +501,10 @@ function buildTitle(body) {
 // than pre-judge by length (which throws away plenty of good short titles),
 // try the real title first and only fall back to a generic tema+numero title
 // if Discourse actually rejects it.
-async function createTopicWithTitleFallback(payload, primaryTitle, fallbackTitle) {
+// dupTitle is used when Discourse rejects the title as already taken: exam
+// sections repeat the same instruction ("Elija el enunciado que, al
+// insertarse...") so the first 80 characters collide across questions.
+async function createTopicWithTitleFallback(payload, primaryTitle, fallbackTitle, dupTitle) {
   const headers = {
     'Content-Type': 'application/json',
     'Api-Key': DISCOURSE_API_KEY,
@@ -470,8 +519,11 @@ async function createTopicWithTitleFallback(payload, primaryTitle, fallbackTitle
     const err = await res.json().catch(() => ({}));
     const msg = err.errors?.join(', ') || '';
     const isTitleQualityError = /título parece poco claro|title seems unclear/i.test(msg);
+    const isDuplicateTitle = /already been used|ya ha sido usado|ya se ha usado|ya fue usado/i.test(msg);
     if (isTitleQualityError && fallbackTitle !== primaryTitle) {
       res = await post(fallbackTitle);
+    } else if (isDuplicateTitle && dupTitle && dupTitle !== primaryTitle) {
+      res = await post(dupTitle);
     } else {
       throw new Error(msg || `Discourse error: ${res.status}`);
     }
@@ -566,6 +618,7 @@ app.post('/api/publish', async (req, res) => {
 
     const fallbackTitle = [tema, numero ? String(numero) : null].filter(Boolean).join(' — ') || 'Pregunta';
     const primaryTitle = buildTitle(resolvedBody);
+    const dupTitle = `${primaryTitle} — N° ${numero || '?'} (${universidad} ${[anio, convocatoria].filter(Boolean).join('-')})`;
     const raw = buildRaw(resolvedBody, choices, choiceUrls);
 
     // Custom fields go in the POST body — PUT /t/:id silently drops them.
@@ -589,6 +642,7 @@ app.post('/api/publish', async (req, res) => {
       },
       primaryTitle,
       fallbackTitle,
+      dupTitle,
     );
     const topicId  = post.topic_id;
     const topicUrl = `${DISCOURSE_URL}/t/${post.topic_slug}/${topicId}`;
@@ -893,7 +947,8 @@ app.put('/api/bulk-question/:id', (req, res) => {
     const idx = data.findIndex(r => r.id === req.params.id);
     if (idx === -1) return res.status(404).json({ error: 'No encontrado en el lote' });
 
-    const { body, choices, choiceImages, figureImages, clave, tema, subtemas, modalidad, tipo_area, solutionBody, solutionFigureImages } = req.body;
+    const { body, choices, choiceImages, figureImages, clave, tema, subtemas, modalidad, tipo_area, numero, anio, convocatoria,
+            solutionBody, solutionFigureImages } = req.body;
     if (body !== undefined) data[idx].body = body;
     if (choices !== undefined) data[idx].choices = choices;
     // Merge per-letter, never replace wholesale — the composer's choiceImages
@@ -911,6 +966,9 @@ app.put('/api/bulk-question/:id', (req, res) => {
     if (subtemas !== undefined) data[idx].subtemas = subtemas;
     if (modalidad !== undefined) data[idx].modalidad = modalidad;
     if (tipo_area !== undefined) data[idx].tipo_area = tipo_area;
+    if (numero !== undefined) data[idx].numero = /^\d+$/.test(String(numero)) ? Number(numero) : numero;
+    if (anio !== undefined) data[idx].anio = String(anio);
+    if (convocatoria !== undefined) data[idx].convocatoria = convocatoria;
     if (solutionBody !== undefined) data[idx].solutionBody = solutionBody;
     if (solutionFigureImages !== undefined) data[idx].solutionFigureImages = solutionFigureImages;
 

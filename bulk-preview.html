@@ -136,6 +136,90 @@ h1{font-size:clamp(26px,4vw,34px); font-weight:600; color:var(--ink)}
   .qpreview{display:none}
   .qid{width:auto}
 }
+
+/* ── Vista previa "como pregunta real" (popup) ──────────────────────────────
+   Mirrors how a published question looks on PreUni: title, category/tags,
+   the timer pill (preuni-widget.gjs styles, copied as-is), the post with the
+   choices exactly as /api/publish writes them ("**(A)** ..."), "Mostrar clave"
+   and the collapsed solution thread. Always light, like the site. */
+.prev-btn{font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:5px; border:1px solid var(--accent-2); background:var(--accent-2-soft); color:var(--accent-2); cursor:pointer}
+.prev-btn:hover{opacity:.85}
+.qeye{flex-shrink:0; border:none; background:none; cursor:pointer; font-size:14px; padding:0 2px; opacity:.65}
+.qeye:hover{opacity:1}
+.rq-overlay{position:fixed; inset:0; z-index:100; background:rgba(20,18,16,.55); overflow-y:auto; padding:28px 16px; display:flex; justify-content:center; align-items:flex-start}
+.rq-overlay.hidden{display:none}
+.rq-page{width:min(860px,100%); background:#fbf8f2; color:#222; border-radius:10px; box-shadow:0 12px 40px rgba(0,0,0,.35); font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif; overflow:hidden}
+.rq-topbar{display:flex; align-items:center; gap:12px; padding:10px 18px; border-bottom:1px solid #e6dfd2; background:#fffdf8}
+.rq-brand{font-weight:800; font-size:20px; color:#b3001b; letter-spacing:-.5px}
+.rq-note{font-size:12px; color:#8a7f70; background:#f3ece0; border-radius:12px; padding:2px 10px}
+.rq-nav{margin-left:auto; display:flex; gap:6px}
+.rq-nav button{border:1px solid #d9cfbf; background:#fff; border-radius:6px; padding:5px 11px; font-size:13px; cursor:pointer; color:#444}
+.rq-nav button:hover{border-color:#b3001b; color:#b3001b}
+.rq-body{padding:22px 34px 30px}
+.rq-title{font-family:Inter,system-ui,sans-serif; font-size:27px; font-weight:700; line-height:1.25; color:#1d1d1d; margin:0 0 6px}
+.rq-meta{display:flex; gap:10px; align-items:center; flex-wrap:wrap; font-size:13.5px; color:#555; margin-bottom:18px}
+.rq-cat{display:inline-flex; align-items:center; gap:5px; color:#333}
+.rq-cat i{display:inline-block; width:10px; height:10px; background:#8f1d1d; border-radius:2px}
+.rq-tags{color:#666}
+.rq-post{display:flex; gap:14px; padding:16px 0; border-top:1px solid #e6dfd2}
+.rq-avatar{flex-shrink:0; width:46px; height:46px; border-radius:50%; background:#3ab0e2; color:#fff; font-size:22px; display:flex; align-items:center; justify-content:center}
+.rq-postbody{flex:1; min-width:0}
+.rq-postmeta{font-size:14px; color:#7a4a2a; margin-bottom:10px}
+.rq-postmeta b{color:#5c3a20}
+.rq-cooked{font-size:15.5px; line-height:1.6; color:#222}
+.rq-cooked p{margin:0 0 12px}
+.rq-cooked img{max-width:100%; height:auto}
+.rq-cooked .rq-fig{display:block; margin:6px 0 12px}
+.rq-cooked .rq-choice-img{max-height:130px; vertical-align:middle}
+.rq-cooked table{border-collapse:collapse; margin:4px 0 14px; font-size:14px}
+.rq-cooked th,.rq-cooked td{border:1px solid #d8d0c2; padding:5px 10px; text-align:left}
+.rq-cooked th{background:#f3ece0}
+.rq-sol .rq-postbody{border-left:3px solid #28a745; padding-left:12px}
+.rq-sol-badge{display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:4px; font-size:11px; font-weight:700; background:#d4edda; color:#155724; border:1px solid #c3e6cb; margin-left:6px}
+.rq-hidden{display:none}
+.rq-page .preuni-widget{margin:0 0 1.2rem 0}
+.rq-page .preuni-pill{background:#eaf0f9;border:1px solid #cdd9ec;border-radius:50px;display:flex;align-items:center;padding:8px 14px;gap:0;min-height:56px;margin-bottom:6px;user-select:none;width:100%;box-sizing:border-box}
+.rq-page .preuni-pill-btn{width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;transition:background .15s,transform .1s}
+.rq-page .preuni-pill-btn:active{transform:scale(.93)}
+.rq-page .preuni-pill-btn.play{background:#00529b;color:#fff}
+.rq-page .preuni-pill-btn.running{background:#6c757d;color:#fff;cursor:default}
+.rq-page .preuni-pill-btn.correct{background:#00a86b;color:#fff;cursor:default}
+.rq-page .preuni-pill-btn.wrong{background:#e53e3e;color:#fff;cursor:default}
+.rq-page .preuni-pill-time{font-size:17px;font-weight:700;color:#333;min-width:52px;font-variant-numeric:tabular-nums;margin-left:9px}
+.rq-page .preuni-sep{width:1px;background:#b8cce4;height:30px;margin:0 14px;flex-shrink:0}
+.rq-page .preuni-center{flex:1;display:flex;align-items:center;justify-content:center;min-width:0}
+.rq-page .preuni-idle-text{font-size:13px;color:#8a9ab5}
+.rq-page .preuni-choices{display:flex;gap:7px}
+.rq-page .preuni-c-btn{width:38px;height:38px;border-radius:8px;border:2px solid #b0c4de;background:#fff;font-size:13px;font-weight:700;color:#3a4a60;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.rq-page .preuni-c-btn:hover{border-color:#00529b;color:#00529b;background:#f0f6fc;transform:translateY(-1px)}
+.rq-page .preuni-dist{display:flex;gap:5px;align-items:stretch}
+.rq-page .preuni-dist-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:5px 9px;border-radius:7px;border:2px solid transparent;background:#fff;min-width:46px}
+.rq-page .preuni-dist-letter{font-size:10px;font-weight:700;color:#888}
+.rq-page .preuni-dist-pct{font-size:12px;font-weight:600;color:#333}
+.rq-page .preuni-dist-item.is-correct{background:#d4edda}
+.rq-page .preuni-dist-item.is-correct .preuni-dist-letter,.rq-page .preuni-dist-item.is-correct .preuni-dist-pct{color:#155724;font-weight:800}
+.rq-page .preuni-dist-item.is-wrong-pick{border:2px solid #1a1a1a;background:#fff}
+.rq-page .preuni-dist-item.is-wrong-pick .preuni-dist-letter,.rq-page .preuni-dist-item.is-wrong-pick .preuni-dist-pct{color:#e53e3e;font-weight:700}
+.rq-page .preuni-dist-item.is-correct.is-selected{border:2px solid #1a1a1a}
+.rq-page .preuni-log-btn{width:38px;height:38px;border-radius:50%;background:#00529b;color:#fff;border:none;cursor:pointer;font-size:15px;flex-shrink:0;margin-left:14px;display:flex;align-items:center;justify-content:center}
+.rq-page .preuni-spoiler-wrap{margin-top:14px;margin-bottom:4px}
+.rq-page .preuni-spoiler-btn{display:flex;align-items:center;gap:8px;width:100%;padding:8px 14px;border-radius:6px;border:1px solid #ddd;background:#fafafa;cursor:pointer;font-size:13px;color:#555;transition:all .15s;text-align:left;font-family:inherit}
+.rq-page .preuni-spoiler-btn:hover{border-color:#aaa;background:#f0f0f0}
+.rq-page .preuni-hilo-btn{margin-top:8px}
+.rq-page .preuni-spoiler-content{margin-top:8px;padding:14px 16px;background:#f9fff9;border-radius:6px;border:1px solid #a8d5b5;font-size:14px}
+.rq-page .preuni-spoiler-clave{font-weight:800;color:#155724;font-size:15px}
+@media (max-width:600px){
+  .rq-body{padding:16px 14px 22px}
+  .rq-title{font-size:21px}
+  .rq-avatar{display:none}
+  .rq-page .preuni-pill{padding:6px 8px;min-height:44px}
+  .rq-page .preuni-pill-btn{width:30px;height:30px;font-size:13px}
+  .rq-page .preuni-pill-time{font-size:13px;min-width:38px;margin-left:5px}
+  .rq-page .preuni-sep{margin:0 6px;height:22px}
+  .rq-page .preuni-c-btn{width:28px;height:28px;font-size:12px}
+  .rq-page .preuni-dist{gap:2px;flex:1;min-width:0}
+  .rq-page .preuni-dist-item{padding:4px 1px;min-width:0;flex:1 1 0}
+}
 </style>
 </head>
 <body>
@@ -264,6 +348,8 @@ function renderList(){
           ${clusterBadge}
           <span class="qpreview">${esc(preview)}</span>
           <span class="qclave ${!r.clave ? 'missing' : ''}">${r.clave || '?'}</span>
+          <button class="qeye" title="Vista previa como pregunta real" onclick="event.stopPropagation(); openRealPreview(${DATA.indexOf(r)})">👁</button>
+          <a class="qeye" title="Editar en el composer" href="${composerHref(r)}" target="_blank" onclick="event.stopPropagation()" style="text-decoration:none">✏️</a>
           ${r.published ? `<a class="qpub" href="${r.topicUrl}" target="_blank" onclick="event.stopPropagation()">📤 publicada</a>` : ''}
           <span class="qcaret">▸</span>
         </div>
@@ -285,8 +371,14 @@ function toggleRow(row){
   if (window.MathJax?.typesetPromise) MathJax.typesetPromise([body]);
 }
 
+// Every record can be opened in the composer's bulk-edit mode, not only the
+// flagged ones ("Guardar cambios" writes back into this batch file).
+function composerHref(r){
+  return `/question-composer-prototype.html?bulk_id=${encodeURIComponent(r.id)}&batch=${encodeURIComponent(currentBatch)}`;
+}
+
 function renderDetail(r){
-  const editHref = `/question-composer-prototype.html?bulk_id=${encodeURIComponent(r.id)}&batch=${encodeURIComponent(currentBatch)}`;
+  const editHref = composerHref(r);
   const flagsHtml = r.needsReview.length
     ? `<div class="qflags">
          ${r.needsReview.map(f => `<span class="flag-pill">${esc(f)}</span>`).join('')}
@@ -309,8 +401,10 @@ function renderDetail(r){
     ? `<div class="solution"><div class="lbl">Solución</div>${renderTextWithFigures(r.solutionBody, r.solutionFigureImages)}</div>`
     : '';
 
+  const previewBtn = `<div class="qflags"><button class="prev-btn" onclick="openRealPreview(${DATA.indexOf(r)})">👁 Vista previa como pregunta real</button>${flagsHtml ? '' : `<a class="edit-link" href="${editHref}" target="_blank">✏️ Editar en el composer</a>`}</div>`;
   return `
     ${flagsHtml}
+    ${previewBtn}
     <div class="qtext">${bodyHtml}</div>
     <div class="choices">${choicesHtml}</div>
     ${solutionHtml}
@@ -574,7 +668,216 @@ async function loadData(){
 }
 
 document.getElementById('batchSelect').addEventListener('change', switchBatch);
+// ── Vista previa "como pregunta real" ─────────────────────────────────────
+// Renders a record the way PreUni shows a published question, without
+// publishing anything: same title rule as server.js buildTitle, the tags
+// /api/publish adds, the post body as buildRaw writes it, the timer pill and
+// the "Mostrar clave" / solution-thread toggles. Prev/next walk the current list.
+let rqIdx = null, rqTimer = null;
+
+function rqSlug(s){ return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+
+// Same as server.js buildTitle / latexToPlain -- keep them in sync.
+const LATEX_PLAIN = {
+  alpha: 'α', beta: 'β', gamma: 'γ', delta: 'δ', theta: 'θ', lambda: 'λ', mu: 'μ', pi: 'π', rho: 'ρ', sigma: 'σ',
+  phi: 'φ', omega: 'ω', Delta: 'Δ', Omega: 'Ω', ell: 'ℓ', infty: '∞', times: '×', cdot: '·', div: '÷', pm: '±',
+  leq: '≤', geq: '≥', le: '≤', ge: '≥', neq: '≠', ne: '≠', approx: '≈', in: '∈', circ: '°', angle: '∠',
+  triangle: '△', to: '→', rightarrow: '→', Rightarrow: '⇒', leftrightarrow: '↔', sqrt: '√', bigcirc: '○',
+  sin: 'sen', cos: 'cos', tan: 'tan', sec: 'sec', csc: 'csc', cot: 'cot', log: 'log', ln: 'ln',
+  arctan: 'arctan', arcsin: 'arcsen', arccos: 'arccos', lor: '∨', land: '∧', vee: '∨', wedge: '∧', sim: '~',
+  langle: '⟨', rangle: '⟩', setminus: '∖', mid: '|', longrightarrow: '→', rightleftharpoons: '⇌', therefore: '∴',
+  equiv: '≡', subset: '⊂', implies: '⇒', Leftrightarrow: '⇔', lnot: '¬', neg: '¬', forall: '∀', exists: '∃',
+  epsilon: 'ε', varepsilon: 'ε', varphi: 'φ', parallel: '∥', perp: '⊥', Re: 'ℜ', vartheta: 'ϑ', lim: 'lím ', ldots: '…', cdots: '⋯', dots: '…',
+};
+// "1+\sqrt{2}" -> "(1+√2)" so a flattened fraction stays readable; single terms ("x", "2\pi") stay bare.
+const wrapTerm = x => (/^(?:[\w√.,]|\\[a-zA-Z]+)+$/.test(x.trim()) ? x.trim() : `(${x.trim()})`);
+function circled(x){
+  if (/^[a-z]$/.test(x)) return String.fromCodePoint(0x24D0 + x.charCodeAt(0) - 97);
+  if (/^[A-Z]$/.test(x)) return String.fromCodePoint(0x24B6 + x.charCodeAt(0) - 65);
+  if (/^[1-9]$/.test(x)) return String.fromCodePoint(0x2460 + Number(x) - 1);
+  return `(${x})`;
+}
+function latexToPlain(s){
+  // arrays/matrices/cases: drop the environment markup, keep the cells
+  s = s.replace(/\\begin\{[a-zA-Z*]+\}(?:\{[^{}]*\})?|\\end\{[a-zA-Z*]+\}/g, ' ')
+       .replace(/\\\\/g, '; ').replace(/&/g, ' ').replace(/\\[,;:! ]/g, ' ');
+  // \enclose{circle}{t} (operator notation) -> ⓣ
+  s = s.replace(/\\enclose\{[^{}]*\}\{\s*(?:\\,)?\s*([^{}]*?)\s*(?:\\,)?\s*\}/g, (_, x) => circled(x));
+  let prev;
+  do {
+    prev = s;
+    s = s.replace(/\\(?:operatorname|mathrm|text|mathbf|boldsymbol|overline|widehat|underline|vec|hat|boxed)\s*\{([^{}]*)\}/g, '$1')
+         .replace(/\\sqrt\s*\{([^{}]*)\}/g, (_, x) => '√' + wrapTerm(x))
+         .replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, (_, a, b) => `${wrapTerm(a)}/${wrapTerm(b)}`);
+  } while (s !== prev);
+  // \left/\right delimiters only -- not the start of \rightarrow / \leftrightarrow
+  return s.replace(/\\(?:left|right)(?![a-zA-Z])/g, '').replace(/\\([a-zA-Z]+)/g, (m, c) => (LATEX_PLAIN[c] !== undefined ? LATEX_PLAIN[c] : m));
+}
+function rqTitle(body){
+  const clean = (body || '')
+    .replace(/\[FIG:\d+\]/g, '').replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/<table>[\s\S]*?<\/table>/g, '').replace(/^\s*\|.*\|\s*$/gm, '').replace(/<[^>]+>/g, ' ')
+    .replace(/\$\$?([^$]*)\$\$?/g, (_, m) => latexToPlain(m))
+    .replace(/\$\$?/g, '').replace(/\\[a-zA-Z]+/g, ' ').replace(/[{}^_\\]/g, '').replace(/\s+/g, ' ').trim();
+  return clean.length > 80 ? clean.slice(0, 80) + '…' : (clean || 'Pregunta');
+}
+// The title Discourse will end up with: a title already used by an earlier
+// record of this batch gets the server's duplicate suffix.
+function rqFinalTitle(r){
+  const t = rqTitle(r.body);
+  const firstWithSame = DATA.find(x => rqTitle(x.body) === t);
+  if (firstWithSame === r) return { title: t, dup: false };
+  return { title: `${t} — N° ${r.numero || '?'} (${r.universidad} ${[r.anio, r.convocatoria].filter(Boolean).join('-')})`, dup: true };
+}
+
+// Minimal markdown -> HTML matching how Discourse cooks these posts:
+// paragraphs on blank lines, single newlines as <br>, **bold**, pipe tables,
+// [FIG:n] as a block image. Math is left as $...$ for MathJax.
+function rqCook(text, figs){
+  if (!text) return '';
+  const blocks = text.replace(/\[FIG:(\d+)\]/g, '\n\n[FIG:$1]\n\n').split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
+  return blocks.map(b => {
+    const fig = b.match(/^\[FIG:(\d+)\]$/);
+    if (fig) { const src = figs?.[+fig[1]]; return src ? `<img class="rq-fig" src="${src}">` : ''; }
+    const lines = b.split('\n');
+    if (lines.length >= 2 && lines.every(l => /^\s*\|.*\|\s*$/.test(l))) {
+      const rows = lines.filter(l => !/^\s*\|[\s|:-]+\|\s*$/.test(l)).map(l => l.trim().replace(/^\||\|$/g, '').split('|').map(c => esc(c.trim())));
+      return `<table><thead><tr>${rows[0].map(c => `<th>${c}</th>`).join('')}</tr></thead><tbody>${rows.slice(1).map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+    }
+    return `<p>${esc(b).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>')}</p>`;
+  }).join('');
+}
+
+function rqChoices(r){
+  return '<p>' + ['A','B','C','D','E'].map(l => {
+    const img = r.choiceImages?.[l];
+    return `<strong>(${l})</strong> ` + (img ? `<img class="rq-choice-img" src="${img}">` : esc(r.choices[l] || ''));
+  }).join('<br>') + '</p>';
+}
+
+function rqVisibleIdxs(){
+  return [...document.querySelectorAll('#qlist .qrow')].map(el => +el.dataset.idx);
+}
+
+function openRealPreview(idx){
+  rqIdx = idx;
+  const r = DATA[idx];
+  clearInterval(rqTimer);
+  const tags = [String(r.numero), ...(r.subtemas || []), r.modalidad && rqSlug(r.modalidad), r.tipo_area && rqSlug(r.tipo_area)].filter(Boolean);
+  const nSol = (r.solutionBody || (r.solutionFigureImages || []).length) ? 1 : 0;
+  const ft = rqFinalTitle(r);
+  document.getElementById('rqContent').innerHTML = `
+    <h1 class="rq-title">${esc(ft.title)}</h1>
+    ${ft.dup ? `<div style="font-size:12px;color:#8a6d1f;background:#fbf1d6;border-radius:5px;padding:3px 9px;display:inline-block;margin-bottom:6px">Título repetido en este lote: Discourse lo publicará con el número al final.</div>` : ''}
+    <div class="rq-meta">
+      <span class="rq-cat"><i></i>${esc(r.universidad || '')}</span>
+      <span class="rq-cat"><i></i>${esc(r.tema || '—')}</span>
+      <span class="rq-tags">${esc(tags.join(', '))}</span>
+    </div>
+    <div class="preuni-widget">
+      <div class="preuni-pill">
+        <button type="button" id="rqPlay" class="preuni-pill-btn play" onclick="rqStart()">▶</button>
+        <span class="preuni-pill-time" id="rqTime">00:00</span>
+        <div class="preuni-sep"></div>
+        <div class="preuni-center" id="rqCenter"><span class="preuni-idle-text">¿Listo? Inicia el cronómetro</span></div>
+        <button type="button" class="preuni-log-btn" title="Registro de errores">📋</button>
+      </div>
+    </div>
+    <div class="rq-post">
+      <div class="rq-avatar">A</div>
+      <div class="rq-postbody">
+        <div class="rq-postmeta"><b>admin</b></div>
+        <div class="rq-cooked">${rqCook(r.body, r.figureImages)}${rqChoices(r)}</div>
+        <div class="preuni-spoiler-wrap">
+          <button type="button" class="preuni-spoiler-btn" onclick="rqToggle('rqClave', this, '▴', '▾', 'Mostrar clave', 'Mostrar clave')"><span>▾</span> Mostrar clave</button>
+          <div id="rqClave" class="preuni-spoiler-content rq-hidden"><div class="preuni-spoiler-clave">${esc(r.clave || '—')}</div></div>
+          ${nSol ? `<button type="button" class="preuni-spoiler-btn preuni-hilo-btn" onclick="rqToggle('rqSol', this, '▴', '▾', 'Ocultar soluciones y comentarios', 'Ver soluciones y comentarios (${nSol})')"><span>▴</span> Ocultar soluciones y comentarios</button>` : ''}
+        </div>
+      </div>
+    </div>
+    ${nSol ? `<div class="rq-post rq-sol" id="rqSol">
+      <div class="rq-avatar">A</div>
+      <div class="rq-postbody">
+        <div class="rq-postmeta"><b>admin</b> <span class="rq-sol-badge">✓ Solución</span></div>
+        <div class="rq-cooked">${rqCook(r.solutionBody, r.solutionFigureImages)}</div>
+      </div>
+    </div>` : ''}`;
+  const list = rqVisibleIdxs(), pos = list.indexOf(idx);
+  document.getElementById('rqPos').textContent = pos >= 0 ? `${pos + 1} / ${list.length}` : '';
+  document.getElementById('rqOverlay').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  if (window.MathJax?.typesetPromise) MathJax.typesetPromise([document.getElementById('rqContent')]);
+}
+
+function rqToggle(id, btn, upIcon, downIcon, openLabel, closedLabel){
+  const el = document.getElementById(id);
+  const opening = el.classList.contains('rq-hidden');
+  el.classList.toggle('rq-hidden', !opening);
+  btn.innerHTML = `<span>${opening ? upIcon : downIcon}</span> ${opening ? openLabel : closedLabel}`;
+}
+
+function rqStart(){
+  const btn = document.getElementById('rqPlay');
+  if (!btn.classList.contains('play')) return;
+  btn.className = 'preuni-pill-btn running'; btn.textContent = '⏸';
+  const t0 = Date.now();
+  rqTimer = setInterval(() => {
+    const s = Math.floor((Date.now() - t0) / 1000);
+    document.getElementById('rqTime').textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+  }, 250);
+  document.getElementById('rqCenter').innerHTML = `<div class="preuni-choices">${['A','B','C','D','E'].map(l => `<button type="button" class="preuni-c-btn" onclick="rqAnswer('${l}')">${l}</button>`).join('')}</div>`;
+}
+
+function rqAnswer(l){
+  clearInterval(rqTimer);
+  const r = DATA[rqIdx];
+  const ok = l === r.clave;
+  const btn = document.getElementById('rqPlay');
+  btn.className = 'preuni-pill-btn ' + (ok ? 'correct' : 'wrong'); btn.textContent = ok ? '✓' : '✗';
+  // No real answer statistics in a preview: show the result pattern only.
+  document.getElementById('rqCenter').innerHTML = `<div class="preuni-dist">${['A','B','C','D','E'].map(x => {
+    const cls = ['preuni-dist-item', x === r.clave ? 'is-correct' : '', x === l && !ok ? 'is-wrong-pick' : '', x === l && ok ? 'is-selected' : ''].join(' ');
+    return `<div class="${cls}"><span class="preuni-dist-letter">${x}</span><span class="preuni-dist-pct">—</span></div>`;
+  }).join('')}</div>`;
+}
+
+function rqStep(delta){
+  const list = rqVisibleIdxs(), pos = list.indexOf(rqIdx);
+  if (pos < 0) return;
+  const next = list[pos + delta];
+  if (next !== undefined) openRealPreview(next);
+}
+
+function closeRealPreview(){
+  clearInterval(rqTimer);
+  document.getElementById('rqOverlay').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (document.getElementById('rqOverlay').classList.contains('hidden')) return;
+  if (e.key === 'Escape') closeRealPreview();
+  if (e.key === 'ArrowRight') rqStep(1);
+  if (e.key === 'ArrowLeft') rqStep(-1);
+});
+
 loadBatches().then(loadData);
 </script>
+
+<div id="rqOverlay" class="rq-overlay hidden" onclick="if (event.target === this) closeRealPreview()">
+  <div class="rq-page" role="dialog" aria-modal="true" aria-label="Vista previa de la pregunta">
+    <div class="rq-topbar">
+      <span class="rq-brand">PreUni</span>
+      <span class="rq-note">Vista previa — no publicada</span>
+      <div class="rq-nav">
+        <button type="button" onclick="rqStep(-1)" title="Anterior (←)">← Anterior</button>
+        <span id="rqPos" style="font-size:12px;color:#8a7f70;align-self:center"></span>
+        <button type="button" onclick="rqStep(1)" title="Siguiente (→)">Siguiente →</button>
+        <button type="button" onclick="closeRealPreview()" title="Cerrar (Esc)">✕</button>
+      </div>
+    </div>
+    <div class="rq-body" id="rqContent"></div>
+  </div>
+</div>
 </body>
 </html>
