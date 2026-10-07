@@ -89,9 +89,18 @@ class PreuniBusquedaController < ApplicationController
   # Every value each dimension currently takes across the published question
   # bank -- derived live from the index table + tags rather than a hardcoded
   # list, so the filter bar never drifts from what's actually filterable.
+  # subtema_por_tema maps each tema to the subtemas its questions carry, so
+  # picking a Tema narrows the Sub Tema list to that tema's subtemas.
   def opciones
     data = FACET_COLUMNS.index_with { |col| PreuniPreguntaIndice.distinct.where.not(col => nil).order(col).pluck(col) }
-    data[:subtema] = subtemas_por_topic_para(PreuniPreguntaIndice.distinct.pluck(:topic_id)).values.flatten.uniq.sort
+    subtemas = subtemas_por_topic_para(PreuniPreguntaIndice.distinct.pluck(:topic_id))
+    data[:subtema] = subtemas.values.flatten.uniq.sort
+
+    por_tema = Hash.new { |h, k| h[k] = Set.new }
+    PreuniPreguntaIndice.where.not(tema: nil).distinct.pluck(:topic_id, :tema).each do |topic_id, tema|
+      por_tema[tema].merge(subtemas.fetch(topic_id, []))
+    end
+    data[:subtema_por_tema] = por_tema.reject { |_, s| s.empty? }.sort.to_h { |tema, s| [tema, s.to_a.sort] }
     render json: data
   end
 

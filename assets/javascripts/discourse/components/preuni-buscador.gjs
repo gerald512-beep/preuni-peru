@@ -213,11 +213,23 @@ export default class PreuniBuscador extends Component {
     return Math.max(0, this.total - this.items.length);
   }
 
+  // Sub Tema follows Tema: with temas picked, only their subtemas are offered.
+  subtemasPara(temas) {
+    if (!temas.length) {
+      return this.opciones.subtema || [];
+    }
+    const porTema = this.opciones.subtema_por_tema || {};
+    return [...new Set(temas.flatMap((t) => porTema[t] || []))].sort();
+  }
+
   get facetConfigs() {
     return FACETS.map((f) => ({
       key: f.key,
       label: f.label,
-      options: this.opciones[f.key] || [],
+      options:
+        f.key === "subtema"
+          ? this.subtemasPara(this.seleccion.tema.map((o) => o.id))
+          : this.opciones[f.key] || [],
       selection: this.seleccion[f.key],
     }));
   }
@@ -234,7 +246,13 @@ export default class PreuniBuscador extends Component {
   cambiarFacet(key, selection) {
     const antes = this.seleccion[key].map((o) => o.id);
     const valores = selection.map((o) => o.id);
-    this.seleccion = { ...this.seleccion, [key]: selection };
+    const seleccion = { ...this.seleccion, [key]: selection };
+    if (key === "tema") {
+      // drop picked subtemas that no longer belong to any picked tema
+      const validos = new Set(this.subtemasPara(valores));
+      seleccion.subtema = seleccion.subtema.filter((o) => validos.has(o.id));
+    }
+    this.seleccion = seleccion;
     registrarEvento("busqueda_filtro", {
       datos: {
         faceta: key,
