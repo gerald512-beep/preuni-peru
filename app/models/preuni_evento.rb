@@ -19,5 +19,7 @@ class PreuniEvento < ActiveRecord::Base
     registro_errores_click
     busqueda_filtro
     busqueda_resultado_click
+    nudge_registro_click
+    respuestas_importadas
   ].freeze
 end

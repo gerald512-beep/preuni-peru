@@ -9,6 +9,15 @@ import { ajax } from "discourse/lib/ajax";
 import { eq, not } from "discourse/truth-helpers";
 import DiscourseURL from "discourse/lib/url";
 import { registrarEvento } from "../lib/preuni-eventos";
+import {
+  contarRespuestasInvitado,
+  guardarRespuestaInvitado,
+  respuestaInvitado,
+} from "../lib/preuni-invitado";
+
+// Guest mode: from this many answers in this browser, the sign-up nudge
+// becomes a card instead of a single line.
+const NUDGE_TARJETA_DESDE = 5;
 
 const PREUNI_CSS = `
 .preuni-widget{margin:0 0 1.2rem 0}
@@ -90,11 +99,19 @@ const PREUNI_CSS = `
   border-radius:4px;padding:2px 8px;white-space:nowrap
 }
 .preuni-meta-num{color:#00529b;background:#e8f0fc;border-color:#b8ccf0;font-weight:700}
-.preuni-login-prompt{
-  font-size:13px;color:#00529b;text-decoration:none;font-weight:600;
-  display:flex;align-items:center;gap:5px
+.preuni-nudge{margin-top:6px;font-size:13px;color:#5a6a82}
+.preuni-nudge a{color:#00529b;font-weight:700;text-decoration:none}
+.preuni-nudge a:hover{text-decoration:underline}
+.preuni-nudge-card{
+  margin-top:8px;padding:10px 14px;border-radius:8px;
+  background:#eaf0f9;border:1px solid #cdd9ec;font-size:13px;color:#2a3b55;
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px
 }
-.preuni-login-prompt:hover{text-decoration:underline}
+.preuni-nudge-card a{
+  background:#00529b;color:#fff;border-radius:6px;padding:5px 12px;
+  font-weight:700;text-decoration:none;white-space:nowrap
+}
+.preuni-nudge-card a:hover{opacity:.9}
 
 @media (max-width: 600px){
   .preuni-pill{padding:6px 8px;min-height:44px}
@@ -136,7 +153,7 @@ export default class PreuniWidget extends Component {
   @tracked clave = null;
   @tracked distribucion = null;
   @tracked error = null;
-  @tracked loginGate = false;
+  @tracked respuestasInvitado = 0;   // guest answers kept in this browser (drives the nudge)
 
   _timer = null;
   _inicio = null;
@@ -281,11 +298,27 @@ export default class PreuniWidget extends Component {
     this.clave = null;
     this.distribucion = null;
     this.error = null;
-    this.loginGate = false;
+    this.respuestasInvitado = 0;
   }
 
   async _cargarPrevio(postId) {
     if (!this.fields?.clave || !postId) return;
+    if (!this.currentUser) {
+      // Guest: their earlier answer to this question lives in this browser.
+      const previa = respuestaInvitado(postId);
+      if (previa) {
+        const distribucion = await this._distribucionPublica(postId);
+        if (!this.postMode && this._topicId !== this.args.topic?.id) return;  // navigated away before response
+        this.clave = this.fields.clave;
+        this.seleccion = previa.r;
+        this.correcto = previa.r === this.clave;
+        this.segundos = previa.t ?? null;
+        this.distribucion = distribucion;
+        this.respuestasInvitado = contarRespuestasInvitado();
+        this.estado = "respondido";
+      }
+      return;
+    }
     try {
       const data = await ajax(`/preuni/distribucion/${postId}`);
       if (!this.postMode && this._topicId !== this.args.topic?.id) return;  // navigated away before response
@@ -299,8 +332,32 @@ export default class PreuniWidget extends Component {
         this.estado = "respondido";
       }
     } catch (_) {
-      // not logged in or no previous answer — stay idle
+      // no previous answer — stay idle
     }
+  }
+
+  // Registered users' answer distribution (guests never feed it). On failure
+  // an empty one, so the result still shows the key and the guest's pick.
+  async _distribucionPublica(postId) {
+    try {
+      return (await ajax(`/preuni/distribucion/${postId}`)).distribucion || {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  // A question nobody with an account has answered yet: show the letters and
+  // the key, but not a row of "0%".
+  get hayDistribucion() {
+    return this.letras.some((l) => (this.distribucion?.[l]?.count ?? 0) > 0);
+  }
+
+  get esInvitado() {
+    return !this.currentUser;
+  }
+
+  get nudgeTarjeta() {
+    return this.respuestasInvitado >= NUDGE_TARJETA_DESDE;
   }
 
   get timerDisplay() {
@@ -354,12 +411,21 @@ export default class PreuniWidget extends Component {
     if (this.estado !== "corriendo" || this.seleccion) return;
     clearInterval(this._timer);
     if (!this.currentUser) {
+      // Guest mode: the result comes straight from the key the page already
+      // has; the answer is kept in this browser only (imported on sign-up)
+      // and never counts in the public distribution / difficulty.
+      const postId = this.postId;
       this.seleccion = letra;
-      this.loginGate = true;
+      this.clave = this.fields.clave;
+      this.correcto = letra === this.clave;
+      guardarRespuestaInvitado(postId, letra, this.segundos);
+      this.respuestasInvitado = contarRespuestasInvitado();
+      this.estado = "respondido";
       registrarEvento("respuesta_anonima", {
         ...this.eventoRef,
-        datos: { respuesta: letra, segundos: this.segundos },
+        datos: { respuesta: letra, segundos: this.segundos, correcto: this.correcto },
       });
+      this.distribucion = await this._distribucionPublica(postId);
       return;
     }
     this.seleccion = letra;
@@ -399,8 +465,11 @@ export default class PreuniWidget extends Component {
   }
 
   @action
-  clickLoginGate() {
-    registrarEvento("login_gate_click", this.eventoRef);
+  clickNudge(origen) {
+    registrarEvento("nudge_registro_click", {
+      ...this.eventoRef,
+      datos: { n: this.respuestasInvitado, origen },
+    });
   }
 
   @action
@@ -409,10 +478,10 @@ export default class PreuniWidget extends Component {
       ...this.eventoRef,
       datos: { logueado: !!this.currentUser },
     });
-    // The log is a personal page: signed-out users are sent to log in, like
-    // the other gated features.
+    // The error log is what an account adds (it keeps every answer, on any
+    // device), so a guest is invited to create one.
     if (!this.currentUser) {
-      window.location.href = "/login";
+      window.location.href = "/signup";
       return;
     }
     DiscourseURL.routeTo(`/errores?pregunta=${this.postId}`);
@@ -451,11 +520,6 @@ export default class PreuniWidget extends Component {
             {{#if (eq this.estado "idle")}}
               <span class="preuni-idle-text">¿Listo? Inicia el cronómetro</span>
 
-            {{else if this.loginGate}}
-              <a href="/login" class="preuni-login-prompt" {{on "click" this.clickLoginGate}}>
-                🔒 Seleccionaste {{this.seleccion}} — inicia sesión para ver si acertaste
-              </a>
-
             {{else if (eq this.estado "corriendo")}}
               <div class="preuni-choices">
                 {{#each this.letras as |l|}}
@@ -472,7 +536,7 @@ export default class PreuniWidget extends Component {
                 {{#each this.barras as |b|}}
                   <div class={{b.clase}}>
                     <span class="preuni-dist-letter">{{b.letra}}</span>
-                    <span class="preuni-dist-pct">{{b.pct}}%{{#if b.esClave}}<span class="preuni-dist-check"> ✓</span>{{/if}}</span>
+                    <span class="preuni-dist-pct">{{#if this.hayDistribucion}}{{b.pct}}%{{/if}}{{#if b.esClave}}<span class="preuni-dist-check"> ✓</span>{{/if}}</span>
                   </div>
                 {{/each}}
               </div>
@@ -497,6 +561,23 @@ export default class PreuniWidget extends Component {
         {{! ── ERROR ── }}
         {{#if this.error}}
           <div class="preuni-error-msg">{{this.error}}</div>
+        {{/if}}
+
+        {{! ── GUEST NUDGE (after answering, never blocking) ── }}
+        {{#if this.esInvitado}}
+          {{#if (eq this.estado "respondido")}}
+            {{#if this.nudgeTarjeta}}
+              <div class="preuni-nudge-card">
+                <span>Llevas {{this.respuestasInvitado}} respuestas en este navegador. Crea tu cuenta para guardarlas y repasar tus errores en cualquier dispositivo.</span>
+                <a href="/signup" {{on "click" (fn this.clickNudge "tarjeta")}}>Crear cuenta gratis</a>
+              </div>
+            {{else}}
+              <div class="preuni-nudge">
+                ¿Quieres guardar tu progreso?
+                <a href="/signup" {{on "click" (fn this.clickNudge "linea")}}>Crea tu cuenta gratis</a>
+              </div>
+            {{/if}}
+          {{/if}}
         {{/if}}
 
       </div>

@@ -208,14 +208,15 @@ QUERIES = [
   SQL
 
   ["09 · Embudo anónimo → registro",
-   "Visitantes sin cuenta: cuántos vieron una pregunta, respondieron sin cuenta, hicieron clic en un aviso de 'inicia sesión' y luego crearon una cuenta desde ese mismo navegador.",
+   "Modo invitado (desde 2026-10-06 cualquiera practica sin cuenta). Visitantes sin cuenta: cuántos vieron una pregunta, respondieron como invitados (con resultado al instante), hicieron clic en 'Crea tu cuenta' (o, antes del modo invitado, en un aviso de 'inicia sesión'), luego crearon una cuenta desde ese mismo navegador, y cuántos pasaron sus respuestas de invitado a la cuenta.",
    <<~SQL],
     WITH #{STAFF_VIS},
     anon AS (
       SELECT visitante_id,
         BOOL_OR(evento = 'pregunta_vista') AS vio,
         BOOL_OR(evento = 'respuesta_anonima') AS respondio,
-        BOOL_OR(evento IN ('login_gate_click', 'clave_login_click', 'hilo_login_click')) AS click_login,
+        COUNT(*) FILTER (WHERE evento = 'respuesta_anonima') AS respuestas,
+        BOOL_OR(evento IN ('nudge_registro_click', 'login_gate_click', 'clave_login_click', 'hilo_login_click')) AS click_cuenta,
         MIN(created_at) AS primera_vez
       FROM e WHERE user_id IS NULL
       GROUP BY visitante_id
@@ -225,13 +226,19 @@ QUERIES = [
       FROM anon a
       JOIN e ON e.visitante_id = a.visitante_id AND e.user_id IS NOT NULL
       JOIN users u ON u.id = e.user_id AND u.created_at >= a.primera_vez
+    ),
+    importaron AS (
+      SELECT DISTINCT visitante_id FROM e
+      WHERE evento = 'respuestas_importadas' AND COALESCE((datos->>'n')::int, 0) > 0
     )
     SELECT
       COUNT(*) AS visitantes_anonimos,
       COUNT(*) FILTER (WHERE vio) AS vieron_una_pregunta,
-      COUNT(*) FILTER (WHERE respondio) AS respondieron_sin_cuenta,
-      COUNT(*) FILTER (WHERE click_login) AS clic_en_inicia_sesion,
-      COUNT(*) FILTER (WHERE visitante_id IN (SELECT visitante_id FROM registrados)) AS luego_se_registraron
+      COUNT(*) FILTER (WHERE respondio) AS respondieron_como_invitado,
+      COALESCE(ROUND(AVG(respuestas) FILTER (WHERE respondio), 1), 0) AS respuestas_por_invitado,
+      COUNT(*) FILTER (WHERE click_cuenta) AS clic_en_crear_cuenta,
+      COUNT(*) FILTER (WHERE visitante_id IN (SELECT visitante_id FROM registrados)) AS luego_se_registraron,
+      COUNT(*) FILTER (WHERE visitante_id IN (SELECT visitante_id FROM importaron)) AS importaron_respuestas
     FROM anon
   SQL
 

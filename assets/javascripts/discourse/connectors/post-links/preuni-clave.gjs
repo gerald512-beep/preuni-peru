@@ -7,7 +7,6 @@ import PreuniWidget from "../../components/preuni-widget";
 import { registrarEvento } from "../../lib/preuni-eventos";
 
 export default class PreuniClave extends Component {
-  @service currentUser;
   @service preuniHilo;
   @tracked mostrarClave = false;
 
@@ -24,16 +23,6 @@ export default class PreuniClave extends Component {
     if (this.preuniHilo.abierto) {
       registrarEvento("hilo_abierto", this.eventoRef);
     }
-  }
-
-  @action
-  clickLoginClave() {
-    registrarEvento("clave_login_click", this.eventoRef);
-  }
-
-  @action
-  clickLoginHilo() {
-    registrarEvento("hilo_login_click", { ...this.eventoRef, datos: { respuestas: this.numRespuestas } });
   }
 
   get post() { return this.args.outletArgs?.post; }
@@ -70,41 +59,27 @@ export default class PreuniClave extends Component {
       <PreuniWidget @post={{this.post}} />
     {{/if}}
     {{#if this.esPreuni}}
+      {{! Guest mode: the key and the thread open for everyone; an account is
+          only needed to keep progress and to post. }}
       <div class="preuni-spoiler-wrap">
-        {{#if this.currentUser}}
-          <button type="button" class="preuni-spoiler-btn" {{on "click" this.toggleClave}}>
-            <span>{{if this.mostrarClave "▴" "▾"}}</span>
-            Mostrar clave
-          </button>
-          {{#if this.mostrarClave}}
-            <div class="preuni-spoiler-content">
-              <div class="preuni-spoiler-clave">{{this.clave}}</div>
-            </div>
-          {{/if}}
-        {{else}}
-          <a href="/login" class="preuni-spoiler-btn" style="text-decoration:none;color:inherit;justify-content:flex-start;gap:8px" {{on "click" this.clickLoginClave}}>
-            <span>🔒</span>
-            Inicia sesión para ver la clave
-          </a>
+        <button type="button" class="preuni-spoiler-btn" {{on "click" this.toggleClave}}>
+          <span>{{if this.mostrarClave "▴" "▾"}}</span>
+          Mostrar clave
+        </button>
+        {{#if this.mostrarClave}}
+          <div class="preuni-spoiler-content">
+            <div class="preuni-spoiler-clave">{{this.clave}}</div>
+          </div>
         {{/if}}
         {{#if this.hayRespuestas}}
-          {{#if this.currentUser}}
-            <button type="button" class="preuni-spoiler-btn preuni-hilo-btn" {{on "click" this.toggleHilo}}>
-              <span>{{if this.preuniHilo.abierto "▴" "▾"}}</span>
-              {{#if this.preuniHilo.abierto}}
-                Ocultar soluciones y comentarios
-              {{else}}
-                Ver soluciones y comentarios ({{this.numRespuestas}})
-              {{/if}}
-            </button>
-          {{else}}
-            {{! Soft gate, same strength as the clave one: the replies are
-                still in the page (and indexed), just not shown. }}
-            <a href="/login" class="preuni-spoiler-btn preuni-hilo-btn preuni-hilo-login" style="text-decoration:none;color:inherit;justify-content:flex-start;gap:8px" {{on "click" this.clickLoginHilo}}>
-              <span>🔒</span>
-              Inicia sesión para ver las soluciones y comentarios ({{this.numRespuestas}})
-            </a>
-          {{/if}}
+          <button type="button" class="preuni-spoiler-btn preuni-hilo-btn" {{on "click" this.toggleHilo}}>
+            <span>{{if this.preuniHilo.abierto "▴" "▾"}}</span>
+            {{#if this.preuniHilo.abierto}}
+              Ocultar soluciones y comentarios
+            {{else}}
+              Ver soluciones y comentarios ({{this.numRespuestas}})
+            {{/if}}
+          </button>
         {{/if}}
       </div>
     {{/if}}

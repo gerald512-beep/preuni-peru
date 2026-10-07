@@ -289,6 +289,7 @@ after_initialize do
 
   Discourse::Application.routes.append do
     post '/preuni/responder'        => 'preuni_respuestas#create'
+    post '/preuni/importar'         => 'preuni_respuestas#importar'
     get  '/preuni/distribucion/:id' => 'preuni_respuestas#distribucion'
     get  '/preuni/difficulties'     => 'preuni_respuestas#difficulties'
     post '/preuni/ensure-tag'       => 'preuni_respuestas#ensure_tag'
