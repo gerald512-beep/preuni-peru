@@ -272,7 +272,7 @@ LABELS = {
     'culturas-prehispanicas-y-tawantinsuyo': 'Pre-Hispanic cultures and the Inca Empire', 'virreinato': 'Viceroyalty',
     'independencia-y-siglo-xix': 'Independence and the 19th century',
     'republica-aristocratica-y-reformismo': 'Aristocratic Republic and reformism',
-    'peru-en-las-ultimas-decadas': 'Peru in recent decades',
+    'peru-en-las-ultimas-decadas': 'Peru in recent decades', 'historia-universal': 'World history',
     'mundo-antiguo-y-clasico': 'Ancient and classical world', 'edad-media': 'Middle Ages',
     'modernidad-y-revoluciones-burguesas': 'Modernity and bourgeois revolutions', 'siglo-xix-mundial': 'The 19th-century world',
     'siglo-xx-y-contemporaneo': '20th century and contemporary',

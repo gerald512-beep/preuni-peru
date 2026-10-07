@@ -429,6 +429,8 @@ select[multiple] { height: 90px; }
         <option value="I">I</option>
         <option value="II">II</option>
         <option value="III">III</option>
+        <option value="I-Mañana">I-Mañana</option>
+        <option value="I-Tarde">I-Tarde</option>
       </select>
     </div>
     <div class="field">
@@ -1055,6 +1057,9 @@ async function doBulkSave() {
         // Optional fields: an empty select leaves the batch value alone.
         modalidad: document.getElementById('modalidad').value || undefined,
         tipo_area: document.getElementById('tipo_area').value || undefined,
+        numero: document.getElementById('numero').value.trim() || undefined,
+        anio: document.getElementById('anio').value.trim() || undefined,
+        convocatoria: document.getElementById('convocatoria').value || undefined,
         solutionBody: hasSolucion ? solBody : undefined,
         solutionFigureImages: hasSolucion ? currentSolFigureImages.slice() : undefined,
       }),
@@ -1198,7 +1203,7 @@ const SUB_TEMAS = {
   'Literatura':                ['literatura-universal-antigua-y-medieval','literatura-universal-moderna','literatura-espanola','literatura-latinoamericana','literatura-peruana-colonial-y-emancipacion','literatura-peruana-republicana-y-contemporanea'],
   'Psicología':                ['introduccion-y-enfoques-psicologicos','bases-biologicas-del-comportamiento','procesos-cognitivos-y-aprendizaje','desarrollo-humano-e-identidad','afectividad-y-motivacion'],
   'Educación Cívica':          ['derechos-humanos','participacion-ciudadana','problemas-de-convivencia-en-el-peru','identidad-e-interculturalidad','estructura-y-funciones-del-estado'],
-  'Historia del Perú':         ['culturas-prehispanicas-y-tawantinsuyo','virreinato','independencia-y-siglo-xix','republica-aristocratica-y-reformismo','peru-en-las-ultimas-decadas'],
+  'Historia del Perú':         ['culturas-prehispanicas-y-tawantinsuyo','virreinato','independencia-y-siglo-xix','republica-aristocratica-y-reformismo','peru-en-las-ultimas-decadas','historia-universal'],
   'Historia Universal':        ['mundo-antiguo-y-clasico','edad-media','modernidad-y-revoluciones-burguesas','siglo-xix-mundial','siglo-xx-y-contemporaneo'],
   'Geografía del Perú':        ['espacio-geografico-y-cartografia','relieve-y-clima-del-peru','hidrografia-y-recursos-hidricos','biodiversidad-y-recursos-naturales','poblacion-y-actividades-economicas','organizacion-politica-y-geografia-mundial'],
   'Economía':                  ['principios-economicos-basicos','mercado-de-bienes-y-factores','sector-financiero-y-monetario','sector-publico-y-fiscal','sector-externo-y-comercio-internacional','crecimiento-desarrollo-y-emprendimiento'],
@@ -1322,6 +1327,7 @@ const LABEL_EN = {
   'independencia-y-siglo-xix': 'Independence and the 19th century',
   'republica-aristocratica-y-reformismo': 'Aristocratic Republic and reformism',
   'peru-en-las-ultimas-decadas': 'Peru in recent decades',
+  'historia-universal': 'World history',
   'mundo-antiguo-y-clasico': 'Ancient and classical world',
   'edad-media': 'Middle Ages',
   'modernidad-y-revoluciones-burguesas': 'Modernity and bourgeois revolutions',

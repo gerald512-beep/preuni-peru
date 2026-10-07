@@ -218,7 +218,8 @@ class Fila {
     this.dificultad = DIFICULTAD[d.dificultad] || null;
     this.nota = d.nota || "";
     // Convocatoria is a bare roman numeral ("I"/"II") as of the Phase 3
-    // backfill (2026-09) -- año is its own field now, shown alongside it.
+    // backfill (2026-09), plus the shift for exams given in two shifts
+    // ("I-Mañana"/"I-Tarde", UNI 2022-I) -- año is its own field, shown alongside it.
     this.origen = [this.universidad, this.anio, this.convocatoria].filter(Boolean).join(" ");
     this.ordenPregunta = `${this.universidad} ${this.anio} ${this.convocatoria} ${String(d.numero ?? "").padStart(4, "0")}`;
   }

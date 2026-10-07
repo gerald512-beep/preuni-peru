@@ -333,7 +333,7 @@ const D = JSON.parse(fs.readFileSync(batchFile, 'utf8'));
 const slug = s => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim()
   .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 const mathCount = t => {
-  t = t || '';
+  t = (t || '').replace(/\\\$/g, '  '); // an escaped \$ is a literal dollar sign (money), not math
   const display = (t.match(/\$\$[\s\S]*?\$\$/g) || []).length;
   const inline = (t.replace(/\$\$[\s\S]*?\$\$/g, ' ').match(/\$[^$\n]+\$/g) || []).length;
   return display + inline;
@@ -513,8 +513,8 @@ const safe = ch => ch === undefined || ch === '' || /[\s!-\/:-@\[-`{-~\u2000-\u2
 function offenders(text) {
   const out = [];
   if (!text) return out;
-  // blank out display math first, then walk inline $...$ pairs per paragraph
-  const t = text.replace(/\$\$[\s\S]*?\$\$/g, m => ' '.repeat(m.length));
+  // blank out escaped \$ (literal dollar signs) and display math, then walk inline $...$ pairs per paragraph
+  const t = text.replace(/\\\$/g, '  ').replace(/\$\$[\s\S]*?\$\$/g, m => ' '.repeat(m.length));
   for (const para of t.split(/\n\s*\n/)) {
     const re = /\$([^$\n]+?)\$/g; let m;
     while ((m = re.exec(para))) {
@@ -647,7 +647,7 @@ async function getJson(url) {
 const fs = require('fs');
 const D = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 const mathCount = t => {
-  t = t || '';
+  t = (t || '').replace(/\\\$/g, '  '); // an escaped \$ is a literal dollar sign (money), not math
   const display = (t.match(/\$\$[\s\S]*?\$\$/g) || []).length;
   const inline = (t.replace(/\$\$[\s\S]*?\$\$/g, ' ').match(/\$[^$\n]+\$/g) || []).length;
   return display + inline;
