@@ -28,7 +28,24 @@ function visitanteId() {
   }
 }
 
+// Same event in Umami (initializers/preuni-umami.js), scalar data only.
+// window.umami is absent for staff/test browsers and until the script loads.
+function enUmami(evento, datos) {
+  try {
+    const props = {};
+    Object.entries(datos ?? {}).forEach(([k, v]) => {
+      if (["string", "number", "boolean"].includes(typeof v)) {
+        props[k] = v;
+      }
+    });
+    window.umami?.track(evento, props);
+  } catch {
+    // analytics must never break the page
+  }
+}
+
 export function registrarEvento(evento, { topicId, postId, datos } = {}) {
+  enUmami(evento, datos);
   try {
     const cuerpo = JSON.stringify({
       evento,

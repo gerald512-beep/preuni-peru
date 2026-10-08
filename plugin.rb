@@ -136,6 +136,13 @@ after_initialize do
     object.user&.groups&.where(name: 'moderador')&.any? || false
   end
 
+  # Staff and test accounts (hidden group excluir_metricas, which its own
+  # members can't see in currentUser.groups) never send Umami analytics --
+  # see initializers/preuni-umami.js.
+  add_to_serializer(:current_user, :preuni_sin_analitica) do
+    object.staff? || object.groups.where(name: 'excluir_metricas').exists?
+  end
+
   # Custom report reasons, in addition to Discourse's built-in spam/off-topic/
   # inappropriate: a copyright claim, a wrong or misleading solution, and a
   # catch-all. Seeded once per flag name on boot; an admin's later edits from
